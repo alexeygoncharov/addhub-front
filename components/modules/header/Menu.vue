@@ -19,7 +19,7 @@
     <ul class="menu">
       <li v-for="item in list" :key="item.title">
         <a href="" class="menu__dropdown">
-          <img class="menu__icon" :src="item.path" alt="" />
+          <NuxtImg class="menu__icon" :src="item.path" alt="" />
           <span class="menu__title">{{ item.title }}</span>
         </a>
         <div class="drop-menu">
@@ -94,50 +94,41 @@
 </template>
 
 <script>
-import IconMenu1 from '~/assets/img/menu-icon.svg';
-import IconMenu2 from '~/assets/img/menu-icon2.svg';
-import IconMenu3 from '~/assets/img/menu-icon3.svg';
-import IconMenu4 from '~/assets/img/menu-icon4.svg';
-import IconMenu5 from '~/assets/img/menu-icon5.svg';
-import IconMenu6 from '~/assets/img/menu-icon6.svg';
-import IconMenu7 from '~/assets/img/menu-icon7.svg';
-import IconMenu8 from '~/assets/img/menu-icon8.svg';
-
 export default {
   data() {
     return {
       list: [
         {
           title: 'Разработка и ИТ',
-          path: IconMenu1,
+          path: 'menu-icon.svg',
         },
         {
           title: 'Дизайн и творчество',
-          path: IconMenu2,
+          path: 'menu-icon2.svg',
         },
         {
           title: 'Цифровой маркетинг',
-          path: IconMenu3,
+          path: 'menu-icon3.svg',
         },
         {
           title: 'Копирайтинг и перевод',
-          path: IconMenu4,
+          path: 'menu-icon4.svg',
         },
         {
           title: 'Музыка и аудио',
-          path: IconMenu5,
+          path: 'menu-icon5.svg',
         },
         {
           title: 'Видео и анимация',
-          path: IconMenu6,
+          path: 'menu-icon6.svg',
         },
         {
           title: 'Инженерия и архитектура',
-          path: IconMenu7,
+          path: 'menu-icon7.svg',
         },
         {
           title: 'Финансы и бухгалтерский учет',
-          path: IconMenu8,
+          path: 'menu-icon8.svg',
         },
       ],
     };

@@ -19,10 +19,6 @@
 </template>
 
 <script>
-import IconCard1 from '~/assets/img/advantage-icon3.svg';
-import IconCard2 from '~/assets/img/advantage-icon4.svg';
-import IconCard3 from '~/assets/img/advantage-icon5.svg';
-import IconCard4 from '~/assets/img/advantage-icon6.svg';
 export default {
   props: {
     title: {
@@ -38,22 +34,22 @@ export default {
     return {
       cardList: [
         {
-          icon: IconCard1,
+          icon: 'advantage-icon3.svg',
           title: 'Опубликуйте проект',
           desc: 'Опубликовать проект бесплатно и легко. Просто заполните название, описание.',
         },
         {
-          icon: IconCard2,
+          icon: 'advantage-icon4.svg',
           title: 'Выберите исполнителя',
           desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
         },
         {
-          icon: IconCard3,
+          icon: 'advantage-icon5.svg',
           title: 'Оплачивайте безопасно',
           desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
         },
         {
-          icon: IconCard4,
+          icon: 'advantage-icon6.svg',
           title: 'Мы на связи 24/7',
           desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
         },
@@ -62,5 +58,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

@@ -149,6 +149,15 @@
 
 .blog {
   padding: 7.5em 0 4em;
+
+  &_bg {
+    padding: 5.2em 0;
+    background-color: $primary-white;
+
+    .m-section__top {
+      margin-bottom: 2.5em;
+    }
+  }
 }
 
 .blog-card {
@@ -300,6 +309,14 @@
 
   .blog {
     padding: 1.38em 0;
+
+    &_bg {
+      padding: 1.25em 0;
+
+      .m-section__top {
+        margin-bottom: 1.44em;
+      }
+    }
   }
 
   .blog-card {

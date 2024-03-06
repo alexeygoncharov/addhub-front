@@ -4,7 +4,7 @@
       <div class="text15">или авторизуйтесь через</div>
     </div>
     <div class="social-auth__links">
-      <a href="" class="social-auth__link m-btn">
+      <button type="button" class="social-auth__link m-btn" ->
         <svg
           width="17"
           height="16"
@@ -18,8 +18,8 @@
           />
         </svg>
         <span>Telegram</span>
-      </a>
-      <a href="" class="social-auth__link m-btn _google">
+      </button>
+      <button type="button" class="social-auth__link m-btn _google">
         <svg
           width="14"
           height="15"
@@ -33,8 +33,8 @@
           />
         </svg>
         <span>Google</span>
-      </a>
-      <a href="" class="social-auth__link m-btn _vk">
+      </button>
+      <button type="button" class="social-auth__link m-btn _vk">
         <svg
           width="18"
           height="18"
@@ -48,13 +48,7 @@
           />
         </svg>
         <span>Вконтакте</span>
-      </a>
+      </button>
     </div>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
-
-<style lang="scss" scoped></style>

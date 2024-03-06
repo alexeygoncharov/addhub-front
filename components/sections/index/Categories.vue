@@ -11,7 +11,7 @@
         <SwiperSlide v-for="(card, idx) in cardList" :key="card.title">
           <a href="" class="category-card">
             <div class="category-card__icon">
-              <img :src="card.icon" alt="" />
+              <NuxtImg :src="card.icon" alt="" />
             </div>
             <div class="category-card__count">
               <span class="text15">1.853 предложений</span>
@@ -85,14 +85,6 @@
 </template>
 
 <script>
-import IconCategory1 from '~/assets/img/category-icon.svg';
-import IconCategory2 from '~/assets/img/category-icon2.svg';
-import IconCategory3 from '~/assets/img/category-icon3.svg';
-import IconCategory4 from '~/assets/img/category-icon4.svg';
-import IconCategory5 from '~/assets/img/category-icon5.svg';
-import IconCategory6 from '~/assets/img/category-icon6.svg';
-import IconCategory7 from '~/assets/img/category-icon7.svg';
-import IconCategory8 from '~/assets/img/category-icon8.svg';
 import { useSwiper } from '~/composables/useSwiper.js';
 export default {
   setup() {
@@ -105,35 +97,35 @@ export default {
     return {
       cardList: [
         {
-          icon: IconCategory1,
+          icon: 'category-icon.svg',
           title: 'Разработка и ИТ',
         },
         {
-          icon: IconCategory2,
+          icon: 'category-icon2.svg',
           title: 'Дизайн и творчество',
         },
         {
-          icon: IconCategory3,
+          icon: 'category-icon3.svg',
           title: 'Цифровой маркетинг',
         },
         {
-          icon: IconCategory4,
+          icon: 'category-icon4.svg',
           title: 'Копирайтинг и перевод',
         },
         {
-          icon: IconCategory5,
+          icon: 'category-icon5.svg',
           title: 'Музыка и аудио',
         },
         {
-          icon: IconCategory6,
+          icon: 'category-icon6.svg',
           title: 'Видео и анимация',
         },
         {
-          icon: IconCategory7,
+          icon: 'category-icon7.svg',
           title: 'Инженерия и архитектура',
         },
         {
-          icon: IconCategory8,
+          icon: 'category-icon8.svg',
           title: 'Финансы и бухгалтерский учет',
         },
       ],

@@ -55,36 +55,35 @@ export const useAuthStore = defineStore('auth', {
         const token =
           localStorage.getItem('authToken') ||
           sessionStorage.getItem('authToken');
-        this.token = token;
+        if (this.isTokenValid(token)) {
+          this.token = token;
+        }
         this.isLoading = false;
       }
     },
 
-    // isTokenValid() {
-    //   if (!this.token) return false;
-    //
-    //   try {
-    //     const decoded = jwtDecode(this.authTo ken);
-    //     // Проверяем, не истек ли срок действия токена
-    //     const now = Date.now().valueOf() / 1000;
-    //     if (typeof decoded.exp === 'undefined' || decoded.exp < now) {
-    //       console.log(`Токен истек`);
-    //       this.clearToken(); // Очистка токена, так как он истек
-    //       return false;
-    //     }
-    //
-    //     if (typeof decoded.nbf !== 'undefined' && decoded.nbf > now) {
-    //       console.log(`Токен еще не активен`);
-    //       this.clearToken(); // Очистка токена, так как он еще не активен
-    //       return false;
-    //     }
-    //   } catch (error) {
-    //     console.error(`Ошибка при декодировании токена: ${error}`);
-    //     this.clearToken(); // Очистка токена в случае ошибки декодирования
-    //     return false;
-    //   }
-    //
-    //   return true;
-    // },
+    isTokenValid(token) {
+      if (!token) return false;
+
+      try {
+        const decoded = jwtDecode(token);
+        // Проверяем, не истек ли срок действия токена
+        const now = Date.now().valueOf() / 1000;
+        if (typeof decoded.exp === 'undefined' || decoded.exp < now) {
+          console.log(`Токен истек`);
+          return false;
+        }
+
+        if (typeof decoded.nbf !== 'undefined' && decoded.nbf > now) {
+          console.log(`Токен еще не активен`);
+          return false;
+        }
+      } catch (error) {
+        console.error(`Ошибка при декодировании токена: ${error}`);
+        return false;
+      }
+
+      return true;
+    },
   },
 });

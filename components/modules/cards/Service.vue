@@ -21,7 +21,7 @@
       <Swiper v-bind="swiperOptions">
         <SwiperSlide v-for="i in 2">
           <div class="service-card__img">
-            <img :src="img" alt="" />
+            <NuxtImg :src="img" alt="" />
           </div>
         </SwiperSlide>
       </Swiper>
@@ -90,7 +90,7 @@
       </a>
 
       <div class="service-card__reviews _flex">
-        <img src="~/assets/img/star.svg" alt="" />
+        <NuxtImg src="star.svg" alt="" />
         <div class="service-card__reviews-text">
           <span class="text15 medium-text">4.82 </span>
           <span class="text14 gray-text"> 94 отзыва</span>
@@ -100,7 +100,7 @@
       <div class="service-card__bottom _flex">
         <a href="" class="service-card__user _flex">
           <div class="avatar">
-            <img :src="avatar" alt="" />
+            <NuxtImg :src="avatar" alt="" />
 
             <span class="service-card__user-online"></span>
           </div>

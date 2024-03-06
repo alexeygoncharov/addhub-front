@@ -499,15 +499,6 @@
   grid-column: 1/-1;
 }
 
-.blog2 {
-  padding: 5.2em 0;
-  background-color: $primary-white;
-
-  .m-section__top {
-    margin-bottom: 2.5em;
-  }
-}
-
 @media screen and (width <= 992px) {
   .article {
     padding: 0.25em 0 3.3125em;
@@ -668,14 +659,6 @@
     &__fields {
       grid-template-columns: repeat(2, calc(50% - 0.5em));
       gap: 1em;
-    }
-  }
-
-  .blog2 {
-    padding: 1.25em 0;
-
-    .m-section__top {
-      margin-bottom: 1.44em;
     }
   }
 }

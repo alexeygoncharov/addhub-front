@@ -129,6 +129,10 @@ export default {
     async register() {
       await this.authRegister(this.regDetails);
       useNuxtApp().$router.push('/login');
+      this.$nuxt.$toast({
+        message: 'Регистрация прошла успешно',
+        type: 'success',
+      });
     },
     handleSubmit() {
       this.register();
@@ -136,3 +140,4 @@ export default {
   },
 };
 </script>
+-

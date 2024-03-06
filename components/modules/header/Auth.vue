@@ -30,19 +30,19 @@
   </div>
   <div class="header-action2" v-show="!isLoading && isAuthenticated">
     <a href="" class="header-action2__btn">
-      <img src="~/assets/img/notification.svg" alt="" />
+      <NuxtImg src="notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
     </a>
     <a href="" class="header-action2__btn _mess">
-      <img src="~/assets/img/message.svg" alt="" />
+      <NuxtImg src="message.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
     </a>
     <a href="" class="header-action2__user avatar">
-      <img src="~/assets/img/avatar10.webp" alt="" />
+      <NuxtImg src="avatar10.webp" alt="" />
     </a>
     <button class="burger">
-      <img src="~/assets/img/burger.svg" alt="" class="_view1" />
-      <img src="~/assets/img/burger2.svg" alt="" class="_view2" />
+      <NuxtImg src="burger.svg" alt="" class="_view1" />
+      <NuxtImg src="burger2.svg" alt="" class="_view2" />
     </button>
 
     <div class="mob-menu">

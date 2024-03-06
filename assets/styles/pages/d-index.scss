@@ -87,6 +87,19 @@
   background-color: $secondary;
   border-radius: 0.625em;
 
+  &_transparent {
+    padding: 5.69em 0 0.75em;
+    background-color: transparent;
+
+    .offer__content {
+      color: $black;
+    }
+
+    .offer__list-item::before {
+      background-image: url('assets/img/check4.svg');
+    }
+  }
+
   &__inner {
     display: grid;
     grid-template-columns: 40.5em calc(100% - 40.5em - 8.875em);
@@ -261,6 +274,10 @@
     padding: 1.125em 0 2.5em;
     border-radius: 0;
 
+    &_transparent {
+      padding: 2.19em 0 0;
+    }
+
     &__inner {
       grid-template-columns: 100%;
       gap: 1.56em;
@@ -349,5 +366,9 @@
 
   .offer {
     padding: 1.5em 0;
+
+    &_transparent {
+      padding: 1.29em 0 0;
+    }
   }
 }

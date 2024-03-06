@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="advantages2__img _scale-img">
-          <img :src="img" alt="" />
+          <NuxtImg :src="img" alt="" />
         </div>
       </div>
     </div>
@@ -27,9 +27,6 @@
 </template>
 
 <script>
-import IconAdvantage1 from '~/assets/img/advantage-icon2.svg';
-import IconAdvantage2 from '~/assets/img/advantage-icon7.svg';
-import IconAdvantage3 from '~/assets/img/advantage-icon.svg';
 export default {
   props: {
     img: {
@@ -41,17 +38,17 @@ export default {
     return {
       cardList: [
         {
-          icon: IconAdvantage1,
+          icon: 'advantage-icon2.svg',
           title: 'Гарантия качества',
           desc: 'Проверьте портфолио любого исполнителя, отзывы <br> клиентов и подтверждение личности.',
         },
         {
-          icon: IconAdvantage2,
+          icon: 'advantage-icon7.svg',
           title: 'Бесплатно, пока не найдете исполнителя',
           desc: 'Проведите собеседование с потенциальным кандидатом, подходящим для вашей работы, договоритесь о стоимости и платите только за ту работу, которую вы одобрите.',
         },
         {
-          icon: IconAdvantage3,
+          icon: 'advantage-icon.svg',
           title: 'Безопасно и надежно',
           desc: 'Сосредоточьтесь на своей работе, зная, что мы помогаем защитить ваши данные и конфиденциальность. Мы здесь с круглосуточной поддержкой, если вам это нужно.',
         },

@@ -9,7 +9,7 @@
     </div>
 
     <div class="scroll-top">
-      <img src="~/assets/img/arrow-top.svg" alt="" />
+      <NuxtImg src="arrow-top.svg" alt="" />
     </div>
   </footer>
 </template>

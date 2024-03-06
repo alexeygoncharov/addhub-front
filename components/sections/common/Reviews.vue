@@ -23,7 +23,7 @@
           :class="['reviews__tab _tab', { _active: i === 0 }]"
           :data-tab="`_tab${i + 1}`"
         >
-          <img :src="avatar" alt="" />
+          <NuxtImg :src="avatar" alt="" />
         </div>
       </div>
     </div>
@@ -31,11 +31,6 @@
 </template>
 
 <script>
-import ImgAvatar1 from '~/assets/img/avatar5.webp';
-import ImgAvatar2 from '~/assets/img/avatar6.webp';
-import ImgAvatar3 from '~/assets/img/avatar7.webp';
-import ImgAvatar4 from '~/assets/img/avatar8.webp';
-import ImgAvatar5 from '~/assets/img/avatar9.webp';
 export default {
   props: {
     title: {
@@ -49,32 +44,30 @@ export default {
         {
           text: '«Наша семья путешествовала на скоростном поезде между городами Японии с нашим багажом — расположение этого отеля облегчило эту задачу. Цена на Agoda была фантастической».',
           name: 'Илья Иванов',
-          avatar: ImgAvatar1,
+          avatar: 'avatar5.webp',
         },
         {
           text: '2 «Наша семья путешествовала на скоростном поезде между городами Японии с нашим багажом — расположение этого отеля облегчило эту задачу. Цена на Agoda была фантастической».',
           name: '2 Илья Иванов',
-          avatar: ImgAvatar2,
+          avatar: 'avatar6.webp',
         },
         {
           text: '3 «Наша семья путешествовала на скоростном поезде между городами Японии с нашим багажом — расположение этого отеля облегчило эту задачу. Цена на Agoda была фантастической».',
           name: '3 Илья Иванов',
-          avatar: ImgAvatar3,
+          avatar: 'avatar7.webp',
         },
         {
           text: '4 «Наша семья путешествовала на скоростном поезде между городами Японии с нашим багажом — расположение этого отеля облегчило эту задачу. Цена на Agoda была фантастической».',
           name: '4 Илья Иванов',
-          avatar: ImgAvatar4,
+          avatar: 'avatar8.webp',
         },
         {
           text: '5 «Наша семья путешествовала на скоростном поезде между городами Японии с нашим багажом — расположение этого отеля облегчило эту задачу. Цена на Agoda была фантастической».',
           name: '5 Илья Иванов',
-          avatar: ImgAvatar5,
+          avatar: 'avatar9.webp',
         },
       ],
     };
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

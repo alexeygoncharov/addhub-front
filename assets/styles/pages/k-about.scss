@@ -1,16 +1,3 @@
-.offer-about {
-  padding: 5.69em 0 0.75em;
-  background-color: transparent;
-
-  .offer__content {
-    color: $black;
-  }
-
-  .offer__list-item::before {
-    background-image: url('assets/img/check4.svg');
-  }
-}
-
 .task {
   position: relative;
   padding: 4.83em 0 6.1em;
@@ -115,10 +102,6 @@
 }
 
 @media screen and (width <= 992px) {
-  .offer-about {
-    padding: 2.19em 0 0;
-  }
-
   .task {
     padding: 1.5em 0 0;
 
@@ -233,10 +216,6 @@
 }
 
 @media screen and (width <= 427px) {
-  .offer-about {
-    padding: 1.29em 0 0;
-  }
-
   .task {
     &__top {
       text-align: left;

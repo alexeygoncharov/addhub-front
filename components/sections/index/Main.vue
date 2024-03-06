@@ -15,8 +15,8 @@
 
           <div class="main-offer">
             <div class="main-offer__img _scale-img">
-              <img class="_view1" src="~/assets/img/man.webp" alt="" />
-              <img class="_view2" src="~/assets/img/man2.webp" alt="" />
+              <NuxtImg class="_view1" src="man.webp" alt="" />
+              <NuxtImg class="_view2" src="man2.webp" alt="" />
             </div>
             <UIMainAdvantages />
           </div>
@@ -32,16 +32,16 @@
             </div>
             <div class="main-partners__items">
               <div class="main-partners__item">
-                <img src="~/assets/img/partner.webp" alt="" />
+                <NuxtImg src="partner.webp" alt="" />
               </div>
               <div class="main-partners__item">
-                <img src="~/assets/img/partner2.webp" alt="" />
+                <NuxtImg src="partner2.webp" alt="" />
               </div>
               <div class="main-partners__item">
-                <img src="~/assets/img/partner3.webp" alt="" />
+                <NuxtImg src="partner3.webp" alt="" />
               </div>
               <div class="main-partners__item">
-                <img src="~/assets/img/partner4.webp" alt="" />
+                <NuxtImg src="partner4.webp" alt="" />
               </div>
             </div>
           </div>
@@ -50,9 +50,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
-
-<style lang="scss" scoped></style>

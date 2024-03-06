@@ -100,14 +100,6 @@
 </template>
 
 <script>
-import imgService1 from '~/assets/img/service.webp';
-import imgService2 from '~/assets/img/service2.webp';
-import imgService3 from '~/assets/img/service3.webp';
-import imgService4 from '~/assets/img/service4.webp';
-import imgAvatar1 from '~/assets/img/avatar.webp';
-import imgAvatar2 from '~/assets/img/avatar2.webp';
-import imgAvatar3 from '~/assets/img/avatar3.webp';
-import imgAvatar4 from '~/assets/img/avatar4.webp';
 import { useSwiper } from '~/composables/useSwiper.js';
 
 export default {
@@ -138,33 +130,33 @@ export default {
     return {
       cardList: [
         {
-          img: imgService1,
+          img: 'service.webp',
           type: 'Веб-дизайн и дизайн приложений',
           title: 'Создаю современные сайты в Figma или Adobe xd.',
-          avatar: imgAvatar1,
+          avatar: 'avatar.webp',
           name: 'Игорь Иванов',
         },
         {
-          img: imgService2,
+          img: 'service2.webp',
           type: 'Искусство и иллюстрация',
           title: 'Я создам современную иллюстрацию плоского дизайна',
-          avatar: imgAvatar2,
+          avatar: 'avatar2.webp',
           name: 'Виктор Кожемякин',
         },
         {
-          img: imgService3,
+          img: 'service3.webp',
           type: 'Дизайн и креатив',
           title:
             'Я создам полностью адаптивный дизайн с использованием HTML, CSS, начальной загрузки и JavaScript.',
-          avatar: imgAvatar3,
+          avatar: 'avatar3.webp',
           name: 'Андрей Котелевский',
         },
         {
-          img: imgService4,
+          img: 'service4.webp',
           type: 'Веб-дизайн и дизайн приложений',
           title:
             'Занимаюсь разработкой мобильных приложений для iOS и Android.',
-          avatar: imgAvatar4,
+          avatar: 'avatar4.webp',
           name: 'Анатолий Цой',
         },
       ],
@@ -172,5 +164,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

@@ -10,9 +10,7 @@
     </div>
     <UIVButton v-if="linkText" class="m-section__link" color="blueOutline">
       <template #default>{{ linkText }}</template>
-      <template #right
-        ><img src="~/assets/img/arrow-right.svg" alt=""
-      /></template>
+      <template #right><NuxtImg src="arrow-right.svg" alt="" /></template>
     </UIVButton>
   </div>
 </template>

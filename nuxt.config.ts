@@ -14,9 +14,13 @@ export default defineNuxtConfig({
     '@nuxtjs/eslint-module',
     '@nuxtjs/stylelint-module',
     '@pinia/nuxt',
+    '@nuxt/image',
     '@vee-validate/nuxt',
     'nuxt-swiper',
   ],
+  image: {
+    dir: 'assets/img',
+  },
   css: ['~/assets/styles/style.scss'],
   runtimeConfig: {
     public: {

@@ -6,18 +6,20 @@
     title="Необходимо выполнить проект?"
     desc="Самые просматриваемые и самые продаваемые услуги за все время"
   />
-  <SectionsCommonAdvantages2 :img="advantages2Img" />
+  <SectionsCommonAdvantages2 img="man3.webp" />
   <SectionsCommonAdvantageNums />
   <SectionsCommonReviews title="Отзывы пользователей" />
+  <SectionsCommonOffer
+    btn="Найти исполнителя"
+    :img-list="['offer.webp', 'offer2.webp']"
+  />
+  <SectionsCommonBlog
+    :section-top="{
+      title: 'Наш блог',
+      desc: 'Узнайте, как вы можете повысить свой карьерный статус',
+      linkText: 'Все статьи',
+    }"
+  />
+  <SectionsIndexTrust />
+  <SectionsIndexFindTalent />
 </template>
-
-<script>
-import ImgAdvantages2 from '~/assets/img/man3.webp';
-export default {
-  data() {
-    return {
-      advantages2Img: ImgAdvantages2,
-    };
-  },
-};
-</script>
