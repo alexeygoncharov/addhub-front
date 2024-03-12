@@ -1,0 +1,26 @@
+<template>
+  <div class="filter-check m-radio">
+    <input type="radio" name="time" />
+    <div class="_radio filter-check__wrap">
+      <div class="filter-check__title">{{ title }}</div>
+      <div class="m-count">
+        <span>{{ num }}</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    num: {
+      type: Number,
+      required: true,
+    },
+  },
+};
+</script>

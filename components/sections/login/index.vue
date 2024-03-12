@@ -86,6 +86,7 @@ export default {
         await this.authLogin(this.email, this.password, this.rememberMe);
         useNuxtApp().$router.push('/');
       } catch (error) {
+        console.log(errorData);
         const errorData = await error.response._data;
         this.$nuxt.$toast({ message: errorData.message, type: 'error' });
       }

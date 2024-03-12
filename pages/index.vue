@@ -10,14 +10,14 @@
   <SectionsCommonAdvantageNums />
   <SectionsCommonReviews title="Отзывы пользователей" />
   <SectionsCommonOffer
-    btn="Найти исполнителя"
+    :link="{ text: 'Найти исполнителя', path: '/freelancer/catalog' }"
     :img-list="['offer.webp', 'offer2.webp']"
   />
   <SectionsCommonBlog
     :section-top="{
       title: 'Наш блог',
       desc: 'Узнайте, как вы можете повысить свой карьерный статус',
-      linkText: 'Все статьи',
+      link: { text: 'Все статьи' },
     }"
   />
   <SectionsIndexTrust />

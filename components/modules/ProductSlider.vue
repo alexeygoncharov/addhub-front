@@ -3,15 +3,10 @@
     <Swiper v-bind="swiperOptions" class="product-slider__container">
       <SwiperSlide
         class="product-slider__slide"
-        v-for="(card, idx) in cardList"
+        v-for="item in catalogStore.items"
       >
-        <ModulesCardsService v-bind="card" :slider-id="`card-${idx}`" />
+        <ModulesCardsService :data="item" />
       </SwiperSlide>
-      <template v-if="!isSmall">
-        <SwiperSlide class="product-slider__slide" v-for="i in 3">
-          <ModulesCardsService v-bind="cardList[3]" :slider-id="i" />
-        </SwiperSlide>
-      </template>
     </Swiper>
     <div v-if="showNav" class="product-slider__nav swiper-nav">
       <div class="swiper-button swiper-button-prev">
@@ -101,19 +96,11 @@
 
 <script>
 import { useSwiper } from '~/composables/useSwiper.js';
+import { useCatalogServicesStore } from '~/stores/catalog/services.js';
 
 export default {
-  props: {
-    isSmall: {
-      type: Boolean,
-      default: false,
-    },
-    showNav: {
-      type: Boolean,
-      default: true,
-    },
-  },
   setup() {
+    const catalogStore = useCatalogServicesStore();
     const { swiperOptions } = useSwiper(
       {
         prevEl: `.product-slider .product-slider__nav .swiper-button-prev`,
@@ -124,42 +111,7 @@ export default {
 
     return {
       swiperOptions,
-    };
-  },
-  data() {
-    return {
-      cardList: [
-        {
-          img: 'service.webp',
-          type: 'Веб-дизайн и дизайн приложений',
-          title: 'Создаю современные сайты в Figma или Adobe xd.',
-          avatar: 'avatar.webp',
-          name: 'Игорь Иванов',
-        },
-        {
-          img: 'service2.webp',
-          type: 'Искусство и иллюстрация',
-          title: 'Я создам современную иллюстрацию плоского дизайна',
-          avatar: 'avatar2.webp',
-          name: 'Виктор Кожемякин',
-        },
-        {
-          img: 'service3.webp',
-          type: 'Дизайн и креатив',
-          title:
-            'Я создам полностью адаптивный дизайн с использованием HTML, CSS, начальной загрузки и JavaScript.',
-          avatar: 'avatar3.webp',
-          name: 'Андрей Котелевский',
-        },
-        {
-          img: 'service4.webp',
-          type: 'Веб-дизайн и дизайн приложений',
-          title:
-            'Занимаюсь разработкой мобильных приложений для iOS и Android.',
-          avatar: 'avatar4.webp',
-          name: 'Анатолий Цой',
-        },
-      ],
+      catalogStore,
     };
   },
 };

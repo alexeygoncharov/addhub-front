@@ -1,26 +1,7 @@
 let selects = document.querySelectorAll('.m-select');
 
 selects.forEach((select) => {
-  let toggle = select.querySelector('.m-select__toggle');
   let current = select.querySelector('.m-select__current');
-
-  toggle.onclick = function () {
-    select.classList.toggle('_open');
-  };
-
-  document.addEventListener('click', (e) => {
-    const withinBoundaries = e.composedPath().includes(select);
-
-    if (!withinBoundaries) {
-      if (select.classList.contains('_open')) {
-        closeDropdown();
-      }
-    }
-  });
-
-  function closeDropdown() {
-    select.classList.remove('_open');
-  }
 
   if (select.classList.contains('_multi-select')) {
     let checks = select.querySelectorAll('.m-check input');
@@ -73,45 +54,5 @@ selects.forEach((select) => {
     }
 
     return;
-  }
-
-  let input = select.querySelector('.m-select__field');
-  let options = select.querySelectorAll('.m-select__option');
-
-  options.forEach((option) => {
-    setActiveVal(option);
-
-    option.onclick = function () {
-      options.forEach((option) => {
-        option.classList.remove('_active');
-      });
-      this.classList.add('_active');
-      setActiveVal(this);
-      closeDropdown();
-    };
-  });
-
-  function setActiveVal(option) {
-    let activeOption = select.querySelector('.m-select__option._active');
-
-    if (!activeOption) {
-      let placeholder = select.getAttribute('data-placeholder');
-      select.classList.add('_not-select');
-      current.innerHTML = placeholder;
-    }
-
-    if (option.classList.contains('_active')) {
-      let val = option.getAttribute('data-value');
-      current.innerHTML = val;
-      input.value = val;
-
-      select.classList.remove('_not-select');
-      let event = new Event('change', {
-        bubbles: true,
-        cancelable: true,
-      });
-
-      input.dispatchEvent(event);
-    }
   }
 });

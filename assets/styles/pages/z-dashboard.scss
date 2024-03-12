@@ -168,7 +168,7 @@
   }
 }
 
-.service-card3 {
+.service-card2 {
   display: grid;
   grid-template-columns: 7.5em calc(100% - 8.5em);
   gap: 1em;
@@ -340,7 +340,7 @@
   }
 }
 
-.project-card {
+.project-card2 {
   display: grid;
   grid-template-columns: calc(100% - 41em) 18em 8em 12em;
   gap: 1em;
@@ -443,7 +443,7 @@
     }
   }
 
-  .service-card3 {
+  .service-card2 {
     padding: 0.9375em 0;
   }
 
@@ -451,7 +451,7 @@
     padding-top: 1.25em;
   }
 
-  .project-card {
+  .project-card2 {
     grid-template-columns: 100%;
     gap: 0.81em;
     padding: 1.125em 0;
@@ -474,7 +474,7 @@
     }
   }
 
-  .service-card3 {
+  .service-card2 {
     grid-template-columns: 100%;
     gap: 0.5em;
 

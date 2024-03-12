@@ -24,7 +24,7 @@
     <NuxtLink to="/login" class="header-action__login">
       <span>Войти</span>
     </NuxtLink>
-    <UIVButton link="/reg" color="blue" class="header-action__btn">
+    <UIVButton path="/reg" color="blue" class="header-action__btn">
       Зарегистрироваться
     </UIVButton>
   </div>

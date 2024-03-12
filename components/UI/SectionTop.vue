@@ -8,8 +8,13 @@
         {{ desc }}
       </div>
     </div>
-    <UIVButton v-if="linkText" class="m-section__link" color="blueOutline">
-      <template #default>{{ linkText }}</template>
+    <UIVButton
+      v-if="link"
+      :path="link.path"
+      class="m-section__link"
+      color="blueOutline"
+    >
+      <template #default>{{ link.text }}</template>
       <template #right><NuxtImg src="arrow-right.svg" alt="" /></template>
     </UIVButton>
   </div>
@@ -27,8 +32,8 @@ export default {
       type: String,
       required: true,
     },
-    linkText: {
-      type: String,
+    link: {
+      type: Object,
       default: null,
     },
   },

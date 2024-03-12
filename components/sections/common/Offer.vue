@@ -65,9 +65,9 @@
             </div>
           </div>
           <div class="offer__nav">
-            <a href="" class="m-btn m-btn-blue">
-              <span>{{ btn }}</span>
-            </a>
+            <NuxtLink :to="link.path" class="m-btn m-btn-blue">
+              <span>{{ link.text }}</span>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    btn: {
+    link: {
       type: String,
       required: true,
     },

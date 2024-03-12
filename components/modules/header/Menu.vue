@@ -19,7 +19,7 @@
     <ul class="menu">
       <li v-for="item in list" :key="item.title">
         <a href="" class="menu__dropdown">
-          <NuxtImg class="menu__icon" :src="item.path" alt="" />
+          <NuxtImg :src="item.path" class="menu__icon" alt="" />
           <span class="menu__title">{{ item.title }}</span>
         </a>
         <div class="drop-menu">

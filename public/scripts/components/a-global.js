@@ -5,8 +5,6 @@ tabGroups.forEach((tabGroup) => {
   let contents = tabGroup.querySelectorAll('.tab-content');
   let mobSelect = tabGroup.classList.contains('_mob-select');
 
-  console.log(mobSelect);
-
   tabs.forEach((tab) => {
     tab.onclick = function () {
       let tabId = tab.getAttribute('data-tab');

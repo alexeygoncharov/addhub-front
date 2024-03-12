@@ -10,5 +10,3 @@ definePageMeta({
   middleware: 'redirect-if-authenticated',
 });
 </script>
-
-<style scoped lang="scss"></style>

@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      script: [{ src: '/scripts/01_main.js', type: 'text/javascript' }], // убрать
+      script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрат
     },
   },
   modules: [
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     'nuxt-swiper',
   ],
   image: {
-    dir: 'assets/img',
+    dir: 'assets/img/',
   },
   css: ['~/assets/styles/style.scss'],
   runtimeConfig: {

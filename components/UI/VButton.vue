@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink v-if="link" :to="link" :class="buttonClasses">
+  <NuxtLink v-if="path" :to="path" :class="buttonClasses">
     <slot name="left"></slot>
     <span><slot>Нажмите</slot></span>
     <slot name="right"></slot>
@@ -22,7 +22,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    link: {
+    path: {
       type: String,
       default: '',
     },

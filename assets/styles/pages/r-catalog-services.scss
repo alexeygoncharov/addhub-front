@@ -63,13 +63,13 @@
   }
 }
 
-.services-items {
+.project-items {
   margin-top: 1.875em;
 
   @include grid100gap(1.875em);
 }
 
-.service-card2 {
+.project-card {
   display: grid;
   grid-template-columns: 3.75em calc(100% - 24em) 18.75em;
   gap: 1.25em;
@@ -240,7 +240,7 @@
   }
 }
 
-.services-items2 {
+.services-items {
   margin-top: 1.5em;
 }
 
@@ -363,7 +363,7 @@
     }
   }
 
-  .service-card2 {
+  .project-card {
     position: relative;
     grid-template-columns: 100%;
     gap: 0.5em;

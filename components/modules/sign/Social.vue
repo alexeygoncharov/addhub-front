@@ -4,7 +4,11 @@
       <div class="text15">или авторизуйтесь через</div>
     </div>
     <div class="social-auth__links">
-      <button type="button" class="social-auth__link m-btn" ->
+      <button
+        type="button"
+        class="social-auth__link m-btn"
+        @click="signTelegram"
+      >
         <svg
           width="17"
           height="16"
@@ -19,7 +23,11 @@
         </svg>
         <span>Telegram</span>
       </button>
-      <button type="button" class="social-auth__link m-btn _google">
+      <button
+        type="button"
+        class="social-auth__link m-btn _google"
+        @click="signGoogle"
+      >
         <svg
           width="14"
           height="15"
@@ -34,7 +42,7 @@
         </svg>
         <span>Google</span>
       </button>
-      <button type="button" class="social-auth__link m-btn _vk">
+      <button type="button" class="social-auth__link m-btn _vk" @click="signVk">
         <svg
           width="18"
           height="18"
@@ -52,3 +60,31 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    signTelegram() {
+      useNuxtApp().$fetch('/api/auth/telegram', {
+        body: {
+          role: 'admin',
+        },
+      });
+    },
+    signGoogle() {
+      useNuxtApp().$fetch('/api/auth/google', {
+        body: {
+          role: 'admin',
+        },
+      });
+    },
+    signVk() {
+      useNuxtApp().$fetch('/api/auth/vk', {
+        body: {
+          role: 'admin',
+        },
+      });
+    },
+  },
+};
+</script>
