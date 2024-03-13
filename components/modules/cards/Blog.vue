@@ -1,7 +1,7 @@
 <template>
   <div class="blog-card">
     <a href="" class="blog-card__img _scale-img">
-      <NuxtImg :src="img" alt="" />
+      <NuxtImg :src="'/img/' + img" alt="" />
     </a>
     <div class="blog-card__content">
       <div class="blog-card__date text14 gray-text">Ноябрь 23, 2023</div>

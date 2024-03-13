@@ -4,10 +4,10 @@
       <div class="offer__inner">
         <div class="offer__media">
           <div class="offer__img _scale-img">
-            <NuxtImg :src="imgList[0]" alt="" />
+            <NuxtImg :src="'/img/' + imgList[0]" alt="" />
           </div>
           <div class="offer__img _type2 _scale-img">
-            <NuxtImg :src="imgList[1]" alt="" />
+            <NuxtImg :src="'/img/' + imgList[1]" alt="" />
           </div>
 
           <UIMainAdvantages />
@@ -16,19 +16,19 @@
             <div class="text15 medium-text">1M+ Специалистов</div>
             <div class="platform-workers__items">
               <div class="platform-workers__item avatar">
-                <NuxtImg src="avatar5.webp" alt="" />
+                <NuxtImg src="/img/avatar5.webp" alt="" />
               </div>
               <div class="platform-workers__item avatar">
-                <NuxtImg src="avatar6.webp" alt="" />
+                <NuxtImg src="/img/avatar6.webp" alt="" />
               </div>
               <div class="platform-workers__item avatar">
-                <NuxtImg src="avatar7.webp" alt="" />
+                <NuxtImg src="/img/avatar7.webp" alt="" />
               </div>
               <div class="platform-workers__item avatar">
-                <NuxtImg src="avatar8.webp" alt="" />
+                <NuxtImg src="/img/avatar8.webp" alt="" />
               </div>
               <div class="platform-workers__item avatar">
-                <NuxtImg src="avatar9.webp" alt="" />
+                <NuxtImg src="/img/avatar9.webp" alt="" />
               </div>
             </div>
           </div>

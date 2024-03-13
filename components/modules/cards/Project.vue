@@ -17,15 +17,15 @@
       <div class="project-card__title text20 medium-text">{{ data.title }}</div>
       <div class="project-card__props">
         <div class="project-card__prop">
-          <NuxtImg src="prop-icon.svg" alt="" />
+          <NuxtImg src="/img/prop-icon.svg" alt="" />
           <span>{{ data.address.city.title }}</span>
         </div>
         <div class="project-card__prop">
-          <NuxtImg src="prop-icon2.svg" alt="" />
+          <NuxtImg src="/img/prop-icon2.svg" alt="" />
           <span>{{ data.createdAt }}</span>
         </div>
         <div class="project-card__prop">
-          <NuxtImg src="prop-icon3.svg" alt="" />
+          <NuxtImg src="/img/prop-icon3.svg" alt="" />
           <span>{{ data.bid }} отклик</span>
         </div>
       </div>

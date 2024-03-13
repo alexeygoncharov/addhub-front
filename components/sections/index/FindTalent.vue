@@ -3,7 +3,7 @@
     <div class="container">
       <div class="find-talent__inner">
         <div class="find-talent__img _scale-img">
-          <NuxtImg src="find-talent.webp" alt="" />
+          <NuxtImg src="/img/find-talent.webp" alt="" />
         </div>
         <div class="find-talent__content">
           <div class="text32 medium-text">

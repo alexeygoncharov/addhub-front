@@ -96,11 +96,11 @@
         <div class="text17 text15-tablet medium-text">Приложения</div>
         <div class="footer-app__links">
           <a href="" class="footer-app__link">
-            <NuxtImg src="apple.svg" alt="" />
+            <NuxtImg src="/img/apple.svg" alt="" />
             <span>iOS</span>
           </a>
           <a href="" class="footer-app__link">
-            <NuxtImg src="android.svg" alt="" />
+            <NuxtImg src="/img/android.svg" alt="" />
             <span>Android</span>
           </a>
         </div>

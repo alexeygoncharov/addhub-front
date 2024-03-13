@@ -509,7 +509,7 @@
       &__toggle {
         width: 3.25em;
         min-width: unset;
-        background-image: url('assets/img/filter.svg');
+        background-image: url('/img/filter.svg');
         border: none;
 
         @include bg-img-size(1.125em);

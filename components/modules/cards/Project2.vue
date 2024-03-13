@@ -6,15 +6,15 @@
       </div>
       <div class="reply-row__props">
         <div class="reply-row__prop">
-          <NuxtImg src="marker2.svg" alt="" />
+          <NuxtImg src="/img/marker2.svg" alt="" />
           <span>Москва, Россия</span>
         </div>
         <div class="reply-row__prop">
-          <NuxtImg src="calendar2.svg" alt="" />
+          <NuxtImg src="/img/calendar2.svg" alt="" />
           <span>2 часа назад</span>
         </div>
         <div class="reply-row__prop">
-          <NuxtImg src="reply.svg" alt="" />
+          <NuxtImg src="/img/reply.svg" alt="" />
           <span>5 предложений</span>
         </div>
       </div>

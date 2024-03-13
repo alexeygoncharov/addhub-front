@@ -149,7 +149,7 @@
           width: 1.2em;
           height: 1.2em;
           background-color: transparent;
-          background-image: url('assets/img/check2.svg');
+          background-image: url('/img/check2.svg');
 
           @include bg-img-size(100%);
         }

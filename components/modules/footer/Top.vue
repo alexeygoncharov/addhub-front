@@ -14,16 +14,16 @@
       </div>
       <div class="footer-socials__items _flex">
         <a href="" class="footer-socials__item">
-          <NuxtImg src="fb.svg" alt="" />
+          <NuxtImg src="/img/fb.svg" alt="" />
         </a>
         <a href="" class="footer-socials__item">
-          <NuxtImg src="twitter.svg" alt="" />
+          <NuxtImg src="/img/twitter.svg" alt="" />
         </a>
         <a href="" class="footer-socials__item">
-          <NuxtImg src="ig.svg" alt="" />
+          <NuxtImg src="/img/ig.svg" alt="" />
         </a>
         <a href="" class="footer-socials__item">
-          <NuxtImg src="linkedn.svg" alt="" />
+          <NuxtImg src="/img/linkedn.svg" alt="" />
         </a>
       </div>
     </div>

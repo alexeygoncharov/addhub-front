@@ -18,7 +18,7 @@
         </a>
         <div class="freelance-card__prof">{{ data.profession }}</div>
         <div class="service-card__reviews _flex">
-          <NuxtImg src="star.svg" alt="" />
+          <NuxtImg src="/img/star.svg" alt="" />
           <div class="service-card__reviews-text">
             <span class="text14">{{ data.rating }}</span>
             <span class="text14 gray-text light-text">

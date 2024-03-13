@@ -18,9 +18,6 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'nuxt-swiper',
   ],
-  image: {
-    dir: 'assets/img/',
-  },
   css: ['~/assets/styles/style.scss'],
   runtimeConfig: {
     public: {

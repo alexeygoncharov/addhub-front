@@ -1,5 +1,5 @@
 <template>
   <NuxtLink to="/" class="header-top__logo">
-    <NuxtImg src="logo.svg" alt="" />
+    <NuxtImg src="/img/logo.svg" alt="" />
   </NuxtLink>
 </template>

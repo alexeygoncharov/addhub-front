@@ -1,7 +1,7 @@
 <template>
   <div class="advantage-card">
     <div class="advantage-card__icon">
-      <NuxtImg :src="icon" alt="" />
+      <NuxtImg :src="'/img/' + icon" alt="" />
     </div>
     <div class="advantage-card__info">
       <div class="advantage-card__title text20 medium-text">{{ title }}</div>

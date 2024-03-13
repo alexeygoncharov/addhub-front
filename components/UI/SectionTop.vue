@@ -15,7 +15,9 @@
       color="blueOutline"
     >
       <template #default>{{ link.text }}</template>
-      <template #right><NuxtImg src="arrow-right.svg" alt="" /></template>
+      <template #right>
+        <NuxtImg src="/img/arrow-right.svg" alt="" />
+      </template>
     </UIVButton>
   </div>
 </template>

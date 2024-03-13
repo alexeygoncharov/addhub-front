@@ -2,7 +2,7 @@
   <div>
     <div class="main-advantage">
       <div class="main-advantage__icon">
-        <NuxtImg src="advantage-icon.svg" alt="" />
+        <NuxtImg src="/img/advantage-icon.svg" alt="" />
       </div>
       <div class="main-advantage__content">
         <div class="text15 medium-text">Безопасно и надежно</div>
@@ -11,7 +11,7 @@
     </div>
     <div class="main-advantage _type2">
       <div class="main-advantage__icon">
-        <NuxtImg src="advantage-icon2.svg" alt="" />
+        <NuxtImg src="/img/advantage-icon2.svg" alt="" />
       </div>
       <div class="main-advantage__content">
         <div class="text15 medium-text">Гарантия качества</div>

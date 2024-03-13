@@ -229,7 +229,7 @@
         height: 0.625em;
         margin-left: 0.25em;
         content: '';
-        background-image: url('assets/img/arrow-right2.svg');
+        background-image: url('/img/arrow-right2.svg');
         opacity: 0;
         transition: inherit;
 
@@ -405,10 +405,10 @@
 }
 
 .header-action2 {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-left: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 
   &__btn {
     position: relative;
@@ -504,8 +504,6 @@
   .header-bottom {
     display: none;
   }
-
-
 
   .header-top {
     padding: 1em 0;

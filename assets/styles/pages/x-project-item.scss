@@ -58,7 +58,7 @@
 
     ._check {
       background-color: $primary;
-      background-image: url('assets/img/check3.svg');
+      background-image: url('/img/check3.svg');
       background-size: 0.5em auto;
       border-color: $primary;
     }
@@ -243,7 +243,7 @@
       height: 1.25em;
       margin-right: 0.875em;
       content: '';
-      background-image: url('assets/img/check2.svg');
+      background-image: url('/img/check2.svg');
       background-repeat: no-repeat;
       background-position: center;
       background-size: 100% auto;

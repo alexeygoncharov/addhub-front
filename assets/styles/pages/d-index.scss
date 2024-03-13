@@ -72,7 +72,7 @@
     height: 2.63em;
     margin-bottom: 2.5em;
     content: '';
-    background-image: url('assets/img/quote.svg');
+    background-image: url('/img/quote.svg');
 
     @include bg-img-size(100%);
   }
@@ -96,7 +96,7 @@
     }
 
     .offer__list-item::before {
-      background-image: url('assets/img/check4.svg');
+      background-image: url('/img/check4.svg');
     }
   }
 
@@ -166,7 +166,7 @@
         margin-top: 0.375em;
         margin-right: 1em;
         content: '';
-        background-image: url('assets/img/check.svg');
+        background-image: url('/img/check.svg');
 
         @include bg-img-size(100%);
       }

@@ -11,7 +11,7 @@
         <SwiperSlide v-for="(card, idx) in cardList" :key="card.title">
           <a href="" class="category-card">
             <div class="category-card__icon">
-              <NuxtImg :src="card.icon" alt="" />
+              <NuxtImg :src="'/img/' + card.icon" alt="" />
             </div>
             <div class="category-card__count">
               <span class="text15">1.853 предложений</span>

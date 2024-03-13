@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="advantages2__img _scale-img">
-          <NuxtImg :src="img" alt="" />
+          <NuxtImg :src="'/img/' + img" alt="" />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="filter__top">
       <div class="text20 medium-text">Фильтры</div>
       <button class="filter__close _toggle-filter">
-        <NuxtImg src="burger2.svg" alt="" />
+        <NuxtImg src="/img/burger2.svg" alt="" />
       </button>
     </div>
     <div class="filter__items">

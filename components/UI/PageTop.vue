@@ -9,7 +9,7 @@
           </div>
         </div>
         <div v-if="hasSearch" class="page-search page-search2">
-          <NuxtImg src="search.svg" alt="" class="page-search__icon" />
+          <NuxtImg src="/img/search.svg" alt="" class="page-search__icon" />
           <div class="page-search__field fg">
             <input type="text" placeholder="Найти услугу" />
           </div>

@@ -15,8 +15,8 @@
 
           <div class="main-offer">
             <div class="main-offer__img _scale-img">
-              <NuxtImg class="_view1" src="man.webp" alt="" />
-              <NuxtImg class="_view2" src="man2.webp" alt="" />
+              <NuxtImg src="/img/man.webp" class="_view1" alt="" />
+              <NuxtImg src="/img/man2.webp" class="_view2" alt="" />
             </div>
             <UIMainAdvantages />
           </div>
@@ -34,16 +34,16 @@
             </div>
             <div class="main-partners__items">
               <div class="main-partners__item">
-                <NuxtImg src="partner.webp" alt="" />
+                <NuxtImg src="/img/partner.webp" alt="" />
               </div>
               <div class="main-partners__item">
-                <NuxtImg src="partner2.webp" alt="" />
+                <NuxtImg src="/img/partner2.webp" alt="" />
               </div>
               <div class="main-partners__item">
-                <NuxtImg src="partner3.webp" alt="" />
+                <NuxtImg src="/img/partner3.webp" alt="" />
               </div>
               <div class="main-partners__item">
-                <NuxtImg src="partner4.webp" alt="" />
+                <NuxtImg src="/img/partner4.webp" alt="" />
               </div>
             </div>
           </div>

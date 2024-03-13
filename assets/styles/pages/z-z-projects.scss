@@ -67,7 +67,7 @@
         width: 0.375em;
         height: 0.3125em;
         content: '';
-        background-image: url('assets/img/tab-arrow.svg');
+        background-image: url('/img/tab-arrow.svg');
 
         @include bg-img-size(100%);
       }

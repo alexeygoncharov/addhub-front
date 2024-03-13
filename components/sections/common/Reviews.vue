@@ -23,7 +23,7 @@
           :class="['reviews__tab _tab', { _active: i === 0 }]"
           :data-tab="`_tab${i + 1}`"
         >
-          <NuxtImg :src="avatar" alt="" />
+          <NuxtImg :src="'/img/' + avatar" alt="" />
         </div>
       </div>
     </div>
