@@ -13,7 +13,12 @@
           <div class="page-search__field fg">
             <input type="text" placeholder="Найти услугу" />
           </div>
-          <UIVSelect v-if="hasSelect" class="category-select" />
+          <div class="category-select" v-if="hasSelect">
+            <UIVSelect
+              :options="select.options"
+              :placeholder="select.placeholder"
+            />
+          </div>
           <button class="page-search__btn m-btn m-btn-blue">
             <span>Найти</span>
           </button>
@@ -34,6 +39,19 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      select: {
+        placeholder: 'Выберите категорию',
+        options: [
+          { value: 'option1', text: 'Услуги' },
+          { value: 'option2', text: 'Проекты' },
+          { value: 'option3', text: 'Вакансии' },
+          { value: 'option4', text: 'Фрилансеры' },
+        ],
+      },
+    };
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
-  <div class="filter-group spoiler _active">
-    <div class="filter-group__top spoiler__toggle">
+  <div class="filter-group spoiler" :class="{ _active: isExpanded }">
+    <div class="filter-group__top spoiler__toggle" @click="toggleSpoiler">
       <div class="filter-group__title">Бюджет</div>
       <svg
         width="6"
@@ -18,10 +18,10 @@
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
         <ModulesCatalogFilterSlider
-          v-model:start1="start1"
-          v-model:start2="start2"
-          v-model:min="min"
-          v-model:max="max"
+          v-model:price-min="priceMin"
+          v-model:price-max="priceMax"
+          :min="store.initialFilters.price.min"
+          :max="store.initialFilters.price.max"
         />
       </div>
     </div>
@@ -38,35 +38,39 @@ export default {
   },
   data() {
     return {
-      start1: 0,
-      start2: 70987,
-      min: 0,
-      max: 70987,
-      filterTimeoutId: null, // Для хранения идентификатора таймера
+      isExpanded: true,
+      priceMin:
+        this.store.filters?.price?.$gte || this.store.initialFilters.price.min,
+      priceMax:
+        this.store.filters?.price?.$lte || this.store.initialFilters.price.max,
+      filterTimeoutId: null,
     };
   },
+  mounted() {},
   watch: {
-    start1() {
+    priceMin() {
       this.debouncedSetFilters();
     },
-    start2() {
+    priceMax() {
       this.debouncedSetFilters();
     },
   },
   methods: {
+    toggleSpoiler() {
+      this.isExpanded = !this.isExpanded;
+    },
     debouncedSetFilters() {
-      // Очистка предыдущего таймера
       clearTimeout(this.filterTimeoutId);
-
-      // Установка нового таймера
       this.filterTimeoutId = setTimeout(() => {
         this.setFilters();
-      }, 1000); // Задержка 1 секунда
+      }, 1000);
     },
     setFilters() {
-      const filterValue = { price: { $gte: this.start1, $lte: this.start2 } };
-
-      this.store.setFilters(filterValue);
+      const priceValue = { $gte: this.priceMin, $lte: this.priceMax };
+      this.store.setFilters(
+        { action: 'add', key: 'price', value: priceValue },
+        this.$router,
+      );
     },
   },
 };

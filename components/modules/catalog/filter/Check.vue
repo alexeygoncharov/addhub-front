@@ -3,7 +3,7 @@
     <input type="checkbox" />
     <div class="_check filter-check__wrap">
       <div class="filter-check__title">{{ title }}</div>
-      <div class="m-count">
+      <div v-if="num" class="m-count">
         <span>{{ num }}</span>
       </div>
     </div>
@@ -19,7 +19,7 @@ export default {
     },
     num: {
       type: Number,
-      required: true,
+      default: null,
     },
   },
 };

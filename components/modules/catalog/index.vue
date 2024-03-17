@@ -3,7 +3,7 @@
     <div class="container">
       <div class="catalog__grid">
         <div class="catalog__sidebar">
-          <slot name="filter"></slot>
+          <ModulesCatalogFilter :store="store" />
         </div>
         <div class="catalog__content">
           <div class="catalog__top">
@@ -27,14 +27,11 @@
               <div class="text15"><slot name="count"></slot></div>
             </div>
 
-            <ModulesCatalogSort />
+            <ModulesCatalogSort :store="store" />
           </div>
 
           <slot name="items"></slot>
-          <UIVPagination
-            :total-items="+store.totalItems"
-            :items-per-page="+store.itemsPerPage"
-          />
+          <UIVPagination :store="store" />
         </div>
       </div>
     </div>
@@ -50,7 +47,7 @@ export default {
     },
   },
   mounted() {
-    this.store.fetchItems();
+    this.store.initializeFromURL(this.$router);
   },
 };
 </script>

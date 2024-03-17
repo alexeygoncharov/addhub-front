@@ -7,13 +7,19 @@
       </button>
     </div>
     <div class="filter__items">
-      <template v-for="(item, i) in filterList">
-        <!--        <ModulesCatalogFilterGroup-->
-        <!--          v-if="item.type === 'check' || item.type === 'radio'"-->
-        <!--          :filter="item"-->
-        <!--        />-->
-        <ModulesCatalogFilterPrice
-          v-if="item.type === 'price'"
+      <template v-for="(filterItem, key) in store.initialFilters">
+        <ModulesCatalogFilterPrice v-if="key === 'price'" :store="store" />
+        <ModulesCatalogFilterGroup
+          v-else-if="key === 'category'"
+          :filter="{
+            ...filterItem,
+            list: [{ title: 'Все' }, ...filterItem.list],
+          }"
+          :store="store"
+        />
+        <ModulesCatalogFilterGroup
+          v-else-if="filterItem.list"
+          :filter="filterItem"
           :store="store"
         />
       </template>
@@ -24,13 +30,9 @@
 <script>
 export default {
   props: {
-    filterList: {
-      type: Array,
-      required: true,
-    },
     store: {
-      required: true,
       type: Object,
+      required: true,
     },
   },
 };

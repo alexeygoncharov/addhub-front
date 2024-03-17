@@ -1,11 +1,14 @@
 <template>
   <div class="header-bottom">
     <ul class="master-nav">
-      <li v-for="item in list" :key="item.title">
-        <a href="" class="master-nav__item">
-          <span class="master-nav__title">{{ item.title }}</span>
+      <li v-for="category in commonStore.categories">
+        <NuxtLink
+          :to="`service/category/${category._id}`"
+          class="master-nav__item"
+        >
+          <span class="master-nav__title">{{ category.title }}</span>
           <svg
-            v-if="item.isHaveSubmenu"
+            v-if="category.isHaveSubmenu"
             width="6"
             height="6"
             viewBox="0 0 6 6"
@@ -17,23 +20,20 @@
               fill="#222222"
             />
           </svg>
-        </a>
-        <ul v-if="item.isHaveSubmenu" class="master-nav__submenu">
-          <li><a href="">Разработка и ИТ</a></li>
-          <li><a href="">Дизайн и творчество</a></li>
-          <li><a href="">Цифровой маркетинг</a></li>
-          <li><a href="">Копирайтинг и перевод</a></li>
-          <li><a href="">Музыка и аудио</a></li>
-          <li><a href="">Видео и анимация</a></li>
-          <li><a href="">Копирайтинг и перевод</a></li>
-        </ul>
+        </NuxtLink>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { useCommonStore } from '~/stores/common.js';
+
 export default {
+  setup() {
+    const commonStore = useCommonStore();
+    return { commonStore };
+  },
   data() {
     return {
       list: [

@@ -5,7 +5,7 @@
         <label>От</label>
         <input
           type="number"
-          :value="start1"
+          :value="priceMin"
           @input="updateStartValue(0, $event.target.valueAsNumber)"
         />
         <div class="filter-slider__currency"><span>₽</span></div>
@@ -14,7 +14,7 @@
         <label>До</label>
         <input
           type="number"
-          :value="start2"
+          :value="priceMax"
           @input="updateStartValue(1, $event.target.valueAsNumber)"
         />
         <div class="filter-slider__currency"><span>₽</span></div>
@@ -24,7 +24,7 @@
       <div class="range-slider"></div>
     </div>
     <div class="filter-slider__output">
-      <span>{{ start1 }}</span> - <span>{{ start2 }}</span> ₽
+      <span>{{ priceMin }}</span> - <span>{{ priceMax }}</span> ₽
     </div>
   </div>
 </template>
@@ -35,11 +35,11 @@ import 'nouislider/dist/nouislider.css';
 
 export default {
   props: {
-    start1: {
+    priceMin: {
       type: Number,
       required: true,
     },
-    start2: {
+    priceMax: {
       type: Number,
       required: true,
     },
@@ -59,7 +59,7 @@ export default {
     initSlider() {
       const sliderElement = this.$el.querySelector('.range-slider');
       this.slider = noUiSlider.create(sliderElement, {
-        start: [this.start1, this.start2],
+        start: [this.priceMin, this.priceMax],
         connect: true,
         step: 1,
         range: {
@@ -72,9 +72,9 @@ export default {
         let value = parseInt(values[handle], 10);
         // Эмитируем события для обновления родительских пропсов
         if (handle === 0) {
-          this.$emit('update:start1', value);
+          this.$emit('update:priceMin', value);
         } else {
-          this.$emit('update:start2', value);
+          this.$emit('update:priceMax', value);
         }
       });
     },
@@ -85,9 +85,9 @@ export default {
       this.updateSlider(handle, value);
 
       if (handle === 0) {
-        this.$emit('update:start1', value);
+        this.$emit('update:priceMin', value);
       } else {
-        this.$emit('update:start2', value);
+        this.$emit('update:priceMax', value);
       }
     },
 

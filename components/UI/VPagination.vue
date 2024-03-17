@@ -56,25 +56,24 @@
 
 <script>
 export default {
-  // Пропсы и данные остаются прежними
   props: {
-    totalItems: {
-      type: Number,
+    store: {
+      type: Object,
       required: true,
     },
-    itemsPerPage: {
-      type: Number,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      currentPage: 1,
-    };
   },
   computed: {
+    currentPage() {
+      return this.store.currentPage;
+    },
+    totalItems() {
+      return this.store.totalItems;
+    },
+    itemsPerPage() {
+      return this.store.itemsPerPage;
+    },
     totalPages() {
-      return Math.max(1, Math.ceil(this.totalItems / this.itemsPerPage));
+      return this.store.totalPages;
     },
     pages() {
       const pages = [];
@@ -131,17 +130,17 @@ export default {
   methods: {
     prevPage() {
       if (this.currentPage > 1) {
-        this.currentPage--;
+        this.store.setPage(this.currentPage - 1);
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++;
+        this.store.setPage(this.currentPage + 1);
       }
     },
     goToPage(pageNumber) {
       if (pageNumber && pageNumber >= 1 && pageNumber <= this.totalPages) {
-        this.currentPage = pageNumber;
+        this.store.setPage(pageNumber);
       }
     },
   },

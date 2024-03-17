@@ -1,6 +1,6 @@
 <template>
-  <div class="filter-group spoiler _active">
-    <div class="filter-group__top spoiler__toggle">
+  <div class="filter-group spoiler" :class="{ _active: isExpanded }">
+    <div class="filter-group__top spoiler__toggle" @click="toggleSpoiler">
       <div class="filter-group__title">{{ filter.title }}</div>
       <svg
         width="6"
@@ -34,22 +34,29 @@
             </svg>
           </button>
         </form>
-        <div class="filter-group__checks">
-          <template v-for="item in filter.list">
+
+        <div class="filter-group__checks" :class="{ '_show-all': showAll }">
+          <template v-for="item in shownItems">
             <ModulesCatalogFilterCheck
               v-if="filter.type === 'check'"
               :title="item.title"
               :num="item.num"
+              @change="setFilters(item._id, $event.target.checked)"
             />
             <ModulesCatalogFilterRadio
-              v-if="filter.type === 'radio'"
+              v-else-if="filter.type === 'radio'"
               :title="item.title"
               :num="item.num"
+              @change="setFilters(item._id, $event.target.checked)"
             />
           </template>
-          <button v-if="filter.list.length > 4" class="more-checks">
-            <span class="_view1">+20 еще</span>
-            <span class="_view2">Скрыть</span>
+          <button
+            v-if="filter.list.length > 4"
+            class="more-checks"
+            @click="toggleShowAll"
+          >
+            <span v-if="!showAll">+{{ filter.list.length - 4 }} еще</span>
+            <span v-else>Скрыть</span>
           </button>
         </div>
       </div>
@@ -60,9 +67,39 @@
 <script>
 export default {
   props: {
+    store: {
+      type: Object,
+      required: true,
+    },
     filter: {
       type: Object,
       required: true,
+    },
+  },
+  data() {
+    return {
+      isExpanded: true, // Управляет сворачиванием/разворачиванием всего блока
+      showAll: false, // Управляет отображением всех фильтров
+    };
+  },
+  computed: {
+    shownItems() {
+      return this.showAll ? this.filter.list : this.filter.list.slice(0, 4);
+    },
+  },
+  methods: {
+    toggleSpoiler() {
+      this.isExpanded = !this.isExpanded;
+    },
+    toggleShowAll() {
+      this.showAll = !this.showAll;
+    },
+    setFilters(id, isChecked) {
+      const setting =
+        isChecked && id
+          ? { action: 'add', key: 'category', value: id }
+          : { action: 'remove', key: 'category' };
+      this.store.setFilters(setting, this.$router);
     },
   },
 };
