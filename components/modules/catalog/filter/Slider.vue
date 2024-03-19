@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import noUiSlider from 'nouislider';
+import { create } from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 
 export default {
@@ -52,13 +52,14 @@ export default {
       required: true,
     },
   },
+  emits: ['update:priceMin', 'update:priceMax'],
   mounted() {
     this.initSlider();
   },
   methods: {
     initSlider() {
       const sliderElement = this.$el.querySelector('.range-slider');
-      this.slider = noUiSlider.create(sliderElement, {
+      this.slider = create(sliderElement, {
         start: [this.priceMin, this.priceMax],
         connect: true,
         step: 1,
@@ -69,7 +70,7 @@ export default {
       });
 
       this.slider.on('update', (values, handle) => {
-        let value = parseInt(values[handle], 10);
+        const value = parseInt(values[handle], 10);
         // Эмитируем события для обновления родительских пропсов
         if (handle === 0) {
           this.$emit('update:priceMin', value);
@@ -92,7 +93,7 @@ export default {
     },
 
     updateSlider(handle, value) {
-      let newValue = [null, null];
+      const newValue = [null, null];
       newValue[handle] = value;
 
       this.slider.set(newValue);

@@ -47,7 +47,7 @@ export default {
     },
   },
   mounted() {
-    this.store.initializeFromURL(this.$router);
+    this.store.initializeFromURL(useRouter());
   },
 };
 </script>

@@ -1,5 +1,5 @@
-import { createCatalogStore } from './base.js';
-import { useCommonStore } from '~/stores/common.js';
+import { createCatalogStore } from './base';
+import { useCommonStore } from '~/stores/common';
 
 export const useCatalogFreelancersStore = () => {
   const commonStore = useCommonStore();

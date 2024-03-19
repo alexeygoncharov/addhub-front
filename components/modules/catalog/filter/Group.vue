@@ -36,19 +36,19 @@
         </form>
 
         <div class="filter-group__checks" :class="{ '_show-all': showAll }">
-          <template v-for="item in shownItems">
+          <template v-for="item in shownItems" :key="item._id">
             <ModulesCatalogFilterCheck
               v-if="filter.type === 'check'"
               :title="item.title"
               :num="item.num"
-              @change="setFilters(item._id, $event.target.checked)"
+              @change="setFilters(item._id)"
             />
             <ModulesCatalogFilterRadio
               v-else-if="filter.type === 'radio'"
               :title="item.title"
               :num="item.num"
               :checked="item.slug === categorySlug"
-              @change="setFilters(item.slug, $event.target.checked)"
+              @change="setFilters(item.slug)"
             />
           </template>
           <button
@@ -97,8 +97,11 @@ const toggleShowAll = () => {
   showAll.value = !showAll.value;
 };
 
-const setFilters = (slug: string, isChecked: boolean) => {
-  navigateTo(`/service/${slug || 'all'}`);
+const setFilters = (
+  slug: string,
+  // isChecked: boolean
+) => {
+  navigateTo({ path: `/service/${slug || 'all'}`, query: route.query });
   // const setting =
   //   isChecked && slug
   //     ? { action: 'add', key: 'category', value: slug }

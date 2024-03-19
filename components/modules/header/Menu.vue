@@ -83,7 +83,7 @@
                 <li><a href="">Дизайн брошюры</a></li>
                 <li><a href="">Дизайн Плаката</a></li>
                 <li><a href="">Дизайн каталога</a></li>
-                <li><a href="">Futbolki i tovary</a></li>
+                <li><a href="">Футболки и товары</a></li>
               </ul>
             </div>
           </div>

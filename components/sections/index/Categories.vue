@@ -8,7 +8,7 @@
       />
 
       <Swiper v-bind="swiperOptions" class="categories-slider slider">
-        <SwiperSlide v-for="(card, idx) in cardList" :key="card.title">
+        <SwiperSlide v-for="card in cardList" :key="card.title">
           <NuxtLink :to="`/service/${card.slug}`" class="category-card">
             <div class="category-card__icon">
               <NuxtImg :src="'/img/' + card.icon" alt="" />
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { useSwiper } from '~/composables/useSwiper.js';
+import { useSwiper } from '~/composables/useSwiper.ts';
 export default {
   setup() {
     const { swiperOptions } = useSwiper();

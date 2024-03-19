@@ -8,8 +8,8 @@
       <template #items>
         <div class="freelancers-items">
           <ModulesCardsFreelance
-            :data="item"
             v-for="item in catalogStore.items"
+            :data="item"
           />
         </div>
       </template>
@@ -18,13 +18,8 @@
   </div>
 </template>
 
-<script>
-import { useCatalogFreelancersStore } from '~/stores/catalog/freelancers.js';
+<script setup lang="ts">
+import { useCatalogFreelancersStore } from '~/stores/catalog/freelancers';
 
-export default {
-  setup() {
-    const catalogStore = useCatalogFreelancersStore()();
-    return { catalogStore };
-  },
-};
+const catalogStore = useCatalogFreelancersStore()();
 </script>

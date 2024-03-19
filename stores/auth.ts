@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 import { jwtDecode } from 'jwt-decode';
-import authService from '~/services/auth';
 import { useNuxtApp } from '#app';
+import authService from '~/services/auth';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: null,
+    token: null as null | string,
     isLoading: true,
   }),
   getters: {
@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('auth', {
     },
   },
   actions: {
-    async login(email, password, rememberMe) {
+    async login(email: string, password: string, rememberMe: boolean) {
       try {
         const data = await authService.login(useNuxtApp().$fetch, {
           email,
@@ -42,7 +42,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('authToken');
       sessionStorage.removeItem('authToken');
     },
-    saveToken(token, rememberMe) {
+    saveToken(token: string, rememberMe: boolean) {
       this.token = token;
       if (rememberMe) {
         localStorage.setItem('authToken', token);
@@ -55,14 +55,14 @@ export const useAuthStore = defineStore('auth', {
         const token =
           localStorage.getItem('authToken') ||
           sessionStorage.getItem('authToken');
-        if (this.isTokenValid(token)) {
+        if (token && this.isTokenValid(token)) {
           this.token = token;
         }
         this.isLoading = false;
       }
     },
 
-    isTokenValid(token) {
+    isTokenValid(token: string) {
       if (!token) return false;
 
       try {

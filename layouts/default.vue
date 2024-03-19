@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { useCommonStore } from '~/stores/common.js';
+import { useCommonStore } from '~/stores/common';
 
 export default {
   setup() {

@@ -42,7 +42,7 @@ export default {
       type: Number,
       default: 3000,
     },
-    'on-close': {
+    onClose: {
       type: Function,
       default: () => {},
     },
@@ -67,7 +67,7 @@ export default {
       }, 3000);
     },
     startTimer() {
-      this.timeoutId = setTimeout(this.hide, this.timeout); // timeout как свойство данных или проп
+      this.timeoutId = setTimeout(this.hide, this.timeout); // timeout как свойство данных или prop
     },
     pauseTimer() {
       clearTimeout(this.timeoutId);

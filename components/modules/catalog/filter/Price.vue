@@ -18,8 +18,9 @@
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
         <ModulesCatalogFilterSlider
-          v-model:price-min="priceMin"
-          v-model:price-max="priceMax"
+          v-if="filters.price.$lte"
+          v-model:price-min="filters.price.$gte"
+          v-model:price-max="filters.price.$lte"
           :min="store.initialFilters.price.min"
           :max="store.initialFilters.price.max"
         />
@@ -28,50 +29,37 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    store: {
-      required: true,
-      type: Object,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  store: {
+    required: true,
+    type: Object,
   },
-  data() {
-    return {
-      isExpanded: true,
-      priceMin:
-        this.store.filters?.price?.$gte || this.store.initialFilters.price.min,
-      priceMax:
-        this.store.filters?.price?.$lte || this.store.initialFilters.price.max,
-      filterTimeoutId: null,
-    };
-  },
-  mounted() {},
-  watch: {
-    priceMin() {
-      this.debouncedSetFilters();
-    },
-    priceMax() {
-      this.debouncedSetFilters();
-    },
-  },
-  methods: {
-    toggleSpoiler() {
-      this.isExpanded = !this.isExpanded;
-    },
-    debouncedSetFilters() {
-      clearTimeout(this.filterTimeoutId);
-      this.filterTimeoutId = setTimeout(() => {
-        this.setFilters();
-      }, 1000);
-    },
-    setFilters() {
-      const priceValue = { $gte: this.priceMin, $lte: this.priceMax };
-      this.store.setFilters(
-        { action: 'add', key: 'price', value: priceValue },
-        this.$router,
-      );
-    },
-  },
+});
+
+const isExpanded = ref(true);
+const filters = props.store.filters;
+
+const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();
+
+watch(filters, () => {
+  debouncedSetFilters();
+});
+
+const toggleSpoiler = () => {
+  isExpanded.value = !isExpanded.value;
+};
+const debouncedSetFilters = () => {
+  clearTimeout(filterTimeoutId.value);
+  filterTimeoutId.value = setTimeout(() => {
+    setFilters();
+  }, 1000);
+};
+const setFilters = () => {
+  const priceValue = { $gte: filters.price.$gte, $lte: filters.price.$lte };
+  props.store.setFilters(
+    { action: 'add', key: 'price', value: priceValue },
+    useRouter(),
+  );
 };
 </script>

@@ -10,21 +10,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    num: {
-      type: Number,
-      default: null,
-    },
-    checked: {
-      type: Boolean,
-      default: false,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-};
+  num: {
+    type: Number,
+    default: null,
+  },
+  checked: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>

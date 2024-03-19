@@ -2,8 +2,8 @@
   <div class="product-slider">
     <Swiper v-bind="swiperOptions" class="product-slider__container">
       <SwiperSlide
-        class="product-slider__slide"
         v-for="item in catalogStore.items"
+        class="product-slider__slide"
       >
         <ModulesCardsService :data="item" />
       </SwiperSlide>
@@ -94,9 +94,9 @@
   </div>
 </template>
 
-<script setup>
-import { useSwiper } from '~/composables/useSwiper.js';
-import { useCatalogServicesStore } from '~/stores/catalog/services.js';
+<script setup lang="ts">
+import { useSwiper } from '~/composables/useSwiper';
+import { useCatalogServicesStore } from '~/stores/catalog/services';
 
 const catalogStore = useCatalogServicesStore()();
 const { swiperOptions } = useSwiper(

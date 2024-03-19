@@ -1,6 +1,6 @@
 <template>
   <div class="service-card">
-    <button class="favourite-btn">
+    <button class="favorite-btn">
       <svg
         width="26"
         height="23"
@@ -19,7 +19,7 @@
     </button>
     <div class="service-card__slider _nested-slider" :data-slider-id="data._id">
       <Swiper v-bind="swiperOptions">
-        <SwiperSlide v-for="path in data.photos">
+        <SwiperSlide v-for="(path, index) in data.photos" :key="index">
           <div class="service-card__img">
             <img
               :src="`${$config.public.apiBase}/${path}`"
@@ -134,28 +134,21 @@
   </div>
 </template>
 
-<script>
-import { useSwiper } from '~/composables/useSwiper.js';
+<script setup lang="ts">
+import { useSwiper } from '~/composables/useSwiper';
 
-export default {
-  props: {
-    data: {
-      type: Object,
-      required: true,
-    },
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
   },
-  setup(props) {
-    const { swiperOptions } = useSwiper(
-      {
-        prevEl: `._nested-slider[data-slider-id="${props.data._id}"] .swiper-button-prev`,
-        nextEl: `._nested-slider[data-slider-id="${props.data._id}"] .swiper-button-next`,
-      },
-      `._nested-slider[data-slider-id="${props.data._id}"] .swiper-pagination`,
-    );
+});
 
-    return {
-      swiperOptions,
-    };
+const { swiperOptions } = useSwiper(
+  {
+    prevEl: `._nested-slider[data-slider-id="${props.data._id}"] .swiper-button-prev`,
+    nextEl: `._nested-slider[data-slider-id="${props.data._id}"] .swiper-button-next`,
   },
-};
+  `._nested-slider[data-slider-id="${props.data._id}"] .swiper-pagination`,
+);
 </script>

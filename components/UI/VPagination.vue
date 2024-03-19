@@ -20,8 +20,8 @@
         v-if="page !== null"
         type="button"
         class="pagination__item"
-        @click="goToPage(page)"
         :class="{ _active: currentPage === page }"
+        @click="goToPage(page)"
       >
         {{ page }}
       </button>
@@ -93,8 +93,8 @@ export default {
       }
 
       // Добавляем страницы вокруг текущей страницы
-      let startPage = Math.max(2, currentPage - wingSize);
-      let endPage = Math.min(totalPages - 1, currentPage + wingSize);
+      const startPage = Math.max(2, currentPage - wingSize);
+      const endPage = Math.min(totalPages - 1, currentPage + wingSize);
 
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);

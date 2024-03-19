@@ -49,7 +49,7 @@
               rules="required|alpha"
               name="surname"
               type="text"
-              placeholder="Поташёв"
+              placeholder="Поташов"
             />
             <ErrorMessage name="surname" class="error-message" />
           </fieldset>
@@ -104,8 +104,8 @@
 
 <script>
 import { mapActions } from 'pinia';
-import { useAuthStore } from '~/stores/auth.js';
-import { useValidation } from '~/composables/useValidation.js';
+import { useAuthStore } from '~/stores/auth';
+import { useValidation } from '~/composables/useValidation';
 
 export default {
   data() {

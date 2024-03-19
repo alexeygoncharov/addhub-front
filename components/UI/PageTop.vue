@@ -13,7 +13,7 @@
           <div class="page-search__field fg">
             <input type="text" placeholder="Найти услугу" />
           </div>
-          <div class="category-select" v-if="hasSelect">
+          <div v-if="hasSelect" class="category-select">
             <UIVSelect
               :options="select.options"
               :placeholder="select.placeholder"

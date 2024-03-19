@@ -1,5 +1,5 @@
-import { createCatalogStore } from './base.js';
-import { useCommonStore } from '~/stores/common.js';
+import { createCatalogStore } from './base';
+import { useCommonStore } from '~/stores/common';
 
 export const useCatalogProjectsStore = () => {
   const commonStore = useCommonStore(); // Используем общий стор
@@ -18,7 +18,7 @@ export const useCatalogProjectsStore = () => {
       city: { title: 'Города', type: 'radio', list: commonStore.cities },
     },
     filters: {
-      price: { $gte: 0, $lte: 50000 },
+      price: {},
     },
   });
 };

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { useCatalogProjectsStore } from '~/stores/catalog/projects.js';
+import { useCatalogProjectsStore } from '~/stores/catalog/projects';
 
 export default {
   setup() {

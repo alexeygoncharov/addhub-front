@@ -23,9 +23,9 @@
         />
       </svg>
     </div>
-    <div class="m-select__dropdown" v-if="isOpen">
+    <div v-if="isOpen" class="m-select__dropdown">
       <div
-        v-for="(option, index) in options"
+        v-for="option in options"
         :class="['m-select__option', { _active: currentText === option }]"
         @click="selectOption(option)"
       >
@@ -60,7 +60,7 @@ export default {
   mounted() {
     document.addEventListener('click', this.handleClickOutside);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.removeEventListener('click', this.handleClickOutside);
   },
   methods: {

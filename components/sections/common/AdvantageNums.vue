@@ -4,9 +4,9 @@
       <div class="advantage-nums__inner">
         <div class="advantage-nums__items">
           <div
-            class="advantage-stat"
             v-for="(advantage, i) in advantageList"
             :key="i"
+            class="advantage-stat"
           >
             <div class="advantage-stat__title text38 medium-text">
               {{ advantage.title }}

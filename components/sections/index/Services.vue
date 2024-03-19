@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { useCatalogServicesStore } from '~/stores/catalog/services.js';
+import { useCatalogServicesStore } from '~/stores/catalog/services.ts';
 
 const catalogStore = useCatalogServicesStore()();
 catalogStore.fetchItems();
