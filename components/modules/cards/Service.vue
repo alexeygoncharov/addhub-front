@@ -89,9 +89,12 @@
       <div class="service-card__type">
         <span class="text14">{{ data.title }}</span>
       </div>
-      <a href="" class="service-card__title text17 medium-text">
+      <NuxtLink
+        to="/service/all"
+        class="service-card__title text17 medium-text"
+      >
         {{ data.title }}
-      </a>
+      </NuxtLink>
 
       <div class="service-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
@@ -104,7 +107,7 @@
       </div>
 
       <div class="service-card__bottom _flex">
-        <a href="" class="service-card__user _flex">
+        <NuxtLink to="/service/all" class="service-card__user _flex">
           <div class="avatar">
             <img
               :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
@@ -120,7 +123,7 @@
           <div class="service-card__user-name text14">
             {{ `${data.createdBy.name} ${data.createdBy.surname}` }}
           </div>
-        </a>
+        </NuxtLink>
 
         <div class="service-card__price">
           <span class="text14 gray-text">от </span>

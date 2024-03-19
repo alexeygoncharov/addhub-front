@@ -18,13 +18,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useCatalogServicesStore } from '~/stores/catalog/services.js';
-
-export default {
-  setup() {
-    const catalogStore = useCatalogServicesStore()();
-    return { catalogStore };
-  },
-};
+const catalogStore = useCatalogServicesStore()();
+const route = useRoute();
+const categorySlug = Array.isArray(route.params.slug)
+  ? route.params.slug[0]
+  : route.params.slug;
+const category = catalogStore.initialFilters.category.list.find(
+  (el) => el.slug == categorySlug,
+);
+if (!(category || categorySlug === 'all')) {
+  navigateTo('/service/all');
+}
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="filter-check m-radio">
-    <input type="radio" name="time" />
+    <input type="radio" :checked="checked" name="time" />
     <div class="_radio filter-check__wrap">
       <div class="filter-check__title">{{ title }}</div>
       <div v-if="num" class="m-count">
@@ -20,6 +20,10 @@ export default {
     num: {
       type: Number,
       default: null,
+    },
+    checked: {
+      type: Boolean,
+      default: false,
     },
   },
 };

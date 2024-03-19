@@ -94,25 +94,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useSwiper } from '~/composables/useSwiper.js';
 import { useCatalogServicesStore } from '~/stores/catalog/services.js';
 
-export default {
-  setup() {
-    const catalogStore = useCatalogServicesStore();
-    const { swiperOptions } = useSwiper(
-      {
-        prevEl: `.product-slider .product-slider__nav .swiper-button-prev`,
-        nextEl: `.product-slider .product-slider__nav .swiper-button-next`,
-      },
-      `.product-slider .product-slider__nav .swiper-pagination`,
-    );
-
-    return {
-      swiperOptions,
-      catalogStore,
-    };
+const catalogStore = useCatalogServicesStore()();
+const { swiperOptions } = useSwiper(
+  {
+    prevEl: `.product-slider .product-slider__nav .swiper-button-prev`,
+    nextEl: `.product-slider .product-slider__nav .swiper-button-next`,
   },
-};
+  `.product-slider .product-slider__nav .swiper-pagination`,
+);
 </script>

@@ -11,7 +11,6 @@ export default (nuxtApp) => {
         Authorization: `Bearer ${token}`,
       };
     }
-
     return $fetch(baseUrl + url, options);
   });
 };

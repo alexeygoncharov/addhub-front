@@ -61,11 +61,19 @@ export function createCatalogStore(
       },
       async fetchItems() {
         try {
+          const route = useRoute();
+          const categorySlug = Array.isArray(route.params.slug)
+            ? route.params.slug[0]
+            : route.params.slug;
+          const category = initialFilters.category.list.find(
+            (el) => el.slug == categorySlug,
+          );
+
           const data = await useNuxtApp().$fetch(apiUrl, {
             query: {
               offset: this.currentPage,
               limit: this.itemsPerPage,
-              filter: this.filters,
+              filter: { ...this.filters, category: category?._id },
               sort: this.sorting.value,
             },
           });

@@ -1,14 +1,18 @@
 <template>
   <div class="header-bottom">
     <ul class="master-nav">
-      <li v-for="category in commonStore.categories">
-        <NuxtLink
-          :to="`service/category/${category._id}`"
-          class="master-nav__item"
-        >
+      <li
+        v-for="category of commonStore.categories.slice(0, 7)"
+        :key="category.id"
+      >
+        <NuxtLink :to="`/service/${category.slug}`" class="master-nav__item">
           <span class="master-nav__title">{{ category.title }}</span>
+        </NuxtLink>
+      </li>
+      <li>
+        <a class="master-nav__item">
+          <span class="master-nav__title">Ещё</span>
           <svg
-            v-if="category.isHaveSubmenu"
             width="6"
             height="6"
             viewBox="0 0 6 6"
@@ -20,7 +24,17 @@
               fill="#222222"
             />
           </svg>
-        </NuxtLink>
+        </a>
+        <ul class="master-nav__submenu">
+          <li
+            v-for="category of commonStore.categories.slice(7)"
+            :key="category.id"
+          >
+            <nuxt-link :to="`service/${category.slug}`">{{
+              category.title
+            }}</nuxt-link>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
