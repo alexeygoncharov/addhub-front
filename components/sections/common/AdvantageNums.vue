@@ -19,29 +19,23 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      advantageList: [
-        {
-          title: '20K',
-          desc: 'Всего исполнителей',
-        },
-        {
-          title: '32K',
-          desc: 'Положительных отзывов',
-        },
-        {
-          title: '90K',
-          desc: 'Заявок получено',
-        },
-        {
-          title: '15K',
-          desc: 'Проектов завершено',
-        },
-      ],
-    };
+<script setup lang="ts">
+const advantageList = ref([
+  {
+    title: '20K',
+    desc: 'Всего исполнителей',
   },
-};
+  {
+    title: '32K',
+    desc: 'Положительных отзывов',
+  },
+  {
+    title: '90K',
+    desc: 'Заявок получено',
+  },
+  {
+    title: '15K',
+    desc: 'Проектов завершено',
+  },
+]);
 </script>

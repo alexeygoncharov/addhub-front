@@ -5,7 +5,7 @@
   <SectionsReg />
 </template>
 
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   middleware: 'redirect-if-authenticated',
 });

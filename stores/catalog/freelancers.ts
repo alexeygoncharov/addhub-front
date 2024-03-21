@@ -1,18 +1,23 @@
 import { createCatalogStore } from './base';
-import { useCommonStore } from '~/stores/common';
-
-export const useCatalogFreelancersStore = () => {
-  const commonStore = useCommonStore();
-
-  return createCatalogStore('freelancers', '/api/users/sellers', {
+export const useCatalogFreelancersStore = createCatalogStore(
+  'freelancers',
+  '/api/users/sellers',
+  {
     initialFilters: {
       category: {
         title: 'Категории',
         type: 'radio',
-        list: commonStore.categories,
+        list: [],
       },
-      city: { title: 'Города', type: 'radio', list: commonStore.cities },
+      city: { title: 'Города', type: 'radio', list: [] },
     },
     filters: {},
-  });
-};
+  },
+);
+
+export type FreelancersStore = ReturnType<typeof useCatalogFreelancersStore>;
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useCatalogFreelancersStore, import.meta.hot),
+  );
+}

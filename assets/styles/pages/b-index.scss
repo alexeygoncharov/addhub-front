@@ -308,7 +308,7 @@ html body .m-page {
   }
 }
 
-.service-card {
+.services-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -479,7 +479,7 @@ html body .m-page {
 }
 
 @media screen and (width <= 427px) {
-  .service-card {
+  .services-card {
     border-radius: 0.9375em;
 
     &__img {

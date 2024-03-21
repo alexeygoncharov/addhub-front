@@ -93,45 +93,39 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      list: [
-        {
-          title: 'Разработка и ИТ',
-          path: 'menu-icon.svg',
-        },
-        {
-          title: 'Дизайн и творчество',
-          path: 'menu-icon2.svg',
-        },
-        {
-          title: 'Цифровой маркетинг',
-          path: 'menu-icon3.svg',
-        },
-        {
-          title: 'Копирайтинг и перевод',
-          path: 'menu-icon4.svg',
-        },
-        {
-          title: 'Музыка и аудио',
-          path: 'menu-icon5.svg',
-        },
-        {
-          title: 'Видео и анимация',
-          path: 'menu-icon6.svg',
-        },
-        {
-          title: 'Инженерия и архитектура',
-          path: 'menu-icon7.svg',
-        },
-        {
-          title: 'Финансы и бухгалтерский учет',
-          path: 'menu-icon8.svg',
-        },
-      ],
-    };
+<script setup lang="ts">
+const list = ref([
+  {
+    title: 'Разработка и ИТ',
+    path: 'menu-icon.svg',
   },
-};
+  {
+    title: 'Дизайн и творчество',
+    path: 'menu-icon2.svg',
+  },
+  {
+    title: 'Цифровой маркетинг',
+    path: 'menu-icon3.svg',
+  },
+  {
+    title: 'Копирайтинг и перевод',
+    path: 'menu-icon4.svg',
+  },
+  {
+    title: 'Музыка и аудио',
+    path: 'menu-icon5.svg',
+  },
+  {
+    title: 'Видео и анимация',
+    path: 'menu-icon6.svg',
+  },
+  {
+    title: 'Инженерия и архитектура',
+    path: 'menu-icon7.svg',
+  },
+  {
+    title: 'Финансы и бухгалтерский учет',
+    path: 'menu-icon8.svg',
+  },
+]);
 </script>

@@ -23,7 +23,7 @@
     "no-undef": "off",
     "vue/multi-word-component-names": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    "vue/no-multiple-template-root": "off", //временно, надо везде исправить
+    "vue/no-multiple-template-root": "off", //TODO временно, надо везде исправить
     "vue/no-v-html": "off" //Доверенные источники данных, нет необходимости
   }
 }

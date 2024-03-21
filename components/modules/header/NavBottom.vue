@@ -2,10 +2,10 @@
   <div class="header-bottom">
     <ul class="master-nav">
       <li
-        v-for="category of commonStore.categories.slice(0, 7)"
-        :key="category.id"
+        v-for="category of commonStore.categories?.slice(0, 7)"
+        :key="category._id"
       >
-        <NuxtLink :to="`/service/${category.slug}`" class="master-nav__item">
+        <NuxtLink :to="`/services/${category.slug}`" class="master-nav__item">
           <span class="master-nav__title">{{ category.title }}</span>
         </NuxtLink>
       </li>
@@ -27,10 +27,10 @@
         </a>
         <ul class="master-nav__submenu">
           <li
-            v-for="category of commonStore.categories.slice(7)"
-            :key="category.id"
+            v-for="category of commonStore.categories?.slice(7)"
+            :key="category._id"
           >
-            <nuxt-link :to="`service/${category.slug}`">{{
+            <nuxt-link :to="`/services/${category.slug}`">{{
               category.title
             }}</nuxt-link>
           </li>
@@ -40,27 +40,19 @@
   </div>
 </template>
 
-<script>
-import { useCommonStore } from '~/stores/common.ts';
+<script setup lang="ts">
+import { useCommonStore } from '~/stores/common';
 
-export default {
-  setup() {
-    const commonStore = useCommonStore();
-    return { commonStore };
-  },
-  data() {
-    return {
-      list: [
-        { title: 'Разработка и ИТ', isHaveSubmenu: false },
-        { title: 'Дизайн и творчество', isHaveSubmenu: false },
-        { title: 'Цифровой маркетинг', isHaveSubmenu: false },
-        { title: 'Копирайтинг и перевод', isHaveSubmenu: false },
-        { title: 'Музыка и аудио', isHaveSubmenu: false },
-        { title: 'Видео и анимация', isHaveSubmenu: false },
-        { title: 'Копирайтинг и перевод', isHaveSubmenu: false },
-        { title: 'Еще', isHaveSubmenu: true },
-      ],
-    };
-  },
-};
+const commonStore = useCommonStore();
+
+const list = ref([
+  { title: 'Разработка и ИТ', isHaveSubmenu: false },
+  { title: 'Дизайн и творчество', isHaveSubmenu: false },
+  { title: 'Цифровой маркетинг', isHaveSubmenu: false },
+  { title: 'Копирайтинг и перевод', isHaveSubmenu: false },
+  { title: 'Музыка и аудио', isHaveSubmenu: false },
+  { title: 'Видео и анимация', isHaveSubmenu: false },
+  { title: 'Копирайтинг и перевод', isHaveSubmenu: false },
+  { title: 'Еще', isHaveSubmenu: true },
+]);
 </script>

@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import type { CatalogStores } from '~/stores/catalog/catalog.type';
 const route = useRoute();
 const categorySlug = Array.isArray(route.params.slug)
   ? route.params.slug[0]
@@ -73,7 +74,7 @@ const categorySlug = Array.isArray(route.params.slug)
 
 const props = defineProps({
   store: {
-    type: Object,
+    type: Object as PropType<CatalogStores>,
     required: true,
   },
   filter: {
@@ -101,7 +102,7 @@ const setFilters = (
   slug: string,
   // isChecked: boolean
 ) => {
-  navigateTo({ path: `/service/${slug || 'all'}`, query: route.query });
+  navigateTo({ path: `/services/${slug || 'all'}`, query: route.query });
   // const setting =
   //   isChecked && slug
   //     ? { action: 'add', key: 'category', value: slug }

@@ -11,13 +11,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    items: {
-      type: Array,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  items: {
+    type: Array as PropType<{ name: string; to?: string }[]>,
+    required: true,
   },
-};
+});
 </script>

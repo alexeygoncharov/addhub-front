@@ -9,7 +9,7 @@
         />
         <span
           v-if="data.online_status === 'online'"
-          class="service-card__user-online"
+          class="services-card__user-online"
         ></span>
       </div>
       <div class="freelance-card__info">
@@ -17,9 +17,9 @@
           {{ `${data.name} ${data.surname}` }}
         </a>
         <div class="freelance-card__prof">{{ data.profession }}</div>
-        <div class="service-card__reviews _flex">
+        <div class="services-card__reviews _flex">
           <NuxtImg src="/img/star.svg" alt="" />
-          <div class="service-card__reviews-text">
+          <div class="services-card__reviews-text">
             <span class="text14">{{ data.rating }}</span>
             <span class="text14 gray-text light-text">
               ({{ data.reviews.length }} отзывов)

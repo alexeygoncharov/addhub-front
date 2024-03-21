@@ -9,6 +9,7 @@
         <div class="freelancers-items">
           <ModulesCardsFreelance
             v-for="item in catalogStore.items"
+            :key="item._id"
             :data="item"
           />
         </div>
@@ -20,6 +21,5 @@
 
 <script setup lang="ts">
 import { useCatalogFreelancersStore } from '~/stores/catalog/freelancers';
-
-const catalogStore = useCatalogFreelancersStore()();
+const catalogStore = useCatalogFreelancersStore();
 </script>

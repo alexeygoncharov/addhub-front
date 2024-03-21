@@ -10,17 +10,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    text: {
-      type: String,
-      required: true,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  text: {
+    type: String,
+    required: true,
   },
-};
+  name: {
+    type: String,
+    required: true,
+  },
+});
 </script>

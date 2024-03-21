@@ -1,10 +1,10 @@
 <template>
-  <div :class="['m-select _multi-select', { _open: isOpen }]">
+  <div ref="selectRef" :class="['m-select _multi-select', { _open: isOpen }]">
     <input class="m-select__field" type="hidden" />
     <div class="m-select__toggle" @click="toggleSelect">
       <div class="m-select__current">
-        <template v-for="(option, i) in options" :key="i">
-          <div class="m-select__tag" v-if="option.isChecked" @click.stop>
+        <!-- <template v-for="(option, i) in options" :key="i">
+          <div v-if="option.isChecked" class="m-select__tag" @click.stop>
             <span>{{ option.text }}</span>
             <button class="m-select__tag-remove" @click="removeOption(option)">
               <svg
@@ -25,7 +25,7 @@
               </svg>
             </button>
           </div>
-        </template>
+        </template> -->
       </div>
       <svg
         width="9"
@@ -40,12 +40,8 @@
         />
       </svg>
     </div>
-    <div class="m-select__dropdown" v-if="isOpen">
-      <div
-        v-for="(option, index) in options"
-        class="m-check"
-        @click="addOption(option)"
-      >
+    <div v-if="isOpen" class="m-select__dropdown">
+      <!-- <div v-for="option in options" class="m-check" @click="addOption(option)">
         <input
           v-model="option.isChecked"
           :value="option.value"
@@ -55,48 +51,45 @@
         <label>
           <span>{{ option.text }}</span>
         </label>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    options: {
-      type: Array,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      default: null,
-    },
+<script setup lang="ts">
+const selectRef = ref<HTMLDivElement>();
+const props = defineProps({
+  options: {
+    type: Array,
+    required: true,
   },
-  data() {
-    return {
-      isOpen: false,
-    };
+  placeholder: {
+    type: String,
+    default: null,
   },
-  mounted() {
-    document.addEventListener('click', this.handleClickOutside);
-  },
-  beforeDestroy() {
-    document.removeEventListener('click', this.handleClickOutside);
-  },
-  methods: {
-    toggleSelect() {
-      this.isOpen = !this.isOpen;
-    },
-    addOption(option) {
-      // this.isOpen = false;
-    },
-    removeOption(option) {
-      option.isChecked = false;
-    },
-    handleClickOutside(event) {
-      if (this.$el.contains(event.target)) return;
-      this.isOpen = false;
-    },
-  },
+});
+
+const isOpen = ref(false);
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
+
+const toggleSelect = () => {
+  isOpen.value = !isOpen.value;
+};
+// const addOption = (option) => {
+//   // isOpen.value = false;
+// };
+// const removeOption = (option) => {
+//   option.isChecked = false;
+// };
+const handleClickOutside = (event: MouseEvent) => {
+  if (selectRef.value && selectRef.value.contains(event.target as Node)) return;
+  isOpen.value = false;
 };
 </script>

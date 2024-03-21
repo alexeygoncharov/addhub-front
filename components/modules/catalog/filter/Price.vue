@@ -18,7 +18,7 @@
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
         <ModulesCatalogFilterSlider
-          v-if="filters.price.$lte"
+          v-if="filters.price && store.initialFilters.price"
           v-model:price-min="filters.price.$gte"
           v-model:price-max="filters.price.$lte"
           :min="store.initialFilters.price.min"
@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
+import type { CatalogStores } from '~/stores/catalog/catalog.type';
 const props = defineProps({
   store: {
     required: true,
-    type: Object,
+    type: Object as PropType<CatalogStores>,
   },
 });
 
@@ -42,9 +43,13 @@ const filters = props.store.filters;
 
 const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();
 
-watch(filters, () => {
-  debouncedSetFilters();
-});
+watch(
+  () => filters.price,
+  () => {
+    debouncedSetFilters();
+  },
+  { deep: true },
+);
 
 const toggleSpoiler = () => {
   isExpanded.value = !isExpanded.value;
@@ -52,14 +57,7 @@ const toggleSpoiler = () => {
 const debouncedSetFilters = () => {
   clearTimeout(filterTimeoutId.value);
   filterTimeoutId.value = setTimeout(() => {
-    setFilters();
+    props.store.updateFilter();
   }, 1000);
-};
-const setFilters = () => {
-  const priceValue = { $gte: filters.price.$gte, $lte: filters.price.$lte };
-  props.store.setFilters(
-    { action: 'add', key: 'price', value: priceValue },
-    useRouter(),
-  );
 };
 </script>

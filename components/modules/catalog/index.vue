@@ -38,16 +38,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    store: {
-      required: true,
-      type: Object,
-    },
+<script setup lang="ts">
+import type { CatalogStores } from '~/stores/catalog/catalog.type';
+const props = defineProps({
+  store: {
+    required: true,
+    type: Object as PropType<CatalogStores>,
   },
-  mounted() {
-    this.store.initializeFromURL(useRouter());
-  },
-};
+});
+
+props.store.initializeFromURL();
 </script>

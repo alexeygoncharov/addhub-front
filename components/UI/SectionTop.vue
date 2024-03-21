@@ -22,22 +22,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SectionComponent',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    desc: {
-      type: String,
-      required: true,
-    },
-    link: {
-      type: Object,
-      default: null,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-};
+  desc: {
+    type: String,
+    required: true,
+  },
+  link: {
+    type: Object,
+    default: null,
+  },
+});
 </script>

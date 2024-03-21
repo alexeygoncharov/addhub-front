@@ -2,7 +2,15 @@ import { createApp } from 'vue';
 import ToastComponent from '~/components/UI/VToast.vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const toast = ({ message, type = 'info', timeout = 3000 }) => {
+  const toast = ({
+    message,
+    type = 'info',
+    timeout = 3000,
+  }: {
+    message: string;
+    type?: string;
+    timeout?: number;
+  }) => {
     const toastApp = createApp(ToastComponent, {
       message,
       type,

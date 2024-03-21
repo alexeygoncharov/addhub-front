@@ -1,10 +1,9 @@
 import { createCatalogStore } from './base';
-import { useCommonStore } from '~/stores/common';
-
-export const useCatalogProjectsStore = () => {
-  const commonStore = useCommonStore(); // Используем общий стор
-
-  return createCatalogStore('projects', '/api/services/', {
+import type { projectsItem } from './catalog.type';
+export const useCatalogProjectsStore = createCatalogStore<projectsItem[]>(
+  'projects',
+  '/api/projects/',
+  {
     initialFilters: {
       price: {
         min: 0,
@@ -13,12 +12,16 @@ export const useCatalogProjectsStore = () => {
       category: {
         title: 'Категории',
         type: 'radio',
-        list: commonStore.categories,
+        list: [],
       },
-      city: { title: 'Города', type: 'radio', list: commonStore.cities },
+      city: { title: 'Города', type: 'radio', list: [] },
     },
-    filters: {
-      price: {},
-    },
-  });
-};
+    filters: {},
+  },
+);
+export type ProjectsStore = ReturnType<typeof useCatalogProjectsStore>;
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useCatalogProjectsStore, import.meta.hot),
+  );
+}

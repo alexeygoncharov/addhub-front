@@ -63,13 +63,13 @@
   }
 }
 
-.project-items {
+.projects-items {
   margin-top: 1.875em;
 
   @include grid100gap(1.875em);
 }
 
-.project-card {
+.projects-card {
   display: grid;
   grid-template-columns: 3.75em calc(100% - 24em) 18.75em;
   gap: 1.25em;
@@ -89,7 +89,7 @@
     border-radius: 0.625em;
   }
 
-  .service-card__user-online {
+  .services-card__user-online {
     top: 0.25em;
     right: 0.25em;
     width: 0.5625em;
@@ -151,7 +151,7 @@
   }
 }
 
-.service-info {
+.services-info {
   display: grid;
   grid-template-columns: repeat(4, calc(25% - 3em / 4));
   gap: 1em;
@@ -291,7 +291,7 @@
       }
     }
 
-    .service-card {
+    .services-card {
       &__type {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -363,7 +363,7 @@
     }
   }
 
-  .project-card {
+  .projects-card {
     position: relative;
     grid-template-columns: 100%;
     gap: 0.5em;
@@ -424,7 +424,7 @@
     }
   }
 
-  .service-info {
+  .services-info {
     grid-template-columns: repeat(3, calc(100% / 3 - 1.75em / 3));
     gap: 0.875em;
 
@@ -458,7 +458,7 @@
 }
 
 @media screen and (width <= 576px) {
-  .service-info {
+  .services-info {
     grid-template-columns: 100%;
   }
 

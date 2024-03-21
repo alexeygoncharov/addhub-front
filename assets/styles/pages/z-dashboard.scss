@@ -168,7 +168,7 @@
   }
 }
 
-.service-card2 {
+.services-card2 {
   display: grid;
   grid-template-columns: 7.5em calc(100% - 8.5em);
   gap: 1em;
@@ -180,7 +180,7 @@
     border-bottom: none;
   }
 
-  .service-card {
+  .services-card {
     &__img {
       padding-bottom: 75%;
       border-radius: 0.25em;
@@ -340,7 +340,7 @@
   }
 }
 
-.project-card2 {
+.projects-card2 {
   display: grid;
   grid-template-columns: calc(100% - 41em) 18em 8em 12em;
   gap: 1em;
@@ -443,7 +443,7 @@
     }
   }
 
-  .service-card2 {
+  .services-card2 {
     padding: 0.9375em 0;
   }
 
@@ -451,7 +451,7 @@
     padding-top: 1.25em;
   }
 
-  .project-card2 {
+  .projects-card2 {
     grid-template-columns: 100%;
     gap: 0.81em;
     padding: 1.125em 0;
@@ -474,11 +474,11 @@
     }
   }
 
-  .service-card2 {
+  .services-card2 {
     grid-template-columns: 100%;
     gap: 0.5em;
 
-    .service-card {
+    .services-card {
       &__img {
         padding-bottom: 49%;
       }

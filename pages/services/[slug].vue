@@ -7,8 +7,9 @@
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div class="services-items grid-col3 grid-tablet2 grid-mob-full">
-          <ModulesCardsService
+          <ModulesCardsServices
             v-for="item in catalogStore.items"
+            :key="item._id"
             :data="item"
           />
         </div>
@@ -20,15 +21,5 @@
 
 <script setup lang="ts">
 import { useCatalogServicesStore } from '~/stores/catalog/services';
-const catalogStore = useCatalogServicesStore()();
-const route = useRoute();
-const categorySlug = Array.isArray(route.params.slug)
-  ? route.params.slug[0]
-  : route.params.slug;
-const category = catalogStore.initialFilters.category.list.find(
-  (el) => el.slug === categorySlug,
-);
-if (!(category || categorySlug === 'all')) {
-  navigateTo('/service/all');
-}
+const catalogStore = useCatalogServicesStore();
 </script>

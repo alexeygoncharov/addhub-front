@@ -61,30 +61,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    signTelegram() {
-      useNuxtApp().$fetch('/api/auth/telegram', {
-        body: {
-          role: 'admin',
-        },
-      });
+<script setup lang="ts">
+const signTelegram = () => {
+  useNuxtApp().$fetch('/api/auth/telegram', {
+    body: {
+      role: 'admin',
     },
-    signGoogle() {
-      useNuxtApp().$fetch('/api/auth/google', {
-        body: {
-          role: 'admin',
-        },
-      });
+  });
+};
+const signGoogle = () => {
+  useNuxtApp().$fetch('/api/auth/google', {
+    body: {
+      role: 'admin',
     },
-    signVk() {
-      useNuxtApp().$fetch('/api/auth/vk', {
-        body: {
-          role: 'admin',
-        },
-      });
+  });
+};
+const signVk = () => {
+  useNuxtApp().$fetch('/api/auth/vk', {
+    body: {
+      role: 'admin',
     },
-  },
+  });
 };
 </script>

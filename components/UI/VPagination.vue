@@ -54,95 +54,91 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    store: {
-      type: Object,
-      required: true,
-    },
+<script setup lang="ts">
+import type { CatalogStores } from '~/stores/catalog/catalog.type';
+const props = defineProps({
+  store: {
+    type: Object as PropType<CatalogStores>,
+    required: true,
   },
-  computed: {
-    currentPage() {
-      return this.store.currentPage;
-    },
-    totalItems() {
-      return this.store.totalItems;
-    },
-    itemsPerPage() {
-      return this.store.itemsPerPage;
-    },
-    totalPages() {
-      return this.store.totalPages;
-    },
-    pages() {
-      const pages = [];
-      if (this.totalItems <= this.itemsPerPage) {
-        // Если всего элементов меньше или равно количеству на странице, показываем только одну страницу.
-        return [1];
-      }
+});
 
-      const totalPages = this.totalPages;
-      const currentPage = this.currentPage;
-      const wingSize = 2; // Количество страниц вокруг текущей страницы
+const currentPage = computed(() => {
+  return props.store.currentPage;
+});
+const totalItems = computed(() => {
+  return props.store.totalItems;
+});
+const itemsPerPage = computed(() => {
+  return props.store.itemsPerPage;
+});
+const totalPages = computed(() => {
+  return props.store.totalPages;
+});
+const pages = computed(() => {
+  const pages = [];
+  if (totalItems.value <= itemsPerPage.value) {
+    // Если всего элементов меньше или равно количеству на странице, показываем только одну страницу.
+    return [1];
+  }
 
-      // Добавляем первую страницу и "..."
-      pages.push(1);
-      if (currentPage > wingSize + 2) {
-        pages.push(null); // null означает "..."
-      }
+  const totalPagesArg = totalPages.value;
+  const currentPageArg = currentPage.value;
+  const wingSize = 2; // Количество страниц вокруг текущей страницы
 
-      // Добавляем страницы вокруг текущей страницы
-      const startPage = Math.max(2, currentPage - wingSize);
-      const endPage = Math.min(totalPages - 1, currentPage + wingSize);
+  // Добавляем первую страницу и "..."
+  pages.push(1);
+  if (currentPageArg > wingSize + 2) {
+    pages.push(null); // null означает "..."
+  }
 
-      for (let i = startPage; i <= endPage; i++) {
-        pages.push(i);
-      }
+  // Добавляем страницы вокруг текущей страницы
+  const startPage = Math.max(2, currentPageArg - wingSize);
+  const endPage = Math.min(totalPagesArg - 1, currentPageArg + wingSize);
 
-      // Добавляем последнюю страницу и "..."
-      if (currentPage < totalPages - wingSize - 1) {
-        pages.push(null); // null означает "..."
-      }
-      if (totalPages > 1) {
-        // Добавляем последнюю страницу, если она не единственная
-        pages.push(totalPages);
-      }
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
 
-      return pages;
-    },
-    pageRangeText() {
-      if (this.totalItems === 0) {
-        return `0 – 0 of 0`;
-      }
-      const startItem = Math.min(
-        (this.currentPage - 1) * this.itemsPerPage + 1,
-        this.totalItems,
-      );
-      const endItem = Math.min(
-        startItem + this.itemsPerPage - 1,
-        this.totalItems,
-      );
-      return `${startItem} – ${endItem} of ${this.totalItems}`;
-    },
-  },
+  // Добавляем последнюю страницу и "..."
+  if (currentPageArg < totalPagesArg - wingSize - 1) {
+    pages.push(null); // null означает "..."
+  }
+  if (totalPagesArg > 1) {
+    // Добавляем последнюю страницу, если она не единственная
+    pages.push(totalPagesArg);
+  }
 
-  methods: {
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.store.setPage(this.currentPage - 1);
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.store.setPage(this.currentPage + 1);
-      }
-    },
-    goToPage(pageNumber) {
-      if (pageNumber && pageNumber >= 1 && pageNumber <= this.totalPages) {
-        this.store.setPage(pageNumber);
-      }
-    },
-  },
+  return pages;
+});
+const pageRangeText = computed(() => {
+  if (totalItems.value === 0) {
+    return `0 – 0 of 0`;
+  }
+  const startItem = Math.min(
+    (currentPage.value - 1) * itemsPerPage.value + 1,
+    totalItems.value,
+  );
+  const endItem = Math.min(
+    startItem + itemsPerPage.value - 1,
+    totalItems.value,
+  );
+  return `${startItem} – ${endItem} of ${totalItems.value}`;
+});
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    props.store.setPage(currentPage.value - 1);
+  }
+};
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    props.store.setPage(currentPage.value + 1);
+  }
+};
+const goToPage = (pageNumber: number) => {
+  if (pageNumber && pageNumber >= 1 && pageNumber <= totalPages.value) {
+    props.store.setPage(pageNumber);
+  }
 };
 </script>
