@@ -63,37 +63,28 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions } from 'pinia';
-import { useAuthStore } from '~/stores/auth.js';
+import { useAuthStore } from '~/stores/auth';
 import { useValidation } from '~/composables/useValidation.js';
+const { login: authLogin } = useAuthStore();
+const email = ref('');
+const password = ref('');
+const rememberMe = ref(true);
 
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      rememberMe: true,
-    };
-  },
-  created() {
-    useValidation();
-  },
-  methods: {
-    ...mapActions(useAuthStore, { authLogin: 'login' }),
-    async login() {
-      try {
-        await this.authLogin(this.email, this.password, this.rememberMe);
-        useNuxtApp().$router.push('/');
-      } catch (error) {
-        console.log(errorData);
-        const errorData = await error.response._data;
-        this.$nuxt.$toast({ message: errorData.message, type: 'error' });
-      }
-    },
-    handleSubmit() {
-      this.login();
-    },
-  },
+useValidation();
+
+const login = async () => {
+  try {
+    await authLogin(email.value, password.value, rememberMe.value);
+    navigateTo('/');
+  } catch (error) {
+    // const errorData = await error.response._data; // TODO Ересь какая-то, переделывать полностью
+    // console.log(errorData);
+    // useNuxtApp().$toast({ message: errorData.message, type: 'error' });
+  }
+};
+const handleSubmit = () => {
+  login();
 };
 </script>

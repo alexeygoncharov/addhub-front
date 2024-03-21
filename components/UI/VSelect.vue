@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="selectRef"
     :class="[
       'm-select',
       { _open: isOpen, '_not-select': placeholder && !currentText },
@@ -23,9 +24,10 @@
         />
       </svg>
     </div>
-    <div class="m-select__dropdown" v-if="isOpen">
+    <div v-if="isOpen" class="m-select__dropdown">
       <div
-        v-for="(option, index) in options"
+        v-for="option in options"
+        :key="option.text"
         :class="['m-select__option', { _active: currentText === option }]"
         @click="selectOption(option)"
       >
@@ -35,47 +37,53 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    options: {
-      type: Array,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      default: null,
-    },
-    initialCurrentText: {
-      type: Object,
-      default: () => null,
-    },
+<script setup lang="ts">
+const selectRef = ref<HTMLDivElement>();
+const props = defineProps({
+  options: {
+    type: Array as PropType<
+      {
+        text: string;
+        value: { [key: string]: number | undefined };
+        type?: string;
+      }[]
+    >,
+    required: true,
   },
-  data() {
-    return {
-      isOpen: false,
-      currentText: this.initialCurrentText,
-    };
+  placeholder: {
+    type: String,
+    default: null,
   },
-  mounted() {
-    document.addEventListener('click', this.handleClickOutside);
+  initialCurrentText: {
+    type: Object,
+    default: () => null,
   },
-  beforeDestroy() {
-    document.removeEventListener('click', this.handleClickOutside);
-  },
-  methods: {
-    toggleSelect() {
-      this.isOpen = !this.isOpen;
-    },
-    selectOption(option) {
-      this.currentText = option;
-      this.$emit('input', option);
-      this.isOpen = false;
-    },
-    handleClickOutside(event) {
-      if (this.$el.contains(event.target)) return;
-      this.isOpen = false;
-    },
-  },
+});
+const emits = defineEmits(['input']);
+const isOpen = ref(false);
+const currentText = ref(props.initialCurrentText);
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
+
+const toggleSelect = () => {
+  isOpen.value = !isOpen.value;
+};
+const selectOption = (option: {
+  text: string;
+  value: { [key: string]: number | undefined };
+  type?: string;
+}) => {
+  currentText.value = option;
+  emits('input', option);
+  isOpen.value = false;
+};
+const handleClickOutside = (event: MouseEvent) => {
+  if (selectRef.value && selectRef.value.contains(event.target as Node)) return;
+  isOpen.value = false;
 };
 </script>

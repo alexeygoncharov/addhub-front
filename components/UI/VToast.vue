@@ -27,55 +27,48 @@
   </Transition>
 </template>
 
-<script>
-export default {
-  props: {
-    type: {
-      type: String,
-      default: 'info',
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    timeout: {
-      type: Number,
-      default: 3000,
-    },
-    'on-close': {
-      type: Function,
-      default: () => {},
-    },
+<script setup lang="ts">
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'info',
   },
-  data() {
-    return {
-      visible: false,
-    };
+  message: {
+    type: String,
+    required: true,
   },
-  mounted() {
-    this.show();
+  timeout: {
+    type: Number,
+    default: 3000,
   },
-  methods: {
-    show() {
-      this.visible = true;
-      this.startTimer();
-    },
-    hide() {
-      this.visible = false;
-      setTimeout(() => {
-        this.onClose();
-      }, 3000);
-    },
-    startTimer() {
-      this.timeoutId = setTimeout(this.hide, this.timeout); // timeout как свойство данных или проп
-    },
-    pauseTimer() {
-      clearTimeout(this.timeoutId);
-    },
-    resumeTimer() {
-      this.startTimer();
-    },
+  onClose: {
+    type: Function,
+    default: () => {},
   },
+});
+const visible = ref(false);
+const timeoutId = ref<ReturnType<typeof setTimeout>>();
+onMounted(() => {
+  show();
+});
+const show = () => {
+  visible.value = true;
+  startTimer();
+};
+const hide = () => {
+  visible.value = false;
+  setTimeout(() => {
+    props.onClose();
+  }, 3000);
+};
+const startTimer = () => {
+  timeoutId.value = setTimeout(hide, props.timeout); // timeout как свойство данных или prop
+};
+const pauseTimer = () => {
+  clearTimeout(timeoutId.value);
+};
+const resumeTimer = () => {
+  startTimer();
 };
 </script>
 

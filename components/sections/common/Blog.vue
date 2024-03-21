@@ -12,17 +12,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    hasBackground: {
-      type: Boolean,
-      default: false,
-    },
-    sectionTop: {
-      type: Object,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  hasBackground: {
+    type: Boolean,
+    default: false,
   },
-};
+  sectionTop: {
+    type: Object as PropType<{
+      title: string;
+      desc: string;
+      link: { text: string };
+    }>,
+    required: true,
+  },
+});
 </script>

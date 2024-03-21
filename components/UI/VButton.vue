@@ -11,38 +11,34 @@
   </button>
 </template>
 
-<script>
-export default {
-  props: {
-    color: {
-      type: String,
-      required: true,
-    },
-    isShadow: {
-      type: Boolean,
-      default: false,
-    },
-    path: {
-      type: String,
-      default: '',
-    },
+<script setup lang="ts">
+const props = defineProps({
+  color: {
+    type: String,
+    required: true,
   },
-  computed: {
-    buttonClasses() {
-      return [
-        'm-btn',
-        {
-          'm-btn-blue': this.color === 'blue',
-          'm-btn-blue2': this.color === 'blue2',
-          'm-btn-blue3': this.color === 'blue3',
-          'm-btn-blue-outline': this.color === 'blueOutline',
-          'm-btn-red': this.color === 'red',
-          'm-btn-white': this.color === 'white',
-          'm-btn-gray': this.color === 'gray',
-          'm-btn-shadow': this.isShadow,
-        },
-      ];
-    },
+  isShadow: {
+    type: Boolean,
+    default: false,
   },
-};
+  path: {
+    type: String,
+    default: '',
+  },
+});
+const buttonClasses = computed(() => {
+  return [
+    'm-btn',
+    {
+      'm-btn-blue': props.color === 'blue',
+      'm-btn-blue2': props.color === 'blue2',
+      'm-btn-blue3': props.color === 'blue3',
+      'm-btn-blue-outline': props.color === 'blueOutline',
+      'm-btn-red': props.color === 'red',
+      'm-btn-white': props.color === 'white',
+      'm-btn-gray': props.color === 'gray',
+      'm-btn-shadow': props.isShadow,
+    },
+  ];
+});
 </script>

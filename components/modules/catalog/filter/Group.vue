@@ -36,18 +36,19 @@
         </form>
 
         <div class="filter-group__checks" :class="{ '_show-all': showAll }">
-          <template v-for="item in shownItems">
+          <template v-for="item in shownItems" :key="item._id">
             <ModulesCatalogFilterCheck
               v-if="filter.type === 'check'"
               :title="item.title"
               :num="item.num"
-              @change="setFilters(item._id, $event.target.checked)"
+              @change="setFilters(item._id)"
             />
             <ModulesCatalogFilterRadio
               v-else-if="filter.type === 'radio'"
               :title="item.title"
               :num="item.num"
-              @change="setFilters(item._id, $event.target.checked)"
+              :checked="item.slug === categorySlug"
+              @change="setFilters(item.slug)"
             />
           </template>
           <button
@@ -64,43 +65,49 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    store: {
-      type: Object,
-      required: true,
-    },
-    filter: {
-      type: Object,
-      required: true,
-    },
+<script setup lang="ts">
+import type { CatalogStores } from '~/stores/catalog/catalog.type';
+const route = useRoute();
+const categorySlug = Array.isArray(route.params.slug)
+  ? route.params.slug[0]
+  : route.params.slug;
+
+const props = defineProps({
+  store: {
+    type: Object as PropType<CatalogStores>,
+    required: true,
   },
-  data() {
-    return {
-      isExpanded: true, // Управляет сворачиванием/разворачиванием всего блока
-      showAll: false, // Управляет отображением всех фильтров
-    };
+  filter: {
+    type: Object,
+    required: true,
   },
-  computed: {
-    shownItems() {
-      return this.showAll ? this.filter.list : this.filter.list.slice(0, 4);
-    },
-  },
-  methods: {
-    toggleSpoiler() {
-      this.isExpanded = !this.isExpanded;
-    },
-    toggleShowAll() {
-      this.showAll = !this.showAll;
-    },
-    setFilters(id, isChecked) {
-      const setting =
-        isChecked && id
-          ? { action: 'add', key: 'category', value: id }
-          : { action: 'remove', key: 'category' };
-      this.store.setFilters(setting, this.$router);
-    },
-  },
+});
+
+const isExpanded = ref(true); // Управляет сворачиванием/разворачиванием всего блока
+const showAll = ref(false); // Управляет отображением всех фильтров
+
+const shownItems = computed(() => {
+  return showAll.value ? props.filter.list : props.filter.list.slice(0, 4);
+});
+
+const toggleSpoiler = () => {
+  isExpanded.value = !isExpanded.value;
+};
+
+const toggleShowAll = () => {
+  showAll.value = !showAll.value;
+};
+
+const setFilters = (
+  slug: string,
+  // isChecked: boolean
+) => {
+  navigateTo({ path: `/services/${slug || 'all'}`, query: route.query });
+  // const setting =
+  //   isChecked && slug
+  //     ? { action: 'add', key: 'category', value: slug }
+  //     : { action: 'remove', key: 'category' };
+  // console.log(setting);
+  // props.store.setFilters(setting, router);
 };
 </script>

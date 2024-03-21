@@ -1,5 +1,5 @@
 <template>
-  <div class="header-action" v-show="!isLoading && !isAuthenticated">
+  <div v-show="!isLoading && !isAuthenticated" class="header-action">
     <button class="header-action__search _toggle-search">
       <svg
         width="16"
@@ -28,7 +28,7 @@
       Зарегистрироваться
     </UIVButton>
   </div>
-  <div class="header-action2" v-show="!isLoading && isAuthenticated">
+  <div v-show="!isLoading && isAuthenticated" class="header-action2">
     <a href="" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
@@ -290,16 +290,9 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from 'pinia';
-import { useAuthStore } from '~/stores/auth.js';
-
-export default {
-  computed: {
-    ...mapState(useAuthStore, ['isAuthenticated', 'isLoading']),
-  },
-  methods: {
-    ...mapActions(useAuthStore, ['logout']),
-  },
-};
+<script setup lang="ts">
+import { useAuthStore } from '~/stores/auth';
+const authStore = useAuthStore();
+const { isAuthenticated, isLoading } = storeToRefs(authStore);
+const { logout } = authStore;
 </script>

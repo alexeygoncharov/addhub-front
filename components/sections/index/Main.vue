@@ -22,7 +22,7 @@
           </div>
 
           <div class="main__nav">
-            <UIVButton path="/project/catalog" color="blue">
+            <UIVButton path="/projects/all" color="blue">
               Найти работу
             </UIVButton>
             <UIVButton color="white"> Разместить заказ </UIVButton>

@@ -102,7 +102,7 @@
   }
 }
 
-.project-files {
+.projects-files {
   &__items {
     display: flex;
     flex-wrap: wrap;
@@ -283,7 +283,7 @@
     }
   }
 
-  .project-files {
+  .projects-files {
     padding-bottom: 0.3125em;
 
     &__items {
@@ -297,7 +297,7 @@
       }
     }
 
-    .project-files__items {
+    .projects-files__items {
       margin-top: 0;
     }
 
@@ -320,13 +320,13 @@
 }
 
 @media screen and (width <= 427px) {
-  .project-files {
+  .projects-files {
     &__items {
       grid-template-columns: 100%;
       gap: 0.5em;
     }
 
-    .project-files__items {
+    .projects-files__items {
       gap: 0.625em;
     }
   }

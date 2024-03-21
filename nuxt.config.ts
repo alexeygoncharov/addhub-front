@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрат
+      script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрать
     },
   },
   modules: [
@@ -25,8 +25,11 @@ export default defineNuxtConfig({
     },
   },
   plugins: [
-    '~/plugins/fetch.js',
-    '~/plugins/toast.js',
-    '~/plugins/auth-init.js',
+    '~/plugins/fetch.ts',
+    '~/plugins/toast.ts',
+    '~/plugins/auth-init.ts',
   ],
+  typescript: {
+    strict: true,
+  },
 });

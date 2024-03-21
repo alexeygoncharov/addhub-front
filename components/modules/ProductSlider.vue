@@ -1,11 +1,22 @@
 <template>
   <div class="product-slider">
-    <Swiper v-bind="swiperOptions" class="product-slider__container">
+    <Swiper
+      :modules="[SwiperPagination, SwiperNavigation]"
+      :slides-per-view="'auto'"
+      :navigation="{
+        prevEl: '.product-slider .product-slider__nav .swiper-button-prev',
+        nextEl: '.product-slider .product-slider__nav .swiper-button-next',
+      }"
+      :pagination="{
+        el: '.product-slider .product-slider__nav .swiper-pagination',
+      }"
+    >
       <SwiperSlide
-        class="product-slider__slide"
         v-for="item in catalogStore.items"
+        :key="item._id"
+        class="product-slider__slide"
       >
-        <ModulesCardsService :data="item" />
+        <ModulesCardsServices :data="item" />
       </SwiperSlide>
     </Swiper>
     <div v-if="showNav" class="product-slider__nav swiper-nav">
@@ -94,25 +105,8 @@
   </div>
 </template>
 
-<script>
-import { useSwiper } from '~/composables/useSwiper.js';
-import { useCatalogServicesStore } from '~/stores/catalog/services.js';
-
-export default {
-  setup() {
-    const catalogStore = useCatalogServicesStore();
-    const { swiperOptions } = useSwiper(
-      {
-        prevEl: `.product-slider .product-slider__nav .swiper-button-prev`,
-        nextEl: `.product-slider .product-slider__nav .swiper-button-next`,
-      },
-      `.product-slider .product-slider__nav .swiper-pagination`,
-    );
-
-    return {
-      swiperOptions,
-      catalogStore,
-    };
-  },
-};
+<script setup lang="ts">
+import { useCatalogServicesStore } from '~/stores/catalog/services';
+const showNav = ref(true);
+const catalogStore = useCatalogServicesStore();
 </script>

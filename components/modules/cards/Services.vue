@@ -1,6 +1,6 @@
 <template>
-  <div class="service-card">
-    <button class="favourite-btn">
+  <div class="services-card">
+    <button class="favorite-btn">
       <svg
         width="26"
         height="23"
@@ -17,10 +17,23 @@
         ></path>
       </svg>
     </button>
-    <div class="service-card__slider _nested-slider" :data-slider-id="data._id">
-      <Swiper v-bind="swiperOptions">
-        <SwiperSlide v-for="path in data.photos">
-          <div class="service-card__img">
+    <div
+      class="services-card__slider _nested-slider"
+      :data-slider-id="data._id"
+    >
+      <Swiper
+        :modules="[SwiperPagination, SwiperNavigation]"
+        :slides-per-view="'auto'"
+        :navigation="{
+          prevEl: `._nested-slider[data-slider-id='${data._id}'] .swiper-button-prev`,
+          nextEl: `._nested-slider[data-slider-id='${data._id}'] .swiper-button-next`,
+        }"
+        :pagination="{
+          el: `._nested-slider[data-slider-id='${data._id}'] .swiper-pagination`,
+        }"
+      >
+        <SwiperSlide v-for="(path, index) in data.photos" :key="index">
+          <div class="services-card__img">
             <img
               :src="`${$config.public.apiBase}/${path}`"
               alt=""
@@ -85,17 +98,20 @@
         </div>
       </div>
     </div>
-    <div class="service-card__content">
-      <div class="service-card__type">
+    <div class="services-card__content">
+      <div class="services-card__type">
         <span class="text14">{{ data.title }}</span>
       </div>
-      <a href="" class="service-card__title text17 medium-text">
+      <NuxtLink
+        to="/services/all"
+        class="services-card__title text17 medium-text"
+      >
         {{ data.title }}
-      </a>
+      </NuxtLink>
 
-      <div class="service-card__reviews _flex">
+      <div class="services-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
-        <div class="service-card__reviews-text">
+        <div class="services-card__reviews-text">
           <span class="text15 medium-text">{{ data.rating }} </span>
           <span class="text14 gray-text">
             {{ data.createdBy.reviews.length }} отзыва</span
@@ -103,8 +119,8 @@
         </div>
       </div>
 
-      <div class="service-card__bottom _flex">
-        <a href="" class="service-card__user _flex">
+      <div class="services-card__bottom _flex">
+        <NuxtLink to="/services/all" class="services-card__user _flex">
           <div class="avatar">
             <img
               :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
@@ -114,15 +130,15 @@
 
             <span
               v-if="data.createdBy.online_status === 'online'"
-              class="service-card__user-online"
+              class="services-card__user-online"
             ></span>
           </div>
-          <div class="service-card__user-name text14">
+          <div class="services-card__user-name text14">
             {{ `${data.createdBy.name} ${data.createdBy.surname}` }}
           </div>
-        </a>
+        </NuxtLink>
 
-        <div class="service-card__price">
+        <div class="services-card__price">
           <span class="text14 gray-text">от </span>
           <span class="text17 medium-text"> {{ data.price }} ₽</span>
         </div>
@@ -131,28 +147,11 @@
   </div>
 </template>
 
-<script>
-import { useSwiper } from '~/composables/useSwiper.js';
-
-export default {
-  props: {
-    data: {
-      type: Object,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
   },
-  setup(props) {
-    const { swiperOptions } = useSwiper(
-      {
-        prevEl: `._nested-slider[data-slider-id="${props.data._id}"] .swiper-button-prev`,
-        nextEl: `._nested-slider[data-slider-id="${props.data._id}"] .swiper-button-next`,
-      },
-      `._nested-slider[data-slider-id="${props.data._id}"] .swiper-pagination`,
-    );
-
-    return {
-      swiperOptions,
-    };
-  },
-};
+});
 </script>

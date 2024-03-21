@@ -6,10 +6,11 @@
     <UIPageTop :has-search="true" />
     <ModulesCatalog :store="catalogStore">
       <template #items>
-        <div class="project-items">
-          <ModulesCardsProject
-            :data="item"
+        <div class="projects-items">
+          <ModulesCardsProjects
             v-for="item in catalogStore.items"
+            :key="item._id"
+            :data="item"
           />
         </div>
       </template>
@@ -18,13 +19,7 @@
   </div>
 </template>
 
-<script>
-import { useCatalogProjectsStore } from '~/stores/catalog/projects.js';
-
-export default {
-  setup() {
-    const catalogStore = useCatalogProjectsStore()();
-    return { catalogStore };
-  },
-};
+<script setup lang="ts">
+import { useCatalogProjectsStore } from '~/stores/catalog/projects';
+const catalogStore = useCatalogProjectsStore();
 </script>

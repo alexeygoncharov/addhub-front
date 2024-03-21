@@ -13,11 +13,11 @@
           <div class="page-search__field fg">
             <input type="text" placeholder="Найти услугу" />
           </div>
-          <div class="category-select" v-if="hasSelect">
-            <UIVSelect
+          <div v-if="hasSelect" class="category-select">
+            <!-- <UIVSelect
               :options="select.options"
               :placeholder="select.placeholder"
-            />
+            /> -->
           </div>
           <button class="page-search__btn m-btn m-btn-blue">
             <span>Найти</span>
@@ -28,30 +28,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    hasSelect: {
-      type: Boolean,
-      default: false,
-    },
-    hasSearch: {
-      type: Boolean,
-      default: false,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  hasSelect: {
+    type: Boolean,
+    default: false,
   },
-  data() {
-    return {
-      select: {
-        placeholder: 'Выберите категорию',
-        options: [
-          { value: 'option1', text: 'Услуги' },
-          { value: 'option2', text: 'Проекты' },
-          { value: 'option3', text: 'Вакансии' },
-          { value: 'option4', text: 'Фрилансеры' },
-        ],
-      },
-    };
+  hasSearch: {
+    type: Boolean,
+    default: false,
   },
-};
+});
+const select = ref({
+  placeholder: 'Выберите категорию',
+  options: [
+    { value: 'option1', text: 'Услуги' },
+    { value: 'option2', text: 'Проекты' },
+    { value: 'option3', text: 'Вакансии' },
+    { value: 'option4', text: 'Фрилансеры' },
+  ],
+});
 </script>

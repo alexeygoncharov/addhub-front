@@ -30,18 +30,12 @@
   </ul>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      list: [
-        { title: 'Главная', isHaveSubmenu: true },
-        { title: 'Услуги', isHaveSubmenu: true },
-        { title: 'Проекты', isHaveSubmenu: true },
-        { title: 'О нас', isHaveSubmenu: true },
-        { title: 'Контакты', isHaveSubmenu: false },
-      ],
-    };
-  },
-};
+<script setup lang="ts">
+const list = ref([
+  { title: 'Главная', isHaveSubmenu: true },
+  { title: 'Услуги', isHaveSubmenu: true },
+  { title: 'Проекты', isHaveSubmenu: true },
+  { title: 'О нас', isHaveSubmenu: true },
+  { title: 'Контакты', isHaveSubmenu: false },
+]);
 </script>

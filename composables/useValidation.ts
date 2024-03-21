@@ -4,6 +4,7 @@ import {
   min,
   email,
   alpha,
+  // eslint-disable-next-line camelcase
   alpha_dash,
   confirmed,
 } from '@vee-validate/rules';

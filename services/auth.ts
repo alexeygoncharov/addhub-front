@@ -1,12 +1,17 @@
+import type { $Fetch } from 'nitropack';
+import type { userData } from '~/types/user.type';
 export default {
-  async login($fetch, { email, password }) {
+  async login(
+    $fetch: $Fetch,
+    { email, password }: { email: string; password: string },
+  ) {
     const data = await $fetch('/api/auth/login', {
       method: 'POST',
       body: { email, password },
     });
     return data;
   },
-  async register($fetch, userData) {
+  async register($fetch: $Fetch, userData: userData) {
     return await $fetch('/api/auth/register', {
       method: 'POST',
       body: {

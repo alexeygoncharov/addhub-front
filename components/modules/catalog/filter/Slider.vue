@@ -6,7 +6,7 @@
         <input
           type="number"
           :value="priceMin"
-          @input="updateStartValue(0, $event.target.valueAsNumber)"
+          @input="updateStartValue(0, $event)"
         />
         <div class="filter-slider__currency"><span>₽</span></div>
       </div>
@@ -15,13 +15,13 @@
         <input
           type="number"
           :value="priceMax"
-          @input="updateStartValue(1, $event.target.valueAsNumber)"
+          @input="updateStartValue(1, $event)"
         />
         <div class="filter-slider__currency"><span>₽</span></div>
       </div>
     </div>
     <div class="filter-slider__item">
-      <div class="range-slider"></div>
+      <div ref="sliderElement" class="range-slider"></div>
     </div>
     <div class="filter-slider__output">
       <span>{{ priceMin }}</span> - <span>{{ priceMax }}</span> ₽
@@ -29,74 +29,73 @@
   </div>
 </template>
 
-<script>
-import noUiSlider from 'nouislider';
+<script setup lang="ts">
+import { create } from 'nouislider';
+import type { API, target } from 'nouislider';
 import 'nouislider/dist/nouislider.css';
-
-export default {
-  props: {
-    priceMin: {
-      type: Number,
-      required: true,
-    },
-    priceMax: {
-      type: Number,
-      required: true,
-    },
-    min: {
-      type: Number,
-      required: true,
-    },
-    max: {
-      type: Number,
-      required: true,
-    },
+const sliderElement = ref<target>();
+const slider = ref<API>();
+const props = defineProps({
+  priceMin: {
+    type: Number,
+    required: true,
   },
-  mounted() {
-    this.initSlider();
+  priceMax: {
+    type: Number,
+    required: true,
   },
-  methods: {
-    initSlider() {
-      const sliderElement = this.$el.querySelector('.range-slider');
-      this.slider = noUiSlider.create(sliderElement, {
-        start: [this.priceMin, this.priceMax],
-        connect: true,
-        step: 1,
-        range: {
-          min: this.min,
-          max: this.max,
-        },
-      });
-
-      this.slider.on('update', (values, handle) => {
-        let value = parseInt(values[handle], 10);
-        // Эмитируем события для обновления родительских пропсов
-        if (handle === 0) {
-          this.$emit('update:priceMin', value);
-        } else {
-          this.$emit('update:priceMax', value);
-        }
-      });
-    },
-
-    updateStartValue(handle, value) {
-      if (value < this.min || value > this.max || isNaN(value)) return;
-
-      this.updateSlider(handle, value);
-
-      if (handle === 0) {
-        this.$emit('update:priceMin', value);
-      } else {
-        this.$emit('update:priceMax', value);
-      }
-    },
-
-    updateSlider(handle, value) {
-      let newValue = [null, null];
-      newValue[handle] = value;
-
-      this.slider.set(newValue);
-    },
+  min: {
+    type: Number,
+    required: true,
   },
+  max: {
+    type: Number,
+    required: true,
+  },
+});
+
+onMounted(() => {
+  initSlider();
+});
+
+const emits = defineEmits(['update:priceMin', 'update:priceMax']);
+const initSlider = () => {
+  if (!sliderElement.value) return;
+  slider.value = create(sliderElement.value, {
+    start: [props.priceMin, props.priceMax],
+    connect: true,
+    step: 1,
+    range: {
+      min: props.min,
+      max: props.max,
+    },
+  });
+
+  slider.value.on('update', (values, handle) => {
+    const value = parseInt(String(values[handle]), 10);
+    // Эмитируем события для обновления родительских пропсов
+    if (handle === 0) {
+      emits('update:priceMin', value);
+    } else {
+      emits('update:priceMax', value);
+    }
+  });
+};
+
+const updateStartValue = (handle: number, event: Event) => {
+  if (!slider.value || !event.target) return;
+
+  const value = (event.target as HTMLInputElement).valueAsNumber;
+  if (value < props.min || value > props.max || isNaN(value)) return;
+
+  const newValue = [0, 0];
+  newValue[handle] = value;
+  slider.value.set(newValue);
+
+  if (handle === 0) {
+    emits('update:priceMin', value);
+  } else {
+    emits('update:priceMax', value);
+  }
 };
 </script>

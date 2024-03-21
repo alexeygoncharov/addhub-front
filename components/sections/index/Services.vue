@@ -4,23 +4,17 @@
       <UISectionTop
         title="Популярные услуги"
         desc="Самые просматриваемые и продаваемые услуги за все время"
-        :link="{ text: 'Все услуги', path: '/service/catalog' }"
+        :link="{ text: 'Все услуги', path: '/services/all' }"
       />
       <ModulesProductSlider />
     </div>
   </div>
 </template>
 
-<script>
-import { useCatalogServicesStore } from '~/stores/catalog/services.js';
+<script setup lang="ts">
+import { useCatalogServicesStore } from '~/stores/catalog/services';
+import { useCommonStore } from '~/stores/common';
 
-export default {
-  setup() {
-    const catalogStore = useCatalogServicesStore();
-    return { catalogStore };
-  },
-  mounted() {
-    this.catalogStore.fetchItems();
-  },
-};
+const catalogStore = useCatalogServicesStore();
+catalogStore.fetchItems();
 </script>

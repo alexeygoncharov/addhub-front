@@ -10,7 +10,7 @@
   <SectionsCommonAdvantageNums />
   <SectionsCommonReviews title="Отзывы пользователей" />
   <SectionsCommonOffer
-    :link="{ text: 'Найти исполнителя', path: '/freelancer/catalog' }"
+    :link="{ text: 'Найти исполнителя', path: '/freelancers/all' }"
     :img-list="['offer.webp', 'offer2.webp']"
   />
   <SectionsCommonBlog

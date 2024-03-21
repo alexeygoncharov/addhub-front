@@ -23,7 +23,7 @@
           <NuxtImg src="/img/ig.svg" alt="" />
         </a>
         <a href="" class="footer-socials__item">
-          <NuxtImg src="/img/linkedn.svg" alt="" />
+          <NuxtImg src="/img/linkedin.svg" alt="" />
         </a>
       </div>
     </div>

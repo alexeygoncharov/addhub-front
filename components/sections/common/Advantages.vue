@@ -18,43 +18,37 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    desc: {
-      type: String,
-      required: true,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-  data() {
-    return {
-      cardList: [
-        {
-          icon: 'advantage-icon3.svg',
-          title: 'Опубликуйте проект',
-          desc: 'Опубликовать проект бесплатно и легко. Просто заполните название, описание.',
-        },
-        {
-          icon: 'advantage-icon4.svg',
-          title: 'Выберите исполнителя',
-          desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
-        },
-        {
-          icon: 'advantage-icon5.svg',
-          title: 'Оплачивайте безопасно',
-          desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
-        },
-        {
-          icon: 'advantage-icon6.svg',
-          title: 'Мы на связи 24/7',
-          desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
-        },
-      ],
-    };
+  desc: {
+    type: String,
+    required: true,
   },
-};
+});
+const cardList = ref([
+  {
+    icon: 'advantage-icon3.svg',
+    title: 'Опубликуйте проект',
+    desc: 'Опубликовать проект бесплатно и легко. Просто заполните название, описание.',
+  },
+  {
+    icon: 'advantage-icon4.svg',
+    title: 'Выберите исполнителя',
+    desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
+  },
+  {
+    icon: 'advantage-icon5.svg',
+    title: 'Оплачивайте безопасно',
+    desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
+  },
+  {
+    icon: 'advantage-icon6.svg',
+    title: 'Мы на связи 24/7',
+    desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
+  },
+]);
 </script>

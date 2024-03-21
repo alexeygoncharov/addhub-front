@@ -1,5 +1,5 @@
 <template>
-  <div :class="['footer-dropdown', { _open: isOpen }]">
+  <div ref="dropdownRef" :class="['footer-dropdown', { _open: isOpen }]">
     <div class="footer-dropdown__toggle" @click="isOpen = !isOpen">
       <span class="footer-dropdown__title">{{ title }}</span>
       <svg
@@ -29,28 +29,23 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
+<script setup lang="ts">
+const dropdownRef = ref<HTMLDivElement>();
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  mounted() {
-    document.addEventListener('click', (e) => {
-      if (this.$el.contains(e.target)) return;
+});
 
-      this.isOpen = false;
-    });
-  },
-  methods: {
-    documentHandler() {},
-  },
-};
+const isOpen = ref(false);
+
+onMounted(() => {
+  document.addEventListener('click', (e) => {
+    if (dropdownRef.value && dropdownRef.value.contains(e.target as Node))
+      return;
+
+    isOpen.value = false;
+  });
+});
 </script>

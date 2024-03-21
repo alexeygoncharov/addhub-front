@@ -49,7 +49,7 @@
               rules="required|alpha"
               name="surname"
               type="text"
-              placeholder="Поташёв"
+              placeholder="Поташов"
             />
             <ErrorMessage name="surname" class="error-message" />
           </fieldset>
@@ -102,42 +102,34 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions } from 'pinia';
-import { useAuthStore } from '~/stores/auth.js';
-import { useValidation } from '~/composables/useValidation.js';
+import { useAuthStore } from '~/stores/auth';
+import { useValidation } from '~/composables/useValidation';
 
-export default {
-  data() {
-    return {
-      regDetails: {
-        username: '',
-        name: '',
-        surname: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
-        role: 'admin',
-      },
-    };
-  },
-  created() {
-    useValidation();
-  },
-  methods: {
-    ...mapActions(useAuthStore, { authRegister: 'register' }),
-    async register() {
-      await this.authRegister(this.regDetails);
-      useNuxtApp().$router.push('/login');
-      this.$nuxt.$toast({
-        message: 'Регистрация прошла успешно',
-        type: 'success',
-      });
-    },
-    handleSubmit() {
-      this.register();
-    },
-  },
+const regDetails = ref({
+  username: '',
+  name: '',
+  surname: '',
+  email: '',
+  password: '',
+  repeatPassword: '',
+  role: 'admin',
+});
+
+useValidation();
+const { register: authRegister } = useAuthStore();
+
+const register = async () => {
+  await authRegister(regDetails.value);
+  await navigateTo('/login');
+  useNuxtApp().$toast({
+    message: 'Регистрация прошла успешно',
+    type: 'success',
+  });
+};
+const handleSubmit = () => {
+  register();
 };
 </script>
 -

@@ -7,9 +7,9 @@
         :link="{ text: 'Все категории' }"
       />
 
-      <Swiper v-bind="swiperOptions" class="categories-slider slider">
-        <SwiperSlide v-for="(card, idx) in cardList" :key="card.title">
-          <a href="" class="category-card">
+      <Swiper class="categories-slider slider" :slides-per-view="'auto'">
+        <SwiperSlide v-for="card in cardList" :key="card.title">
+          <NuxtLink :to="`/services/${card.slug}`" class="category-card">
             <div class="category-card__icon">
               <NuxtImg :src="'/img/' + card.icon" alt="" />
             </div>
@@ -22,7 +22,7 @@
                 Инженер-программист, веб-/мобильный разработчик и многое другое
               </div>
             </div>
-          </a>
+          </NuxtLink>
         </SwiperSlide>
         <div class="swiper-nav">
           <div class="swiper-button swiper-button-prev">
@@ -84,52 +84,47 @@
   </div>
 </template>
 
-<script>
-import { useSwiper } from '~/composables/useSwiper.js';
-export default {
-  setup() {
-    const { swiperOptions } = useSwiper();
-    return {
-      swiperOptions,
-    };
+<script setup lang="ts">
+const cardList = ref([
+  {
+    icon: 'category-icon.svg',
+    title: 'Разработка и ИТ',
+    slug: 'development',
   },
-  data() {
-    return {
-      cardList: [
-        {
-          icon: 'category-icon.svg',
-          title: 'Разработка и ИТ',
-        },
-        {
-          icon: 'category-icon2.svg',
-          title: 'Дизайн и творчество',
-        },
-        {
-          icon: 'category-icon3.svg',
-          title: 'Цифровой маркетинг',
-        },
-        {
-          icon: 'category-icon4.svg',
-          title: 'Копирайтинг и перевод',
-        },
-        {
-          icon: 'category-icon5.svg',
-          title: 'Музыка и аудио',
-        },
-        {
-          icon: 'category-icon6.svg',
-          title: 'Видео и анимация',
-        },
-        {
-          icon: 'category-icon7.svg',
-          title: 'Инженерия и архитектура',
-        },
-        {
-          icon: 'category-icon8.svg',
-          title: 'Финансы и бухгалтерский учет',
-        },
-      ],
-    };
+  {
+    icon: 'category-icon2.svg',
+    title: 'Дизайн и творчество',
+    slug: 'design',
   },
-};
+  {
+    icon: 'category-icon3.svg',
+    title: 'Цифровой маркетинг',
+    slug: 'marketing',
+  },
+  {
+    icon: 'category-icon4.svg',
+    title: 'Копирайтинг и перевод',
+    slug: 'all',
+  },
+  {
+    icon: 'category-icon5.svg',
+    title: 'Музыка и аудио',
+    slug: 'all',
+  },
+  {
+    icon: 'category-icon6.svg',
+    title: 'Видео и анимация',
+    slug: 'all',
+  },
+  {
+    icon: 'category-icon7.svg',
+    title: 'Инженерия и архитектура',
+    slug: 'all',
+  },
+  {
+    icon: 'category-icon8.svg',
+    title: 'Финансы и бухгалтерский учет',
+    slug: 'finances',
+  },
+]);
 </script>

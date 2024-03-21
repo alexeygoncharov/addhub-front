@@ -10,17 +10,11 @@
   </div>
 </template>
 
-<script>
-import { useCommonStore } from '~/stores/common.js';
+<script setup lang="ts">
+import { useCommonStore } from '~/stores/common';
 
-export default {
-  setup() {
-    const commonStore = useCommonStore();
-    return { commonStore };
-  },
-  created() {
-    this.commonStore.fetchCategories();
-    // this.commonStore.fetchCities();
-  },
-};
+const commonStore = useCommonStore();
+
+commonStore.fetchCategories();
+commonStore.fetchCities();
 </script>

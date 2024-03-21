@@ -75,21 +75,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    isTransparent: {
-      type: Boolean,
-      default: false,
-    },
-    link: {
-      type: String,
-      required: true,
-    },
-    imgList: {
-      type: Array,
-      required: true,
-    },
+<script setup lang="ts">
+import type { PropType } from 'vue';
+
+const props = defineProps({
+  isTransparent: {
+    type: Boolean,
+    default: false,
   },
-};
+  link: {
+    type: Object as PropType<{ path: string; text: string }>,
+    required: true,
+  },
+  imgList: {
+    type: Array as PropType<string[]>,
+    required: true,
+  },
+});
 </script>

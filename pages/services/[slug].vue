@@ -7,9 +7,10 @@
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div class="services-items grid-col3 grid-tablet2 grid-mob-full">
-          <ModulesCardsService
-            :data="item"
+          <ModulesCardsServices
             v-for="item in catalogStore.items"
+            :key="item._id"
+            :data="item"
           />
         </div>
       </template>
@@ -18,13 +19,7 @@
   </div>
 </template>
 
-<script>
-import { useCatalogServicesStore } from '~/stores/catalog/services.js';
-
-export default {
-  setup() {
-    const catalogStore = useCatalogServicesStore()();
-    return { catalogStore };
-  },
-};
+<script setup lang="ts">
+import { useCatalogServicesStore } from '~/stores/catalog/services';
+const catalogStore = useCatalogServicesStore();
 </script>
