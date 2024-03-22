@@ -12,7 +12,7 @@
       }"
     >
       <SwiperSlide
-        v-for="item in catalogStore.items"
+        v-for="item in catalogStore.popularItems"
         :key="item._id"
         class="product-slider__slide"
       >

@@ -10,7 +10,7 @@
       <template v-for="(filterItem, key) in store.initialFilters" :key="key">
         <ModulesCatalogFilterPrice v-if="key === 'price'" :store="store" />
         <ModulesCatalogFilterGroup
-          v-else-if="key === 'category' && filterItem && 'list' in filterItem"
+          v-else-if="key === 'categories' && filterItem && 'list' in filterItem"
           :filter="{
             ...filterItem,
             list: [{ title: 'Все' }, ...filterItem.list],
@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
+
 const props = defineProps({
   store: {
     type: Object as PropType<CatalogStores>,

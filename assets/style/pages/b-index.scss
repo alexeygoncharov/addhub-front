@@ -1,4 +1,4 @@
-html body .m-page {
+.m-page {
   .m-section {
     padding: 7.5em 0;
 
@@ -123,6 +123,10 @@ html body .m-page {
 
   .product-slider {
     position: relative;
+
+    .swiper {
+      overflow: visible;
+    }
 
     &__container {
       width: calc(100% + 1.75em);

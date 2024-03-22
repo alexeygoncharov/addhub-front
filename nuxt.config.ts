@@ -10,6 +10,15 @@ export default defineNuxtConfig({
       script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрать
     },
   },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/style/global.scss";',
+        },
+      },
+    },
+  },
   modules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/stylelint-module',
@@ -18,7 +27,7 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'nuxt-swiper',
   ],
-  css: ['~/assets/styles/style.scss'],
+  css: ['~/assets/style/style.scss'],
   runtimeConfig: {
     public: {
       apiBase: process.env.BASE_URL,

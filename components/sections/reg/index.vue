@@ -103,7 +103,6 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions } from 'pinia';
 import { useAuthStore } from '~/stores/auth';
 import { useValidation } from '~/composables/useValidation';
 

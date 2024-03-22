@@ -1,10 +1,11 @@
 import { createCatalogStore } from './base';
-export const useCatalogFreelancersStore = createCatalogStore(
+import type { freelancersItem } from './catalog.type';
+export const useCatalogFreelancersStore = createCatalogStore<freelancersItem[]>(
   'freelancers',
   '/api/users/sellers',
   {
     initialFilters: {
-      category: {
+      categories: {
         title: 'Категории',
         type: 'radio',
         list: [],

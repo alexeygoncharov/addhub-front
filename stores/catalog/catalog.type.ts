@@ -9,7 +9,7 @@ export interface initialConfig {
       max: number;
     };
     city: { title: string; type: string; list: [] };
-    category: { title: string; type: string; list: Category[] | [] };
+    categories: { title: string; type: string; list: Category[] | [] };
   };
   filters: {
     price?: { $gte: number; $lte: number };
@@ -84,6 +84,24 @@ export interface projectsItem extends catalogItem {
   }[];
 }
 
+export interface freelancersItem {
+  _id: string;
+  name: string;
+  surname: string;
+  user_name: string;
+  email: string;
+  avatar: string;
+  online_status: string;
+  status: string;
+  rate: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  active_role: string;
+  payment_method: string[];
+  roles: string[];
+  to_create_disputes: string;
+}
 export interface initialSort {
   type: string;
   text: string;

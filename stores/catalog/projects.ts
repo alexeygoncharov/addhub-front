@@ -9,7 +9,7 @@ export const useCatalogProjectsStore = createCatalogStore<projectsItem[]>(
         min: 0,
         max: 50000,
       },
-      category: {
+      categories: {
         title: 'Категории',
         type: 'radio',
         list: [],

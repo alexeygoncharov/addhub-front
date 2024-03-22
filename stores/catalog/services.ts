@@ -9,7 +9,7 @@ export const useCatalogServicesStore = createCatalogStore<servicesItem[]>(
         min: 0,
         max: 50000,
       },
-      category: {
+      categories: {
         title: 'Категории',
         type: 'radio',
         list: [],

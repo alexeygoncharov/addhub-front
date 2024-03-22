@@ -103,7 +103,7 @@
         <span class="text14">{{ data.title }}</span>
       </div>
       <NuxtLink
-        to="/services/all"
+        :to="`/services/${data.category.slug}`"
         class="services-card__title text17 medium-text"
       >
         {{ data.title }}
@@ -112,9 +112,9 @@
       <div class="services-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
         <div class="services-card__reviews-text">
-          <span class="text15 medium-text">{{ data.rating }} </span>
+          <span class="text15 medium-text">{{ data.reviews.length }} </span>
           <span class="text14 gray-text">
-            {{ data.createdBy.reviews.length }} отзыва</span
+            {{ data.createdBy.reviews?.length }} отзыва</span
           >
         </div>
       </div>
@@ -148,9 +148,10 @@
 </template>
 
 <script setup lang="ts">
+import type { servicesItem } from '~/stores/catalog/catalog.type';
 const props = defineProps({
   data: {
-    type: Object,
+    type: Object as PropType<servicesItem>,
     required: true,
   },
 });
