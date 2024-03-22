@@ -12,7 +12,7 @@
       }"
     >
       <SwiperSlide
-        v-for="item in catalogStore.items"
+        v-for="item in catalogStore.popularItems"
         :key="item._id"
         class="product-slider__slide"
       >
@@ -109,4 +109,5 @@
 import { useCatalogServicesStore } from '~/stores/catalog/services';
 const showNav = ref(true);
 const catalogStore = useCatalogServicesStore();
+catalogStore.fetchPopular();
 </script>

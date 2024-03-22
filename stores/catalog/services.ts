@@ -1,6 +1,6 @@
 import { createCatalogStore } from './base';
 import type { servicesItem } from './catalog.type';
-export const useCatalogServicesStore = createCatalogStore<servicesItem[]>(
+export const useCatalogServicesStore = createCatalogStore<servicesItem>(
   'services',
   '/api/services/',
   {
@@ -9,7 +9,7 @@ export const useCatalogServicesStore = createCatalogStore<servicesItem[]>(
         min: 0,
         max: 50000,
       },
-      category: {
+      categories: {
         title: 'Категории',
         type: 'radio',
         list: [],

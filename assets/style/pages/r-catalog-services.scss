@@ -244,7 +244,7 @@
   margin-top: 1.5em;
 }
 
-.services3 {
+body .services3 {
   padding: 2.44em 0 2em;
   background-color: transparent;
 
@@ -255,7 +255,7 @@
   @media screen and (width >= 993px) {
     .product-slider {
       &__slide {
-        width: 20%;
+        width: 20% !important;
       }
 
       &__nav {

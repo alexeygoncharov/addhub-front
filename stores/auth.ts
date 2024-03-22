@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
       await authService.register(useNuxtApp().$fetch, userData);
       // console.log('Регистрация прошла успешно');
     } catch (error) {
-      // console.error('Ошибка при регистрации');
+      console.error('Ошибка при регистрации');
     }
   }
 
@@ -84,7 +84,7 @@ export const useAuthStore = defineStore('auth', () => {
         return false;
       }
     } catch (error) {
-      // console.error(`Ошибка при декодировании токена: ${error}`);
+      console.error(`Ошибка при декодировании токена: ${error}`);
       return false;
     }
 

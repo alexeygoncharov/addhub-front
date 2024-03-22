@@ -5,7 +5,11 @@
         v-for="category of commonStore.categories?.slice(0, 7)"
         :key="category._id"
       >
-        <NuxtLink :to="`/services/${category.slug}`" class="master-nav__item">
+        <NuxtLink
+          :to="`/services/${category.slug}`"
+          active-class="_active"
+          class="master-nav__item"
+        >
           <span class="master-nav__title">{{ category.title }}</span>
         </NuxtLink>
       </li>

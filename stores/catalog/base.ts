@@ -8,7 +8,7 @@ export function createCatalogStore<T>(
   return defineStore(id, () => {
     const commonStore = useCommonStore();
     if (commonStore.categories) {
-      initialFiltersArg.category.list = commonStore.categories;
+      initialFiltersArg.categories.list = commonStore.categories;
     }
     if (commonStore.cities) {
       initialFiltersArg.city.list = commonStore.cities;
@@ -18,34 +18,36 @@ export function createCatalogStore<T>(
     const initialSorting = ref([
       {
         type: 'desc',
-        text: 'Стоимости desc',
+        text: 'Стоимости (убыв)',
         value: {
           price: -1,
         },
       },
       {
         type: 'asc',
-        text: 'Стоимости asc',
+        text: 'Стоимости (возр)',
         value: {
           price: 1,
         },
       },
       {
         type: 'desc',
-        text: 'Дате desc',
+        text: 'Дате (убыв)',
         value: {
           createdAt: -1,
         },
       },
       {
         type: 'asc',
-        text: 'Дате asc',
+        text: 'Дате (возр)',
         value: {
           createdAt: 1,
         },
       },
     ]);
-    const items = ref<T>();
+    const popularItems = ref<T[]>();
+    const items = ref<T[] | []>();
+    const empty = ref(false);
     const sorting = ref<initialSort>(initialSorting.value[0]);
     const currentPage = ref(1);
     const totalItems = ref(0);
@@ -61,7 +63,7 @@ export function createCatalogStore<T>(
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]
         : route.params.slug;
-      const category = initialFilters.value.category.list.find(
+      const category = initialFilters.value.categories.list.find(
         (el) => el.slug === categorySlug,
       );
 
@@ -104,27 +106,42 @@ export function createCatalogStore<T>(
 
     const fetchItems = async () => {
       try {
+        empty.value = false;
+        items.value = [];
         const route = useRoute();
         const categorySlug = Array.isArray(route.params.slug)
           ? route.params.slug[0]
           : route.params.slug;
-        const category = initialFilters.value.category.list.find(
+        const category = initialFilters.value.categories.list.find(
           (el) => el.slug === categorySlug,
         );
-        if (category || categorySlug === 'all') {
-          const data = await useNuxtApp().$fetch(apiUrl, {
-            query: {
-              offset: currentPage.value,
-              limit: itemsPerPage.value,
-              filter: { ...filters.value, category: category?._id },
-              sort: sorting.value.value,
-            },
-          });
-          items.value = data.result;
-          totalItems.value = data.total;
-        }
+
+        const data = await useNuxtApp().$fetch(apiUrl, {
+          query: {
+            offset: currentPage.value,
+            limit: itemsPerPage.value,
+            filter: { ...filters.value, category: category?._id },
+            sort: sorting.value.value,
+          },
+        });
+        items.value = data.result;
+        items.value?.length || (empty.value = true);
+        totalItems.value = data.total;
       } catch (error) {
-        // console.error('Ошибка при загрузке категории', error);
+        console.error('Ошибка при загрузке категории', error);
+      }
+    };
+    const fetchPopular = async () => {
+      try {
+        const data = await useNuxtApp().$fetch(apiUrl, {
+          query: {
+            offset: currentPage.value,
+            limit: itemsPerPage.value,
+          },
+        });
+        popularItems.value = data.result;
+      } catch (error) {
+        console.error('Ошибка при загрузке категории', error);
       }
     };
 
@@ -185,6 +202,9 @@ export function createCatalogStore<T>(
       setPage,
       updateURL,
       updateFilter,
+      fetchPopular,
+      empty,
+      popularItems,
     };
   });
 }

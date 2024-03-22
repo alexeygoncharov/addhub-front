@@ -20,7 +20,7 @@ export const useCommonStore = defineStore('common', () => {
       const data = await useNuxtApp().$fetch('/api/cities/');
       cities.value = data.result as [];
     } catch (error) {
-      // console.error('Ошибка при загрузке городов', error);
+      console.error('Ошибка при загрузке городов', error);
     }
   }
 
@@ -29,7 +29,7 @@ export const useCommonStore = defineStore('common', () => {
       const data = await useNuxtApp().$fetch('/api/categories/');
       categories.value = data.result as Category[];
     } catch (error) {
-      // console.error('Ошибка при загрузке категорий', error);
+      console.error('Ошибка при загрузке категорий', error);
     }
   }
 

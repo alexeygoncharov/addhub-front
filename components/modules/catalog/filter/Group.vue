@@ -17,7 +17,7 @@
     </div>
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
-        <form v-if="filter.hasSearch" class="blog-field fg">
+        <form v-if="false" class="blog-field fg">
           <input type="text" placeholder="Поиск по публикациям" />
           <button class="blog-field__btn hover-fill-primary">
             <svg
@@ -40,14 +40,17 @@
             <ModulesCatalogFilterCheck
               v-if="filter.type === 'check'"
               :title="item.title"
-              :num="item.num"
-              @change="setFilters(item._id)"
+              :num="1"
+              @change="setFilters(item?._id)"
             />
             <ModulesCatalogFilterRadio
               v-else-if="filter.type === 'radio'"
               :title="item.title"
-              :num="item.num"
-              :checked="item.slug === categorySlug"
+              :num="1"
+              :checked="
+                item.slug === categorySlug ||
+                (!item.slug && categorySlug === 'all')
+              "
               @change="setFilters(item.slug)"
             />
           </template>
@@ -67,6 +70,7 @@
 
 <script setup lang="ts">
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
+import type { Category } from '~/stores/common';
 const route = useRoute();
 const categorySlug = Array.isArray(route.params.slug)
   ? route.params.slug[0]
@@ -78,7 +82,11 @@ const props = defineProps({
     required: true,
   },
   filter: {
-    type: Object,
+    type: Object as PropType<{
+      title: string;
+      type: string;
+      list: ({ title: string } & Partial<Category>)[];
+    }>,
     required: true,
   },
 });
@@ -99,7 +107,7 @@ const toggleShowAll = () => {
 };
 
 const setFilters = (
-  slug: string,
+  slug: string | undefined,
   // isChecked: boolean
 ) => {
   navigateTo({ path: `/services/${slug || 'all'}`, query: route.query });

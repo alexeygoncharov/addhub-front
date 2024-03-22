@@ -23,3 +23,4 @@
   <SectionsIndexTrust />
   <SectionsIndexFindTalent />
 </template>
+<style lang="scss"></style>

@@ -18,6 +18,7 @@
       </svg>
     </button>
     <div
+      v-if="data"
       class="services-card__slider _nested-slider"
       :data-slider-id="data._id"
     >
@@ -98,28 +99,41 @@
         </div>
       </div>
     </div>
+    <UISkeleton v-else class="services-card__slider--skeleton" />
     <div class="services-card__content">
-      <div class="services-card__type">
+      <div v-if="data" class="services-card__type">
         <span class="text14">{{ data.title }}</span>
       </div>
+      <UISkeleton
+        v-else
+        class="services-card__type--skeleton services-card__type"
+      />
       <NuxtLink
-        to="/services/all"
+        v-if="data"
+        :to="`/services/${data.category.slug}`"
         class="services-card__title text17 medium-text"
       >
         {{ data.title }}
       </NuxtLink>
+      <div v-else class="services-card__title--skeleton services-card__title">
+        <UISkeleton />
+        <UISkeleton />
+      </div>
 
-      <div class="services-card__reviews _flex">
+      <div v-if="data" class="services-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
         <div class="services-card__reviews-text">
-          <span class="text15 medium-text">{{ data.rating }} </span>
+          <span class="text15 medium-text">{{ data.reviews.length }} </span>
           <span class="text14 gray-text">
-            {{ data.createdBy.reviews.length }} отзыва</span
+            {{ data.createdBy.reviews?.length }} отзыва</span
           >
         </div>
       </div>
+      <div v-else class="services-card__reviews">
+        <UISkeleton class="services-card__reviews--skeleton" />
+      </div>
 
-      <div class="services-card__bottom _flex">
+      <div v-if="data" class="services-card__bottom _flex">
         <NuxtLink to="/services/all" class="services-card__user _flex">
           <div class="avatar">
             <img
@@ -143,15 +157,27 @@
           <span class="text17 medium-text"> {{ data.price }} ₽</span>
         </div>
       </div>
+      <div v-else class="services-card__bottom _flex">
+        <div class="services-card__user _flex">
+          <UISkeleton class="avatar--skeleton avatar" />
+          <UISkeleton
+            class="services-card__user-name--skeleton services-card__user-name"
+          />
+        </div>
+        <UISkeleton
+          class="services-card__price--skeleton services-card__price"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { servicesItem } from '~/stores/catalog/catalog.type';
 const props = defineProps({
   data: {
-    type: Object,
-    required: true,
+    type: Object as PropType<servicesItem>,
+    default: undefined,
   },
 });
 </script>
