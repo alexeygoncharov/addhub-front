@@ -1,6 +1,6 @@
 import { createCatalogStore } from './base';
 import type { projectsItem } from './catalog.type';
-export const useCatalogProjectsStore = createCatalogStore<projectsItem[]>(
+export const useCatalogProjectsStore = createCatalogStore<projectsItem>(
   'projects',
   '/api/projects/',
   {

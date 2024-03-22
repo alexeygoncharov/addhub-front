@@ -23,6 +23,4 @@
   <SectionsIndexTrust />
   <SectionsIndexFindTalent />
 </template>
-<style lang="scss">
-// @import '/assets/style/pages/b-index';
-</style>
+<style lang="scss"></style>

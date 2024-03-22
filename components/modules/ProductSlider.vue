@@ -109,4 +109,5 @@
 import { useCatalogServicesStore } from '~/stores/catalog/services';
 const showNav = ref(true);
 const catalogStore = useCatalogServicesStore();
+catalogStore.fetchPopular();
 </script>

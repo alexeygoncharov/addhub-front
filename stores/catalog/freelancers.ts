@@ -1,6 +1,6 @@
 import { createCatalogStore } from './base';
 import type { freelancersItem } from './catalog.type';
-export const useCatalogFreelancersStore = createCatalogStore<freelancersItem[]>(
+export const useCatalogFreelancersStore = createCatalogStore<freelancersItem>(
   'freelancers',
   '/api/users/sellers',
   {

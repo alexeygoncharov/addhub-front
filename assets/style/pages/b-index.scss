@@ -327,6 +327,11 @@
     width: calc(100% + 2px);
     margin: -1px 0 0 -1px;
 
+    &--skeleton {
+      padding-bottom: 74.5%;
+      border-radius: 1.25em 1.25em 0 0;
+    }
+
     &:hover {
       .swiper-nav {
         opacity: 1;
@@ -389,6 +394,12 @@
   &__type {
     margin-bottom: 0.25em;
     color: $gray;
+
+    &--skeleton {
+      width: 75%;
+      height: 0.875em;
+      margin: 1% 0;
+    }
   }
 
   &__title {
@@ -397,9 +408,28 @@
     &:hover {
       text-decoration: underline;
     }
+
+    &--skeleton {
+      display: flex;
+      flex-direction: column;
+
+      > div {
+        height: 1.06em;
+        margin: 1% 0;
+      }
+
+      > :first-child {
+        width: 80%;
+      }
+
+      > :last-child {
+        width: 30%;
+      }
+    }
   }
 
   &__bottom {
+    justify-content: space-between;
     padding-top: 1.0625em;
     margin-top: auto;
     border-top: $border;
@@ -407,6 +437,12 @@
 
   &__reviews {
     margin: 0.625em 0;
+
+    &--skeleton {
+      width: 40%;
+      height: 0.93em;
+      margin: 1% 0;
+    }
 
     img {
       width: 0.625em;
@@ -432,10 +468,22 @@
       border: 0.0625em solid #fff;
       border-radius: 50%;
     }
+
+    &-name--skeleton {
+      width: 70px;
+      height: 0.87em;
+      margin: 1% 0;
+    }
   }
 
   &__price {
     margin-left: auto;
+
+    &--skeleton {
+      width: 20%;
+      height: 1.06em;
+      margin: 1% 0;
+    }
   }
 
   .favorite-btn {
@@ -484,8 +532,6 @@
 
 @media screen and (width <= 427px) {
   .services-card {
-    border-radius: 0.9375em;
-
     &__img {
       border-radius: 0.9375em 0.9375em 0 0;
     }
@@ -539,6 +585,10 @@
       }
 
       &-name {
+        &--skeleton {
+          width: 15vw;
+        }
+
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
