@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/style.scss'],
   runtimeConfig: {
     public: {
-      apiBase: process.env.BASE_URL,
+      apiBase: 'https://hub.rdcd.ru',
     },
   },
   plugins: [
