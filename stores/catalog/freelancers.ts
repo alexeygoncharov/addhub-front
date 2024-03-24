@@ -4,15 +4,12 @@ export const useCatalogFreelancersStore = createCatalogStore<freelancersItem>(
   'freelancers',
   '/api/users/sellers',
   {
-    initialFilters: {
-      categories: {
-        title: 'Категории',
-        type: 'radio',
-        list: [],
-      },
-      city: { title: 'Города', type: 'radio', list: [] },
+    categories: {
+      title: 'Категории',
+      type: 'radio',
+      list: [],
     },
-    filters: {},
+    city: { title: 'Города', type: 'radio', list: [] },
   },
 );
 

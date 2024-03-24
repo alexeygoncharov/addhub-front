@@ -1,20 +1,23 @@
-import type { initialSort, initialConfig } from './catalog.type';
+import type { initialSort, initialFilters } from './catalog.type';
 import { useCommonStore } from '~/stores/common';
 export function createCatalogStore<T>(
   id: string,
   apiUrl: string,
-  { initialFilters: initialFiltersArg, filters: filtersArg }: initialConfig,
+  initialFiltersArg: initialFilters,
 ) {
   return defineStore(id, () => {
     const commonStore = useCommonStore();
-    if (commonStore.categories) {
+    if (commonStore.categories && initialFiltersArg.categories) {
       initialFiltersArg.categories.list = commonStore.categories;
     }
-    if (commonStore.cities) {
+    if (commonStore.cities && initialFiltersArg.city) {
       initialFiltersArg.city.list = commonStore.cities;
     }
     const initialFilters = ref(initialFiltersArg);
-    const filters = ref(filtersArg);
+    const filters = ref<{
+      price?: { $gte: number; $lte: number };
+      'address.city'?: string;
+    }>({});
     const initialSorting = ref([
       {
         type: 'desc',
@@ -63,7 +66,7 @@ export function createCatalogStore<T>(
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]
         : route.params.slug;
-      const category = initialFilters.value.categories.list.find(
+      const category = initialFilters.value.categories?.list.find(
         (el) => el.slug === categorySlug,
       );
 
@@ -82,19 +85,12 @@ export function createCatalogStore<T>(
           $gte: Number(query.minPrice),
           $lte: Number(query.maxPrice),
         };
-      } else {
-        filters.value.price = { $gte: 0, $lte: 50000 };
       }
-
+      if (query.city && !Array.isArray(query.city)) {
+        filters.value['address.city'] = query.city;
+      }
       if (query.sort && !Array.isArray(query.sort)) {
-        const sortFields = query.sort.split(',');
-        for (const field of sortFields) {
-          const [fieldName, direction] = field.split(':');
-          if (fieldName in sorting.value.value) {
-            sorting.value.value[fieldName as keyof typeof sorting.value.value] =
-              direction === 'desc' ? -1 : 1;
-          }
-        }
+        console.log(query.sort);
       }
 
       currentPage.value =
@@ -104,56 +100,49 @@ export function createCatalogStore<T>(
       fetchItems();
     };
 
-    const fetchItems = async () => {
-      try {
-        empty.value = false;
-        items.value = [];
-        const route = useRoute();
-        const categorySlug = Array.isArray(route.params.slug)
-          ? route.params.slug[0]
-          : route.params.slug;
-        const category = initialFilters.value.categories.list.find(
-          (el) => el.slug === categorySlug,
-        );
+    const fetchItems = () => {
+      empty.value = false;
+      items.value = [];
+      const route = useRoute();
+      const categorySlug = Array.isArray(route.params.slug)
+        ? route.params.slug[0]
+        : route.params.slug;
+      const category = initialFilters.value.categories?.list.find(
+        (el) => el.slug === categorySlug,
+      );
 
-        const data = await useNuxtApp().$fetch(apiUrl, {
+      apiFetch<ApiListResponse<T[]>>(apiUrl, {
+        handler: (data) => {
+          if (data) {
+            items.value = data.result;
+            items.value?.length || (empty.value = true);
+            totalItems.value = data.total;
+          }
+        },
+        options: {
           query: {
             offset: currentPage.value,
             limit: itemsPerPage.value,
             filter: { ...filters.value, category: category?._id },
             sort: sorting.value.value,
           },
-        });
-        items.value = data.result;
-        items.value?.length || (empty.value = true);
-        totalItems.value = data.total;
-      } catch (error) {
-        console.error('Ошибка при загрузке категории', error);
-      }
+        },
+      });
     };
-    const fetchPopular = async () => {
-      try {
-        const data = await useNuxtApp().$fetch(apiUrl, {
+    const fetchPopular = () => {
+      apiFetch<ApiListResponse<T[]>>(apiUrl, {
+        handler: (data) => {
+          if (data) popularItems.value = data.result;
+        },
+        options: {
           query: {
             offset: currentPage.value,
             limit: itemsPerPage.value,
           },
-        });
-        popularItems.value = data.result;
-      } catch (error) {
-        console.error('Ошибка при загрузке категории', error);
-      }
+        },
+      });
     };
 
-    // const setFilters = async ({ action, key, value }: any, router: Router) => {
-    //   if (action === 'add') {
-    //     filters.value[key] = value;
-    //   } else if (action === 'remove') {
-    //     delete filters.value[key];
-    //   }
-    //   updateURL(router);
-    //   await fetchItems();
-    // };
     const updateFilter = () => {
       updateURL();
       fetchItems();
@@ -179,8 +168,15 @@ export function createCatalogStore<T>(
           ? `price:${sorting.value.value.price}`
           : sorting.value.value.createdAt &&
             `createdAt:${sorting.value.value.createdAt}`,
-        minPrice: filters.value.price?.$gte || filtersArg.price?.$gte || 0,
-        maxPrice: filters.value.price?.$lte || filtersArg.price?.$lte || 50000,
+        minPrice:
+          filters.value.price?.$gte || initialFilters.value.price?.$gte || 0,
+        maxPrice:
+          filters.value.price?.$lte ||
+          initialFilters.value.price?.$lte ||
+          50000,
+        ...(filters.value?.['address.city'] && {
+          city: filters.value['address.city'],
+        }),
       };
       router.push({ query });
     };

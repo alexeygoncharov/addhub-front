@@ -122,7 +122,7 @@ const { register: authRegister } = useAuthStore();
 const register = async () => {
   await authRegister(regDetails.value);
   await navigateTo('/login');
-  useNuxtApp().$toast({
+  useToast({
     message: 'Регистрация прошла успешно',
     type: 'success',
   });

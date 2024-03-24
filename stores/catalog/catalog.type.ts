@@ -2,18 +2,13 @@ import type { Category } from '../common';
 import type { FreelancersStore } from './freelancers';
 import type { ProjectsStore } from './projects';
 import type { ServicesStore } from './services';
-export interface initialConfig {
-  initialFilters: {
-    price?: {
-      min: number;
-      max: number;
-    };
-    city: { title: string; type: string; list: [] };
-    categories: { title: string; type: string; list: Category[] | [] };
+export interface initialFilters {
+  price?: {
+    $gte: number;
+    $lte: number;
   };
-  filters: {
-    price?: { $gte: number; $lte: number };
-  };
+  city?: { title: string; type: string; list: [] };
+  categories?: { title: string; type: string; list: Category[] | [] };
 }
 export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 

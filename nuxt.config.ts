@@ -5,11 +5,6 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-  app: {
-    head: {
-      script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрать
-    },
-  },
   vite: {
     css: {
       preprocessorOptions: {
@@ -18,6 +13,9 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+  pinia: {
+    storesDirs: ['stores'],
   },
   modules: [
     '@nuxtjs/eslint-module',
@@ -33,11 +31,6 @@ export default defineNuxtConfig({
       apiBase: process.env.BASE_URL,
     },
   },
-  plugins: [
-    '~/plugins/fetch.ts',
-    '~/plugins/toast.ts',
-    '~/plugins/auth-init.ts',
-  ],
   typescript: {
     strict: true,
   },

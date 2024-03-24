@@ -63,23 +63,29 @@
 
 <script setup lang="ts">
 const signTelegram = () => {
-  useNuxtApp().$fetch('/api/auth/telegram', {
-    body: {
-      role: 'admin',
+  apiFetch('/api/auth/telegram', {
+    options: {
+      query: {
+        role: 'admin',
+      },
     },
   });
 };
 const signGoogle = () => {
-  useNuxtApp().$fetch('/api/auth/google', {
-    body: {
-      role: 'admin',
+  apiFetch('/api/auth/google', {
+    options: {
+      query: {
+        role: 'admin',
+      },
     },
   });
 };
 const signVk = () => {
-  useNuxtApp().$fetch('/api/auth/vk', {
-    body: {
-      role: 'admin',
+  apiFetch('/api/auth/vk', {
+    options: {
+      query: {
+        role: 'admin',
+      },
     },
   });
 };

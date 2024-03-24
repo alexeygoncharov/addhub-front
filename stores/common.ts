@@ -15,22 +15,20 @@ export const useCommonStore = defineStore('common', () => {
   const cities = ref<[]>();
   const categories = ref<Category[]>();
 
-  async function fetchCities() {
-    try {
-      const data = await useNuxtApp().$fetch('/api/cities/');
-      cities.value = data.result as [];
-    } catch (error) {
-      console.error('Ошибка при загрузке городов', error);
-    }
+  function fetchCities() {
+    apiFetch<ApiResponse<[]>>('/api/cities/', {
+      handler: (data) => {
+        if (data) cities.value = data.result;
+      },
+    });
   }
 
-  async function fetchCategories() {
-    try {
-      const data = await useNuxtApp().$fetch('/api/categories/');
-      categories.value = data.result as Category[];
-    } catch (error) {
-      console.error('Ошибка при загрузке категорий', error);
-    }
+  function fetchCategories() {
+    apiFetch<ApiResponse<Category[]>>('/api/categories/', {
+      handler: (data) => {
+        if (data) categories.value = data.result;
+      },
+    });
   }
 
   return { cities, categories, fetchCities, fetchCategories };

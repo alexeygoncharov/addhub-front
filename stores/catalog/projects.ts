@@ -4,19 +4,16 @@ export const useCatalogProjectsStore = createCatalogStore<projectsItem>(
   'projects',
   '/api/projects/',
   {
-    initialFilters: {
-      price: {
-        min: 0,
-        max: 50000,
-      },
-      categories: {
-        title: 'Категории',
-        type: 'radio',
-        list: [],
-      },
-      city: { title: 'Города', type: 'radio', list: [] },
+    price: {
+      $gte: 0,
+      $lte: 50000,
     },
-    filters: {},
+    categories: {
+      title: 'Категории',
+      type: 'radio',
+      list: [],
+    },
+    city: { title: 'Города', type: 'radio', list: [] },
   },
 );
 export type ProjectsStore = ReturnType<typeof useCatalogProjectsStore>;
