@@ -13,8 +13,9 @@
 <script setup lang="ts">
 import { useCommonStore } from '~/stores/common';
 
+const { getFavorites } = useUserStore();
 const commonStore = useCommonStore();
-
+getFavorites();
 commonStore.fetchCategories();
 commonStore.fetchCities();
 </script>

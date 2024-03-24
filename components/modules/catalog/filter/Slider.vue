@@ -4,8 +4,8 @@
       <div class="fg">
         <label>От</label>
         <input
+          v-model="priceMin"
           type="number"
-          :value="priceMin"
           @input="updateStartValue(0, $event)"
         />
         <div class="filter-slider__currency"><span>₽</span></div>
@@ -13,8 +13,8 @@
       <div class="fg">
         <label>До</label>
         <input
+          v-model="priceMax"
           type="number"
-          :value="priceMax"
           @input="updateStartValue(1, $event)"
         />
         <div class="filter-slider__currency"><span>₽</span></div>
@@ -35,34 +35,25 @@ import type { API, target } from 'nouislider';
 import 'nouislider/dist/nouislider.css';
 const sliderElement = ref<target>();
 const slider = ref<API>();
-const props = defineProps({
-  priceMin: {
-    type: Number,
-    required: true,
-  },
-  priceMax: {
-    type: Number,
-    required: true,
-  },
-  min: {
-    type: Number,
-    required: true,
-  },
-  max: {
-    type: Number,
-    required: true,
-  },
+const props = defineProps<{
+  min: number;
+  max: number;
+}>();
+const priceMin = defineModel<number>('priceMin', {
+  required: true,
+});
+const priceMax = defineModel<number>('priceMax', {
+  required: true,
 });
 
 onMounted(() => {
   initSlider();
 });
 
-const emits = defineEmits(['update:priceMin', 'update:priceMax']);
 const initSlider = () => {
   if (!sliderElement.value) return;
   slider.value = create(sliderElement.value, {
-    start: [props.priceMin, props.priceMax],
+    start: [priceMin.value, priceMax.value],
     connect: true,
     step: 1,
     range: {
@@ -73,11 +64,12 @@ const initSlider = () => {
 
   slider.value.on('update', (values, handle) => {
     const value = parseInt(String(values[handle]), 10);
+
     // Эмитируем события для обновления родительских пропсов
     if (handle === 0) {
-      emits('update:priceMin', value);
+      priceMin.value = value;
     } else {
-      emits('update:priceMax', value);
+      priceMax.value = value;
     }
   });
 };
@@ -91,11 +83,5 @@ const updateStartValue = (handle: number, event: Event) => {
   const newValue = [0, 0];
   newValue[handle] = value;
   slider.value.set(newValue);
-
-  if (handle === 0) {
-    emits('update:priceMin', value);
-  } else {
-    emits('update:priceMax', value);
-  }
 };
 </script>

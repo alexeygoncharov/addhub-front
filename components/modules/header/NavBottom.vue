@@ -46,7 +46,6 @@
 
 <script setup lang="ts">
 import { useCommonStore } from '~/stores/common';
-
 const commonStore = useCommonStore();
 
 const list = ref([

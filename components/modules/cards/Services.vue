@@ -1,6 +1,10 @@
 <template>
   <div class="services-card">
-    <button class="favorite-btn">
+    <button
+      class="favorite-btn"
+      :class="{ _added: data && favorites.includes(data?._id) }"
+      @click="data && toggleFavorite(data?._id)"
+    >
       <svg
         width="26"
         height="23"
@@ -17,20 +21,16 @@
         ></path>
       </svg>
     </button>
-    <div
-      v-if="data"
-      class="services-card__slider _nested-slider"
-      :data-slider-id="data._id"
-    >
+    <div v-if="data" class="services-card__slider _nested-slider">
       <Swiper
         :modules="[SwiperPagination, SwiperNavigation]"
         :slides-per-view="'auto'"
         :navigation="{
-          prevEl: `._nested-slider[data-slider-id='${data._id}'] .swiper-button-prev`,
-          nextEl: `._nested-slider[data-slider-id='${data._id}'] .swiper-button-next`,
+          prevEl: prevBtn,
+          nextEl: nextBtn,
         }"
         :pagination="{
-          el: `._nested-slider[data-slider-id='${data._id}'] .swiper-pagination`,
+          el: pagination,
         }"
       >
         <SwiperSlide v-for="(path, index) in data.photos" :key="index">
@@ -44,7 +44,7 @@
         </SwiperSlide>
       </Swiper>
       <div v-if="data.photos.length > 1" class="swiper-nav">
-        <div class="swiper-button swiper-button-prev">
+        <div ref="prevBtn" class="swiper-button swiper-button-prev">
           <svg
             width="20"
             height="20"
@@ -70,8 +70,8 @@
             />
           </svg>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button swiper-button-next">
+        <div ref="pagination" class="swiper-pagination"></div>
+        <div ref="nextBtn" class="swiper-button swiper-button-next">
           <svg
             width="20"
             height="20"
@@ -129,7 +129,7 @@
           >
         </div>
       </div>
-      <div v-else class="services-card__reviews">
+      <div v-else class="services-card__reviews _flex">
         <UISkeleton class="services-card__reviews--skeleton" />
       </div>
 
@@ -174,9 +174,14 @@
 
 <script setup lang="ts">
 import type { servicesItem } from '~/stores/catalog/catalog.type';
+const { favorites } = storeToRefs(useUserStore());
+const { toggleFavorite } = useUserStore();
+const prevBtn = ref<HTMLDivElement | null>(null);
+const nextBtn = ref<HTMLDivElement | null>(null);
+const pagination = ref<HTMLDivElement | null>(null);
 const props = defineProps({
   data: {
-    type: Object as PropType<servicesItem>,
+    type: Object as PropType<servicesItem | undefined>,
     default: undefined,
   },
 });
