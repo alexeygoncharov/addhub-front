@@ -1,6 +1,6 @@
 <template>
   <div v-show="!isLoading && !isAuthenticated" class="header-action">
-    <button class="header-action__search _toggle-search">
+    <button class="header-action__search _toggle-search" @click="toggleSearch">
       <svg
         width="16"
         height="16"

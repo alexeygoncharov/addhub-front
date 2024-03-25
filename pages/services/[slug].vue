@@ -4,7 +4,7 @@
       :items="[{ name: 'Главная', to: '/' }, { name: 'Каталог услуг' }]"
     />
     <UIPageTop :has-search="true" :has-select="true" />
-    <ModulesCatalogPopular />
+    <!-- <ModulesCatalogPopular /> -->
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div
