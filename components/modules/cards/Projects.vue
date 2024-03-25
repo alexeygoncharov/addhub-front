@@ -44,14 +44,15 @@
       <div>
         <div
           v-if="isOpen"
+          id="modal-screen"
           class="modal-screen"
-          :onclick="
+          @click.stop="
             () => {
               toggleModal();
             }
           "
         >
-          <div v-if="isOpen" class="modal-project">
+          <div class="modal-project">
             <div class="modal-wrapper">
               <div class="header">
                 <div class="avatar">
@@ -77,6 +78,7 @@
                     <div class="header__prop">
                       <NuxtImg src="/img/prop-icon2.svg" alt="" />
                       <span>{{ data.createdAt }}</span>
+                      <!-- Использование метода для форматирования даты -->
                     </div>
                     <div class="header__prop">
                       <NuxtImg src="/img/prop-icon3.svg" alt="" />
@@ -85,6 +87,7 @@
                   </div>
                 </div>
                 <div class="modal-project__price">100</div>
+                <!-- Предположительно, здесь должна быть динамическая привязка к цене -->
               </div>
               <div class="modal-wrapper__text">
                 <div class="text15">
@@ -93,24 +96,29 @@
               </div>
               <div class="modal-wrapper__maininput">
                 <span>Текст отклика</span>
-                <textarea type="text" />
+                <textarea v-model="description" />
+                <!-- Двусторонняя привязка данных -->
               </div>
               <div class="modal-wrapper__inputs">
                 <div class="modal-wrapper__input">
                   <span>Стоимость (руб)</span>
-                  <input type="text" />
+                  <input v-model="price" type="text" />
+                  <!-- Двусторонняя привязка данных -->
                 </div>
                 <div class="modal-wrapper__input">
                   <span>Срок (в днях)</span>
-                  <input type="text" />
+                  <input v-model="term" type="text" />
+                  <!-- Двусторонняя привязка данных -->
                 </div>
               </div>
               <div class="send-button">
-                <button>Предложить услугу</button>
+                <button @click="createBd">Предложить услугу</button>
+                <!-- Привязка метода к событию клика -->
               </div>
             </div>
           </div>
         </div>
+
         <button
           class="projects-card__btn m-btn m-btn-blue3"
           :onclick="
@@ -127,9 +135,14 @@
 </template>
 
 <script setup lang="ts">
+import { useBidsStore } from '~/stores/catalog/bids';
 import type { projectsItem } from '~/stores/catalog/catalog.type';
 const isOpen = ref(false);
-defineProps({
+const price = ref<number>(0);
+const term = ref();
+const description = ref();
+const bidsStore = useBidsStore();
+const props = defineProps({
   data: {
     type: Object as PropType<projectsItem>,
     required: true,
@@ -137,7 +150,16 @@ defineProps({
 });
 
 function toggleModal() {
-  isOpen.value = !isOpen.value;
+  if (event?.target?.id === 'modal-screen') isOpen.value = false;
+  else isOpen.value = true;
+}
+
+async function createBd() {
+  const result = await bidsStore.createBid(
+    props.data._id,
+    price.value,
+    term.value,
+  );
 }
 </script>
 <style lang="scss">

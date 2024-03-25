@@ -21,7 +21,7 @@ export default {
         email: userData.email,
         password: userData.password,
         repeat_password: userData.repeatPassword,
-        role: userData.role,
+        role: 'seller',
       },
     });
   },
