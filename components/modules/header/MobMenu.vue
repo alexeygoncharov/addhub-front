@@ -252,6 +252,13 @@ const mobMenu = defineModel<boolean>({ required: true });
 const authStore = useAuthStore();
 const { logout } = authStore;
 const { isAuthenticated, isLoading } = storeToRefs(authStore);
+watch(mobMenu, (value) => {
+  if (value) {
+    document.body.classList.add('fixed-body');
+  } else {
+    document.body.classList.remove('fixed-body');
+  }
+});
 </script>
 
 <style scoped lang="scss"></style>
