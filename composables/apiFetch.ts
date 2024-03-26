@@ -8,6 +8,7 @@ type apiFetchParams<T> = {
 export default async function <T>(
   endpoint: string,
   { handler, options, needToken }: apiFetchParams<T>,
+  ignore?: boolean,
 ) {
   if (needToken && process.client) {
     const token = localStorage.getItem('token');
@@ -29,6 +30,7 @@ export default async function <T>(
     onResponse({ response }) {
       handler && handler(response._data);
     },
+    watch: ignore && false,
     ...options,
   });
 }

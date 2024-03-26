@@ -131,7 +131,7 @@ export function createCatalogStore<T>(
       fetchItems();
     };
 
-    const fetchItems = () => {
+    const fetchItems = (alien?: boolean) => {
       empty.value = false;
       items.value = [];
       const route = useRoute();
@@ -148,24 +148,28 @@ export function createCatalogStore<T>(
           delete queryFilters[key as keyof typeof filters.value];
         }
       }
-      apiFetch<ApiListResponse<T[]>>(apiUrl, {
-        handler: (data) => {
-          if (data) {
-            items.value = data.result;
-            items.value?.length || (empty.value = true);
-            totalItems.value = data.total;
-          }
-        },
+      apiFetch<ApiListResponse<T[]>>(
+        apiUrl,
+        {
+          handler: (data) => {
+            if (data) {
+              items.value = data.result;
+              items.value?.length || (empty.value = true);
+              totalItems.value = data.total;
+            }
+          },
 
-        options: {
-          query: {
-            offset: currentPage.value,
-            limit: itemsPerPage.value,
-            filter: { ...queryFilters, category: category?._id },
-            sort: sorting.value.value,
+          options: {
+            query: {
+              offset: currentPage.value,
+              limit: itemsPerPage.value,
+              filter: { ...queryFilters, category: category?._id },
+              sort: sorting.value.value,
+            },
           },
         },
-      });
+        alien,
+      );
     };
     const fetchPopular = () => {
       apiFetch<ApiListResponse<T[]>>(apiUrl, {
@@ -184,7 +188,7 @@ export function createCatalogStore<T>(
     const setSorting = (sortingArg: typeof sorting.value) => {
       sorting.value = sortingArg;
       updateURL();
-      fetchItems();
+      fetchItems(true);
     };
 
     const setPage = (page: number) => {

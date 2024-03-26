@@ -27,7 +27,11 @@
           <ModulesCardsServices v-for="i in 10" :key="i" />
         </div>
       </template>
-      <template #count> {{ catalogStore.totalItems }} проектов</template>
+      <template v-if="catalogStore.totalItems" #count>
+        {{
+          pluralize(catalogStore.totalItems, 'проект', 'проекта', 'проектов')
+        }}</template
+      >
     </ModulesCatalog>
   </div>
 </template>

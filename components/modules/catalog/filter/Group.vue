@@ -36,6 +36,7 @@
         </div>
 
         <div class="filter-group__checks" :class="{ '_show-all': showAll }">
+          {{ store.filters[filterKey] }}
           <template
             v-for="item in showAll.includes(index)
               ? shownItems
@@ -157,7 +158,7 @@ const setFilters = (slug: string | undefined) => {
       query: route.query,
     });
   } else {
-    props.store.fetchItems();
+    props.store.fetchItems(true);
   }
 };
 </script>
