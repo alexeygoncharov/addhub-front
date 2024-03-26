@@ -3,17 +3,24 @@ import type { servicesItem } from './catalog.type';
 export const useCatalogServicesStore = createCatalogStore<servicesItem>(
   'services',
   '/api/services/',
+  '/services',
   {
     price: {
       $gte: 0,
       $lte: 50000,
+      type: 'range',
     },
     categories: {
       title: 'Категории',
       type: 'radio',
       list: [],
     },
-    city: { title: 'Города', type: 'radio', list: [] },
+    'address.city': {
+      title: 'Города',
+      type: 'check',
+      list: [],
+      hasSearch: true,
+    },
   },
 );
 export type ServicesStore = ReturnType<typeof useCatalogServicesStore>;

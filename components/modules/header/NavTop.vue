@@ -18,24 +18,23 @@
         </svg>
       </a>
       <ul v-if="item.isHaveSubmenu" class="master-nav__submenu">
-        <li><a href="">Разработка и ИТ</a></li>
-        <li><a href="">Дизайн и творчество</a></li>
-        <li><a href="">Цифровой маркетинг</a></li>
-        <li><a href="">Копирайтинг и перевод</a></li>
-        <li><a href="">Музыка и аудио</a></li>
-        <li><a href="">Видео и анимация</a></li>
-        <li><a href="">Копирайтинг и перевод</a></li>
+        <li v-for="category of commonStore.categories" :key="category._id">
+          <nuxtLink :to="`${item.path}/${category.slug}`">{{
+            category.title
+          }}</nuxtLink>
+        </li>
       </ul>
     </li>
   </ul>
 </template>
 
 <script setup lang="ts">
+const commonStore = useCommonStore();
 const list = ref([
-  { title: 'Главная', isHaveSubmenu: true },
-  { title: 'Услуги', isHaveSubmenu: true },
-  { title: 'Проекты', isHaveSubmenu: true },
-  { title: 'О нас', isHaveSubmenu: true },
-  { title: 'Контакты', isHaveSubmenu: false },
+  { title: 'Главная', isHaveSubmenu: false, path: '/' },
+  { title: 'Услуги', isHaveSubmenu: true, path: '/services' },
+  { title: 'Проекты', isHaveSubmenu: true, path: '/projects' },
+  { title: 'О нас', isHaveSubmenu: false, path: '/about' },
+  { title: 'Контакты', isHaveSubmenu: false, path: '/contacts' },
 ]);
 </script>

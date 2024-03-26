@@ -1,6 +1,6 @@
 <template>
   <div class="filter-check m-check">
-    <input type="checkbox" />
+    <input v-model="vModel" type="checkbox" :value="value" />
     <div class="_check filter-check__wrap">
       <div class="filter-check__title">{{ title }}</div>
       <div v-if="num" class="m-count">
@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+const vModel = defineModel<string[]>({ default: [] });
+
 const props = defineProps({
   title: {
     type: String,
@@ -19,6 +21,10 @@ const props = defineProps({
   num: {
     type: Number,
     default: null,
+  },
+  value: {
+    type: String,
+    required: true,
   },
 });
 </script>

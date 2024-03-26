@@ -18,7 +18,10 @@
           />
         </div>
         <div
-          v-else-if="!catalogStore.empty"
+          v-else-if="
+            !catalogStore.empty ||
+            (!catalogStore.empty && !catalogStore.items?.length)
+          "
           class="services-items grid-col3 grid-tablet2 grid-mob-full"
         >
           <ModulesCardsServices v-for="i in 10" :key="i" />
