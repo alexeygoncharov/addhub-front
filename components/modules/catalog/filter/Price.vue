@@ -40,30 +40,7 @@ const props = defineProps({
 const isExpanded = ref(true);
 const filters = props.store.filters;
 
-if (!filters.price && props.store.initialFilters.price) {
-  filters.price = {
-    $gte: props.store.initialFilters.price.$gte,
-    $lte: props.store.initialFilters.price.$lte,
-  };
-}
-
-const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();
-
-watch(
-  () => filters.price,
-  () => {
-    debouncedSetFilters();
-  },
-  { deep: true },
-);
-
 const toggleSpoiler = () => {
   isExpanded.value = !isExpanded.value;
-};
-const debouncedSetFilters = () => {
-  clearTimeout(filterTimeoutId.value);
-  filterTimeoutId.value = setTimeout(() => {
-    props.store.updateFilter();
-  }, 1000);
 };
 </script>

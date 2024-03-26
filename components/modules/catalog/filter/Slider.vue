@@ -66,13 +66,17 @@ const initSlider = () => {
     const value = parseInt(String(values[handle]), 10);
 
     // Эмитируем события для обновления родительских пропсов
-    if (handle === 0) {
-      priceMin.value = value;
-    } else {
-      priceMax.value = value;
-    }
+    clearTimeout(filterTimeoutId.value);
+    filterTimeoutId.value = setTimeout(() => {
+      if (handle === 0) {
+        priceMin.value = value;
+      } else {
+        priceMax.value = value;
+      }
+    }, 1000);
   });
 };
+const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();
 
 const updateStartValue = (handle: number, event: Event) => {
   if (!slider.value || !event.target) return;

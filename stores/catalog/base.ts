@@ -3,6 +3,7 @@ import { useCommonStore } from '~/stores/common';
 export function createCatalogStore<T>(
   id: string,
   apiUrl: string,
+  catalogPathArg: string,
   initialFiltersArg: initialFilters,
 ) {
   return defineStore(id, () => {
@@ -10,44 +11,40 @@ export function createCatalogStore<T>(
     if (commonStore.categories && initialFiltersArg.categories) {
       initialFiltersArg.categories.list = commonStore.categories;
     }
-    if (commonStore.cities && initialFiltersArg.city) {
-      initialFiltersArg.city.list = commonStore.cities;
+    if (commonStore.cities && initialFiltersArg['address.city']) {
+      initialFiltersArg['address.city'].list = commonStore.cities;
     }
+    const catalogPath = ref(catalogPathArg);
     const initialFilters = ref(initialFiltersArg);
     const filters = ref<{
       price?: { $gte: number; $lte: number };
-      'address.city'?: string;
+      'address.city'?: string[];
+      categories?: string;
     }>({});
-    const initialSorting = ref([
+    const initialSorting = ref<
+      {
+        type: string;
+        text: string;
+        value: { [key: string]: number }; // Обобщенный тип для значения
+      }[]
+    >([
       {
         type: 'desc',
-        text: 'Стоимости (убыв)',
+        text: 'Сначала дешевле',
         value: {
           price: -1,
         },
       },
       {
         type: 'asc',
-        text: 'Стоимости (возр)',
+        text: 'Сначала дороже',
         value: {
           price: 1,
         },
       },
-      {
-        type: 'desc',
-        text: 'Дате (убыв)',
-        value: {
-          createdAt: -1,
-        },
-      },
-      {
-        type: 'asc',
-        text: 'Дате (возр)',
-        value: {
-          createdAt: 1,
-        },
-      },
     ]);
+    const showCatalogFilters = ref(false);
+    const showAll = ref<number[]>([]);
     const popularItems = ref<T[]>();
     const items = ref<T[] | []>();
     const empty = ref(false);
@@ -60,7 +57,21 @@ export function createCatalogStore<T>(
         ? Math.ceil(totalItems.value / itemsPerPage.value)
         : 0,
     );
-
+    const toggleShowAll = (index: number) => {
+      const currentIndex = showAll.value.indexOf(index);
+      if (currentIndex > -1) {
+        showAll.value.splice(currentIndex, 1);
+      } else {
+        showAll.value.push(index);
+      }
+    };
+    watch(
+      filters,
+      () => {
+        updateURL();
+      },
+      { deep: true },
+    );
     const initializeFromURL = async () => {
       const route = useRoute();
       const categorySlug = Array.isArray(route.params.slug)
@@ -85,12 +96,32 @@ export function createCatalogStore<T>(
           $gte: Number(query.minPrice),
           $lte: Number(query.maxPrice),
         };
+      } else if (!filters.value.price && initialFilters.value.price) {
+        filters.value.price = {
+          $gte: initialFilters.value.price.$gte,
+          $lte: initialFilters.value.price.$lte,
+        };
       }
-      if (query.city && !Array.isArray(query.city)) {
-        filters.value['address.city'] = query.city;
+      if (query.cities) {
+        filters.value['address.city'] = Array.isArray(query.cities)
+          ? (query.cities as string[])
+          : [query.cities];
+      } else if (
+        !filters.value['address.city'] &&
+        initialFilters.value['address.city']
+      ) {
+        filters.value['address.city'] = [];
       }
       if (query.sort && !Array.isArray(query.sort)) {
-        console.log(query.sort);
+        const [field, order] = query.sort.split(':');
+        const sortOrder = parseInt(order);
+
+        for (const option of initialSorting.value) {
+          const value = option.value[field];
+          if (value === sortOrder) {
+            sorting.value = option;
+          }
+        }
       }
 
       currentPage.value =
@@ -100,7 +131,7 @@ export function createCatalogStore<T>(
       fetchItems();
     };
 
-    const fetchItems = () => {
+    const fetchItems = (alien?: boolean) => {
       empty.value = false;
       items.value = [];
       const route = useRoute();
@@ -110,24 +141,35 @@ export function createCatalogStore<T>(
       const category = initialFilters.value.categories?.list.find(
         (el) => el.slug === categorySlug,
       );
+      const queryFilters = filters.value;
+      for (const key in queryFilters) {
+        const value = queryFilters[key as keyof typeof filters.value];
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+          delete queryFilters[key as keyof typeof filters.value];
+        }
+      }
+      apiFetch<ApiListResponse<T[]>>(
+        apiUrl,
+        {
+          handler: (data) => {
+            if (data) {
+              items.value = data.result;
+              items.value?.length || (empty.value = true);
+              totalItems.value = data.total;
+            }
+          },
 
-      apiFetch<ApiListResponse<T[]>>(apiUrl, {
-        handler: (data) => {
-          if (data) {
-            items.value = data.result;
-            items.value?.length || (empty.value = true);
-            totalItems.value = data.total;
-          }
-        },
-        options: {
-          query: {
-            offset: currentPage.value,
-            limit: itemsPerPage.value,
-            filter: { ...filters.value, category: category?._id },
-            sort: sorting.value.value,
+          options: {
+            query: {
+              offset: currentPage.value,
+              limit: itemsPerPage.value,
+              filter: { ...queryFilters, category: category?._id },
+              sort: sorting.value.value,
+            },
           },
         },
-      });
+        alien,
+      );
     };
     const fetchPopular = () => {
       apiFetch<ApiListResponse<T[]>>(apiUrl, {
@@ -143,26 +185,20 @@ export function createCatalogStore<T>(
       });
     };
 
-    const updateFilter = () => {
-      updateURL();
-      fetchItems();
-    };
     const setSorting = (sortingArg: typeof sorting.value) => {
       sorting.value = sortingArg;
       updateURL();
-      fetchItems();
+      fetchItems(true);
     };
 
     const setPage = (page: number) => {
       currentPage.value = page;
       updateURL();
-      fetchItems();
     };
 
     const updateURL = () => {
       const router = useRouter();
       const query = {
-        ...router.currentRoute.value.query,
         page: currentPage.value,
         sort: sorting.value.value.price
           ? `price:${sorting.value.value.price}`
@@ -174,8 +210,8 @@ export function createCatalogStore<T>(
           filters.value.price?.$lte ||
           initialFilters.value.price?.$lte ||
           50000,
-        ...(filters.value?.['address.city'] && {
-          city: filters.value['address.city'],
+        ...(filters.value?.['address.city']?.length && {
+          cities: filters.value['address.city'],
         }),
       };
       router.push({ query });
@@ -197,10 +233,13 @@ export function createCatalogStore<T>(
       setSorting,
       setPage,
       updateURL,
-      updateFilter,
       fetchPopular,
       empty,
       popularItems,
+      catalogPath,
+      showAll,
+      showCatalogFilters,
+      toggleShowAll,
     };
   });
 }

@@ -1,6 +1,13 @@
 <template>
   <div class="filter-check m-radio">
-    <input type="radio" :checked="checked" name="time" />
+    <input
+      v-if="!checked"
+      v-model="vModel"
+      type="radio"
+      :value="value"
+      name="time"
+    />
+    <input v-else type="radio" :value="value" name="time" checked />
     <div class="_radio filter-check__wrap">
       <div class="filter-check__title">{{ title }}</div>
       <div v-if="num" class="m-count">
@@ -11,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+const vModel = defineModel<string | undefined>({ required: true });
 const props = defineProps({
   title: {
     type: String,
@@ -20,9 +28,12 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  value: {
+    type: String,
+    required: true,
+  },
   checked: {
     type: Boolean,
-    default: false,
   },
 });
 </script>

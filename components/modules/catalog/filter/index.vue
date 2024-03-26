@@ -7,20 +7,18 @@
       </button>
     </div>
     <div class="filter__items">
-      <template v-for="(filterItem, key) in store.initialFilters" :key="key">
+      <template
+        v-for="(filterItem, key, index) in store.initialFilters"
+        :key="key"
+      >
         <ModulesCatalogFilterPrice v-if="key === 'price'" :store="store" />
-        <ModulesCatalogFilterGroup
-          v-else-if="key === 'categories' && filterItem && 'list' in filterItem"
-          :filter="{
-            ...filterItem,
-            list: [{ title: 'Все' }, ...filterItem.list],
-          }"
-          :store="store"
-        />
+
         <ModulesCatalogFilterGroup
           v-else-if="filterItem && 'list' in filterItem"
           :filter="filterItem"
           :store="store"
+          :filter-key="key"
+          :index="index"
         />
       </template>
     </div>
@@ -30,6 +28,7 @@
 <script setup lang="ts">
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
 const show = defineModel<boolean>('show', { required: true });
+
 watch(show, (value) => {
   if (value) {
     document.body.classList.add('open-filter');

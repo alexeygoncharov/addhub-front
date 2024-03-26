@@ -125,8 +125,10 @@
         <div class="services-card__reviews-text">
           <span class="text15 medium-text">{{ data.reviews.length }} </span>
           <span class="text14 gray-text">
-            {{ data.createdBy.reviews?.length }} отзыва</span
-          >
+            {{
+              pluralize(data.reviews.length, 'отзыв', 'отзыва', 'отзывов', true)
+            }}
+          </span>
         </div>
       </div>
       <div v-else class="services-card__reviews _flex">

@@ -17,8 +17,8 @@
     </div>
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
-        <form v-if="false" class="blog-field fg">
-          <input type="text" placeholder="Поиск по публикациям" />
+        <div v-if="filter.hasSearch" class="blog-field fg">
+          <input v-model="search" type="text" placeholder="Поиск" />
           <button class="blog-field__btn hover-fill-primary">
             <svg
               width="20"
@@ -33,33 +33,54 @@
               />
             </svg>
           </button>
-        </form>
+        </div>
 
         <div class="filter-group__checks" :class="{ '_show-all': showAll }">
-          <template v-for="item in shownItems" :key="item._id">
+          {{ store.filters[filterKey] }}
+          <template
+            v-for="item in showAll.includes(index)
+              ? shownItems
+              : shownItems.slice(0, 4)"
+            :key="item._id"
+          >
             <ModulesCatalogFilterCheck
-              v-if="filter.type === 'check'"
+              v-if="
+                filter.type === 'check' &&
+                (Array.isArray(filters[filterKey]) || !filters[filterKey]) &&
+                filtersCount
+              "
+              v-model="filters[filterKey] as string[] | undefined"
               :title="item.title"
-              :num="1"
-              @change="setFilters(item?._id)"
+              :num="item[filtersCount]"
+              :value="item._id || ''"
+              @change="setFilters(item.slug)"
             />
             <ModulesCatalogFilterRadio
-              v-else-if="filter.type === 'radio'"
-              :title="item.title"
-              :num="1"
-              :checked="
-                item.slug === categorySlug ||
-                (!item.slug && categorySlug === 'all')
+              v-else-if="
+                filter.type === 'radio' &&
+                !Array.isArray(filters[filterKey]) &&
+                filtersCount
               "
+              v-model="filters[filterKey] as string | undefined"
+              :title="item.title"
+              :num="item[filtersCount]"
+              :checked="
+                filterKey === 'categories' &&
+                (item.slug === categorySlug ||
+                  (!item.slug && categorySlug === 'all'))
+              "
+              :value="item._id || ''"
               @change="setFilters(item.slug)"
             />
           </template>
           <button
-            v-if="filter.list.length > 4"
+            v-if="shownItems.length > 4"
             class="more-checks"
-            @click="toggleShowAll"
+            @click="toggleShowAll(index)"
           >
-            <span v-if="!showAll">+{{ filter.list.length - 4 }} еще</span>
+            <span v-if="!showAll.includes(index)"
+              >+{{ shownItems.length - 4 }} еще</span
+            >
             <span v-else>Скрыть</span>
           </button>
         </div>
@@ -72,10 +93,18 @@
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
 import type { Category } from '~/stores/common';
 const route = useRoute();
+const search = ref('');
 const categorySlug = Array.isArray(route.params.slug)
   ? route.params.slug[0]
   : route.params.slug;
-
+const filtersCount = computed(() => {
+  if (props.store.$id === 'services') {
+    return 'services_count';
+  } else if (props.store.$id === 'projects') {
+    return 'projects_count';
+  }
+  return '';
+});
 const props = defineProps({
   store: {
     type: Object as PropType<CatalogStores>,
@@ -86,36 +115,50 @@ const props = defineProps({
       title: string;
       type: string;
       list: ({ title: string } & Partial<Category>)[];
+      hasSearch?: boolean;
     }>,
+    required: true,
+  },
+  filterKey: {
+    type: String as PropType<Exclude<keyof CatalogStores['filters'], 'price'>>,
+    required: true,
+  },
+  index: {
+    type: Number,
     required: true,
   },
 });
 
+const { showAll, filters } = storeToRefs(props.store);
+const { toggleShowAll } = props.store;
 const isExpanded = ref(true); // Управляет сворачиванием/разворачиванием всего блока
-const showAll = ref(false); // Управляет отображением всех фильтров
 
 const shownItems = computed(() => {
-  return showAll.value ? props.filter.list : props.filter.list.slice(0, 4);
+  let bufFilers = props.filter.list;
+  if (props.filter.hasSearch && search.value) {
+    const regex = new RegExp(search.value, 'gi');
+    bufFilers = bufFilers.filter((filter) => regex.test(filter.title));
+  }
+  if (props.filterKey === 'categories') {
+    bufFilers = [{ title: 'Все' }, ...bufFilers];
+  }
+
+  return bufFilers;
 });
 
 const toggleSpoiler = () => {
   isExpanded.value = !isExpanded.value;
 };
 
-const toggleShowAll = () => {
-  showAll.value = !showAll.value;
-};
-
-const setFilters = (
-  slug: string | undefined,
-  // isChecked: boolean
-) => {
-  navigateTo({ path: `/services/${slug || 'all'}`, query: route.query });
-  // const setting =
-  //   isChecked && slug
-  //     ? { action: 'add', key: 'category', value: slug }
-  //     : { action: 'remove', key: 'category' };
-  // console.log(setting);
-  // props.store.setFilters(setting, router);
+const setFilters = (slug: string | undefined) => {
+  if (props.filterKey === 'categories') {
+    const route = useRoute();
+    navigateTo({
+      path: `${props.store.catalogPath}/${slug || 'all'}`,
+      query: route.query,
+    });
+  } else {
+    props.store.fetchItems(true);
+  }
 };
 </script>

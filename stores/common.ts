@@ -7,16 +7,23 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  projects_count: number;
+  services_count: number;
 }
 
-// export interface City {}
+export interface City {
+  _id: string;
+  country: string;
+  title: string;
+  projects_count: number;
+  services_count: number;
+}
 
 export const useCommonStore = defineStore('common', () => {
-  const cities = ref<[]>();
+  const cities = ref<City[]>();
   const categories = ref<Category[]>();
-
   function fetchCities() {
-    apiFetch<ApiResponse<[]>>('/api/cities/', {
+    apiFetch<ApiResponse<City[]>>('/api/cities/', {
       handler: (data) => {
         if (data) cities.value = data.result;
       },

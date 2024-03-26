@@ -1,4 +1,4 @@
-import type { Category } from '../common';
+import type { Category, City } from '../common';
 import type { FreelancersStore } from './freelancers';
 import type { ProjectsStore } from './projects';
 import type { ServicesStore } from './services';
@@ -6,9 +6,15 @@ export interface initialFilters {
   price?: {
     $gte: number;
     $lte: number;
+    type: 'range';
   };
-  city?: { title: string; type: string; list: [] };
-  categories?: { title: string; type: string; list: Category[] | [] };
+  'address.city'?: {
+    title: string;
+    type: 'check';
+    list: City[];
+    hasSearch: boolean;
+  };
+  categories?: { title: string; type: 'radio'; list: Category[] | [] };
 }
 export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 
@@ -38,7 +44,7 @@ interface Country {
   _id: string;
   title: string;
 }
-interface City extends Country {
+interface ItemCity extends Country {
   country: string;
 }
 export interface catalogItem {
@@ -50,7 +56,7 @@ export interface catalogItem {
   delivery_time: number;
   address: {
     country: Country;
-    city: City;
+    city: ItemCity;
   };
   status: string;
   createdBy: User;

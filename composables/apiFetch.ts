@@ -8,6 +8,7 @@ type apiFetchParams<T> = {
 export default async function <T>(
   endpoint: string,
   { handler, options, needToken }: apiFetchParams<T>,
+  ignore?: boolean,
 ) {
   if (needToken && process.client) {
     const token = localStorage.getItem('token');
@@ -19,22 +20,17 @@ export default async function <T>(
     }
   }
   const baseUrl = useRuntimeConfig().public.apiBase;
-  handler &&
-    !options?.method &&
-    handler(
-      useNuxtData<T>(
-        endpoint + ((options?.query && JSON.stringify(options?.query)) || ''),
-      ).data.value,
-    );
-  clearNuxtData(
-    endpoint + ((options?.query && JSON.stringify(options?.query)) || ''),
-  );
+  const key =
+    endpoint + ((options?.query && JSON.stringify(options?.query)) || '');
+  handler && !options?.method && handler(useNuxtData<T>(key).data.value);
+  clearNuxtData(key);
   await useFetch(endpoint, {
-    key: endpoint + ((options?.query && JSON.stringify(options?.query)) || ''),
+    key,
     baseURL: baseUrl,
     onResponse({ response }) {
       handler && handler(response._data);
     },
+    watch: ignore && false,
     ...options,
   });
 }

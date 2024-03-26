@@ -3,13 +3,19 @@ import type { freelancersItem } from './catalog.type';
 export const useCatalogFreelancersStore = createCatalogStore<freelancersItem>(
   'freelancers',
   '/api/users/sellers',
+  '/freelancers',
   {
     categories: {
       title: 'Категории',
       type: 'radio',
       list: [],
     },
-    city: { title: 'Города', type: 'radio', list: [] },
+    'address.city': {
+      title: 'Города',
+      type: 'check',
+      list: [],
+      hasSearch: true,
+    },
   },
 );
 
