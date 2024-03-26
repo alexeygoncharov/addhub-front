@@ -1,5 +1,8 @@
+import { useApi } from '#imports';
+
 export const useBidsStore = defineStore('bids', () => {
   const bids = ref();
+  const apiFetch = useApi();
   // const categories = ref<Category[]>()
   async function fetchBidsList(id: string) {
     try {
@@ -23,14 +26,17 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function createBid(id: string, price: number, term: string) {
     try {
-      const data = await useNuxtApp().$fetch(`/api/projects/${id}/bids`, {
-        method: 'POST',
-        body: {
-          price,
-          term,
+      const { result } = await apiFetch<{ result: any; status: any }>(
+        `/api/projects/${id}/bids`,
+        {
+          method: 'POST',
+          body: {
+            price,
+            term,
+          },
         },
-      });
-      return data.result;
+      );
+      return result;
     } catch (error) {
       // console.error('Ошибка при загрузке категорий', error);
     }

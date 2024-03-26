@@ -6,6 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     'fetch',
     (url: string, options: NitroFetchOptions<string>) => {
       const token = localStorage.getItem('token');
+      console.log('token = ', token)
       if (token) {
         options.headers = {
           ...(options.headers || {}),
