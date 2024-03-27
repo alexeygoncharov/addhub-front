@@ -18,7 +18,7 @@ export interface initialFilters {
 }
 export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 
-interface User {
+export interface User {
   _id: string;
   user_name: string;
   name: string;
@@ -31,22 +31,24 @@ interface User {
   status: string;
   to_create_disputes: string;
   online_status: string;
-  payment_method: []; // TODO
-  reviews: []; // TODO
-  languages: []; // TODO
+  payment_method: string[];
   rate: number;
   createdAt: string;
   updatedAt: string;
   __v: number;
   avatar: string;
 }
+
 interface Country {
   _id: string;
   title: string;
 }
 interface ItemCity extends Country {
   country: string;
+  projects_count: number;
+  services_count: number;
 }
+
 export interface catalogItem {
   _id: string;
   title: string;
@@ -65,6 +67,11 @@ export interface catalogItem {
   updatedAt: string;
   __v: number;
 }
+export interface serviceItem extends catalogItem {
+  tools: [];
+  category: string;
+}
+
 export interface servicesItem extends catalogItem {
   reviews: []; // TODO
   tools: []; // TODO

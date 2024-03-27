@@ -6,10 +6,10 @@ export default function (
   withoutNumber?: boolean,
 ): string {
   if (number === 1) {
-    return `${(!withoutNumber && number) || ''} ${one}`;
+    return `${!withoutNumber ? number : ''} ${one}`;
   } else if (number >= 2 && number <= 4) {
-    return `${(!withoutNumber && number) || ''} ${few}`;
+    return `${!withoutNumber ? number : ''} ${few}`;
   } else {
-    return `${(!withoutNumber && number) || ''} ${many}`;
+    return `${!withoutNumber ? number : ''} ${many}`;
   }
 }

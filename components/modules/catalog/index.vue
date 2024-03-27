@@ -53,5 +53,6 @@ const props = defineProps({
   },
 });
 const { showCatalogFilters } = storeToRefs(props.store);
+
 props.store.initializeFromURL();
 </script>

@@ -1,4 +1,4 @@
-.freelancers-top {
+.freelancer-top {
   margin-top: -1em;
 
   &__inner {
@@ -6,7 +6,7 @@
     padding: 3.5em 4.25em;
     margin-top: 1.44em;
     background-color: $secondary;
-    background-image: url('/img/freelancers-bg.webp');
+    background-image: url('/img/freelancer-bg.webp');
     background-position: center;
     background-size: cover;
     border-radius: 1em;
@@ -27,7 +27,7 @@
   }
 }
 
-.freelancers-info {
+.freelancer-info {
   display: flex;
   align-items: center;
   max-width: 52.5625em;
@@ -40,7 +40,7 @@
     margin-right: 1.25em;
   }
 
-  .services-card__user-online {
+  .service-card__user-online {
     top: 0.8125em;
     right: 0.3125em;
     width: 1em;
@@ -80,7 +80,7 @@
   }
 }
 
-.freelancers-info2 {
+.freelancer-info2 {
   position: absolute;
   top: 2em;
   right: 2em;
@@ -160,7 +160,7 @@
   }
 }
 
-.freelancers {
+.freelancer {
   position: relative;
   z-index: 5;
   padding: 2.69em 0 7.42em;
@@ -194,7 +194,7 @@
   }
 }
 
-.about-freelancers {
+.about-freelancer {
   margin-top: 3.125em;
 
   .text {
@@ -225,7 +225,7 @@
   }
 }
 
-.freelancers-services {
+.freelancer-services {
   padding-top: 2.19em;
   margin-top: 2em;
   border-top: $border;
@@ -337,7 +337,7 @@
 }
 
 @media screen and (width <= 992px) {
-  .freelancers-top {
+  .freelancer-top {
     padding-top: 0.5em;
 
     &._pb85 {
@@ -368,7 +368,7 @@
     }
   }
 
-  .freelancers-info {
+  .freelancer-info {
     align-items: flex-start;
     width: 100%;
 
@@ -427,7 +427,7 @@
     }
   }
 
-  .freelancers-info2 {
+  .freelancer-info2 {
     position: static;
     width: 100%;
     padding: 0.25em 1.19em 0.9375em;
@@ -447,7 +447,7 @@
     }
   }
 
-  .freelancers {
+  .freelancer {
     padding: 7em 0 3.1875em;
 
     &._pt0 {
@@ -466,7 +466,7 @@
     }
   }
 
-  .about-freelancers {
+  .about-freelancer {
     margin-top: 2.9em;
 
     .text {
@@ -489,7 +489,7 @@
     }
   }
 
-  .freelancers-services {
+  .freelancer-services {
     padding-top: 0;
     margin-top: 3em;
     border-top: none;
@@ -538,7 +538,7 @@
 }
 
 @media screen and (width <= 427px) {
-  .freelancers-top {
+  .freelancer-top {
     &__inner {
       padding: 1.31em 0.9375em;
     }
@@ -549,7 +549,7 @@
     }
   }
 
-  .freelancers-info {
+  .freelancer-info {
     &__items {
       margin-top: 0.875em;
 
@@ -557,7 +557,7 @@
     }
   }
 
-  .freelancers-info2 {
+  .freelancer-info2 {
     padding: 0.25em 0.875em 0.9375em;
     margin: 1.25em 0 -5.4375em;
 
@@ -566,7 +566,7 @@
     }
   }
 
-  .freelancers {
+  .freelancer {
     padding-top: 6.5em;
 
     &__grid {

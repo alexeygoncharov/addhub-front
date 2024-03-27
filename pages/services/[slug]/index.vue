@@ -1,7 +1,10 @@
 <template>
   <div>
     <UIVBreadcrumbs
-      :items="[{ name: 'Главная', to: '/' }, { name: 'Каталог услуг' }]"
+      :items="[
+        { name: 'Главная', to: '/' },
+        { name: 'Каталог услуг', to: '/services/all' },
+      ]"
     />
     <UIPageTop :has-search="true" :has-select="true" />
     <!-- <ModulesCatalogPopular /> -->
@@ -11,7 +14,7 @@
           v-if="catalogStore.items?.length"
           class="services-items grid-col3 grid-tablet2 grid-mob-full"
         >
-          <ModulesCardsServices
+          <ModulesCardsService
             v-for="item in catalogStore.items"
             :key="item._id"
             :data="item"
@@ -24,7 +27,7 @@
           "
           class="services-items grid-col3 grid-tablet2 grid-mob-full"
         >
-          <ModulesCardsServices v-for="i in 10" :key="i" />
+          <ModulesCardsService v-for="i in 10" :key="i" />
         </div>
       </template>
       <template v-if="catalogStore.totalItems" #count>

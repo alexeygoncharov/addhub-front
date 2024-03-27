@@ -65,14 +65,15 @@ export function createCatalogStore<T>(
         showAll.value.push(index);
       }
     };
-    watch(
-      filters,
-      () => {
-        updateURL();
-      },
-      { deep: true },
-    );
+
     const initializeFromURL = async () => {
+      watch(
+        filters,
+        () => {
+          updateURL();
+        },
+        { deep: true },
+      );
       const route = useRoute();
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]

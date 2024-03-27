@@ -16,7 +16,7 @@
         :key="item._id"
         class="product-slider__slide"
       >
-        <ModulesCardsServices :data="item" />
+        <ModulesCardsService :data="item" />
       </SwiperSlide>
     </Swiper>
     <div v-if="showNav" class="product-slider__nav swiper-nav">

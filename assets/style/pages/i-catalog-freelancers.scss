@@ -193,7 +193,7 @@
     margin: 0 auto 1.25em;
   }
 
-  .services-card__user-online {
+  .service-card__user-online {
     top: 0.8125em;
     right: -0.0625em;
     width: 1em;
@@ -221,7 +221,7 @@
     color: $gray;
   }
 
-  .services-card__reviews {
+  .service-card__reviews {
     justify-content: center;
     margin: 0;
   }
@@ -578,7 +578,7 @@
       font-size: 0.75em;
     }
 
-    .services-card__reviews {
+    .service-card__reviews {
       .text14 {
         font-size: 0.75em;
       }
