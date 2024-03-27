@@ -2,15 +2,8 @@
   <div class="projects-card">
     <div class="projects-card__img">
       <div class="avatar">
-        <img
-          :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
-          alt=""
-          crossorigin="anonymous"
-        />
-        <span
-          v-if="data.createdBy.online_status === 'online'"
-          class="services-card__user-online"
-        ></span>
+        <img :src="`${$config.public.apiBase}/${data.createdBy.avatar}`" alt="" crossorigin="anonymous" />
+        <span v-if="data.createdBy.online_status === 'online'" class="services-card__user-online"></span>
       </div>
     </div>
     <div class="projects-card__content">
@@ -42,7 +35,7 @@
         <div class="text20 medium-text">{{ data.price }} ₽</div>
       </div>
       <div>
-        <button class="projects-card__btn m-btn m-btn-blue3">
+        <button v-if="!isSendBid" class="projects-card__btn m-btn m-btn-blue3">
           <NuxtLink :to="`/bid/${data._id}`"><span>Оставить отклик</span></NuxtLink>
         </button>
       </div>
@@ -52,11 +45,17 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-
-defineProps({
+import { useUserStore } from '~/stores/user'
+const userStore = useUserStore()
+const props = defineProps({
   data: {
     type: Object as PropType<projectsItem>,
     required: true,
   },
 });
+
+const isSendBid = props.data.bids.find((bid) => {
+  return bid.user === userStore.user._id
+})
+
 </script>

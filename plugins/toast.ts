@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import ToastComponent from '~/components/UI/VToast.vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
+  console.log('start')
   const toast = ({
     message,
     type = 'info',

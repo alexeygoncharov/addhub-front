@@ -6,7 +6,7 @@ export const useBidsStore = defineStore('bids', () => {
   // const categories = ref<Category[]>()
   async function fetchBidsList(id: string) {
     try {
-      const data = await useNuxtApp().$fetch(`/api/projects/${id}/bids`);
+      const data = await apiFetch<{ result: any; status: any }>(`/api/projects/${id}/bids`);
       bids.value = data.result;
     } catch (error) {
       // console.error('Ошибка при загрузке городов', error);
@@ -15,7 +15,7 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function fetchBid(id: string, bidId: string) {
     try {
-      const data = await useNuxtApp().$fetch(
+      const data = await apiFetch<{ result: any; status: any }>(
         `/api/projects/${id}/bids/${bidId}`,
       );
       return data.result;
@@ -44,7 +44,7 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function updateBid(id: string, bidId: string, status: any) {
     try {
-      const data = await useNuxtApp().$fetch(
+      const data = await apiFetch<{ result: any; status: any }>(
         `/api/projects/${id}/bids/${bidId}`,
         {
           method: 'PUT',
@@ -61,7 +61,7 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function deleteBid(id: string, bidId: string) {
     try {
-      const data = await useNuxtApp().$fetch(
+      const data = await apiFetch<{ result: any; status: any }>(
         `/api/projects/${id}/bids/${bidId}`,
         {
           method: 'DELETE',

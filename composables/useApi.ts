@@ -1,5 +1,6 @@
 
 
+import { useAuthStore } from '../stores/auth'
 
 export const getBaseURL = () => {
   const runtimeConfig = useRuntimeConfig();
@@ -18,17 +19,17 @@ const getAuthHeaders = () => {
   return {};
 }
 
-// const handleResponseError = (response) => {
-// 
-//   if ([401, 403].includes(response.status)) {
-//     logOut()
-//     return response
-//     // TODO: Add logic to logout or handle unauthorized/forbidden errors
-//   }
-// 
-//   const error = (response._data && response._data.message) || "Error occurred";
-//   return Promise.reject(error);
-// }
+ const handleResponseError = (response: Error) => {
+  const authStore = useAuthStore()
+   if ([401, 403].includes(response.status)) {
+     authStore.logout()
+     return response
+     // TODO: Add logic to logout or handle unauthorized/forbidden errors
+   }
+ 
+   const error = (response._data && response._data.message) || "Error occurred";
+   return Promise.reject(error);
+ }
 
 //export const refreshApi = () => {
 //  const baseURL = getBaseURL();
@@ -48,14 +49,13 @@ export const useApi = () => {
     headers: {
       'Content-Type': 'application/json'
     },
-    credentials: 'include',
     cache: "default",
     onRequest({ options }) {
       options.headers = options.headers || {};
       options.headers = { ...options.headers, ...getAuthHeaders(),  };
     },
     onRequestError({ request, options, error }) {
-      ///handleResponseError(error);
+      handleResponseError(error);
     },
     onResponse({ request, response, options }) {
       return response._data;
