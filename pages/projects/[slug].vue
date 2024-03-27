@@ -6,12 +6,22 @@
     <UIPageTop :has-search="true" />
     <ModulesCatalog :store="catalogStore">
       <template #items>
-        <div class="projects-items">
+        <div v-if="catalogStore.items?.length" class="project-items">
           <ModulesCardsProject
             v-for="item in catalogStore.items"
             :key="item._id"
             :data="item"
           />
+        </div>
+
+        <div
+          v-else-if="
+            !catalogStore.empty ||
+            (!catalogStore.empty && !catalogStore.items?.length)
+          "
+          class="project-items"
+        >
+          <ModulesCardsProject v-for="i in 10" :key="i" />
         </div>
       </template>
       <template v-if="catalogStore.totalItems" #count>

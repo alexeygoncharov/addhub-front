@@ -14,7 +14,7 @@ export interface initialFilters {
     list: City[];
     hasSearch: boolean;
   };
-  categories?: { title: string; type: 'radio'; list: Category[] | [] };
+  category?: { title: string; type: 'radio'; list: Category[] | [] };
 }
 export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 

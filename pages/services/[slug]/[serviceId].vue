@@ -21,7 +21,11 @@
             </span>
             <span class="icon-btn__text"> Поделиться </span>
           </button>
-          <button class="icon-btn favorite-btn2">
+          <button
+            class="icon-btn favorite-btn2"
+            :class="{ _added: item && favorites.includes(item?._id) }"
+            @click="item && toggleFavorite(item?._id)"
+          >
             <span class="icon-btn__round">
               <svg
                 width="26"
@@ -111,11 +115,7 @@
                       "
                     >
                       <SwiperSlide v-for="i in 4" :key="i" class="swiper-slide">
-                        <a
-                          :href="`/img/gallery.webp`"
-                          class="gallery__img"
-                          data-fancybox="@@album"
-                        >
+                        <a :href="`/img/gallery.webp`" class="gallery__img">
                           <img
                             :src="`/img/gallery${i > 1 ? i : ''}.webp`"
                             alt="Галерея"
@@ -456,7 +456,7 @@
                   </fieldset>
                   <fieldset class="fg">
                     <label>Email</label>
-                    <input type="email" placeholder="creativelayers088" />
+                    <input type="email" placeholder="creative-layers088" />
                   </fieldset>
                   <div class="m-check _full">
                     <input type="checkbox" />
@@ -579,6 +579,8 @@ import type { Swiper } from 'swiper/types';
 import type { serviceItem } from '~/stores/catalog/catalog.type';
 const commonStore = useCommonStore();
 const route = useRoute();
+const { favorites } = storeToRefs(useUserStore());
+const { toggleFavorite } = useUserStore();
 let thisSwiper: Swiper;
 const onSwiper = (swiper: Swiper) => {
   thisSwiper = swiper;
@@ -595,7 +597,3 @@ apiFetch<ApiResponse<serviceItem>>(`/api/services/${itemId}`, {
   },
 });
 </script>
-
-<style lang="scss">
-@import '/assets/style/pages/r-catalog-services';
-</style>

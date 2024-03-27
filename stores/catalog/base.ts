@@ -8,8 +8,8 @@ export function createCatalogStore<T>(
 ) {
   return defineStore(id, () => {
     const commonStore = useCommonStore();
-    if (commonStore.categories && initialFiltersArg.categories) {
-      initialFiltersArg.categories.list = commonStore.categories;
+    if (commonStore.categories && initialFiltersArg.category) {
+      initialFiltersArg.category.list = commonStore.categories;
     }
     if (commonStore.cities && initialFiltersArg['address.city']) {
       initialFiltersArg['address.city'].list = commonStore.cities;
@@ -19,7 +19,7 @@ export function createCatalogStore<T>(
     const filters = ref<{
       price?: { $gte: number; $lte: number };
       'address.city'?: string[];
-      categories?: string;
+      category?: string;
     }>({});
     const initialSorting = ref<
       {
@@ -32,14 +32,14 @@ export function createCatalogStore<T>(
         type: 'desc',
         text: 'Сначала дешевле',
         value: {
-          price: -1,
+          price: 1,
         },
       },
       {
         type: 'asc',
         text: 'Сначала дороже',
         value: {
-          price: 1,
+          price: -1,
         },
       },
     ]);
@@ -78,7 +78,7 @@ export function createCatalogStore<T>(
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]
         : route.params.slug;
-      const category = initialFilters.value.categories?.list.find(
+      const category = initialFilters.value.category?.list.find(
         (el) => el.slug === categorySlug,
       );
 
@@ -139,7 +139,7 @@ export function createCatalogStore<T>(
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]
         : route.params.slug;
-      const category = initialFilters.value.categories?.list.find(
+      const category = initialFilters.value.category?.list.find(
         (el) => el.slug === categorySlug,
       );
       const queryFilters = filters.value;

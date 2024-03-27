@@ -5,7 +5,7 @@ export const useCatalogFreelancersStore = createCatalogStore<freelancersItem>(
   '/api/users/sellers',
   '/freelancers',
   {
-    categories: {
+    category: {
       title: 'Категории',
       type: 'radio',
       list: [],

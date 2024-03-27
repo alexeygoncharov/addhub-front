@@ -1,7 +1,7 @@
 <template>
   <ul class="master-nav">
     <li v-for="(item, idx) in list" :key="idx">
-      <a href="" class="master-nav__item">
+      <NuxtLink :to="`${item.path}`" class="master-nav__item">
         <span class="master-nav__title"> {{ item.title }} </span>
         <svg
           v-if="item.isHaveSubmenu"
@@ -16,7 +16,7 @@
             fill="#222222"
           />
         </svg>
-      </a>
+      </NuxtLink>
       <ul v-if="item.isHaveSubmenu" class="master-nav__submenu">
         <li v-for="category of commonStore.categories" :key="category._id">
           <nuxtLink :to="`${item.path}/${category.slug}`">{{
