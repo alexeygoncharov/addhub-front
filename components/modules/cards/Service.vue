@@ -1,5 +1,8 @@
 <template>
-  <div class="services-card">
+  <nuxtLink
+    :to="data && `/services/${data.category.slug}/${data?._id}`"
+    class="service-card"
+  >
     <button
       class="favorite-btn"
       :class="{ _added: data && favorites.includes(data?._id) }"
@@ -21,7 +24,7 @@
         ></path>
       </svg>
     </button>
-    <div v-if="data" class="services-card__slider _nested-slider">
+    <div v-if="data" class="service-card__slider _nested-slider">
       <Swiper
         :modules="[SwiperPagination, SwiperNavigation]"
         :slides-per-view="'auto'"
@@ -34,7 +37,7 @@
         }"
       >
         <SwiperSlide v-for="(path, index) in data.photos" :key="index">
-          <div class="services-card__img">
+          <div class="service-card__img">
             <img
               :src="`${$config.public.apiBase}/${path}`"
               alt=""
@@ -99,30 +102,26 @@
         </div>
       </div>
     </div>
-    <UISkeleton v-else class="services-card__slider--skeleton" />
-    <div class="services-card__content">
-      <div v-if="data" class="services-card__type">
+    <UISkeleton v-else class="service-card__slider--skeleton" />
+    <div class="service-card__content">
+      <div v-if="data" class="service-card__type">
         <span class="text14">{{ data.title }}</span>
       </div>
       <UISkeleton
         v-else
-        class="services-card__type--skeleton services-card__type"
+        class="service-card__type--skeleton service-card__type"
       />
-      <NuxtLink
-        v-if="data"
-        :to="`/services/${data.category.slug}`"
-        class="services-card__title text17 medium-text"
-      >
+      <NuxtLink v-if="data" class="service-card__title text17 medium-text">
         {{ data.title }}
       </NuxtLink>
-      <div v-else class="services-card__title--skeleton services-card__title">
+      <div v-else class="service-card__title--skeleton service-card__title">
         <UISkeleton />
         <UISkeleton />
       </div>
 
-      <div v-if="data" class="services-card__reviews _flex">
+      <div v-if="data" class="service-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
-        <div class="services-card__reviews-text">
+        <div class="service-card__reviews-text">
           <span class="text15 medium-text">{{ data.reviews.length }} </span>
           <span class="text14 gray-text">
             {{
@@ -131,12 +130,12 @@
           </span>
         </div>
       </div>
-      <div v-else class="services-card__reviews _flex">
-        <UISkeleton class="services-card__reviews--skeleton" />
+      <div v-else class="service-card__reviews _flex">
+        <UISkeleton class="service-card__reviews--skeleton" />
       </div>
 
-      <div v-if="data" class="services-card__bottom _flex">
-        <NuxtLink to="/services/all" class="services-card__user _flex">
+      <div v-if="data" class="service-card__bottom _flex">
+        <NuxtLink to="/services/all" class="service-card__user _flex">
           <div class="avatar">
             <img
               :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
@@ -146,32 +145,30 @@
 
             <span
               v-if="data.createdBy.online_status === 'online'"
-              class="services-card__user-online"
+              class="service-card__user-online"
             ></span>
           </div>
-          <div class="services-card__user-name text14">
+          <div class="service-card__user-name text14">
             {{ `${data.createdBy.name} ${data.createdBy.surname}` }}
           </div>
         </NuxtLink>
 
-        <div class="services-card__price">
+        <div class="service-card__price">
           <span class="text14 gray-text">от </span>
           <span class="text17 medium-text"> {{ data.price }} ₽</span>
         </div>
       </div>
-      <div v-else class="services-card__bottom _flex">
-        <div class="services-card__user _flex">
+      <div v-else class="service-card__bottom _flex">
+        <div class="service-card__user _flex">
           <UISkeleton class="avatar--skeleton avatar" />
           <UISkeleton
-            class="services-card__user-name--skeleton services-card__user-name"
+            class="service-card__user-name--skeleton service-card__user-name"
           />
         </div>
-        <UISkeleton
-          class="services-card__price--skeleton services-card__price"
-        />
+        <UISkeleton class="service-card__price--skeleton service-card__price" />
       </div>
     </div>
-  </div>
+  </nuxtLink>
 </template>
 
 <script setup lang="ts">

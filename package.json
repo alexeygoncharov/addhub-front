@@ -22,7 +22,8 @@
     "lint:js": "eslint --ext .js,.vue --fix .",
     "lint:css": "stylelint '**/*.{css,scss,vue}' --fix",
     "format": "prettier --write .",
-    "lint": "npm run lint:js && npm run lint:css"
+    "lint": "npm run lint:js && npm run lint:css",
+    "start": "nuxt start"
   },
   "devDependencies": {
     "@nuxtjs/eslint-module": "^4.1.0",

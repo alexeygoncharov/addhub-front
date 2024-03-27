@@ -312,7 +312,7 @@
   }
 }
 
-.services-card {
+.service-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -531,7 +531,7 @@
 }
 
 @media screen and (width <= 427px) {
-  .services-card {
+  .service-card {
     &__img {
       border-radius: 0.9375em 0.9375em 0 0;
     }

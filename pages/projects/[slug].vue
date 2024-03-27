@@ -7,7 +7,7 @@
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div class="projects-items">
-          <ModulesCardsProjects
+          <ModulesCardsProject
             v-for="item in catalogStore.items"
             :key="item._id"
             :data="item"

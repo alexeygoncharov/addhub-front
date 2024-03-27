@@ -63,13 +63,13 @@
   }
 }
 
-.projects-items {
+.project-items {
   margin-top: 1.875em;
 
   @include grid100gap(1.875em);
 }
 
-.projects-card {
+.project-card {
   display: grid;
   grid-template-columns: 3.75em calc(100% - 24em) 18.75em;
   gap: 1.25em;
@@ -89,7 +89,7 @@
     border-radius: 0.625em;
   }
 
-  .services-card__user-online {
+  .service-card__user-online {
     top: 0.25em;
     right: 0.25em;
     width: 0.5625em;
@@ -151,7 +151,7 @@
   }
 }
 
-.services-info {
+.service-info {
   display: grid;
   grid-template-columns: repeat(4, calc(25% - 3em / 4));
   gap: 1em;
@@ -173,7 +173,7 @@
   }
 }
 
-.services2 {
+.m-page .services2 {
   padding: 0 0 10em;
   background-color: transparent;
 
@@ -292,7 +292,7 @@ body .services3 {
       }
     }
 
-    .services-card {
+    .service-card {
       &__type {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -364,7 +364,7 @@ body .services3 {
     }
   }
 
-  .projects-card {
+  .m-page .project-card {
     position: relative;
     grid-template-columns: 100%;
     gap: 0.5em;
@@ -425,7 +425,7 @@ body .services3 {
     }
   }
 
-  .services-info {
+  .service-info {
     grid-template-columns: repeat(3, calc(100% / 3 - 1.75em / 3));
     gap: 0.875em;
 
@@ -459,7 +459,7 @@ body .services3 {
 }
 
 @media screen and (width <= 576px) {
-  .services-info {
+  .service-info {
     grid-template-columns: 100%;
   }
 
