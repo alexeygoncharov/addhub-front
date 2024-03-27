@@ -15,5 +15,5 @@
 import { useCatalogServicesStore } from '~/stores/catalog/services';
 
 const catalogStore = useCatalogServicesStore();
-catalogStore.fetchPopular();
+// catalogStore.fetchPopular();
 </script>

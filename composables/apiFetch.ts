@@ -24,13 +24,17 @@ export default async function <T>(
     endpoint + ((options?.query && JSON.stringify(options?.query)) || '');
   handler && !options?.method && handler(useNuxtData<T>(key).data.value);
   clearNuxtData(key);
-  await useFetch(endpoint, {
+  startLoading();
+  const { data } = await useFetch(endpoint, {
     key,
     baseURL: baseUrl,
     onResponse({ response }) {
       handler && handler(response._data);
+      stopLoading();
     },
     watch: ignore && false,
     ...options,
   });
+  // stopLoading();
+  // handler && handler(data.value);
 }

@@ -36,7 +36,6 @@
         </div>
 
         <div class="filter-group__checks" :class="{ '_show-all': showAll }">
-          {{ store.filters[filterKey] }}
           <template
             v-for="item in showAll.includes(index)
               ? shownItems
@@ -65,7 +64,7 @@
               :title="item.title"
               :num="item[filtersCount]"
               :checked="
-                filterKey === 'categories' &&
+                filterKey === 'category' &&
                 (item.slug === categorySlug ||
                   (!item.slug && categorySlug === 'all'))
               "
@@ -139,7 +138,7 @@ const shownItems = computed(() => {
     const regex = new RegExp(search.value, 'gi');
     bufFilers = bufFilers.filter((filter) => regex.test(filter.title));
   }
-  if (props.filterKey === 'categories') {
+  if (props.filterKey === 'category') {
     bufFilers = [{ title: 'Все' }, ...bufFilers];
   }
 
@@ -151,7 +150,7 @@ const toggleSpoiler = () => {
 };
 
 const setFilters = (slug: string | undefined) => {
-  if (props.filterKey === 'categories') {
+  if (props.filterKey === 'category') {
     const route = useRoute();
     navigateTo({
       path: `${props.store.catalogPath}/${slug || 'all'}`,

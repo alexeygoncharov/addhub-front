@@ -1,7 +1,7 @@
 <template>
   <div class="project-card">
     <div class="project-card__img">
-      <div class="avatar">
+      <div v-if="data" class="avatar">
         <img
           :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
           alt=""
@@ -12,8 +12,11 @@
           class="service-card__user-online"
         ></span>
       </div>
+      <div v-else class="avatar avatar--skeleton">
+        <UISkeleton />
+      </div>
     </div>
-    <div class="project-card__content">
+    <div v-if="data" class="project-card__content">
       <div class="project-card__title text20 medium-text">{{ data.title }}</div>
       <div class="project-card__props">
         <div class="project-card__prop">
@@ -35,13 +38,39 @@
         </div>
       </div>
     </div>
+    <div v-else class="project-card__content">
+      <UISkeleton class="project-card__title--skeleton" />
+      <div class="project-card__props">
+        <div class="project-card__prop project-card__prop--skeleton">
+          <NuxtImg src="/img/prop-icon.svg" alt="" />
+          <UISkeleton></UISkeleton>
+        </div>
+        <div class="project-card__prop project-card__prop--skeleton">
+          <NuxtImg src="/img/prop-icon2.svg" alt="" />
+          <UISkeleton></UISkeleton>
+        </div>
+        <div class="project-card__prop project-card__prop--skeleton">
+          <NuxtImg src="/img/prop-icon3.svg" alt="" />
+          <UISkeleton></UISkeleton>
+        </div>
+      </div>
+      <div class="project-card__text project-card__text--skeleton">
+        <UISkeleton> </UISkeleton>
+        <UISkeleton> </UISkeleton>
+      </div>
+    </div>
     <div class="project-card__action">
       <div class="project-card__price">
-        <div class="text20 medium-text">{{ data.price }} ₽</div>
+        <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
+        <UISkeleton v-else class="project-card__price--skeleton"></UISkeleton>
       </div>
-      <button class="project-card__btn m-btn m-btn-blue3">
+      <button v-if="data" class="project-card__btn m-btn m-btn-blue3">
         <span>Оставить отклик</span>
       </button>
+      <UISkeleton
+        v-else
+        class="project-card__btn project-card__btn--skeleton"
+      ></UISkeleton>
     </div>
   </div>
 </template>
@@ -50,8 +79,8 @@
 import type { projectsItem } from '~/stores/catalog/catalog.type';
 const props = defineProps({
   data: {
-    type: Object as PropType<projectsItem>,
-    required: true,
+    type: Object as PropType<projectsItem | undefined>,
+    default: undefined,
   },
 });
 </script>

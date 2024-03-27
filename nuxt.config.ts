@@ -39,4 +39,8 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  routeRules: {
+    '/projects': { redirect: '/projects/all' },
+    '/services': { redirect: '/services/all' },
+  },
 });

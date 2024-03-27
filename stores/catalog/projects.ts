@@ -10,7 +10,7 @@ export const useCatalogProjectsStore = createCatalogStore<projectsItem>(
       $lte: 50000,
       type: 'range',
     },
-    categories: {
+    category: {
       title: 'Категории',
       type: 'radio',
       list: [],

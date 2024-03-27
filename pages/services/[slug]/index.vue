@@ -15,7 +15,7 @@
           class="services-items grid-col3 grid-tablet2 grid-mob-full"
         >
           <ModulesCardsService
-            v-for="item in catalogStore.items"
+            v-for="item of catalogStore.items"
             :key="item._id"
             :data="item"
           />
@@ -43,7 +43,3 @@
 import { useCatalogServicesStore } from '~/stores/catalog/services';
 const catalogStore = useCatalogServicesStore();
 </script>
-
-<style lang="scss">
-@import '/assets/style/pages/r-catalog-services';
-</style>

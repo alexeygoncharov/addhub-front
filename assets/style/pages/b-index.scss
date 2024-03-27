@@ -322,6 +322,12 @@
   border: $border;
   border-radius: 1.25em;
 
+  > a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
   &__slider {
     position: relative;
     width: calc(100% + 2px);
@@ -512,6 +518,7 @@
 .favorite-btn {
   width: 2.25em;
   height: 2.25em;
+  background-color: #fff;
   border: $border;
   border-radius: 50%;
   box-shadow: 0 0.375em 0.9375em rgb(64 79 104 / 5%);
