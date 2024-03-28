@@ -39,13 +39,10 @@
     @include grid100gap(1.25em);
   }
 
-  &__roles{
+  &__roles {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    .role-ratio {
-    }
   }
 
   &__wrap {

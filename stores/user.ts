@@ -1,15 +1,16 @@
-import { useApi } from '#imports';
+import { useProtectedApi } from '../composables/useProtectedApi';
+import type { User } from './../stores/catalog/catalog.type';
 
 export const useUserStore = defineStore('user', () => {
-  const apiFetch = useApi();
-  const user = ref(null)
+  const apiFetch = useProtectedApi();
+  const user = ref<User>();
 
   async function getMyUser() {
     try {
-      const { result } = await apiFetch<{ result: any; status: any }>(
+      const { result } = await apiFetch<{ result: User; status: number }>(
         `/api/users/me`,
       );
-      user.value = result
+      user.value = result;
       return result;
     } catch (error) {
       console.error('Пользователь не авторизован');
@@ -19,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     getMyUser,
-    user
+    user,
   };
 });
 if (import.meta.hot) {

@@ -1,12 +1,14 @@
-import { useApi } from '#imports';
+import { useProtectedApi } from '../../composables/useProtectedApi';
 
 export const useBidsStore = defineStore('bids', () => {
   const bids = ref();
-  const apiFetch = useApi();
+  const apiFetch = useProtectedApi();
   // const categories = ref<Category[]>()
   async function fetchBidsList(id: string) {
     try {
-      const data = await apiFetch<{ result: any; status: any }>(`/api/projects/${id}/bids`);
+      const data = await apiFetch<{ result: any; status: any }>(
+        `/api/projects/${id}/bids`,
+      );
       bids.value = data.result;
     } catch (error) {
       // console.error('Ошибка при загрузке городов', error);
@@ -24,7 +26,7 @@ export const useBidsStore = defineStore('bids', () => {
     }
   }
 
-  async function createBid(id: string, price: number, term: string) {
+  async function createBid(id: string, price: number, term: number) {
     try {
       const { result } = await apiFetch<{ result: any; status: any }>(
         `/api/projects/${id}/bids`,

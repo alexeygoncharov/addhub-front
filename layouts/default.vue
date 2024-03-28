@@ -14,13 +14,12 @@
 import { useCommonStore } from '~/stores/common';
 import { useUserStore } from '~/stores/user';
 
-
 const commonStore = useCommonStore();
-const userStore = useUserStore()
-const authStore = useAuthStore()
+const userStore = useUserStore();
+const authStore = useAuthStore();
 commonStore.fetchCategories();
 commonStore.fetchCities();
 if (authStore.token) {
-  userStore.getMyUser()
+  userStore.getMyUser();
 }
 </script>

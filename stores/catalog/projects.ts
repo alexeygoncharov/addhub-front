@@ -1,5 +1,7 @@
 import { createCatalogStore } from './base';
 import type { projectsItem } from './catalog.type';
+import { useProtectedApi } from '../../composables/useProtectedApi';
+
 export const useCatalogProjectsStore = createCatalogStore<projectsItem[]>(
   'projects',
   '/api/projects/',
@@ -27,13 +29,12 @@ if (import.meta.hot) {
 }
 
 export const useProjectStore = defineStore('project', () => {
+  const apiFetch = useProtectedApi();
   async function fetchProject(id: string) {
-    try {
-      const data = await useNuxtApp().$fetch(`/api/projects/${id}`);
-      return data.result
-    } catch (error) {
-      // console.error('Ошибка при загрузке городов', error);
-    }
+    const data = await apiFetch<{ result: projectsItem; status: number }>(
+      `/api/projects/${id}`,
+    );
+    return data.result;
   }
 
   return { fetchProject };

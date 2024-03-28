@@ -4,11 +4,14 @@ export default defineNuxtPlugin((nuxtApp) => {
   const baseUrl = config.public.apiBase;
   nuxtApp.provide(
     'fetch',
-    (url: string, options) => {
+    (url: string, options: NitroFetchOptions<string>) => {
       const token = localStorage.getItem('authToken');
-      console.log('token = ', token)
       if (token) {
-          console.log('options = ',options, 'url = ', url)
+        //  console.log('options = ',options, 'url = ', url)
+        //          options.headers = {
+        //  ...(options.headers || {}),
+        //  Authorization: `Bearer ${token}`,
+        //};
       }
       return $fetch(baseUrl + url, options);
     },

@@ -2,8 +2,15 @@
   <div class="projects-card">
     <div class="projects-card__img">
       <div class="avatar">
-        <img :src="`${$config.public.apiBase}/${data.createdBy.avatar}`" alt="" crossorigin="anonymous" />
-        <span v-if="data.createdBy.online_status === 'online'" class="services-card__user-online"></span>
+        <img
+          :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
+          alt=""
+          crossorigin="anonymous"
+        />
+        <span
+          v-if="data.createdBy.online_status === 'online'"
+          class="services-card__user-online"
+        ></span>
       </div>
     </div>
     <div class="projects-card__content">
@@ -36,7 +43,14 @@
       </div>
       <div>
         <button v-if="!isSendBid" class="projects-card__btn m-btn m-btn-blue3">
-          <NuxtLink :to="`/bid/${data._id}`"><span>Оставить отклик</span></NuxtLink>
+          <NuxtLink :to="`/bid/${data._id}`"
+            ><span>Оставить отклик</span></NuxtLink
+          >
+        </button>
+        <button v-else class="projects-card__btn m-btn m-btn-blue3">
+          <NuxtLink :to="`/bid/${data._id}`"
+            ><span>Уже откликнулись</span></NuxtLink
+          >
         </button>
       </div>
     </div>
@@ -45,8 +59,8 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-import { useUserStore } from '~/stores/user'
-const userStore = useUserStore()
+import { useUserStore } from '~/stores/user';
+const userStore = useUserStore();
 const props = defineProps({
   data: {
     type: Object as PropType<projectsItem>,
@@ -54,8 +68,8 @@ const props = defineProps({
   },
 });
 
+// TODO доработать запрос на бэке
 const isSendBid = props.data.bids.find((bid) => {
-  return bid.user === userStore.user._id
-})
-
+  return bid.user === userStore.user?._id;
+});
 </script>
