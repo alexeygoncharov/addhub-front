@@ -22,20 +22,20 @@ export interface City {
 export const useCommonStore = defineStore('common', () => {
   const cities = ref<City[]>();
   const categories = ref<Category[]>();
-  function fetchCities() {
-    apiFetch<ApiResponse<City[]>>('/api/cities/', {
-      handler: (data) => {
-        if (data) cities.value = data.result;
-      },
-    });
+  async function fetchCities() {
+    const data = await apiFetch<ApiResponse<City[]>>('/api/cities/');
+    const value = data.value;
+    if (value) {
+      cities.value = value.result;
+    }
   }
 
-  function fetchCategories() {
-    apiFetch<ApiResponse<Category[]>>('/api/categories/', {
-      handler: (data) => {
-        if (data) categories.value = data.result;
-      },
-    });
+  async function fetchCategories() {
+    const data = await apiFetch<ApiResponse<Category[]>>('/api/categories/');
+    const value = data.value;
+    if (value) {
+      categories.value = value.result;
+    }
   }
 
   return { cities, categories, fetchCities, fetchCategories };

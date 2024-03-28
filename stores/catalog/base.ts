@@ -132,7 +132,7 @@ export function createCatalogStore<T>(
       fetchItems();
     };
 
-    const fetchItems = (alien?: boolean) => {
+    const fetchItems = async (alien?: boolean) => {
       empty.value = false;
       items.value = [];
       const route = useRoute();
@@ -149,17 +149,9 @@ export function createCatalogStore<T>(
           delete queryFilters[key as keyof typeof filters.value];
         }
       }
-      apiFetch<ApiListResponse<T[]>>(
+      const data = await apiFetch<ApiListResponse<T[]>>(
         apiUrl,
         {
-          handler: (data) => {
-            if (data) {
-              items.value = data.result;
-              items.value?.length || (empty.value = true);
-              totalItems.value = data.total;
-            }
-          },
-
           options: {
             query: {
               offset: currentPage.value,
@@ -171,12 +163,15 @@ export function createCatalogStore<T>(
         },
         alien,
       );
+      const value = data.value;
+      if (value) {
+        items.value = value.result;
+        items.value?.length || (empty.value = true);
+        totalItems.value = value.total;
+      }
     };
-    const fetchPopular = () => {
-      apiFetch<ApiListResponse<T[]>>(apiUrl, {
-        handler: (data) => {
-          if (data) popularItems.value = data.result;
-        },
+    const fetchPopular = async () => {
+      const data = await apiFetch<ApiListResponse<T[]>>(apiUrl, {
         options: {
           query: {
             offset: currentPage.value,
@@ -184,6 +179,10 @@ export function createCatalogStore<T>(
           },
         },
       });
+      const value = data.value;
+      if (value) {
+        popularItems.value = value.result;
+      }
     };
 
     const setSorting = (sortingArg: typeof sorting.value) => {
