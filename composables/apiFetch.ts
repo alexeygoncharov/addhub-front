@@ -10,7 +10,7 @@ export default async function <T>(
   ignore?: boolean,
 ) {
   if (needToken && process.client) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     if (token && options) {
       options.headers = {
         ...(options.headers || {}),

@@ -1,5 +1,38 @@
+import { acceptHMRUpdate, defineStore } from 'pinia';
+import { useProtectedApi } from '../composables/useProtectedApi';
+import type { Bid, User } from './../stores/catalog/catalog.type';
+
 export const useUserStore = defineStore('user', () => {
   const favorites = ref<string[]>([]);
+  const apiFetch = useProtectedApi();
+  const user = ref<User>();
+  const myBid = ref<Bid>()
+
+  async function getMyUser() {
+    try {
+      const { result } = await apiFetch<{ result: User; status: number }>(
+        `/api/users/me`,
+      );
+      user.value = result;
+      return result;
+    } catch (error) {
+      console.error('Пользователь не авторизован');
+      throw error;
+    }
+  }
+
+  async function getMyBid(id: string) {
+    try {
+      const { result } = await apiFetch<{ result: any; status: number }>(
+        `/api/users/my_bid/${id}`,
+      );
+      myBid.value = result;
+      return result;
+    } catch (error) {
+      console.error('Пользователь не авторизован');
+      throw error;
+    }
+  }
 
   const getFavorites = () => {
     if (process.client) {
@@ -20,7 +53,7 @@ export const useUserStore = defineStore('user', () => {
     }
   };
   // getFavorites();
-  return { favorites, toggleFavorite, getFavorites };
+  return { favorites, toggleFavorite, getFavorites, getMyUser, user, getMyBid };
 });
 
 if (import.meta.hot) {

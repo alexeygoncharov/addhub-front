@@ -33,6 +33,12 @@
     }
   }
 
+  &__roles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   &__fields {
     margin-top: 1.69em;
 
