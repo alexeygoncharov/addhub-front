@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-console.log('sanbudcnas')
 import { useCatalogProjectsStore } from '~/stores/catalog/projects';
 const catalogStore = useCatalogProjectsStore();
 </script>
