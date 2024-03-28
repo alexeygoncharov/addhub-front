@@ -7,14 +7,29 @@
         :link="{ text: 'Все категории', path: '/services/all' }"
       />
 
-      <Swiper class="categories-slider slider" :slides-per-view="'auto'">
-        <SwiperSlide v-for="card in cardList" :key="card.title">
+      <Swiper
+        v-if="categories"
+        class="categories-slider slider"
+        :slides-per-view="'auto'"
+      >
+        <SwiperSlide v-for="card in categories.slice(0, 8)" :key="card._id">
           <NuxtLink :to="`/services/${card.slug}`" class="category-card">
             <div class="category-card__icon">
-              <NuxtImg :src="'/img/' + card.icon" alt="" />
+              <NuxtImg
+                :src="baseUrl() + card.icon"
+                crossorigin="anonymous"
+                alt=""
+              />
             </div>
             <div class="category-card__count">
-              <span class="text15">1.853 предложений</span>
+              <span class="text15">{{
+                pluralize(
+                  card.services_count,
+                  'предложение',
+                  'предложения',
+                  'предложений',
+                )
+              }}</span>
             </div>
             <div class="category-card__info">
               <div class="text20">{{ card.title }}</div>
@@ -85,46 +100,47 @@
 </template>
 
 <script setup lang="ts">
-const cardList = ref([
-  {
-    icon: 'category-icon.svg',
-    title: 'Разработка и ИТ',
-    slug: 'development',
-  },
-  {
-    icon: 'category-icon2.svg',
-    title: 'Дизайн и творчество',
-    slug: 'design',
-  },
-  {
-    icon: 'category-icon3.svg',
-    title: 'Цифровой маркетинг',
-    slug: 'marketing',
-  },
-  {
-    icon: 'category-icon4.svg',
-    title: 'Копирайтинг и перевод',
-    slug: 'all',
-  },
-  {
-    icon: 'category-icon5.svg',
-    title: 'Музыка и аудио',
-    slug: 'all',
-  },
-  {
-    icon: 'category-icon6.svg',
-    title: 'Видео и анимация',
-    slug: 'all',
-  },
-  {
-    icon: 'category-icon7.svg',
-    title: 'Инженерия и архитектура',
-    slug: 'all',
-  },
-  {
-    icon: 'category-icon8.svg',
-    title: 'Финансы и бухгалтерский учет',
-    slug: 'finances',
-  },
-]);
+const { categories } = storeToRefs(useCommonStore());
+// const cardList = ref([
+//   {
+//     icon: 'category-icon.svg',
+//     title: 'Разработка и ИТ',
+//     slug: 'development',
+//   },
+//   {
+//     icon: 'category-icon2.svg',
+//     title: 'Дизайн и творчество',
+//     slug: 'design',
+//   },
+//   {
+//     icon: 'category-icon3.svg',
+//     title: 'Цифровой маркетинг',
+//     slug: 'marketing',
+//   },
+//   {
+//     icon: 'category-icon4.svg',
+//     title: 'Копирайтинг и перевод',
+//     slug: 'all',
+//   },
+//   {
+//     icon: 'category-icon5.svg',
+//     title: 'Музыка и аудио',
+//     slug: 'all',
+//   },
+//   {
+//     icon: 'category-icon6.svg',
+//     title: 'Видео и анимация',
+//     slug: 'all',
+//   },
+//   {
+//     icon: 'category-icon7.svg',
+//     title: 'Инженерия и архитектура',
+//     slug: 'all',
+//   },
+//   {
+//     icon: 'category-icon8.svg',
+//     title: 'Финансы и бухгалтерский учет',
+//     slug: 'finances',
+//   },
+// ]);
 </script>
