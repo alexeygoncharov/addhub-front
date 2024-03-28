@@ -1,28 +1,43 @@
-import type { $Fetch } from 'nitropack';
+import type { apiFetch } from '#imports';
+
 import type { userData } from '~/types/user.type';
+
 export default {
-  async login(
-    $fetch: $Fetch,
+  login<T>(
+    thisFetch: typeof apiFetch,
     { email, password }: { email: string; password: string },
-  ) {
-    const data = await $fetch('/api/auth/login', {
-      method: 'POST',
-      body: { email, password },
+  ): Promise<ApiResponse<T>> {
+    return new Promise((resolve) => {
+      thisFetch<ApiResponse<T>>('/api/auth/login', {
+        options: { method: 'POST', body: { email, password } },
+        handler: (data) => {
+          if (data) resolve(data);
+        },
+      });
     });
-    return data;
   },
-  async register($fetch: $Fetch, userData: userData) {
-    return await $fetch('/api/auth/register', {
-      method: 'POST',
-      body: {
-        user_name: userData.username,
-        surname: userData.surname,
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
-        repeat_password: userData.repeatPassword,
-        role: 'seller',
-      },
+  register(
+    thisFetch: typeof apiFetch,
+    userData: userData,
+  ): Promise<ApiResponse<undefined>> {
+    return new Promise((resolve) => {
+      thisFetch<ApiResponse<undefined>>('/api/auth/register', {
+        options: {
+          method: 'POST',
+          body: {
+            user_name: userData.username,
+            surname: userData.surname,
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+            repeat_password: userData.repeatPassword,
+            role: userData.role,
+          },
+        },
+        handler: (data) => {
+          if (data) resolve(data);
+        },
+      });
     });
   },
 };

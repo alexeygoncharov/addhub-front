@@ -17,14 +17,21 @@
     </button>
 
     <ul class="menu">
-      <li v-for="item in list" :key="item.title">
-        <a href="" class="menu__dropdown">
-          <NuxtImg :src="'/img/' + item.path" class="menu__icon" alt="" />
-          <span class="menu__title">{{ item.title }}</span>
-        </a>
-        <div class="drop-menu">
+      <li
+        v-for="(category, index) of commonStore.categories"
+        :key="category._id"
+      >
+        <nuxtLink :to="`/services/${category.slug}`" class="menu__dropdown">
+          <NuxtImg
+            :src="`/img/menu-icon${1 + index > 1 ? index + 1 : ''}.svg`"
+            class="menu__icon"
+            alt=""
+          />
+          <span class="menu__title">{{ category.title }}</span>
+        </nuxtLink>
+        <div v-if="category.sub?.length" class="drop-menu">
           <div class="drop-menu__grid">
-            <div class="submenu">
+            <div v-for="sub of category.sub" :key="sub" class="submenu">
               <div class="submenu__title text15 medium-text">UI/UX дизайн</div>
               <ul class="submenu__list">
                 <li><a href="">Дизайн сайта</a></li>
@@ -32,58 +39,6 @@
                 <li><a href="">UX-дизайн</a></li>
                 <li><a href="">Дизайн целевой страницы</a></li>
                 <li><a href="">Дизайн Иконок</a></li>
-              </ul>
-            </div>
-            <div class="submenu">
-              <div class="submenu__title text15 medium-text">SMM дизайн</div>
-              <ul class="submenu__list">
-                <li><a href="">Дизайн соц.сетей</a></li>
-                <li><a href="">Дизайн писем</a></li>
-                <li><a href="">Веб-баннеры</a></li>
-                <li><a href="">Дизайн вывесок</a></li>
-              </ul>
-            </div>
-            <div class="submenu">
-              <div class="submenu__title text15 medium-text">Иллюстрации</div>
-              <ul class="submenu__list">
-                <li><a href="">Иллюстрация</a></li>
-                <li><a href="">НФТ-арт</a></li>
-                <li><a href="">Дизайн Узоров</a></li>
-                <li><a href="">Портреты и карикатуры</a></li>
-                <li><a href="">Мультфильмы и комиксы</a></li>
-                <li><a href="">Тату Дизайн</a></li>
-                <li><a href="">Раскадровки</a></li>
-              </ul>
-            </div>
-            <div class="submenu">
-              <div class="submenu__title text15 medium-text">Игровой</div>
-              <ul class="submenu__list">
-                <li><a href="">Игровое Искусство</a></li>
-                <li><a href="">Графика для стримеров</a></li>
-                <li><a href="">Магазин Twitch</a></li>
-              </ul>
-            </div>
-            <div class="submenu">
-              <div class="submenu__title text15 medium-text">
-                Векторная графика
-              </div>
-              <ul class="submenu__list">
-                <li><a href="">Редактирование</a></li>
-                <li><a href="">Дизайн презентации</a></li>
-                <li><a href="">Инфографический дизайн</a></li>
-                <li><a href="">Векторная трассировка</a></li>
-                <li><a href="">Дизайн резюме</a></li>
-              </ul>
-            </div>
-            <div class="submenu">
-              <div class="submenu__title text15 medium-text">Полиграфия</div>
-              <ul class="submenu__list">
-                <li><a href="">Футболки и товары</a></li>
-                <li><a href="">Дизайн флаера</a></li>
-                <li><a href="">Дизайн брошюры</a></li>
-                <li><a href="">Дизайн Плаката</a></li>
-                <li><a href="">Дизайн каталога</a></li>
-                <li><a href="">Футболки и товары</a></li>
               </ul>
             </div>
           </div>
@@ -94,6 +49,8 @@
 </template>
 
 <script setup lang="ts">
+const commonStore = useCommonStore();
+
 const list = ref([
   {
     title: 'Разработка и ИТ',

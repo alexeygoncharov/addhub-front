@@ -1,6 +1,6 @@
 <template>
   <div class="sort">
-    <div class="sort__title text15"><span>Сортировать</span> по</div>
+    <div class="sort__title text15"><span>Сортировать</span></div>
     <UIVSelect
       :options="store.initialSorting"
       :initial-current-text="store.sorting"

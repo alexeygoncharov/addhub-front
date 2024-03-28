@@ -1,4 +1,9 @@
 {
   "cSpell.words": ["Addhub", "nitropack", "nouislider", "nums", "stylelint"],
-  "cSpell.language": "en,ru"
+  "cSpell.language": "en,ru",
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "less", "postcss", "scss", "vue"],
+  "cSpell.validateDirectives": true
 }
