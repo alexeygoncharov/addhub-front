@@ -2,15 +2,8 @@
   <div class="project-card">
     <div class="project-card__img">
       <div v-if="data" class="avatar">
-        <img
-          :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
-          alt=""
-          crossorigin="anonymous"
-        />
-        <span
-          v-if="data.createdBy.online_status === 'online'"
-          class="service-card__user-online"
-        ></span>
+        <img :src="`${$config.public.apiBase}/${data.createdBy.avatar}`" alt="" crossorigin="anonymous" />
+        <span v-if="data.createdBy.online_status === 'online'" class="service-card__user-online"></span>
       </div>
       <div v-else class="avatar avatar--skeleton">
         <UISkeleton />
@@ -64,23 +57,43 @@
         <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
         <UISkeleton v-else class="project-card__price--skeleton"></UISkeleton>
       </div>
-      <button v-if="data" class="project-card__btn m-btn m-btn-blue3">
-        <span>Оставить отклик</span>
+      <button v-if="isDataLoaded && !isSendBid" class="project-card__btn m-btn m-btn-blue3">
+        <NuxtLink :to="`/bid/${data._id}`"
+            ><span>Оставить отклик</span></NuxtLink
+          >
       </button>
-      <UISkeleton
-        v-else
-        class="project-card__btn project-card__btn--skeleton"
-      ></UISkeleton>
+      <button v-else-if="isDataLoaded && isSendBid" class="project-card__btn m-btn m-btn-blue3">
+        <NuxtLink :to="`/bid/${data._id}`"
+            ><span>Уже откликнулись</span></NuxtLink
+          >
+      </button>
+      <UISkeleton v-else class="project-card__btn project-card__btn--skeleton"></UISkeleton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
+import { useUserStore } from '~/stores/user';
+import { ref, onMounted } from 'vue';
+const isDataLoaded = ref(false); 
+
+const userStore = useUserStore();
 const props = defineProps({
   data: {
-    type: Object as PropType<projectsItem | undefined>,
-    default: undefined,
+    type: Object as PropType<projectsItem>,
+    required: true,
   },
+});
+
+console.log(props.data)
+// TODO доработать запрос на бэке
+const isSendBid = props.data.bids.find((bid) => {
+  return bid.user === userStore.user?._id;
+
+});
+
+onMounted(() => {
+  isDataLoaded.value = true;
 });
 </script>
