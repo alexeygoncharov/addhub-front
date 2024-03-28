@@ -8,7 +8,6 @@
           UX-дизайна.
         </div>
       </div>
-
       <Form v-slot="{ meta }" class="auth-form" @submit="handleSubmit">
         <div class="auth-form__top">
           <div class="auth-form__title text20 medium-text">
@@ -20,6 +19,26 @@
           </div>
         </div>
         <div class="auth-form__fields">
+          <div class="auth-form__roles">
+            <div class="role-ratio">
+              <span> Заказчик</span>
+              <input
+                type="checkbox"
+                :value="'seller'"
+                :disabled="sellerIsChecked"
+                @click="handleCheckboxChange('seller')"
+              />
+            </div>
+            <div class="role-ratio">
+              <span>Фрилансер</span>
+              <input
+                type="checkbox"
+                :value="'freelancer'"
+                :disabled="freelancerIsChecked"
+                @click="handleCheckboxChange('freelancer')"
+              />
+            </div>
+          </div>
           <fieldset class="fg _small">
             <label>Логин</label>
             <Field
@@ -106,6 +125,8 @@
 import { useAuthStore } from '~/stores/auth';
 import { useValidation } from '~/composables/useValidation';
 
+const freelancerIsChecked = ref(false);
+const sellerIsChecked = ref(false);
 const regDetails = ref({
   username: '',
   name: '',
@@ -113,8 +134,18 @@ const regDetails = ref({
   email: '',
   password: '',
   repeatPassword: '',
-  role: 'admin',
+  role: '',
 });
+
+const handleCheckboxChange = (role: string) => {
+  if (role === 'freelancer') {
+    sellerIsChecked.value = !sellerIsChecked.value;
+    regDetails.value.role = role;
+  } else if (role === 'seller') {
+    freelancerIsChecked.value = !freelancerIsChecked.value;
+    regDetails.value.role = role;
+  }
+};
 
 useValidation();
 const { register: authRegister } = useAuthStore();

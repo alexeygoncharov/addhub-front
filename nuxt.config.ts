@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   css: ['~/assets/style/style.scss'],
   runtimeConfig: {
     public: {
-      apiBase: process.env.BASE_URL,
+      apiBase: 'https://hub.rdcd.ru',
     },
   },
   typescript: {

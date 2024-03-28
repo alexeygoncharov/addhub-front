@@ -82,14 +82,17 @@ export interface projectsItem extends catalogItem {
   category: string;
   skills: []; // TODO
   constructor: null; // TODO
-  bids: {
-    _id: string;
-    project_id: string;
-    user: string;
-    price: number;
-    term: number;
-    status: string;
-  }[];
+  bids: Bid[];
+}
+export interface Bid {
+  _id: string;
+  project_id: string;
+  user: string;
+  price: number;
+  term: number;
+  status: string;
+  createdAt: string; // Consider using Date type if you'll be working with date objects
+  updatedAt: string; // Consider using Date type if you'll be working with date objects
 }
 
 export interface freelancersItem {
