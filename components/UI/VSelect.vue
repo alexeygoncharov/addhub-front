@@ -38,16 +38,14 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from 'vue';
-
 const selectRef = ref<HTMLDivElement>();
 const props = defineProps({
   options: {
     type: Array as PropType<
       {
-        type: string;
         text: string;
         value: { [key: string]: number | undefined };
+        type?: string;
       }[]
     >,
     required: true,
@@ -57,13 +55,7 @@ const props = defineProps({
     default: null,
   },
   initialCurrentText: {
-    type: Object as PropType<{
-      type: string;
-      text: string;
-      value: {
-        [key: string]: number | undefined;
-      };
-    }>,
+    type: Object,
     default: () => null,
   },
 });
@@ -81,7 +73,11 @@ onBeforeUnmount(() => {
 const toggleSelect = () => {
   isOpen.value = !isOpen.value;
 };
-const selectOption = (option: typeof props.initialCurrentText) => {
+const selectOption = (option: {
+  text: string;
+  value: { [key: string]: number | undefined };
+  type?: string;
+}) => {
   currentText.value = option;
   emits('input', option);
   isOpen.value = false;

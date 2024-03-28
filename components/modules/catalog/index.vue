@@ -3,17 +3,11 @@
     <div class="container">
       <div class="catalog__grid">
         <div class="catalog__sidebar">
-          <ModulesCatalogFilter
-            v-model:show="showCatalogFilters"
-            :store="store"
-          />
+          <ModulesCatalogFilter :store="store" />
         </div>
         <div class="catalog__content">
           <div class="catalog__top">
-            <button
-              class="filter-btn m-btn m-btn-blue3 _toggle-filter"
-              @click="showCatalogFilters = !showCatalogFilters"
-            >
+            <button class="filter-btn m-btn m-btn-blue3 _toggle-filter">
               <span class="text15">Фильтры</span>
               <svg
                 width="17"
@@ -33,7 +27,7 @@
               <div class="text15"><slot name="count"></slot></div>
             </div>
 
-            <ModulesCatalogSort v-if="store.items?.length" :store="store" />
+            <ModulesCatalogSort :store="store" />
           </div>
 
           <slot name="items"></slot>
@@ -52,7 +46,6 @@ const props = defineProps({
     type: Object as PropType<CatalogStores>,
   },
 });
-const { showCatalogFilters } = storeToRefs(props.store);
 
 props.store.initializeFromURL();
 </script>

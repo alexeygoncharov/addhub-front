@@ -122,6 +122,7 @@
 </template>
 
 <script setup lang="ts">
+import { mapActions } from 'pinia';
 import { useAuthStore } from '~/stores/auth';
 import { useValidation } from '~/composables/useValidation';
 
@@ -153,7 +154,7 @@ const { register: authRegister } = useAuthStore();
 const register = async () => {
   await authRegister(regDetails.value);
   await navigateTo('/login');
-  useToast({
+  useNuxtApp().$toast({
     message: 'Регистрация прошла успешно',
     type: 'success',
   });

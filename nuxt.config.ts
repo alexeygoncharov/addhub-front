@@ -5,22 +5,10 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-  // app: {
-  //   head: {
-  //     script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрать
-  //   },
-  // },
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@import "@/assets/style/global.scss";',
-        },
-      },
+  app: {
+    head: {
+      script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрать
     },
-  },
-  pinia: {
-    storesDirs: ['stores'],
   },
   modules: [
     '@nuxtjs/eslint-module',
@@ -30,17 +18,18 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'nuxt-swiper',
   ],
-  css: ['~/assets/style/style.scss'],
+  css: ['~/assets/styles/style.scss'],
   runtimeConfig: {
     public: {
       apiBase: 'https://hub.rdcd.ru',
     },
   },
+  plugins: [
+    '~/plugins/fetch.ts',
+    '~/plugins/toast.ts',
+    '~/plugins/auth-init.ts',
+  ],
   typescript: {
     strict: true,
-  },
-  routeRules: {
-    '/projects': { redirect: '/projects/all' },
-    '/services': { redirect: '/services/all' },
   },
 });

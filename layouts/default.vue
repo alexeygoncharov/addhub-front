@@ -14,11 +14,9 @@
 import { useCommonStore } from '~/stores/common';
 import { useUserStore } from '~/stores/user';
 
-const { getFavorites } = useUserStore();
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const authStore = useAuthStore();
-getFavorites();
 commonStore.fetchCategories();
 commonStore.fetchCities();
 if (authStore.token) {

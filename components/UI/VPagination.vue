@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pages.length > 1" class="pagination">
+  <div class="pagination">
     <button type="button" class="pagination__btn _prev" @click="prevPage">
       <svg
         width="15"
@@ -25,7 +25,6 @@
       >
         {{ page }}
       </button>
-
       <button v-else type="button" class="pagination__item" disabled>
         ...
       </button>
@@ -48,10 +47,7 @@
   </div>
 
   <div v-if="totalItems > 0" class="pagination__text">
-    <div class="text14">
-      {{ pageRangeText }}
-      доступно
-    </div>
+    <div class="text14">{{ pageRangeText }} публикаций доступно</div>
   </div>
   <div v-else class="pagination__text">
     <div class="text14">Нет публикаций для отображения</div>
@@ -117,7 +113,7 @@ const pages = computed(() => {
 });
 const pageRangeText = computed(() => {
   if (totalItems.value === 0) {
-    return `0 – 0 из 0 публикаций`;
+    return `0 – 0 of 0`;
   }
   const startItem = Math.min(
     (currentPage.value - 1) * itemsPerPage.value + 1,
@@ -127,7 +123,7 @@ const pageRangeText = computed(() => {
     startItem + itemsPerPage.value - 1,
     totalItems.value,
   );
-  return `${startItem} – ${endItem} из ${pluralize(totalItems.value, 'публикация', 'публикации', 'публикаций')}`;
+  return `${startItem} – ${endItem} of ${totalItems.value}`;
 });
 
 const prevPage = () => {

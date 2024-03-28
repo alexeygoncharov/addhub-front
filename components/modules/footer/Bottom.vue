@@ -2,11 +2,11 @@
   <div class="footer-bottom">
     <div class="footer-bottom__c">© Addhub.io. 2023. Все права защищены.</div>
 
-    <!-- <div class="footer-bottom__nav">
-      <ModulesFooterDropdown title="$USD" />
+    <div class="footer-bottom__nav">
+      <ModulesFooterDropdown title="US$ USD" />
 
-      <ModulesFooterDropdown title="Russian" />
-    </div> -->
+      <ModulesFooterDropdown title="English" />
+    </div>
   </div>
 </template>
 <script setup lang="ts"></script>

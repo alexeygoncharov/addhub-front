@@ -1,12 +1,6 @@
 <template>
-  <UILoader />
   <NuxtLayout>
+    <NuxtLoadingIndicator />
     <NuxtPage />
   </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-useSeoMeta({
-  title: 'AddHub',
-});
-</script>

@@ -1,20 +1,19 @@
-import type { Category, City } from '../common';
+import type { Category } from '../common';
 import type { FreelancersStore } from './freelancers';
 import type { ProjectsStore } from './projects';
 import type { ServicesStore } from './services';
-export interface initialFilters {
-  price?: {
-    $gte: number;
-    $lte: number;
-    type: 'range';
+export interface initialConfig {
+  initialFilters: {
+    price?: {
+      min: number;
+      max: number;
+    };
+    city: { title: string; type: string; list: [] };
+    category: { title: string; type: string; list: Category[] | [] };
   };
-  'address.city'?: {
-    title: string;
-    type: 'check';
-    list: City[];
-    hasSearch: boolean;
+  filters: {
+    price?: { $gte: number; $lte: number };
   };
-  category?: { title: string; type: 'radio'; list: Category[] | [] };
 }
 export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 
@@ -31,24 +30,22 @@ export interface User {
   status: string;
   to_create_disputes: string;
   online_status: string;
-  payment_method: string[];
+  payment_method: []; // TODO
+  reviews: []; // TODO
+  languages: []; // TODO
   rate: number;
   createdAt: string;
   updatedAt: string;
   __v: number;
   avatar: string;
 }
-
 interface Country {
   _id: string;
   title: string;
 }
-interface ItemCity extends Country {
+interface City extends Country {
   country: string;
-  projects_count: number;
-  services_count: number;
 }
-
 export interface catalogItem {
   _id: string;
   title: string;
@@ -58,7 +55,7 @@ export interface catalogItem {
   delivery_time: number;
   address: {
     country: Country;
-    city: ItemCity;
+    city: City;
   };
   status: string;
   createdBy: User;
@@ -67,11 +64,6 @@ export interface catalogItem {
   updatedAt: string;
   __v: number;
 }
-export interface serviceItem extends catalogItem {
-  tools: [];
-  category: string;
-}
-
 export interface servicesItem extends catalogItem {
   reviews: []; // TODO
   tools: []; // TODO
@@ -93,25 +85,6 @@ export interface Bid {
   status: string;
   createdAt: string; // Consider using Date type if you'll be working with date objects
   updatedAt: string; // Consider using Date type if you'll be working with date objects
-}
-
-export interface freelancersItem {
-  _id: string;
-  name: string;
-  surname: string;
-  user_name: string;
-  email: string;
-  avatar: string;
-  online_status: string;
-  status: string;
-  rate: number;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  active_role: string;
-  payment_method: string[];
-  roles: string[];
-  to_create_disputes: string;
 }
 export interface initialSort {
   type: string;

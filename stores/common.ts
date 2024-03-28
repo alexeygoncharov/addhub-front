@@ -7,35 +7,30 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  projects_count: number;
-  services_count: number;
 }
 
-export interface City {
-  _id: string;
-  country: string;
-  title: string;
-  projects_count: number;
-  services_count: number;
-}
+// export interface City {}
 
 export const useCommonStore = defineStore('common', () => {
-  const cities = ref<City[]>();
+  const cities = ref<[]>();
   const categories = ref<Category[]>();
-  function fetchCities() {
-    apiFetch<ApiResponse<City[]>>('/api/cities/', {
-      handler: (data) => {
-        if (data) cities.value = data.result;
-      },
-    });
+
+  async function fetchCities() {
+    try {
+      const data = await useNuxtApp().$fetch('/api/cities/');
+      cities.value = data.result as [];
+    } catch (error) {
+      // console.error('Ошибка при загрузке городов', error);
+    }
   }
 
-  function fetchCategories() {
-    apiFetch<ApiResponse<Category[]>>('/api/categories/', {
-      handler: (data) => {
-        if (data) categories.value = data.result;
-      },
-    });
+  async function fetchCategories() {
+    try {
+      const data = await useNuxtApp().$fetch('/api/categories/');
+      categories.value = data.result as Category[];
+    } catch (error) {
+      // console.error('Ошибка при загрузке категорий', error);
+    }
   }
 
   return { cities, categories, fetchCities, fetchCategories };

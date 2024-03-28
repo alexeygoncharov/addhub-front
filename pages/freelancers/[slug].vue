@@ -14,9 +14,7 @@
           />
         </div>
       </template>
-      <template v-if="catalogStore.totalItems" #count>{{
-        pluralize(catalogStore.totalItems, 'проект', 'проекта', 'проектов')
-      }}</template>
+      <template #count> {{ catalogStore.totalItems }} проектов</template>
     </ModulesCatalog>
   </div>
 </template>

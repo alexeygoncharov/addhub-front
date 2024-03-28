@@ -4,7 +4,7 @@
       <UISectionTop
         title="Поиск исполнителя по специальности"
         desc="Получите вдохновение от более чем 1800 навыков"
-        :link="{ text: 'Все категории', path: '/services/all' }"
+        :link="{ text: 'Все категории' }"
       />
 
       <Swiper class="categories-slider slider" :slides-per-view="'auto'">

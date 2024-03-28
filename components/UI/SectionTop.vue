@@ -33,7 +33,7 @@ const props = defineProps({
     required: true,
   },
   link: {
-    type: Object as PropType<{ text: string; path?: string }>,
+    type: Object,
     default: null,
   },
 });

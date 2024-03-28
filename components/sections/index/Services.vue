@@ -13,7 +13,8 @@
 
 <script setup lang="ts">
 import { useCatalogServicesStore } from '~/stores/catalog/services';
+import { useCommonStore } from '~/stores/common';
 
 const catalogStore = useCatalogServicesStore();
-// catalogStore.fetchPopular();
+catalogStore.fetchItems();
 </script>

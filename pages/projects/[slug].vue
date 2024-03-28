@@ -6,29 +6,15 @@
     <UIPageTop :has-search="true" />
     <ModulesCatalog :store="catalogStore">
       <template #items>
-        <div v-if="catalogStore.items?.length" class="project-items">
-          <ModulesCardsProject
+        <div class="projects-items">
+          <ModulesCardsProjects
             v-for="item in catalogStore.items"
             :key="item._id"
             :data="item"
           />
         </div>
-
-        <div
-          v-else-if="
-            !catalogStore.empty ||
-            (!catalogStore.empty && !catalogStore.items?.length)
-          "
-          class="project-items"
-        >
-          <ModulesCardsProject v-for="i in 10" :key="i" />
-        </div>
       </template>
-      <template v-if="catalogStore.totalItems" #count>
-        {{
-          pluralize(catalogStore.totalItems, 'проект', 'проекта', 'проектов')
-        }}</template
-      >
+      <template #count> {{ catalogStore.totalItems }} проектов</template>
     </ModulesCatalog>
   </div>
 </template>
