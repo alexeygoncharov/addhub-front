@@ -9,4 +9,7 @@
 definePageMeta({
   middleware: 'redirect-if-authenticated',
 });
+useHead({
+  title: 'Регистрация',
+});
 </script>

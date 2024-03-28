@@ -57,21 +57,21 @@
           <div class="freelancer__col">
             <div class="freelancer__inner">
               <div class="stat">
-                <!-- <div class="stat-card">
+                <div class="stat-card">
                   <div class="stat-card__icon">
                     <img src="/img/stat-icon12.svg" alt="" />
                   </div>
-                  <div class="stat-card__content">
+                  <div v-if="item" class="stat-card__content">
                     <div class="stat-card__title text17 medium-text">
                       Время выполнения
                     </div>
                     <div class="stat-card__desc text15 light-text">
-                      1-3 дней
+                      {{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}
                     </div>
                   </div>
                 </div>
 
-                <div class="stat-card">
+                <!-- <div class="stat-card">
                   <div class="stat-card__icon">
                     <img src="/img/stat-icon13.svg" alt="" />
                   </div>
@@ -185,7 +185,11 @@
               <div class="service-info">
                 <div class="service-info__col">
                   <div class="service-info__title">Категория</div>
-                  <div class="service-info__desc">{{ category?.title }}</div>
+                  <nuxtLink
+                    :to="`/services/${category?.slug}`"
+                    class="service-info__desc"
+                    >{{ category?.title }}</nuxtLink
+                  >
                 </div>
                 <!-- <div class="service-info__col">
                   <div class="service-info__title">Инструменты</div>
@@ -214,40 +218,10 @@
                     </div>
                   </div>
                   <div class="review-rating__balls">
-                    <div class="ball">
-                      <div class="ball__type">5 звезда</div>
-                      <div class="ball__progress">
-                        <span style="width: 0%"></span>
+                    <div v-for="i in 5" :key="i" class="ball">
+                      <div class="ball__type">
+                        {{ pluralize(6 - i, 'звезда', 'звезды', 'звезд') }}
                       </div>
-                      <div class="ball__count">0</div>
-                    </div>
-
-                    <div class="ball">
-                      <div class="ball__type">4 звезда</div>
-                      <div class="ball__progress">
-                        <span style="width: 0%"></span>
-                      </div>
-                      <div class="ball__count">0</div>
-                    </div>
-
-                    <div class="ball">
-                      <div class="ball__type">3 звезда</div>
-                      <div class="ball__progress">
-                        <span style="width: 0%"></span>
-                      </div>
-                      <div class="ball__count">0</div>
-                    </div>
-
-                    <div class="ball">
-                      <div class="ball__type">2 звезда</div>
-                      <div class="ball__progress">
-                        <span style="width: 0%"></span>
-                      </div>
-                      <div class="ball__count">0</div>
-                    </div>
-
-                    <div class="ball">
-                      <div class="ball__type">1 звезда</div>
                       <div class="ball__progress">
                         <span style="width: 0%"></span>
                       </div>
@@ -355,13 +329,18 @@
                     Ваша оценка оказанных услуг
                   </div>
                   <div class="rating">
-                    <!-- Есть скрипты -->
                     <div
                       class="rating-input"
                       data-total-rating="@@num"
-                      data-rating-code="1"
+                      :data-rating-code="userRating"
                     >
-                      <div class="rating-input__item" data-rating-value="5">
+                      <div
+                        v-for="i in 5"
+                        :key="i"
+                        class="rating-input__item"
+                        :data-rating-value="6 - i"
+                        @click="userRating = 6 - i"
+                      >
                         <svg
                           width="16"
                           height="15"
@@ -376,70 +355,12 @@
                           />
                         </svg>
                       </div>
-                      <div class="rating-input__item" data-rating-value="4">
-                        <svg
-                          width="16"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M14.4056 5.45593L14.4058 5.45594C14.5085 5.46524 14.596 5.53465 14.6283 5.63402L15.1038 5.4794L14.6282 5.6337C14.6608 5.73406 14.6307 5.84212 14.5526 5.91066L11.4354 8.64399L11.2115 8.84029L11.2774 9.13064L12.1965 13.1783C12.2198 13.2818 12.1797 13.3864 12.096 13.4469L12.0956 13.4472C12.0112 13.5084 11.8994 13.5132 11.8102 13.4599L8.25496 11.3337L7.99835 11.1803L7.74174 11.3337L4.18572 13.4599L4.18559 13.46C4.14437 13.4847 4.09873 13.4968 4.05299 13.4968C3.99937 13.4968 3.94683 13.4805 3.90167 13.4476L3.90067 13.4469C3.81696 13.3864 3.77686 13.2819 3.80017 13.1785C3.80018 13.1784 3.80019 13.1784 3.8002 13.1783L4.71922 9.13064L4.78515 8.84029L4.56128 8.64399L1.444 5.91058C1.44399 5.91057 1.44398 5.91056 1.44397 5.91055C1.36608 5.84222 1.33606 5.73399 1.36817 5.63455C1.40106 5.5349 1.48868 5.46552 1.59142 5.4559C1.59154 5.45588 1.59166 5.45587 1.59177 5.45586L5.71554 5.08154L6.01288 5.05455L6.13016 4.77999L7.75993 0.96436L7.76003 0.964121C7.801 0.868076 7.8939 0.806702 7.99833 0.806702C8.10241 0.806702 8.19587 0.867839 8.23766 0.965002C8.23768 0.965061 8.23771 0.96512 8.23773 0.965179L9.86716 4.77999L9.98443 5.05455L10.2818 5.08154L14.4056 5.45593Z"
-                            fill="white"
-                            stroke="#E1833F"
-                          />
-                        </svg>
-                      </div>
-                      <div class="rating-input__item" data-rating-value="3">
-                        <svg
-                          width="16"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M14.4056 5.45593L14.4058 5.45594C14.5085 5.46524 14.596 5.53465 14.6283 5.63402L15.1038 5.4794L14.6282 5.6337C14.6608 5.73406 14.6307 5.84212 14.5526 5.91066L11.4354 8.64399L11.2115 8.84029L11.2774 9.13064L12.1965 13.1783C12.2198 13.2818 12.1797 13.3864 12.096 13.4469L12.0956 13.4472C12.0112 13.5084 11.8994 13.5132 11.8102 13.4599L8.25496 11.3337L7.99835 11.1803L7.74174 11.3337L4.18572 13.4599L4.18559 13.46C4.14437 13.4847 4.09873 13.4968 4.05299 13.4968C3.99937 13.4968 3.94683 13.4805 3.90167 13.4476L3.90067 13.4469C3.81696 13.3864 3.77686 13.2819 3.80017 13.1785C3.80018 13.1784 3.80019 13.1784 3.8002 13.1783L4.71922 9.13064L4.78515 8.84029L4.56128 8.64399L1.444 5.91058C1.44399 5.91057 1.44398 5.91056 1.44397 5.91055C1.36608 5.84222 1.33606 5.73399 1.36817 5.63455C1.40106 5.5349 1.48868 5.46552 1.59142 5.4559C1.59154 5.45588 1.59166 5.45587 1.59177 5.45586L5.71554 5.08154L6.01288 5.05455L6.13016 4.77999L7.75993 0.96436L7.76003 0.964121C7.801 0.868076 7.8939 0.806702 7.99833 0.806702C8.10241 0.806702 8.19587 0.867839 8.23766 0.965002C8.23768 0.965061 8.23771 0.96512 8.23773 0.965179L9.86716 4.77999L9.98443 5.05455L10.2818 5.08154L14.4056 5.45593Z"
-                            fill="white"
-                            stroke="#E1833F"
-                          />
-                        </svg>
-                      </div>
-                      <div class="rating-input__item" data-rating-value="2">
-                        <svg
-                          width="16"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M14.4056 5.45593L14.4058 5.45594C14.5085 5.46524 14.596 5.53465 14.6283 5.63402L15.1038 5.4794L14.6282 5.6337C14.6608 5.73406 14.6307 5.84212 14.5526 5.91066L11.4354 8.64399L11.2115 8.84029L11.2774 9.13064L12.1965 13.1783C12.2198 13.2818 12.1797 13.3864 12.096 13.4469L12.0956 13.4472C12.0112 13.5084 11.8994 13.5132 11.8102 13.4599L8.25496 11.3337L7.99835 11.1803L7.74174 11.3337L4.18572 13.4599L4.18559 13.46C4.14437 13.4847 4.09873 13.4968 4.05299 13.4968C3.99937 13.4968 3.94683 13.4805 3.90167 13.4476L3.90067 13.4469C3.81696 13.3864 3.77686 13.2819 3.80017 13.1785C3.80018 13.1784 3.80019 13.1784 3.8002 13.1783L4.71922 9.13064L4.78515 8.84029L4.56128 8.64399L1.444 5.91058C1.44399 5.91057 1.44398 5.91056 1.44397 5.91055C1.36608 5.84222 1.33606 5.73399 1.36817 5.63455C1.40106 5.5349 1.48868 5.46552 1.59142 5.4559C1.59154 5.45588 1.59166 5.45587 1.59177 5.45586L5.71554 5.08154L6.01288 5.05455L6.13016 4.77999L7.75993 0.96436L7.76003 0.964121C7.801 0.868076 7.8939 0.806702 7.99833 0.806702C8.10241 0.806702 8.19587 0.867839 8.23766 0.965002C8.23768 0.965061 8.23771 0.96512 8.23773 0.965179L9.86716 4.77999L9.98443 5.05455L10.2818 5.08154L14.4056 5.45593Z"
-                            fill="white"
-                            stroke="#E1833F"
-                          />
-                        </svg>
-                      </div>
-                      <div class="rating-input__item" data-rating-value="1">
-                        <svg
-                          width="16"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M14.4056 5.45593L14.4058 5.45594C14.5085 5.46524 14.596 5.53465 14.6283 5.63402L15.1038 5.4794L14.6282 5.6337C14.6608 5.73406 14.6307 5.84212 14.5526 5.91066L11.4354 8.64399L11.2115 8.84029L11.2774 9.13064L12.1965 13.1783C12.2198 13.2818 12.1797 13.3864 12.096 13.4469L12.0956 13.4472C12.0112 13.5084 11.8994 13.5132 11.8102 13.4599L8.25496 11.3337L7.99835 11.1803L7.74174 11.3337L4.18572 13.4599L4.18559 13.46C4.14437 13.4847 4.09873 13.4968 4.05299 13.4968C3.99937 13.4968 3.94683 13.4805 3.90167 13.4476L3.90067 13.4469C3.81696 13.3864 3.77686 13.2819 3.80017 13.1785C3.80018 13.1784 3.80019 13.1784 3.8002 13.1783L4.71922 9.13064L4.78515 8.84029L4.56128 8.64399L1.444 5.91058C1.44399 5.91057 1.44398 5.91056 1.44397 5.91055C1.36608 5.84222 1.33606 5.73399 1.36817 5.63455C1.40106 5.5349 1.48868 5.46552 1.59142 5.4559C1.59154 5.45588 1.59166 5.45587 1.59177 5.45586L5.71554 5.08154L6.01288 5.05455L6.13016 4.77999L7.75993 0.96436L7.76003 0.964121C7.801 0.868076 7.8939 0.806702 7.99833 0.806702C8.10241 0.806702 8.19587 0.867839 8.23766 0.965002C8.23768 0.965061 8.23771 0.96512 8.23773 0.965179L9.86716 4.77999L9.98443 5.05455L10.2818 5.08154L14.4056 5.45593Z"
-                            fill="white"
-                            stroke="#E1833F"
-                          />
-                        </svg>
-                      </div>
+
                       <input
+                        ref="ratingInput"
                         class="rating-input__field"
                         type="number"
-                        value="0"
+                        :value="userRating"
                       />
                     </div>
                   </div>
@@ -489,12 +410,14 @@
                 <div class="offer-req__desc">
                   Расклею объявления в Ленинградской области, в районе таком-то
                 </div>
-              </div>
-              <div class="offer-req__duration">
+              </div> -->
+              <div v-if="item" class="offer-req__duration">
                 <img src="/img/clock.svg" alt="" />
-                <span>3 дня</span>
+                <span>{{
+                  pluralize(item.delivery_time, 'день', 'дня', 'дней')
+                }}</span>
               </div>
-              <div class="offer-req__items">
+              <!-- <div class="offer-req__items">
                 <div class="offer-req__item">
                   <div class="offer-req__item-text">500 объявлений</div>
                 </div>
@@ -577,6 +500,8 @@
 <script setup lang="ts">
 import type { Swiper } from 'swiper/types';
 import type { serviceItem } from '~/stores/catalog/catalog.type';
+const title = ref('');
+const userRating = ref(0);
 const commonStore = useCommonStore();
 const route = useRoute();
 const { favorites } = storeToRefs(useUserStore());
@@ -588,6 +513,9 @@ const onSwiper = (swiper: Swiper) => {
 const category = commonStore.categories?.find(
   (item) => item.slug === route.params.slug,
 );
+useHead({
+  title,
+});
 const activeSlide = ref();
 const item = ref<serviceItem>();
 const itemId = route.params.serviceId;
@@ -595,5 +523,8 @@ const data = await apiFetch<ApiResponse<serviceItem>>(
   `/api/services/${itemId}`,
 );
 const value = data.value;
-if (value) item.value = data.value.result;
+if (value) {
+  item.value = data.value.result;
+  title.value = item.value?.title;
+}
 </script>

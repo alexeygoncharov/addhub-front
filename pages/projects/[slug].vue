@@ -36,4 +36,7 @@
 <script setup lang="ts">
 import { useCatalogProjectsStore } from '~/stores/catalog/projects';
 const catalogStore = useCatalogProjectsStore();
+useHead({
+  title: 'Каталог проектов',
+});
 </script>

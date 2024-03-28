@@ -7,6 +7,7 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  icon: string;
   projects_count: number;
   services_count: number;
 }

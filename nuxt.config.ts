@@ -5,11 +5,7 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
-  // app: {
-  //   head: {
-  //     script: [{ src: '/scripts/01_main.js', type: 'module' }], // убрать
-  //   },
-  // },
+
   vite: {
     css: {
       preprocessorOptions: {

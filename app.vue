@@ -6,8 +6,10 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({
-  title: 'AddHub.io',
-  description: 'Addhub - Биржа услуг',
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - AddHub.io` : 'AddHub.io';
+  },
+  meta: [{ name: 'description', content: 'Addhub - Биржа услуг' }],
 });
 </script>

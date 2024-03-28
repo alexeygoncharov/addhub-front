@@ -34,7 +34,15 @@ const list = ref([
   { title: 'Главная', isHaveSubmenu: false, path: '/' },
   { title: 'Услуги', isHaveSubmenu: true, path: '/services' },
   { title: 'Проекты', isHaveSubmenu: true, path: '/projects' },
-  { title: 'О нас', isHaveSubmenu: false, path: '/about' },
-  { title: 'Контакты', isHaveSubmenu: false, path: '/contacts' },
+  {
+    title: 'О нас',
+    isHaveSubmenu: false,
+    path: 'https://delicate-gaufre-39d364.netlify.app/about',
+  },
+  {
+    title: 'Контакты',
+    isHaveSubmenu: false,
+    path: 'https://delicate-gaufre-39d364.netlify.app/contacts',
+  },
 ]);
 </script>
