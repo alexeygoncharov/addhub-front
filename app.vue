@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'AddHub',
+  title: 'AddHub.io',
+  description: 'Addhub - Биржа услуг',
 });
 </script>

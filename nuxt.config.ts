@@ -29,6 +29,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@vee-validate/nuxt',
     'nuxt-swiper',
+    // '@nuxtjs/sitemap',
+    // '@nuxtjs/robots',
   ],
   css: ['~/assets/style/style.scss'],
   runtimeConfig: {

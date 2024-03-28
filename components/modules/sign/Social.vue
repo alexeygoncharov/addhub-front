@@ -62,8 +62,8 @@
 </template>
 
 <script setup lang="ts">
-const signTelegram = () => {
-  apiFetch('/api/auth/telegram', {
+const signTelegram = async () => {
+  const data = await apiFetch('/api/auth/telegram', {
     options: {
       query: {
         role: 'admin',
@@ -71,8 +71,8 @@ const signTelegram = () => {
     },
   });
 };
-const signGoogle = () => {
-  apiFetch('/api/auth/google', {
+const signGoogle = async () => {
+  const data = await apiFetch('/api/auth/google', {
     options: {
       query: {
         role: 'admin',
@@ -80,8 +80,8 @@ const signGoogle = () => {
     },
   });
 };
-const signVk = () => {
-  apiFetch('/api/auth/vk', {
+const signVk = async () => {
+  const data = await apiFetch('/api/auth/vk', {
     options: {
       query: {
         role: 'admin',

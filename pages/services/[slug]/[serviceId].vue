@@ -591,9 +591,9 @@ const category = commonStore.categories?.find(
 const activeSlide = ref();
 const item = ref<serviceItem>();
 const itemId = route.params.serviceId;
-apiFetch<ApiResponse<serviceItem>>(`/api/services/${itemId}`, {
-  handler(data) {
-    if (data) item.value = data.result;
-  },
-});
+const data = await apiFetch<ApiResponse<serviceItem>>(
+  `/api/services/${itemId}`,
+);
+const value = data.value;
+if (value) item.value = data.value.result;
 </script>

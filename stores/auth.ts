@@ -21,9 +21,11 @@ export const useAuthStore = defineStore('auth', () => {
       email,
       password,
     });
-    saveToken(data.result, rememberMe);
-    // console.log(data);
-    // console.log('Вход прошёл успешно');
+    if (data) {
+      // console.log(data);
+      // console.log('Вход прошёл успешно');
+      saveToken(data.result, rememberMe);
+    }
   }
 
   async function register(userData: userData) {
