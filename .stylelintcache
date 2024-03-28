@@ -1,1 +1,660 @@
-[{"/Users/digeridoregido/Desktop/develop/addhub-front/app.vue":"1","/Users/digeridoregido/Desktop/develop/addhub-front/layouts/default.vue":"2","/Users/digeridoregido/Desktop/develop/addhub-front/pages/login.vue":"3","/Users/digeridoregido/Desktop/develop/addhub-front/pages/reg.vue":"4","/Users/digeridoregido/Desktop/develop/addhub-front/pages/index.vue":"5","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/_mixins.scss":"6","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/reset.scss":"7","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/_ui.scss":"8","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/style.scss":"9","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/vars.scss":"10","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/_global.scss":"11","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/ProductSlider.vue":"12","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/MainAdvantages.vue":"13","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/VBreadcrumbs.vue":"14","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/VToast.vue":"15","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/Loader.vue":"16","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/Skeleton.vue":"17","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/PageTop.vue":"18","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/VButton.vue":"19","/Users/digeridoregido/Desktop/develop/addhub-front/pages/freelancers/[slug].vue":"20","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/SectionTop.vue":"21","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/VPagination.vue":"22","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/VSelect.vue":"23","/Users/digeridoregido/Desktop/develop/addhub-front/pages/projects/[slug].vue":"24","/Users/digeridoregido/Desktop/develop/addhub-front/components/UI/VMultiSelect.vue":"25","/Users/digeridoregido/Desktop/develop/addhub-front/pages/bid/[_id].vue":"26","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/components/_fonts.scss":"27","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/components/_grid.scss":"28","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/components/_skeleton.scss":"29","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/components/_inputs.scss":"30","/Users/digeridoregido/Desktop/develop/addhub-front/assets/styles/pages/e-projects.scss":"31","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/components/_text.scss":"32","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/components/_buttons.scss":"33","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/d-index.scss":"34","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/layout/_footer.scss":"35","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/layout/layout.scss":"36","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/layout/_header.scss":"37","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/c-index.scss":"38","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/page-blocks/_popups.scss":"39","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/o-contacts.scss":"40","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/k-about.scss":"41","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/b-index.scss":"42","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/a-index.scss":"43","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/page-blocks/_breadcrumbs.scss":"44","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/p-auth.scss":"45","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/l-conditions.scss":"46","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/page-blocks/page-blocks.scss":"47","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/g-article.scss":"48","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/h-freelancer.scss":"49","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/m-help.scss":"50","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/j-become-seller.scss":"51","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/q-payment.scss":"52","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/i-catalog-freelancers.scss":"53","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/r-catalog-services.scss":"54","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/s-user-replies.scss":"55","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/f-blog.scss":"56","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/n-404.scss":"57","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/w-user-messages.scss":"58","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/t-user-saves.scss":"59","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/z-z-projects.scss":"60","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/v-user-profile.scss":"61","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/x-project-item.scss":"62","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/y-service-item.scss":"63","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/z-dashboard.scss":"64","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/u-user-finance.scss":"65","/Users/digeridoregido/Desktop/develop/addhub-front/assets/style/pages/e-projects.scss":"66","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/Sort.vue":"67","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Service2.vue":"68","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Project.vue":"69","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Review.vue":"70","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/footer/Dropdown.vue":"71","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Blog.vue":"72","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Advantage.vue":"73","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Project2.vue":"74","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Service.vue":"75","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/footer/Middle.vue":"76","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/header/Logo.vue":"77","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/footer/Bottom.vue":"78","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/header/Menu.vue":"79","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/header/Auth.vue":"80","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/index.vue":"81","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/popular.vue":"82","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Blog.vue":"83","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/header/MobMenu.vue":"84","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/footer/Top.vue":"85","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/header/NavTop.vue":"86","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Header.vue":"87","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/index/FindTalent.vue":"88","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Footer.vue":"89","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/index/Services.vue":"90","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/header/NavBottom.vue":"91","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/AdvantageNums.vue":"92","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Advantages.vue":"93","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Reviews.vue":"94","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Offer.vue":"95","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/cards/Freelance.vue":"96","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/login/index.vue":"97","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/sign/Social.vue":"98","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/common/Advantages2.vue":"99","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/index/Categories.vue":"100","/Users/digeridoregido/Desktop/develop/addhub-front/pages/services/[slug]/index.vue":"101","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/index/Main.vue":"102","/Users/digeridoregido/Desktop/develop/addhub-front/pages/services/[slug]/[serviceId].vue":"103","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/reg/index.vue":"104","/Users/digeridoregido/Desktop/develop/addhub-front/components/sections/index/Trust.vue":"105","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/filter/Check.vue":"106","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/filter/index.vue":"107","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/filter/Price.vue":"108","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/filter/Group.vue":"109","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/filter/Radio.vue":"110","/Users/digeridoregido/Desktop/develop/addhub-front/components/modules/catalog/filter/Slider.vue":"111"},{"size":210,"mtime":1711634972955,"hashOfConfig":"112"},{"size":747,"mtime":1711632333534,"hashOfConfig":"112"},{"size":270,"mtime":1711450090630,"hashOfConfig":"112"},{"size":268,"mtime":1711450090630,"hashOfConfig":"112"},{"size":946,"mtime":1711450096974,"hashOfConfig":"112"},{"size":2151,"mtime":1711626287203,"hashOfConfig":"112"},{"size":1648,"mtime":1711626287207,"hashOfConfig":"112"},{"size":585,"mtime":1711626287203,"hashOfConfig":"112"},{"size":899,"mtime":1711626287207,"hashOfConfig":"112"},{"size":384,"mtime":1711626287207,"hashOfConfig":"112"},{"size":1260,"mtime":1711626287203,"hashOfConfig":"112"},{"size":3883,"mtime":1711626287209,"hashOfConfig":"112"},{"size":766,"mtime":1711450090623,"hashOfConfig":"112"},{"size":477,"mtime":1711450090623,"hashOfConfig":"112"},{"size":2897,"mtime":1711450090624,"hashOfConfig":"112"},{"size":342,"mtime":1711626287208,"hashOfConfig":"112"},{"size":132,"mtime":1711626287208,"hashOfConfig":"112"},{"size":2914,"mtime":1711626287208,"hashOfConfig":"112"},{"size":1041,"mtime":1711450090623,"hashOfConfig":"112"},{"size":835,"mtime":1711626287218,"hashOfConfig":"112"},{"size":806,"mtime":1711626287208,"hashOfConfig":"112"},{"size":4953,"mtime":1711626287208,"hashOfConfig":"112"},{"size":2721,"mtime":1711626287209,"hashOfConfig":"112"},{"size":1175,"mtime":1711628986660,"hashOfConfig":"112"},{"size":3124,"mtime":1711450090624,"hashOfConfig":"112"},{"size":4887,"mtime":1711628053873,"hashOfConfig":"112"},{"size":206,"mtime":1711626287203,"hashOfConfig":"112"},{"size":445,"mtime":1711626287203,"hashOfConfig":"112"},{"size":459,"mtime":1711626287203,"hashOfConfig":"112"},{"size":2984,"mtime":1711626287203,"hashOfConfig":"112"},{"size":2329,"mtime":1711627724182,"hashOfConfig":"112"},{"size":1909,"mtime":1711626287203,"hashOfConfig":"112"},{"size":2521,"mtime":1711626287203,"hashOfConfig":"112"},{"size":5609,"mtime":1711626287205,"hashOfConfig":"112"},{"size":7120,"mtime":1711626287204,"hashOfConfig":"112"},{"size":5403,"mtime":1711626287204,"hashOfConfig":"112"},{"size":8502,"mtime":1711626287204,"hashOfConfig":"112"},{"size":6438,"mtime":1711626287205,"hashOfConfig":"112"},{"size":549,"mtime":1711626287204,"hashOfConfig":"112"},{"size":2724,"mtime":1711626287206,"hashOfConfig":"112"},{"size":3870,"mtime":1711626287205,"hashOfConfig":"112"},{"size":9577,"mtime":1711626287204,"hashOfConfig":"112"},{"size":3797,"mtime":1711626287204,"hashOfConfig":"112"},{"size":715,"mtime":1711626287204,"hashOfConfig":"112"},{"size":3746,"mtime":1711634836537,"hashOfConfig":"112"},{"size":973,"mtime":1711626287206,"hashOfConfig":"112"},{"size":41,"mtime":1711626287204,"hashOfConfig":"112"},{"size":10540,"mtime":1711626287205,"hashOfConfig":"112"},{"size":8221,"mtime":1711626287205,"hashOfConfig":"112"},{"size":1883,"mtime":1711626287206,"hashOfConfig":"112"},{"size":2749,"mtime":1711626287205,"hashOfConfig":"112"},{"size":5672,"mtime":1711626287206,"hashOfConfig":"112"},{"size":9969,"mtime":1711626287205,"hashOfConfig":"112"},{"size":8791,"mtime":1711626287206,"hashOfConfig":"112"},{"size":6176,"mtime":1711626287206,"hashOfConfig":"112"},{"size":8490,"mtime":1711626287205,"hashOfConfig":"112"},{"size":1322,"mtime":1711626287206,"hashOfConfig":"112"},{"size":9652,"mtime":1711626287207,"hashOfConfig":"112"},{"size":5438,"mtime":1711626287206,"hashOfConfig":"112"},{"size":2114,"mtime":1711626287207,"hashOfConfig":"112"},{"size":5015,"mtime":1711626287207,"hashOfConfig":"112"},{"size":9442,"mtime":1711626287207,"hashOfConfig":"112"},{"size":0,"mtime":1711626287207,"hashOfConfig":"112"},{"size":7947,"mtime":1711626287207,"hashOfConfig":"112"},{"size":4146,"mtime":1711626287207,"hashOfConfig":"112"},{"size":0,"mtime":1711626287205,"hashOfConfig":"112"},{"size":506,"mtime":1711626287210,"hashOfConfig":"112"},{"size":1014,"mtime":1711626287210,"hashOfConfig":"112"},{"size":3539,"mtime":1711634567692,"hashOfConfig":"112"},{"size":577,"mtime":1711450090624,"hashOfConfig":"112"},{"size":1302,"mtime":1711450090625,"hashOfConfig":"112"},{"size":805,"mtime":1711450090624,"hashOfConfig":"112"},{"size":595,"mtime":1711450090624,"hashOfConfig":"112"},{"size":1267,"mtime":1711626287210,"hashOfConfig":"112"},{"size":7192,"mtime":1711626287210,"hashOfConfig":"112"},{"size":3702,"mtime":1711626287212,"hashOfConfig":"112"},{"size":125,"mtime":1711450090626,"hashOfConfig":"112"},{"size":344,"mtime":1711626287212,"hashOfConfig":"112"},{"size":3812,"mtime":1711626287213,"hashOfConfig":"112"},{"size":2550,"mtime":1711626287213,"hashOfConfig":"112"},{"size":1918,"mtime":1711626287212,"hashOfConfig":"112"},{"size":491,"mtime":1711626287212,"hashOfConfig":"112"},{"size":714,"mtime":1711450090626,"hashOfConfig":"112"},{"size":18991,"mtime":1711626287213,"hashOfConfig":"112"},{"size":1087,"mtime":1711450090625,"hashOfConfig":"112"},{"size":1468,"mtime":1711626287214,"hashOfConfig":"112"},{"size":973,"mtime":1711626287214,"hashOfConfig":"112"},{"size":991,"mtime":1711450090627,"hashOfConfig":"112"},{"size":280,"mtime":1711450090627,"hashOfConfig":"112"},{"size":592,"mtime":1711626287215,"hashOfConfig":"112"},{"size":2069,"mtime":1711626287213,"hashOfConfig":"112"},{"size":942,"mtime":1711450090626,"hashOfConfig":"112"},{"size":1739,"mtime":1711450090626,"hashOfConfig":"112"},{"size":3166,"mtime":1711626287214,"hashOfConfig":"112"},{"size":3654,"mtime":1711450090627,"hashOfConfig":"112"},{"size":1782,"mtime":1711626287210,"hashOfConfig":"112"},{"size":3036,"mtime":1711450090627,"hashOfConfig":"112"},{"size":7161,"mtime":1711634972955,"hashOfConfig":"112"},{"size":2057,"mtime":1711450090626,"hashOfConfig":"112"},{"size":3989,"mtime":1711626287214,"hashOfConfig":"112"},{"size":1351,"mtime":1711626287219,"hashOfConfig":"112"},{"size":2067,"mtime":1711450090627,"hashOfConfig":"112"},{"size":34760,"mtime":1711634972962,"hashOfConfig":"112"},{"size":5243,"mtime":1711634890255,"hashOfConfig":"112"},{"size":851,"mtime":1711450090627,"hashOfConfig":"112"},{"size":609,"mtime":1711626287210,"hashOfConfig":"112"},{"size":1289,"mtime":1711626287211,"hashOfConfig":"112"},{"size":1449,"mtime":1711626287211,"hashOfConfig":"112"},{"size":5670,"mtime":1711626287211,"hashOfConfig":"112"},{"size":786,"mtime":1711626287211,"hashOfConfig":"112"},{"size":2425,"mtime":1711626287211,"hashOfConfig":"112"},"g599jw"]
+[
+  {
+    "C:\\Users\\Lenar\\source\\addhub-front\\app.vue": "1",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\index.vue": "2",
+    "C:\\Users\\Lenar\\source\\addhub-front\\layouts\\default.vue": "3",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\login.vue": "4",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\reg.vue": "5",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\ProductSlider.vue": "6",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\PageTop.vue": "7",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\VButton.vue": "8",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\MainAdvantages.vue": "9",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\SectionTop.vue": "10",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\VBreadcrumbs.vue": "11",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\VMultiSelect.vue": "12",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\VPagination.vue": "13",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\VSelect.vue": "14",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\AdvantageNums.vue": "15",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Advantages2.vue": "16",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Advantages.vue": "17",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Blog.vue": "18",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Offer.vue": "19",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Footer.vue": "20",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\index\\Categories.vue": "21",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\index.vue": "22",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\login\\index.vue": "23",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Reviews.vue": "24",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\index\\FindTalent.vue": "25",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\index\\Services.vue": "26",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\common\\Header.vue": "27",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\index\\Main.vue": "28",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\reg\\index.vue": "29",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Freelance.vue": "30",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Blog.vue": "31",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\sections\\index\\Trust.vue": "32",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Review.vue": "33",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Advantage.vue": "34",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\Sort.vue": "35",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\header\\Auth.vue": "36",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\footer\\Bottom.vue": "37",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\footer\\Top.vue": "38",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\footer\\Dropdown.vue": "39",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\header\\NavTop.vue": "40",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\header\\Logo.vue": "41",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\sign\\Social.vue": "42",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\footer\\Middle.vue": "43",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\header\\NavBottom.vue": "44",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\header\\Menu.vue": "45",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\filter\\Check.vue": "46",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\filter\\index.vue": "47",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\filter\\Price.vue": "48",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\filter\\Group.vue": "49",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\filter\\Slider.vue": "50",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\filter\\Radio.vue": "51",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\projects\\[slug].vue": "52",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\freelancers\\[slug].vue": "53",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\catalog\\popular.vue": "54",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\VToast.vue": "55",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\reset.scss": "56",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\vars.scss": "57",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\_ui.scss": "58",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\_mixins.scss": "59",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\_global.scss": "60",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\style.scss": "61",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\components\\_fonts.scss": "62",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\layout\\layout.scss": "63",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\components\\_inputs.scss": "64",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\page-blocks\\_breadcrumbs.scss": "65",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\components\\_grid.scss": "66",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\layout\\_footer.scss": "67",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\page-blocks\\_popups.scss": "68",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\page-blocks\\page-blocks.scss": "69",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\components\\_text.scss": "70",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\a-index.scss": "71",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\components\\_buttons.scss": "72",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\b-index.scss": "73",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\c-index.scss": "74",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\d-index.scss": "75",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\f-blog.scss": "76",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\e-projects.scss": "77",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\g-article.scss": "78",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\l-conditions.scss": "79",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\j-become-seller.scss": "80",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\m-help.scss": "81",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\i-catalog-freelancers.scss": "82",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\q-payment.scss": "83",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\r-catalog-services.scss": "84",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\k-about.scss": "85",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\n-404.scss": "86",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\p-auth.scss": "87",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\u-user-finance.scss": "88",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\o-contacts.scss": "89",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\v-user-profile.scss": "90",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\w-user-messages.scss": "91",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\s-user-replies.scss": "92",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\t-user-saves.scss": "93",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\z-z-projects.scss": "94",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\z-dashboard.scss": "95",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\Skeleton.vue": "96",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\components\\_skeleton.scss": "97",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\header\\MobMenu.vue": "98",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\layout\\_header.scss": "99",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\h-freelancer.scss": "100",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\x-project-item.scss": "101",
+    "C:\\Users\\Lenar\\source\\addhub-front\\assets\\style\\pages\\y-service-item.scss": "102",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Project.vue": "103",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Project2.vue": "104",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Service2.vue": "105",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\modules\\cards\\Service.vue": "106",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\services\\[slug]\\index.vue": "107",
+    "C:\\Users\\Lenar\\source\\addhub-front\\pages\\services\\[slug]\\[serviceId].vue": "108",
+    "C:\\Users\\Lenar\\source\\addhub-front\\components\\UI\\Loader.vue": "109"
+  },
+  {
+    "size": 336,
+    "mtime": 1711627128686,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 971,
+    "mtime": 1711576107092,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 510,
+    "mtime": 1711561109921,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 282,
+    "mtime": 1711251768903,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 280,
+    "mtime": 1711251768905,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3996,
+    "mtime": 1711507888036,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3002,
+    "mtime": 1711517300090,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1085,
+    "mtime": 1711251768838,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 788,
+    "mtime": 1710761558431,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 846,
+    "mtime": 1711251768837,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 498,
+    "mtime": 1711251768838,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3219,
+    "mtime": 1711251768839,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 5101,
+    "mtime": 1711382766559,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2814,
+    "mtime": 1711251768844,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 983,
+    "mtime": 1711251768874,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2111,
+    "mtime": 1711251768877,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1793,
+    "mtime": 1711251768875,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 744,
+    "mtime": 1711251768877,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3749,
+    "mtime": 1711251768878,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 295,
+    "mtime": 1710761558443,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 4119,
+    "mtime": 1711579020495,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1976,
+    "mtime": 1711562081772,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3126,
+    "mtime": 1711251769884,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3236,
+    "mtime": 1711327098135,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1018,
+    "mtime": 1710761558444,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 611,
+    "mtime": 1711559103966,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1009,
+    "mtime": 1711326076737,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2121,
+    "mtime": 1711251768882,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 4324,
+    "mtime": 1711251777193,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1837,
+    "mtime": 1711506746578,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 832,
+    "mtime": 1711251768849,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 878,
+    "mtime": 1710761558445,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 601,
+    "mtime": 1711251768852,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 623,
+    "mtime": 1711251768848,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 526,
+    "mtime": 1711382519234,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2611,
+    "mtime": 1711327575103,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 356,
+    "mtime": 1711578814713,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1118,
+    "mtime": 1711251768867,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1353,
+    "mtime": 1711251768864,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1508,
+    "mtime": 1711577482861,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 130,
+    "mtime": 1710761558440,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 7253,
+    "mtime": 1711618429254,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3803,
+    "mtime": 1711578927599,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2130,
+    "mtime": 1711251777187,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3900,
+    "mtime": 1711578502998,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 639,
+    "mtime": 1711427427927,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1336,
+    "mtime": 1711429523094,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1495,
+    "mtime": 1711424250296,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 5833,
+    "mtime": 1711556680963,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2516,
+    "mtime": 1711424241655,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 825,
+    "mtime": 1711419280698,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1188,
+    "mtime": 1711582111109,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 862,
+    "mtime": 1711430783374,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 508,
+    "mtime": 1711576090577,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3033,
+    "mtime": 1711251768846,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1790,
+    "mtime": 1711251768832,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 399,
+    "mtime": 1711325053896,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 623,
+    "mtime": 1711251768806,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2275,
+    "mtime": 1711325652005,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1347,
+    "mtime": 1711251768805,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 931,
+    "mtime": 1711575943263,
+    "hashOfConfig": "111"
+  },
+  {
+    "size": 210,
+    "mtime": 1711251768807,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 5766,
+    "mtime": 1711325662457,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3181,
+    "mtime": 1711251768809,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 764,
+    "mtime": 1711251768812,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 470,
+    "mtime": 1711251768809,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 7611,
+    "mtime": 1711251768810,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 586,
+    "mtime": 1711325668079,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 43,
+    "mtime": 1711251768813,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2077,
+    "mtime": 1711251768810,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 4055,
+    "mtime": 1711251768814,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2696,
+    "mtime": 1711251768807,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 10194,
+    "mtime": 1711582606797,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 6919,
+    "mtime": 1711251768815,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 5983,
+    "mtime": 1711251768816,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 9114,
+    "mtime": 1711506141430,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 0,
+    "mtime": 1711251768816,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 11282,
+    "mtime": 1711506152049,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1033,
+    "mtime": 1711251768821,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2954,
+    "mtime": 1711251768820,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2018,
+    "mtime": 1711251768822,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 10634,
+    "mtime": 1711506191477,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 6069,
+    "mtime": 1711251768823,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 9383,
+    "mtime": 1711582591248,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 4119,
+    "mtime": 1711251768821,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1424,
+    "mtime": 1711251768822,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3898,
+    "mtime": 1711251768822,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 4423,
+    "mtime": 1711251768826,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2921,
+    "mtime": 1711251768822,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 5352,
+    "mtime": 1711506469880,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 10305,
+    "mtime": 1711325049932,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 6568,
+    "mtime": 1711251768824,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 5807,
+    "mtime": 1711251768825,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 2241,
+    "mtime": 1711251768832,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 8487,
+    "mtime": 1711506651115,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 136,
+    "mtime": 1711251768837,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 484,
+    "mtime": 1711251768809,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 19253,
+    "mtime": 1711576092714,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 9068,
+    "mtime": 1711325659772,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 8803,
+    "mtime": 1711505970360,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 10066,
+    "mtime": 1711506498912,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 0,
+    "mtime": 1711251768830,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 3019,
+    "mtime": 1711581797290,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1304,
+    "mtime": 1711506889114,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1053,
+    "mtime": 1711507745472,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 7387,
+    "mtime": 1711582324412,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 1506,
+    "mtime": 1711626842081,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 35359,
+    "mtime": 1711618388004,
+    "hashOfConfig": "110"
+  },
+  {
+    "size": 360,
+    "mtime": 1711553714471,
+    "hashOfConfig": "110"
+  },
+  "2qerby",
+  "1c6rsdc"
+]

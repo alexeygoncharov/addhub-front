@@ -18,12 +18,13 @@
 
     <ul class="menu">
       <li
-        v-for="(category, index) of commonStore.categories"
+        v-for="category of commonStore.categories?.slice(0, 8)"
         :key="category._id"
       >
         <nuxtLink :to="`/services/${category.slug}`" class="menu__dropdown">
           <NuxtImg
-            :src="`/img/menu-icon${1 + index > 1 ? index + 1 : ''}.svg`"
+            :src="baseUrl() + category.icon"
+            crossorigin="anonymous"
             class="menu__icon"
             alt=""
           />

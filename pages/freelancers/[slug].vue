@@ -24,4 +24,7 @@
 <script setup lang="ts">
 import { useCatalogFreelancersStore } from '~/stores/catalog/freelancers';
 const catalogStore = useCatalogFreelancersStore();
+useHead({
+  title: 'Фрилансеры',
+});
 </script>

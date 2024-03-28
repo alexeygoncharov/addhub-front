@@ -81,6 +81,7 @@ export interface catalogItem {
 export interface serviceItem extends catalogItem {
   tools: [];
   category: string;
+  delivery_time: number;
 }
 
 export interface servicesItem extends catalogItem {

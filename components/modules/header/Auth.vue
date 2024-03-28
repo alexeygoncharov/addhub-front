@@ -18,7 +18,11 @@
         />
       </svg>
     </button>
-    <UIVButton color="blueOutline" class="header-action__btn">
+    <UIVButton
+      path="https://delicate-gaufre-39d364.netlify.app/become-seller"
+      color="blueOutline"
+      class="header-action__btn"
+    >
       Стать продавцом
     </UIVButton>
   </div>

@@ -7,20 +7,34 @@
       <div class="footer-nav__hidden spoiler__hidden">
         <div class="spoiler__wrap">
           <div class="footer-nav__links">
-            <a href="" class="footer-nav__link"><span>Карьера</span></a>
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
+              ><span>Карьера</span></a
+            >
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Пресса и новости</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Партнерские отношения</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Политика конфиденциальности</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Условия использования</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Связи с инвесторами</span></a
             >
           </div>
@@ -52,16 +66,24 @@
       <div class="footer-nav__hidden spoiler__hidden">
         <div class="spoiler__wrap">
           <div class="footer-nav__links">
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Помощь и поддержка</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Доверие и безопасность</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Продажа на addhub</span></a
             >
-            <a href="" class="footer-nav__link"
+            <a
+              href="https://delicate-gaufre-39d364.netlify.app/conditions"
+              class="footer-nav__link"
               ><span>Покупка на addhub</span></a
             >
           </div>
@@ -83,11 +105,17 @@
       <div class="footer-app">
         <div class="text17 text15-tablet medium-text">Приложения</div>
         <div class="footer-app__links">
-          <a href="" class="footer-app__link">
+          <a
+            href="https://delicate-gaufre-39d364.netlify.app/conditions"
+            class="footer-app__link"
+          >
             <NuxtImg src="/img/apple.svg" alt="" />
             <span>iOS</span>
           </a>
-          <a href="" class="footer-app__link">
+          <a
+            href="https://delicate-gaufre-39d364.netlify.app/conditions"
+            class="footer-app__link"
+          >
             <NuxtImg src="/img/android.svg" alt="" />
             <span>Android</span>
           </a>
