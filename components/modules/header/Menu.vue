@@ -17,9 +17,17 @@
     </button>
 
     <ul class="menu">
-      <li v-for="category of commonStore.categories" :key="category._id">
+      <li
+        v-for="category of commonStore.categories?.slice(0, 8)"
+        :key="category._id"
+      >
         <nuxtLink :to="`/services/${category.slug}`" class="menu__dropdown">
-          <NuxtImg :src="baseUrl() + category.icon" class="menu__icon" alt="" />
+          <NuxtImg
+            :src="baseUrl() + category.icon"
+            crossorigin="anonymous"
+            class="menu__icon"
+            alt=""
+          />
           <span class="menu__title">{{ category.title }}</span>
         </nuxtLink>
         <div v-if="category.sub?.length" class="drop-menu">
