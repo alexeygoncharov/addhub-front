@@ -18,11 +18,11 @@
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
         <ModulesCatalogFilterSlider
-          v-if="filters.price && store.initialFilters.price"
-          v-model:price-min="filters.price.$gte"
-          v-model:price-max="filters.price.$lte"
-          :min="store.initialFilters.price.min"
-          :max="store.initialFilters.price.max"
+          v-if="store.initialFilters.price && filters.price"
+          v-model:priceMin="filters.price.$gte"
+          v-model:priceMax="filters.price.$lte"
+          :min="store.initialFilters.price.$gte"
+          :max="store.initialFilters.price.$lte"
         />
       </div>
     </div>
@@ -37,27 +37,10 @@ const props = defineProps({
     type: Object as PropType<CatalogStores>,
   },
 });
-
 const isExpanded = ref(true);
 const filters = props.store.filters;
 
-const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();
-
-watch(
-  () => filters.price,
-  () => {
-    debouncedSetFilters();
-  },
-  { deep: true },
-);
-
 const toggleSpoiler = () => {
   isExpanded.value = !isExpanded.value;
-};
-const debouncedSetFilters = () => {
-  clearTimeout(filterTimeoutId.value);
-  filterTimeoutId.value = setTimeout(() => {
-    props.store.updateFilter();
-  }, 1000);
 };
 </script>

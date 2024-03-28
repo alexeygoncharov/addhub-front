@@ -2,23 +2,27 @@ import { createCatalogStore } from './base';
 import type { projectsItem } from './catalog.type';
 import { useProtectedApi } from '../../composables/useProtectedApi';
 
-export const useCatalogProjectsStore = createCatalogStore<projectsItem[]>(
+export const useCatalogProjectsStore = createCatalogStore<projectsItem>(
   'projects',
   '/api/projects/',
+  '/projects',
   {
-    initialFilters: {
-      price: {
-        min: 0,
-        max: 50000,
-      },
-      category: {
-        title: 'Категории',
-        type: 'radio',
-        list: [],
-      },
-      city: { title: 'Города', type: 'radio', list: [] },
+    price: {
+      $gte: 0,
+      $lte: 50000,
+      type: 'range',
     },
-    filters: {},
+    category: {
+      title: 'Категории',
+      type: 'radio',
+      list: [],
+    },
+    'address.city': {
+      title: 'Города',
+      type: 'check',
+      list: [],
+      hasSearch: true,
+    },
   },
 );
 export type ProjectsStore = ReturnType<typeof useCatalogProjectsStore>;

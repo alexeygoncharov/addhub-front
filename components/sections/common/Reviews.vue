@@ -8,20 +8,19 @@
         </div>
       </div>
 
-      <div
-        v-for="(card, i) in cardList"
-        :key="i"
-        :class="['tab-content', `_tab${i + 1}`, { _active: i === 0 }]"
-      >
-        <ModulesCardsReview :text="card.text" :name="card.name" />
+      <div :class="['tab-content', '_active']">
+        <ModulesCardsReview :text="currentTab.text" :name="currentTab.name" />
       </div>
 
       <div class="reviews__tabs">
         <div
           v-for="({ avatar }, i) in cardList"
           :key="i"
-          :class="['reviews__tab _tab', { _active: i === 0 }]"
-          :data-tab="`_tab${i + 1}`"
+          :class="[
+            'reviews__tab _tab',
+            { _active: cardList.indexOf(currentTab) === i },
+          ]"
+          @click="changeTab(i)"
         >
           <NuxtImg :src="'/img/' + avatar" alt="" />
         </div>
@@ -64,4 +63,8 @@ const cardList = ref([
     avatar: 'avatar9.webp',
   },
 ]);
+const currentTab = ref(cardList.value[0]);
+const changeTab = (i: number) => {
+  currentTab.value = cardList.value[i];
+};
 </script>

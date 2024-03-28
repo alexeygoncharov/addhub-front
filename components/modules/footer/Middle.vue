@@ -34,25 +34,13 @@
       <div class="footer-nav__hidden spoiler__hidden">
         <div class="spoiler__wrap">
           <div class="footer-nav__links">
-            <a href="" class="footer-nav__link"
-              ><span>Графика и дизайн</span></a
+            <nuxtLink
+              v-for="category of commonStore.categories"
+              :key="category._id"
+              :to="`/services/${category.slug}`"
+              class="footer-nav__link"
+              ><span>{{ category.title }}</span></nuxtLink
             >
-            <a href="" class="footer-nav__link"
-              ><span>Цифровой маркетинг</span></a
-            >
-            <a href="" class="footer-nav__link"
-              ><span>Написание и перевод</span></a
-            >
-            <a href="" class="footer-nav__link"
-              ><span>Видео и анимация</span></a
-            >
-            <a href="" class="footer-nav__link"><span>Музыка и аудио</span></a>
-            <a href="" class="footer-nav__link"
-              ><span>Программирование и технологии</span></a
-            >
-            <a href="" class="footer-nav__link"><span>Данные</span></a>
-            <a href="" class="footer-nav__link"><span>Бизнес</span></a>
-            <a href="" class="footer-nav__link"><span>Стиль жизни</span></a>
           </div>
         </div>
       </div>
@@ -71,10 +59,10 @@
               ><span>Доверие и безопасность</span></a
             >
             <a href="" class="footer-nav__link"
-              ><span>Продажа на Worker</span></a
+              ><span>Продажа на addhub</span></a
             >
             <a href="" class="footer-nav__link"
-              ><span>Покупка на Worker</span></a
+              ><span>Покупка на addhub</span></a
             >
           </div>
         </div>
@@ -108,3 +96,6 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const commonStore = useCommonStore();
+</script>

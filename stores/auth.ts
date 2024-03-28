@@ -13,32 +13,22 @@ interface userData {
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref(null) as Ref<string | null>;
-  const isLoading = ref(true);
+  const isLoading = ref(false);
   const isAuthenticated = computed(() => !!token.value);
 
   async function login(email: string, password: string, rememberMe: boolean) {
-    try {
-      const data = await authService.login(useNuxtApp().$fetch, {
-        email,
-        password,
-      });
-      // console.log(data);
-
-      saveToken(data.result, rememberMe);
-      // console.log('Вход прошёл успешно');
-    } catch (error) {
-      console.error('Ошибка при входе в систему');
-      throw error;
-    }
+    const data = await authService.login<string>(apiFetch, {
+      email,
+      password,
+    });
+    saveToken(data.result, rememberMe);
+    // console.log(data);
+    // console.log('Вход прошёл успешно');
   }
 
   async function register(userData: userData) {
-    try {
-      await authService.register(useNuxtApp().$fetch, userData);
-      // console.log('Регистрация прошла успешно');
-    } catch (error) {
-      // console.error('Ошибка при регистрации');
-    }
+    await authService.register(apiFetch, userData);
+    // console.log('Регистрация прошла успешно');
   }
 
   function logout() {
