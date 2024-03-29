@@ -1,13 +1,13 @@
 export const useBidsStore = defineStore('bids', () => {
   const bids = ref();
-  const apiFetch = useProtectedApi();
   // const categories = ref<Category[]>()
   async function fetchBidsList(id: string) {
     try {
-      const data = await apiFetch<{ result: any; status: any }>(
+      const { data } = await apiFetch<ApiResponse<Bid[]>>(
         `/api/projects/${id}/bids`,
       );
-      bids.value = data.result;
+      const value = data.value;
+      bids.value = value?.result;
     } catch (error) {
       // console.error('Ошибка при загрузке городов', error);
     }
@@ -15,10 +15,11 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function fetchBid(id: string, bidId: string) {
     try {
-      const data = await apiFetch<{ result: any; status: any }>(
+      const { data } = await apiFetch<ApiResponse<Bid>>(
         `/api/projects/${id}/bids/${bidId}`,
       );
-      return data.result;
+      const value = data.value;
+      return value?.result;
     } catch (error) {
       // console.error('Ошибка при загрузке городов', error);
     }
@@ -26,54 +27,20 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function createBid(id: string, price: number, term: number) {
     try {
-      const { result } = await apiFetch<{ result: any; status: any }>(
+      const { data } = await apiFetch<ApiResponse<Bid[]>>(
         `/api/projects/${id}/bids`,
         {
-          method: 'POST',
-          body: {
-            price,
-            term,
-          },
+          options: { method: 'POST', body: { price, term } },
         },
       );
-      return result;
+      const value = data.value;
+      return value?.result;
     } catch (error) {
       // console.error('Ошибка при загрузке категорий', error);
     }
   }
 
-  async function updateBid(id: string, bidId: string, status: any) {
-    try {
-      const data = await apiFetch<{ result: any; status: any }>(
-        `/api/projects/${id}/bids/${bidId}`,
-        {
-          method: 'PUT',
-          body: {
-            status,
-          },
-        },
-      );
-      return data.result;
-    } catch (error) {
-      // console.error('Ошибка при загрузке категорий', error);
-    }
-  }
-
-  async function deleteBid(id: string, bidId: string) {
-    try {
-      const data = await apiFetch<{ result: any; status: any }>(
-        `/api/projects/${id}/bids/${bidId}`,
-        {
-          method: 'DELETE',
-        },
-      );
-      return data.result;
-    } catch (error) {
-      // console.error('Ошибка при загрузке категорий', error);
-    }
-  }
-
-  return { fetchBid, fetchBidsList, createBid, updateBid, deleteBid };
+  return { fetchBid, fetchBidsList, createBid };
 });
 
 if (import.meta.hot) {

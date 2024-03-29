@@ -4,17 +4,15 @@ import type { Bid, User } from './../stores/catalog/catalog.type';
 
 export const useUserStore = defineStore('user', () => {
   const favorites = ref<string[]>([]);
-  const apiFetch = useProtectedApi();
   const user = ref<User>();
   const myBid = ref<Bid>();
 
   async function getMyUser() {
     // try {
-    const { result } = await apiFetch<{ result: User; status: number }>(
-      `/api/users/me`,
-    );
-    user.value = result;
-    return result;
+    const { data } = await apiFetch<ApiResponse<User>>(`/api/users/me`);
+    const value = data.value;
+    user.value = value?.result;
+    return user.value;
     // } catch (error) {
     //   console.error('Пользователь не авторизован');
     //   throw error;
@@ -23,11 +21,12 @@ export const useUserStore = defineStore('user', () => {
 
   async function getMyBid(id: string) {
     // try {
-    const { result } = await apiFetch<{ result: any; status: number }>(
+    const { data } = await apiFetch<ApiResponse<Bid>>(
       `/api/users/my_bid/${id}`,
     );
-    myBid.value = result;
-    return result;
+    const value = data.value;
+    myBid.value = value?.result;
+    return myBid.value;
     // } catch (error) {
     //   console.error('Пользователь не авторизован');
     //   throw error;
