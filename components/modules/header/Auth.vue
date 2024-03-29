@@ -1,5 +1,5 @@
 <template>
-  <ClientOnly>
+
     <div v-if="!isLoading && !isAuthenticated" class="header-action">
       <button
         class="header-action__search _toggle-search"
@@ -54,8 +54,7 @@
       <UIVButton path="/reg" color="blue" class="header-action__btn">
         Зарегистрироваться
       </UIVButton>
-    </div></ClientOnly
-  >
+    </div>
 </template>
 
 <script setup lang="ts">

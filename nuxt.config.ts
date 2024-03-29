@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@vee-validate/nuxt',
     'nuxt-swiper',
+    '@vueuse/nuxt',
     // '@nuxtjs/sitemap',
     // '@nuxtjs/robots',
   ],
