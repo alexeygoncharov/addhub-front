@@ -54,6 +54,7 @@ const route = useRoute();
 const price = ref<number>(0);
 const term = ref<number>(0);
 const description = ref<string>();
+// TODO доработать запрос на бке
 const bid = computed(() => {
   return data.value?.bids.find((bid) => {
     return bid.user === userStore.user?._id;
@@ -63,24 +64,17 @@ const bid = computed(() => {
 async function createBid() {
   await bidsStore
     .createBid(route.params._id as string, price.value, term.value)
-    .then(async (res) => {
+    .then(async () => {
       await refreshNuxtData();
-      res();
     });
 }
 
-const { data } = await useAsyncData<projectsItem>(
+const { data } = await useAsyncData<projectsItem | undefined>(
   'project',
-  async (): Promise<projectsItem> => {
-    // try {
+  async (): Promise<projectsItem | undefined> => {
     return await projectStore.fetchProject(route.params._id as string);
-    // } catch (e) {
-    //   throw e;
-    // }
   },
 );
-
-// TODO доработать запрос на бке
 </script>
 <style lang="scss">
 .modal-screen {

@@ -8,29 +8,31 @@ export const useUserStore = defineStore('user', () => {
   const myBid = ref<Bid>();
 
   async function getMyUser() {
-    // try {
-    const { data } = await apiFetch<ApiResponse<User>>(`/api/users/me`);
+    const { data } = await apiFetch<ApiResponse<User>>(`/api/users/me/`, {
+      options: {},
+      needToken: true,
+    });
     const value = data.value;
-    user.value = value?.result;
+    if (value) {
+      user.value = value.result;
+    }
     return user.value;
-    // } catch (error) {
-    //   console.error('Пользователь не авторизован');
-    //   throw error;
-    // }
   }
 
+  /// Добавить запрос в отлик
   async function getMyBid(id: string) {
-    // try {
     const { data } = await apiFetch<ApiResponse<Bid>>(
       `/api/users/my_bid/${id}`,
+      {
+        options: {},
+        needToken: true,
+      },
     );
     const value = data.value;
-    myBid.value = value?.result;
+    if (value) {
+      myBid.value = value.result;
+    }
     return myBid.value;
-    // } catch (error) {
-    //   console.error('Пользователь не авторизован');
-    //   throw error;
-    // }
   }
 
   const getFavorites = () => {

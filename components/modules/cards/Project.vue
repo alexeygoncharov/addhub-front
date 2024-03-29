@@ -90,7 +90,6 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-
 const userStore = useUserStore();
 const props = defineProps({
   data: {
@@ -99,6 +98,7 @@ const props = defineProps({
   },
 });
 
+console.log('userStore.user?._id = ', userStore.user?._id);
 // TODO доработать запрос на бэке
 const isSendBid = computed(() => {
   return props.data?.bids.find((bid) => {
