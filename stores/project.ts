@@ -1,11 +1,15 @@
 import type { projectsItem } from './catalog/catalog.type';
 export const useProjectStore = defineStore('project', () => {
-  const apiFetch = useProtectedApi();
   async function fetchProject(id: string) {
-    const data = await apiFetch<{ result: projectsItem; status: number }>(
+    const project = ref<projectsItem>();
+    const { data } = await apiFetch<ApiResponse<projectsItem>>(
       `/api/projects/${id}`,
     );
-    return data.result;
+    const value = data.value;
+    if (value) {
+      project.value = value.result;
+    }
+    return project.value;
   }
 
   return { fetchProject };

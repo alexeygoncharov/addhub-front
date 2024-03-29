@@ -10,7 +10,7 @@ export default async function <T>(
   { options, needToken }: apiFetchParams<T> | undefined = {},
   ignore?: boolean,
 ) {
-  if (needToken && process.client) {
+  if (needToken) {
     const token = useCookie('authToken');
     if (token && options) {
       options.headers = {

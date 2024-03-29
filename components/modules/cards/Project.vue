@@ -64,22 +64,20 @@
         <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
         <UISkeleton v-else class="project-card__price--skeleton"></UISkeleton>
       </div>
-      <button
+      <RouterLink
         v-if="data && !isSendBid"
+        :to="`/bid/${data?._id}`"
         class="project-card__btn m-btn m-btn-blue3"
       >
-        <NuxtLink :to="`/bid/${data?._id}`"
-          ><span>Оставить отклик</span></NuxtLink
-        >
-      </button>
-      <button
+        Оставить отклик
+      </RouterLink>
+      <RouterLink
         v-else-if="data && isSendBid"
+        :to="`/bid/${data?._id}`"
         class="project-card__btn m-btn m-btn-blue3"
       >
-        <NuxtLink :to="`/bid/${data?._id}`"
-          ><span>Уже откликнулись</span></NuxtLink
-        >
-      </button>
+        Уже откликнулись
+      </RouterLink>
       <UISkeleton
         v-else
         class="project-card__btn project-card__btn--skeleton"
@@ -90,7 +88,6 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-
 const userStore = useUserStore();
 const props = defineProps({
   data: {
