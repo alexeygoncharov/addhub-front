@@ -18,17 +18,6 @@ export interface initialFilters {
 }
 export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 
-export interface Bid {
-  _id: string;
-  project_id: string;
-  user: string;
-  price: number;
-  term: number;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface User {
   _id: string;
   user_name: string;

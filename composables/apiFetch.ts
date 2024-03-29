@@ -11,9 +11,7 @@ export default async function <T>(
   ignore?: boolean,
 ) {
   if (needToken) {
-    console.log('endpoint = ', endpoint, 'needToken = ', needToken);
     const token = useCookie('authToken');
-    console.log('options = ', options);
     if (token && options) {
       options.headers = {
         ...(options.headers || {}),
