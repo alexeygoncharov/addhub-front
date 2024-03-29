@@ -1,5 +1,4 @@
 import { jwtDecode } from 'jwt-decode';
-import authService from '~/services/auth';
 
 interface userData {
   username: string;
@@ -10,6 +9,12 @@ interface userData {
   repeatPassword: string;
   role: string;
 }
+interface regResponse {
+  email: string;
+  roles: string[];
+  activeRole: string;
+  _id: string;
+}
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref(null) as Ref<string | null>;
@@ -17,20 +22,46 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value);
 
   async function login(email: string, password: string, rememberMe: boolean) {
-    const data = await authService.login<string>(apiFetch, {
-      email,
-      password,
-    });
-    if (data) {
-      // console.log(data);
-      // console.log('Вход прошёл успешно');
-      saveToken(data.result, rememberMe);
+    const { data, error } = await apiFetch<ApiResponse<string>>(
+      '/api/auth/login',
+      {
+        options: { method: 'POST', body: { email, password } },
+      },
+    );
+    const value = data.value;
+    if (value && !error.value) {
+      saveToken(value.result, rememberMe);
+      return 'success';
+    } else if (error.value?.statusCode === 500) {
+      useToast({ message: 'Неверный логин или пароль', type: 'error' });
+    } else {
+      useToast({ message: 'Непредвиденная ошибка', type: 'error' });
     }
   }
 
   async function register(userData: userData) {
-    await authService.register(apiFetch, userData);
-    // console.log('Регистрация прошла успешно');
+    const { data, error } = await apiFetch<ApiResponse<regResponse>>(
+      '/api/auth/register',
+      {
+        options: {
+          method: 'POST',
+          body: {
+            user_name: userData.username,
+            surname: userData.surname,
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+            repeat_password: userData.repeatPassword,
+            role: userData.role,
+          },
+        },
+      },
+    );
+    const value = data.value;
+    if (value && !error.value) {
+      return value;
+      // console.log('Регистрация прошла успешно');
+    }
   }
 
   function logout() {

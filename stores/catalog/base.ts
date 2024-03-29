@@ -149,7 +149,7 @@ export function createCatalogStore<T>(
           delete queryFilters[key as keyof typeof filters.value];
         }
       }
-      const data = await apiFetch<ApiListResponse<T[]>>(
+      const { data } = await apiFetch<ApiListResponse<T[]>>(
         apiUrl,
         {
           options: {
@@ -171,7 +171,7 @@ export function createCatalogStore<T>(
       }
     };
     const fetchPopular = async () => {
-      const data = await apiFetch<ApiListResponse<T[]>>(apiUrl, {
+      const { data } = await apiFetch<ApiListResponse<T[]>>(apiUrl, {
         options: {
           query: {
             offset: currentPage.value,

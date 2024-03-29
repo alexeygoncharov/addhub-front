@@ -22,30 +22,25 @@
           <div class="auth-form__roles">
             <div class="role-ratio">
               <span> Заказчик</span>
-              <input
-                type="checkbox"
-                :value="'seller'"
-                :disabled="sellerIsChecked"
-                @click="handleCheckboxChange('seller')"
-              />
+              <input v-model="regDetails.role" type="radio" :value="'seller'" />
             </div>
             <div class="role-ratio">
               <span>Фрилансер</span>
               <input
-                type="checkbox"
+                v-model="regDetails.role"
+                type="radio"
                 :value="'freelancer'"
-                :disabled="freelancerIsChecked"
-                @click="handleCheckboxChange('freelancer')"
               />
             </div>
           </div>
           <fieldset class="fg _small">
             <label>Логин</label>
             <Field
-              v-model="regDetails.username"
+              v-model.trim="regDetails.username"
               rules="required|alpha_dash"
               name="username"
               type="text"
+              autocomplete="username"
               placeholder="freelancer777"
             />
             <ErrorMessage name="username" class="error-message" />
@@ -53,10 +48,11 @@
           <fieldset class="fg _small">
             <label>Имя</label>
             <Field
-              v-model="regDetails.name"
+              v-model.trim="regDetails.name"
               rules="required|alpha"
               name="name"
               type="text"
+              autocomplete="first-name"
               placeholder="Александр"
             />
             <ErrorMessage name="name" class="error-message" />
@@ -64,10 +60,11 @@
           <fieldset class="fg _small">
             <label>Фамилия</label>
             <Field
-              v-model="regDetails.surname"
+              v-model.trim="regDetails.surname"
               rules="required|alpha"
               name="surname"
               type="text"
+              autocomplete="last-name"
               placeholder="Поташов"
             />
             <ErrorMessage name="surname" class="error-message" />
@@ -75,9 +72,10 @@
           <fieldset class="fg _small">
             <label>Email адрес</label>
             <Field
-              v-model="regDetails.email"
+              v-model.trim="regDetails.email"
               rules="required|email"
               name="email"
+              autocomplete="email"
               type="email"
               placeholder="hello@mail.com"
             />
@@ -90,6 +88,7 @@
               rules="required|min:8"
               name="password"
               type="password"
+              autocomplete="new-password"
               placeholder="•••••••"
             />
             <ErrorMessage name="password" class="error-message" />
@@ -100,13 +99,14 @@
               v-model="regDetails.repeatPassword"
               rules="required|confirmed:@password"
               name="repeatPassword"
+              autocomplete="new-password"
               type="password"
               placeholder="•••••••"
             />
             <ErrorMessage name="repeatPassword" class="error-message" />
           </fieldset>
           <UIVButton
-            :disabled="!meta.valid"
+            :disabled="!meta.valid || !regDetails.role"
             color="blue"
             :is-shadow="true"
             type="submit"
@@ -122,11 +122,8 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '~/stores/auth';
 import { useValidation } from '~/composables/useValidation';
 
-const freelancerIsChecked = ref(false);
-const sellerIsChecked = ref(false);
 const regDetails = ref({
   username: '',
   name: '',
@@ -137,26 +134,26 @@ const regDetails = ref({
   role: '',
 });
 
-const handleCheckboxChange = (role: string) => {
-  if (role === 'freelancer') {
-    sellerIsChecked.value = !sellerIsChecked.value;
-    regDetails.value.role = role;
-  } else if (role === 'seller') {
-    freelancerIsChecked.value = !freelancerIsChecked.value;
-    regDetails.value.role = role;
-  }
-};
+// if (role === 'freelancer') {
+// } else if (role === 'seller') {
 
 useValidation();
 const { register: authRegister } = useAuthStore();
 
 const register = async () => {
-  await authRegister(regDetails.value);
-  await navigateTo('/login');
-  useToast({
-    message: 'Регистрация прошла успешно',
-    type: 'success',
-  });
+  const result = await authRegister(regDetails.value);
+  if (result) {
+    await navigateTo('/login');
+    useToast({
+      message: 'Регистрация прошла успешно',
+      type: 'success',
+    });
+  } else {
+    useToast({
+      message: 'Произошла ошибка при регистрации',
+      type: 'error',
+    });
+  }
 };
 const handleSubmit = () => {
   register();

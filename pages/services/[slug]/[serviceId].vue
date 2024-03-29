@@ -519,12 +519,12 @@ useHead({
 const activeSlide = ref();
 const item = ref<serviceItem>();
 const itemId = route.params.serviceId;
-const data = await apiFetch<ApiResponse<serviceItem>>(
+const { data } = await apiFetch<ApiResponse<serviceItem>>(
   `/api/services/${itemId}`,
 );
 const value = data.value;
 if (value) {
-  item.value = data.value.result;
+  item.value = value.result;
   title.value = item.value?.title;
 }
 </script>

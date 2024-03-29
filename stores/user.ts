@@ -6,32 +6,32 @@ export const useUserStore = defineStore('user', () => {
   const favorites = ref<string[]>([]);
   const apiFetch = useProtectedApi();
   const user = ref<User>();
-  const myBid = ref<Bid>()
+  const myBid = ref<Bid>();
 
   async function getMyUser() {
-    try {
-      const { result } = await apiFetch<{ result: User; status: number }>(
-        `/api/users/me`,
-      );
-      user.value = result;
-      return result;
-    } catch (error) {
-      console.error('Пользователь не авторизован');
-      throw error;
-    }
+    // try {
+    const { result } = await apiFetch<{ result: User; status: number }>(
+      `/api/users/me`,
+    );
+    user.value = result;
+    return result;
+    // } catch (error) {
+    //   console.error('Пользователь не авторизован');
+    //   throw error;
+    // }
   }
 
   async function getMyBid(id: string) {
-    try {
-      const { result } = await apiFetch<{ result: any; status: number }>(
-        `/api/users/my_bid/${id}`,
-      );
-      myBid.value = result;
-      return result;
-    } catch (error) {
-      console.error('Пользователь не авторизован');
-      throw error;
-    }
+    // try {
+    const { result } = await apiFetch<{ result: any; status: number }>(
+      `/api/users/my_bid/${id}`,
+    );
+    myBid.value = result;
+    return result;
+    // } catch (error) {
+    //   console.error('Пользователь не авторизован');
+    //   throw error;
+    // }
   }
 
   const getFavorites = () => {

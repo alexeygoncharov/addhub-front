@@ -1,6 +1,3 @@
-import { useRuntimeConfig } from 'nuxt/app';
-import { useAuthStore } from '../stores/auth';
-
 export const getBaseURL = () => {
   const config = useRuntimeConfig();
   const baseUrl = config.public.apiBase;
@@ -31,7 +28,7 @@ const handleResponseError = (response: Error) => {
   return Promise.reject(error);
 };
 
-//export const refreshApi = () => {
+// export const refreshApi = () => {
 //  const baseURL = getBaseURL();
 //  return $fetch.create({
 //    baseURL,
@@ -41,7 +38,7 @@ const handleResponseError = (response: Error) => {
 //    credentials: 'include',
 //    cache: "default"
 //  })
-//}
+// }
 export const useProtectedApi = () => {
   const baseURL = getBaseURL();
   return $fetch.create({
