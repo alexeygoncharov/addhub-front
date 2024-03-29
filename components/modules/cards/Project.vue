@@ -64,20 +64,20 @@
         <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
         <UISkeleton v-else class="project-card__price--skeleton"></UISkeleton>
       </div>
-      <RouterLink
+      <NuxtLink
         v-if="data && !isSendBid"
         :to="`/bid/${data?._id}`"
         class="project-card__btn m-btn m-btn-blue3"
       >
         Оставить отклик
-      </RouterLink>
-      <RouterLink
+      </NuxtLink>
+      <NuxtLink
         v-else-if="data && isSendBid"
         :to="`/bid/${data?._id}`"
         class="project-card__btn m-btn m-btn-blue3"
       >
         Уже откликнулись
-      </RouterLink>
+      </NuxtLink>
       <UISkeleton
         v-else
         class="project-card__btn project-card__btn--skeleton"
