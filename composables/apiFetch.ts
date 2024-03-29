@@ -11,11 +11,11 @@ export default async function <T>(
   ignore?: boolean,
 ) {
   if (needToken && process.client) {
-    const token = localStorage.getItem('authToken');
+    const token = useCookie('authToken');
     if (token && options) {
       options.headers = {
         ...(options.headers || {}),
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.value}`,
       };
     }
   }

@@ -6,9 +6,9 @@ export const getBaseURL = () => {
 
 const getAuthHeaders = () => {
   try {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      return { Authorization: `Bearer ${token}` };
+    const token = useCookie('authToken');
+    if (token.value) {
+      return { Authorization: `Bearer ${token.value}` };
     }
   } catch (error) {
     console.log(error);

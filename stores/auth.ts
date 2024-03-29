@@ -66,39 +66,38 @@ export const useAuthStore = defineStore('auth', () => {
 
   function logout() {
     token.value = null;
-    localStorage.removeItem('authToken');
-    sessionStorage.removeItem('authToken');
+    useCookie('authToken').value = null;
+    useSessionStorage('authToken', '').value = null;
   }
 
   function saveToken(tokenArg: string, rememberMe: boolean) {
     token.value = tokenArg;
     if (rememberMe) {
-      localStorage.setItem('authToken', tokenArg);
+      useCookie('authToken', {
+        maxAge: 60 * 60 * 24 * 7,
+      }).value = tokenArg;
     } else {
-      sessionStorage.setItem('authToken', tokenArg);
+      useSessionStorage('authToken', '').value = tokenArg;
     }
   }
 
   function loadToken() {
-    if (process.client) {
-      const tokenValue =
-        localStorage.getItem('authToken') ||
-        sessionStorage.getItem('authToken');
-      if (tokenValue && isTokenValid(tokenValue)) {
-        token.value = tokenValue;
-      }
-      isLoading.value = false;
+    const tokenValue = useCookie('authToken');
+    if (tokenValue.value && isTokenValid(tokenValue)) {
+      token.value = tokenValue.value;
     }
+    isLoading.value = false;
   }
 
-  function isTokenValid(token: string) {
-    if (!token) return false;
+  function isTokenValid(token: Ref<string | null | undefined>) {
+    if (!token.value) return false;
 
     try {
-      const decoded = jwtDecode(token);
+      const decoded = jwtDecode(token.value);
       const now = Date.now().valueOf() / 1000;
       if (!decoded.exp || decoded.exp < now) {
         // console.log(`Токен истек`);
+        token.value = null;
         return false;
       }
 
