@@ -64,8 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions } from 'pinia';
-import { useAuthStore } from '~/stores/auth';
 import { useValidation } from '~/composables/useValidation.js';
 const { login: authLogin } = useAuthStore();
 const email = ref('');
@@ -75,13 +73,9 @@ const rememberMe = ref(true);
 useValidation();
 
 const login = async () => {
-  try {
-    await authLogin(email.value, password.value, rememberMe.value);
+  const result = await authLogin(email.value, password.value, rememberMe.value);
+  if (result === 'success') {
     navigateTo('/');
-  } catch (error) {
-    // const errorData = await error.response._data; // TODO Ересь какая-то, переделывать полностью
-    // console.log(errorData);
-    // useNuxtApp().$toast({ message: errorData.message, type: 'error' });
   }
 };
 const handleSubmit = () => {

@@ -3,8 +3,15 @@
     <div class="modal-wrapper">
       <div class="header">
         <div class="avatar">
-          <img :src="`${$config.public.apiBase}/${data?.createdBy.avatar}`" alt="" crossorigin="anonymous" />
-          <span v-if="data?.createdBy.online_status === 'online'" class="modal-card__user-online"></span>
+          <img
+            :src="`${baseUrl()}/${data?.createdBy.avatar}`"
+            alt=""
+            crossorigin="anonymous"
+          />
+          <span
+            v-if="data?.createdBy.online_status === 'online'"
+            class="modal-card__user-online"
+          ></span>
         </div>
         <div class="modal-project__price">100</div>
       </div>
@@ -13,7 +20,7 @@
           {{ data?.description }}
         </div>
       </div>
-      <div class="modal-wrapper__maininput">
+      <div class="modal-wrapper__mainInput">
         <span>Текст отклика</span>
         <textarea v-model="description" />
       </div>
@@ -39,18 +46,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useProjectStore } from './../../stores/catalog/projects';
-import { useBidsStore } from './../../stores/catalog/bids';
-import { useUserStore } from '~/stores/user';
 import type { projectsItem, Bid } from '~/stores/catalog/catalog.type';
 const userStore = useUserStore();
 const projectStore = useProjectStore();
+const bidsStore = useBidsStore();
 const route = useRoute();
 const price = ref<number>(0);
 const term = ref<number>(0);
 const description = ref<string>();
-const bidsStore = useBidsStore();
-const bid = ref<Bid>();
+const bid = computed(() => {
+  return data.value?.bids.find((bid) => {
+    return bid.user === userStore.user?._id;
+  });
+});
 
 async function createBid() {
   await bidsStore
@@ -64,18 +72,15 @@ async function createBid() {
 const { data } = await useAsyncData<projectsItem>(
   'project',
   async (): Promise<projectsItem> => {
-    try {
-      return await projectStore.fetchProject(route.params._id as string);
-    } catch (e) {
-      throw e;
-    }
+    // try {
+    return await projectStore.fetchProject(route.params._id as string);
+    // } catch (e) {
+    //   throw e;
+    // }
   },
 );
 
-// TODO ддоработать запрос на бке
-bid.value = data.value?.bids.find((bid) => {
-  if (bid.user === userStore.user?._id) return bid;
-});
+// TODO доработать запрос на бке
 </script>
 <style lang="scss">
 .modal-screen {
@@ -144,7 +149,7 @@ input {
     border-radius: 4px;
   }
 
-  &__maininput {
+  &__mainInput {
     width: 100%;
     margin: 20px 0;
   }
@@ -205,7 +210,7 @@ input {
     border-width: 1px;
   }
 
-  .wraper {
+  .wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;

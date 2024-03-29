@@ -24,7 +24,7 @@ export const useCommonStore = defineStore('common', () => {
   const cities = ref<City[]>();
   const categories = ref<Category[]>();
   async function fetchCities() {
-    const data = await apiFetch<ApiResponse<City[]>>('/api/cities/');
+    const { data } = await apiFetch<ApiResponse<City[]>>('/api/cities/');
     const value = data.value;
     if (value) {
       cities.value = value.result;
@@ -32,7 +32,8 @@ export const useCommonStore = defineStore('common', () => {
   }
 
   async function fetchCategories() {
-    const data = await apiFetch<ApiResponse<Category[]>>('/api/categories/');
+    const { data } =
+      await apiFetch<ApiResponse<Category[]>>('/api/categories/');
     const value = data.value;
     if (value) {
       categories.value = value.result;

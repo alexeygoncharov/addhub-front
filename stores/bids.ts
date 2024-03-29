@@ -1,5 +1,3 @@
-import { useProtectedApi } from '../../composables/useProtectedApi';
-
 export const useBidsStore = defineStore('bids', () => {
   const bids = ref();
   const apiFetch = useProtectedApi();

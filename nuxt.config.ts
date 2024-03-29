@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     },
   },
   pinia: {
-    storesDirs: ['stores'],
+    storesDirs: ['stores/**/*'],
   },
   modules: [
     '@nuxtjs/eslint-module',

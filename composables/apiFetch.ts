@@ -1,4 +1,5 @@
 import type { UseFetchOptions } from '#app';
+import type { FetchError } from 'ofetch';
 type apiFetchParams<T> = {
   options?: UseFetchOptions<T>;
   needToken?: boolean;
@@ -29,5 +30,8 @@ export default async function <T>(
     ...options,
   });
   stopLoading();
-  return data as Ref<T>;
+  return { data, error } as {
+    data: Ref<T | null | undefined>;
+    error: Ref<FetchError | null>;
+  };
 }
