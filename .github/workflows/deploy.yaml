@@ -30,3 +30,4 @@ jobs:
             cd /opt/applications/add_hub_client
             git stash
             git pull
+            pm2 restart 2
