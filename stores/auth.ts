@@ -62,6 +62,12 @@ export const useAuthStore = defineStore('auth', () => {
       return value;
       // console.log('Регистрация прошла успешно');
     }
+    if (error.value) {
+      useToast({
+        message: 'Непредвиденная ошибка ' + error.value.data.message,
+        type: 'error',
+      });
+    }
   }
 
   function logout() {

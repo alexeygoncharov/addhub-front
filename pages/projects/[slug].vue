@@ -3,7 +3,11 @@
     <UIVBreadcrumbs
       :items="[{ name: 'Главная', to: '/' }, { name: 'Каталог проектов' }]"
     />
-    <UIPageTop :has-search="true" />
+    <UIPageTop
+      title="Поиск проектов"
+      description="Вам доступно более 500 000 предложений"
+      :has-search="true"
+    />
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div v-if="catalogStore.items?.length" class="project-items">

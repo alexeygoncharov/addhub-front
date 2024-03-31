@@ -48,6 +48,7 @@ export function createCatalogStore<T>(
     const popularItems = ref<T[]>();
     const items = ref<T[] | []>();
     const empty = ref(false);
+    const loading = ref(false);
     const sorting = ref<initialSort>(initialSorting.value[0]);
     const currentPage = ref(1);
     const totalItems = ref(0);
@@ -134,6 +135,7 @@ export function createCatalogStore<T>(
 
     const fetchItems = async (alien?: boolean) => {
       empty.value = false;
+      loading.value = true;
       items.value = [];
       const route = useRoute();
       const categorySlug = Array.isArray(route.params.slug)
@@ -163,12 +165,14 @@ export function createCatalogStore<T>(
         },
         alien,
       );
+
       const value = data.value;
       if (value) {
         items.value = value.result;
         items.value?.length || (empty.value = true);
         totalItems.value = value.total;
       }
+      loading.value = false;
     };
     const fetchPopular = async () => {
       const { data } = await apiFetch<ApiListResponse<T[]>>(apiUrl, {
@@ -235,6 +239,7 @@ export function createCatalogStore<T>(
       updateURL,
       fetchPopular,
       empty,
+      loading,
       popularItems,
       catalogPath,
       showAll,

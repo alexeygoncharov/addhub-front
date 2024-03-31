@@ -25,7 +25,12 @@
             <UIVButton path="/projects/all" color="blue">
               Найти работу
             </UIVButton>
-            <UIVButton color="white"> Разместить заказ </UIVButton>
+            <UIVButton
+              color="white"
+              :path="isAuthenticated ? '/profile/projects/create' : '/login'"
+            >
+              Разместить заказ
+            </UIVButton>
           </div>
 
           <div class="main-partners">
@@ -52,3 +57,7 @@
     </div>
   </div>
 </template>
+<script setup lang="ts">
+const authStore = useAuthStore();
+const { isAuthenticated } = storeToRefs(authStore);
+</script>

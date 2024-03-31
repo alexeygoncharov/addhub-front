@@ -21,7 +21,11 @@
         ></path>
       </svg>
     </button>
-    <NuxtLink v-if="data" class="service-card__slider _nested-slider">
+    <NuxtLink
+      v-if="data"
+      :to="data && `/services/${data.category.slug}/${data?._id}`"
+      class="service-card__slider _nested-slider"
+    >
       <Swiper
         :modules="[SwiperPagination, SwiperNavigation]"
         :slides-per-view="'auto'"

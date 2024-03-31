@@ -104,8 +104,8 @@
                       :modules="[SwiperPagination, SwiperNavigation]"
                       :slides-per-view="'auto'"
                       :navigation="{
-                        prevEl: '.gallery .swiper-button-prev',
-                        nextEl: '.gallery .swiper-button-next',
+                        prevEl: '.gallery__big .swiper-button-prev',
+                        nextEl: '.gallery__big .swiper-button-next',
                       }"
                       @swiper="onSwiper"
                       @slide-change="
@@ -114,11 +114,17 @@
                         }
                       "
                     >
-                      <SwiperSlide v-for="i in 4" :key="i" class="swiper-slide">
-                        <a :href="`/img/gallery.webp`" class="gallery__img">
-                          <img
-                            :src="`/img/gallery${i > 1 ? i : ''}.webp`"
+                      <SwiperSlide
+                        v-for="(image, index) of item?.photos"
+                        :key="index"
+                        class="swiper-slide"
+                      >
+                        <a class="gallery__img">
+                          <NuxtImg
+                            crossorigin="anonymous"
+                            :src="baseUrl() + image"
                             alt="Галерея"
+                            @click="() => (enabledViewer = true)"
                           />
                         </a>
                       </SwiperSlide>
@@ -157,15 +163,16 @@
                   <div thumbsSlider class="swiper mySwiper">
                     <div class="swiper-wrapper">
                       <div
-                        v-for="i in 4"
+                        v-for="(image, i) in item?.photos"
                         :key="i"
                         class="swiper-slide"
                         style="cursor: pointer"
-                        @click="thisSwiper.slideTo(i - 1)"
+                        @click="thisSwiper.slideTo(i)"
                       >
                         <div class="gallery__img">
-                          <img
-                            :src="`/img/gallery${i > 1 ? i : ''}.webp`"
+                          <NuxtImg
+                            crossorigin="anonymous"
+                            :src="baseUrl() + image"
                             alt="Галерея"
                           />
                         </div>
@@ -173,6 +180,12 @@
                     </div>
                   </div>
                 </div>
+                <UIImageViewer
+                  v-if="item && enabledViewer"
+                  v-model="enabledViewer"
+                  :images="item.photos"
+                  :active="activeSlide"
+                />
               </div>
 
               <div class="about-freelancer">
@@ -434,7 +447,11 @@
               <div class="text20 text18-tablet medium-text">Об исполнителе</div>
               <div class="about-client__info">
                 <div class="avatar">
-                  <img src="/img/avatar.webp" alt="" />
+                  <NuxtImg
+                    crossorigin="anonymous"
+                    :src="baseUrl() + item?.createdBy.avatar"
+                    alt=""
+                  />
                   <span
                     v-if="item?.createdBy.online_status === 'online'"
                     class="service-card__user-online"
@@ -504,6 +521,7 @@ const title = ref('');
 const userRating = ref(0);
 const commonStore = useCommonStore();
 const route = useRoute();
+const enabledViewer = ref(false);
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
 let thisSwiper: Swiper;
@@ -516,7 +534,7 @@ const category = commonStore.categories?.find(
 useHead({
   title,
 });
-const activeSlide = ref();
+const activeSlide = ref<number>(0);
 const item = ref<serviceItem>();
 const itemId = route.params.serviceId;
 const { data } = await apiFetch<ApiResponse<serviceItem>>(

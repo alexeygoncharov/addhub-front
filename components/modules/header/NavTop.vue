@@ -33,16 +33,16 @@ const commonStore = useCommonStore();
 const list = ref([
   { title: 'Главная', isHaveSubmenu: false, path: '/' },
   { title: 'Услуги', isHaveSubmenu: true, path: '/services' },
-  { title: 'Проекты', isHaveSubmenu: true, path: '/projects' },
+  { title: 'Биржа', isHaveSubmenu: true, path: '/projects' },
   {
     title: 'О нас',
     isHaveSubmenu: false,
-    path: 'https://delicate-gaufre-39d364.netlify.app/about',
+    path: '/about',
   },
   {
     title: 'Контакты',
     isHaveSubmenu: false,
-    path: 'https://delicate-gaufre-39d364.netlify.app/contacts',
+    path: '/contacts',
   },
 ]);
 </script>

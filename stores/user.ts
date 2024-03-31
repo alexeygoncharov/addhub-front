@@ -1,12 +1,14 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useProtectedApi } from '../composables/useProtectedApi';
-import type { Bid, User } from './../stores/catalog/catalog.type';
+import type { User } from './../stores/catalog/catalog.type';
 
 export const useUserStore = defineStore('user', () => {
   const favorites = ref<string[]>([]);
   const user = ref<User>();
   const myBid = ref<Bid>();
-
+  const selectedCurrency = ref(useCookie('selectedCurrency').value || 'RUB');
+  watch(selectedCurrency, () => {
+    useCookie('selectedCurrency').value = selectedCurrency.value;
+  });
   async function getMyUser() {
     const { data } = await apiFetch<ApiResponse<User>>(`/api/users/me/`, {
       options: {},
@@ -54,7 +56,15 @@ export const useUserStore = defineStore('user', () => {
     }
   };
   // getFavorites();
-  return { favorites, toggleFavorite, getFavorites, getMyUser, user, getMyBid };
+  return {
+    favorites,
+    toggleFavorite,
+    getFavorites,
+    getMyUser,
+    user,
+    getMyBid,
+    selectedCurrency,
+  };
 });
 
 if (import.meta.hot) {
