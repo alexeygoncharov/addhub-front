@@ -144,11 +144,6 @@ const register = async () => {
       message: 'Регистрация прошла успешно',
       type: 'success',
     });
-  } else {
-    useToast({
-      message: 'Произошла ошибка при регистрации',
-      type: 'error',
-    });
   }
 };
 const handleSubmit = () => {

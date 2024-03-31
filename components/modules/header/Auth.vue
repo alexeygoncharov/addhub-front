@@ -1,31 +1,31 @@
 <template>
-  <div v-if="!isLoading && !isAuthenticated" class="header-action">
-    <button class="header-action__search _toggle-search" @click="toggleSearch">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+  <OnClickOutside class="header-action" @trigger="activeSearch = false">
+    <div class="header-action__wrapper">
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="Поиск по услугам"
+        @focus="activeSearch = true"
+        class="header-action__search-input"
+        @input="updateItems"
+      />
+      <div
+        v-if="searchQuery && activeSearch"
+        class="header-action__search-list"
       >
-        <path
-          d="M7.04606 0C3.16097 0 0 3.16097 0 7.04606C0 10.9314 3.16097 14.0921 7.04606 14.0921C10.9314 14.0921 14.0921 10.9314 14.0921 7.04606C14.0921 3.16097 10.9314 0 7.04606 0ZM7.04606 12.7913C3.87816 12.7913 1.30081 10.214 1.30081 7.04609C1.30081 3.87819 3.87816 1.30081 7.04606 1.30081C10.214 1.30081 12.7913 3.87816 12.7913 7.04606C12.7913 10.214 10.214 12.7913 7.04606 12.7913Z"
-          fill="#222222"
-        />
-        <path
-          d="M15.8094 14.8898L12.0804 11.1608C11.8263 10.9067 11.4148 10.9067 11.1607 11.1608C10.9066 11.4147 10.9066 11.8266 11.1607 12.0805L14.8897 15.8095C15.0168 15.9365 15.1831 16 15.3496 16C15.5158 16 15.6823 15.9365 15.8094 15.8095C16.0635 15.5556 16.0635 15.1437 15.8094 14.8898Z"
-          fill="#222222"
-        />
-      </svg>
-    </button>
-    <UIVButton
-      path="https://delicate-gaufre-39d364.netlify.app/become-seller"
-      color="blueOutline"
-      class="header-action__btn"
-    >
-      Стать продавцом
-    </UIVButton>
-  </div>
+        <NuxtLink
+          v-for="item in items"
+          :key="item._id"
+          :to="`/services/${item.category.slug}/${item._id}`"
+          class="header-action__search-item"
+          @click="() => (searchQuery = '')"
+        >
+          <p>{{ item.title }}</p>
+          <p>{{ item.price }}</p>
+        </NuxtLink>
+      </div>
+    </div>
+  </OnClickOutside>
   <div v-if="isAuthenticated && !isLoading" class="header-action2">
     <a href="" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
@@ -54,11 +54,28 @@
 </template>
 
 <script setup lang="ts">
+import { OnClickOutside } from '@vueuse/components';
+const commonStore = useCommonStore();
 const authStore = useAuthStore();
+const searchQuery = ref('');
+const activeSearch = ref(false);
 const mobMenu = defineModel<boolean>({ required: true });
 const toggleMenu = () => {
   mobMenu.value = !mobMenu.value;
 };
 const { isAuthenticated, isLoading } = storeToRefs(authStore);
 const { logout } = authStore;
+const items = ref<servicesItem[]>([]);
+const updateItems = async () => {
+  const data = await $fetch<ApiListResponse<servicesItem[]>>('/api/services/', {
+    baseURL: baseUrl(),
+    query: {
+      limit: 10,
+      search: searchQuery.value,
+    },
+  });
+  if (data.result) {
+    items.value = data.result;
+  }
+};
 </script>

@@ -447,7 +447,11 @@
               <div class="text20 text18-tablet medium-text">Об исполнителе</div>
               <div class="about-client__info">
                 <div class="avatar">
-                  <img src="/img/avatar.webp" alt="" />
+                  <NuxtImg
+                    crossorigin="anonymous"
+                    :src="baseUrl() + item?.createdBy.avatar"
+                    alt=""
+                  />
                   <span
                     v-if="item?.createdBy.online_status === 'online'"
                     class="service-card__user-online"

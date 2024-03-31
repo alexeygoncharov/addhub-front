@@ -33,7 +33,7 @@ const commonStore = useCommonStore();
 const list = ref([
   { title: 'Главная', isHaveSubmenu: false, path: '/' },
   { title: 'Услуги', isHaveSubmenu: true, path: '/services' },
-  { title: 'Проекты', isHaveSubmenu: true, path: '/projects' },
+  { title: 'Биржа', isHaveSubmenu: true, path: '/projects' },
   {
     title: 'О нас',
     isHaveSubmenu: false,

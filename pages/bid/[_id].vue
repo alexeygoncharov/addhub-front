@@ -13,7 +13,7 @@
             class="modal-card__user-online"
           ></span>
         </div>
-        <div class="wraper">
+        <div class="wrapper">
           <div class="title text20 medium-text">
             {{ data?.title }}
           </div>
@@ -66,7 +66,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { projectsItem, Bid } from '~/stores/catalog/catalog.type';
+import type { projectsItem } from '~/stores/catalog/catalog.type';
 const userStore = useUserStore();
 const projectStore = useProjectStore();
 const bidsStore = useBidsStore();

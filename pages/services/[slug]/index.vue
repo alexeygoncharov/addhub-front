@@ -16,7 +16,7 @@
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div
-          v-if="catalogStore.items?.length"
+          v-if="!catalogStore.loading && !catalogStore.empty"
           class="services-items grid-col3 grid-tablet2 grid-mob-full"
         >
           <ModulesCardsService
@@ -26,10 +26,7 @@
           />
         </div>
         <div
-          v-else-if="
-            !catalogStore.empty ||
-            (!catalogStore.empty && !catalogStore.items?.length)
-          "
+          v-else-if="!catalogStore.empty"
           class="services-items grid-col3 grid-tablet2 grid-mob-full"
         >
           <ModulesCardsService v-for="i in 10" :key="i" />

@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 const authStore = useAuthStore();
-
 const userStore = useUserStore();
 const { getFavorites } = useUserStore();
 const commonStore = useCommonStore();
