@@ -4,7 +4,6 @@ import type { Bid, User } from './../stores/catalog/catalog.type';
 
 export const useUserStore = defineStore('user', () => {
   const favorites = ref<string[]>([]);
-  const apiFetch = useProtectedApi();
   const user = ref<User>();
   const myBid = ref<Bid>();
   const selectedCurrency = ref(useCookie('selectedCurrency').value || 'RUB');
@@ -12,29 +11,31 @@ export const useUserStore = defineStore('user', () => {
     useCookie('selectedCurrency').value = selectedCurrency.value;
   });
   async function getMyUser() {
-    // try {
-    const { result } = await apiFetch<{ result: User; status: number }>(
-      `/api/users/me`,
-    );
-    user.value = result;
-    return result;
-    // } catch (error) {
-    //   console.error('Пользователь не авторизован');
-    //   throw error;
-    // }
+    const { data } = await apiFetch<ApiResponse<User>>(`/api/users/me/`, {
+      options: {},
+      needToken: true,
+    });
+    const value = data.value;
+    if (value) {
+      user.value = value.result;
+    }
+    return user.value;
   }
 
+  /// Добавить запрос в отлик
   async function getMyBid(id: string) {
-    // try {
-    const { result } = await apiFetch<{ result: any; status: number }>(
+    const { data } = await apiFetch<ApiResponse<Bid>>(
       `/api/users/my_bid/${id}`,
+      {
+        options: {},
+        needToken: true,
+      },
     );
-    myBid.value = result;
-    return result;
-    // } catch (error) {
-    //   console.error('Пользователь не авторизован');
-    //   throw error;
-    // }
+    const value = data.value;
+    if (value) {
+      myBid.value = value.result;
+    }
+    return myBid.value;
   }
 
   const getFavorites = () => {

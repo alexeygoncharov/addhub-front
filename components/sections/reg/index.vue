@@ -22,15 +22,11 @@
           <div class="auth-form__roles">
             <div class="role-ratio">
               <span> Заказчик</span>
-              <input v-model="regDetails.role" type="radio" :value="'seller'" />
+              <input v-model="regDetails.role" type="radio" :value="'buyer'" />
             </div>
             <div class="role-ratio">
               <span>Фрилансер</span>
-              <input
-                v-model="regDetails.role"
-                type="radio"
-                :value="'freelancer'"
-              />
+              <input v-model="regDetails.role" type="radio" :value="'seller'" />
             </div>
           </div>
           <fieldset class="fg _small">
