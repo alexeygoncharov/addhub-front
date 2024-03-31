@@ -163,6 +163,7 @@ export function createCatalogStore<T>(
         },
         alien,
       );
+
       const value = data.value;
       if (value) {
         items.value = value.result;

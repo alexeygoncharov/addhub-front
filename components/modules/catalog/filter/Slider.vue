@@ -4,7 +4,7 @@
       <div class="fg">
         <label>От</label>
         <input
-          v-model="priceMin"
+          v-model="priceMinBuffer"
           type="number"
           @input="updateStartValue(0, $event)"
         />
@@ -13,7 +13,7 @@
       <div class="fg">
         <label>До</label>
         <input
-          v-model="priceMax"
+          v-model="priceMaxBuffer"
           type="number"
           @input="updateStartValue(1, $event)"
         />
@@ -24,7 +24,7 @@
       <div ref="sliderElement" class="range-slider"></div>
     </div>
     <div class="filter-slider__output">
-      <span>{{ priceMin }}</span> - <span>{{ priceMax }}</span> ₽
+      <span>{{ priceMinBuffer }}</span> - <span>{{ priceMaxBuffer }}</span> ₽
     </div>
   </div>
 </template>
@@ -45,7 +45,16 @@ const priceMin = defineModel<number>('priceMin', {
 const priceMax = defineModel<number>('priceMax', {
   required: true,
 });
+const priceMaxBuffer = ref<number>(priceMax.value);
+const priceMinBuffer = ref<number>(priceMin.value);
+// console.log(props);
 
+// watch([priceMin, priceMax], () => {
+//   console.log(1);
+
+//   priceMaxBuffer.value = priceMax.value;
+//   priceMinBuffer.value = priceMin.value;
+// });
 onMounted(() => {
   initSlider();
 });
@@ -64,7 +73,11 @@ const initSlider = () => {
 
   slider.value.on('update', (values, handle) => {
     const value = parseInt(String(values[handle]), 10);
-
+    if (handle === 0) {
+      priceMinBuffer.value = value;
+    } else {
+      priceMaxBuffer.value = value;
+    }
     // Эмитируем события для обновления родительских пропсов
     clearTimeout(filterTimeoutId.value);
     filterTimeoutId.value = setTimeout(() => {

@@ -7,7 +7,10 @@ export const useUserStore = defineStore('user', () => {
   const apiFetch = useProtectedApi();
   const user = ref<User>();
   const myBid = ref<Bid>();
-
+  const selectedCurrency = ref(useCookie('selectedCurrency').value || 'RUB');
+  watch(selectedCurrency, () => {
+    useCookie('selectedCurrency').value = selectedCurrency.value;
+  });
   async function getMyUser() {
     // try {
     const { result } = await apiFetch<{ result: User; status: number }>(
@@ -53,7 +56,15 @@ export const useUserStore = defineStore('user', () => {
     }
   };
   // getFavorites();
-  return { favorites, toggleFavorite, getFavorites, getMyUser, user, getMyBid };
+  return {
+    favorites,
+    toggleFavorite,
+    getFavorites,
+    getMyUser,
+    user,
+    getMyBid,
+    selectedCurrency,
+  };
 });
 
 if (import.meta.hot) {

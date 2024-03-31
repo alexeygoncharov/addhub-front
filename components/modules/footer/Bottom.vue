@@ -2,11 +2,14 @@
   <div class="footer-bottom">
     <div class="footer-bottom__c">© Addhub.io. 2023. Все права защищены.</div>
 
-    <!-- <div class="footer-bottom__nav">
-      <ModulesFooterDropdown title="$USD" />
-
-      <ModulesFooterDropdown title="Russian" />
-    </div> -->
+    <div class="footer-bottom__nav">
+      <ModulesFooterDropdown
+        v-model="selectedCurrency"
+        :list="['RUB', 'USDT', 'BTC']"
+      />
+    </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { selectedCurrency } = storeToRefs(useUserStore());
+</script>

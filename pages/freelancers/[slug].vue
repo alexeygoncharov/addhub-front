@@ -3,7 +3,10 @@
     <UIVBreadcrumbs
       :items="[{ name: 'Главная', to: '/' }, { name: 'Каталог исполнителей' }]"
     />
-    <UIPageTop />
+    <UIPageTop
+      title="Поиск фрилансеров"
+      description="Вам доступно более 500 000 предложений"
+    />
     <ModulesCatalog :store="catalogStore">
       <template #items>
         <div class="freelancers-items">

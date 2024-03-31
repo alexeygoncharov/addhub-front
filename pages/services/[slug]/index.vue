@@ -6,7 +6,12 @@
         { name: 'Каталог услуг', to: '/services/all' },
       ]"
     />
-    <UIPageTop :has-search="true" :has-select="true" />
+    <UIPageTop
+      title="Поиск услуг"
+      description="Вам доступно более 500 000 предложений"
+      :has-search="true"
+      :has-select="true"
+    />
     <!-- <ModulesCatalogPopular /> -->
     <ModulesCatalog :store="catalogStore">
       <template #items>

@@ -1,12 +1,11 @@
 <template>
-  <div class="page-top">
+  <div class="page-top" :class="{ 'contacts-top': contacts }">
     <div class="container">
       <div class="page-top__inner">
         <div class="page-top__text">
-          <h1 v-if="!title" class="text32 medium-text">Поиск услуг</h1>
-          <h1 v-else class="text32 medium-text">{{ title }}</h1>
-          <div v-if="!items" class="page-top__desc text15">
-            Вам доступно более 500 000 предложений
+          <h1 v-if="title" class="text32 medium-text">{{ title }}</h1>
+          <div v-if="description" class="page-top__desc text15">
+            {{ description }}
           </div>
           <div v-if="items" class="page-top__items _gap10">
             <div class="page-top__user">
@@ -74,6 +73,14 @@ const props = defineProps({
   title: {
     type: String,
     default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
+  contacts: {
+    type: Boolean,
+    default: false,
   },
 });
 const select = ref({
