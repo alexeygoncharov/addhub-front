@@ -13,7 +13,7 @@
             class="modal-card__user-online"
           ></span>
         </div>
-        <div class="wrapper">
+        <div class="mdl-wrapper">
           <div class="title text20 medium-text">
             {{ data?.title }}
           </div>
