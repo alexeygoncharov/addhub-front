@@ -8,6 +8,7 @@
   }
 }
 
+
 .auth-form {
   width: 42.875em;
   max-width: 100%;
@@ -17,6 +18,14 @@
   border-radius: 0.5em;
   box-shadow: $shadow;
 
+  .role-label {
+    display: block;
+    margin-bottom: 0.31em;
+    font-size: 0.9375em;
+    font-weight: 500;
+    line-height: 180%;
+  }
+  
   &__top {
     @include grid100gap(0.5em);
   }
