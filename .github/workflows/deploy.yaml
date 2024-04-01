@@ -7,21 +7,27 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
+    environment: production
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup SSH Agent
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+      - name: Use Node.js 20
+        uses: actions/setup-node@v1
+        with:
+          node-version: "20.x"
+      - run: npm i
+      - run: npm run build --if-present
+      - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 88.99.82.148
           username: root
           password: 2sAKjNrLWJzG
-        - name: Deploy to Server
-          run: |
+          script: |
             cd /opt/applications/add_hub_client
+            git stash
             git pull
-            npm install
-            npm run build
             pm2 restart all
-          "
