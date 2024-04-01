@@ -20,13 +20,23 @@
         </div>
         <div class="auth-form__fields">
           <div class="auth-form__roles">
-            <div class="role-ratio">
-              <span> Заказчик</span>
-              <input v-model="regDetails.role" type="radio" :value="'buyer'" />
+            <div class="filter-check m-radio">
+              <input
+                v-model="regDetails.role"
+                type="radio"
+                name="time"
+                :value="'buyer'"
+              />
+              <label class="role-label">Заказчик</label>
             </div>
-            <div class="role-ratio">
-              <span>Фрилансер</span>
-              <input v-model="regDetails.role" type="radio" :value="'seller'" />
+            <div class="filter-check m-radio">
+              <input
+                v-model="regDetails.role"
+                name="time"
+                type="radio"
+                :value="'seller'"
+              />
+              <label class="role-label">Исполнитель</label>
             </div>
           </div>
           <fieldset class="fg _small">
