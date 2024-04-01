@@ -13,7 +13,7 @@ jobs:
     environment: production
     steps:
       - name: 🚚 Get latest code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Use Node.js 20
         uses: actions/setup-node@v1
         with:
@@ -30,4 +30,4 @@ jobs:
             cd /opt/applications/add_hub_client
             git stash
             git pull
-            pm2 restart 6
+            pm2 restart 2
