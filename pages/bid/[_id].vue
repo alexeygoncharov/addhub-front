@@ -41,17 +41,17 @@
         </div>
       </div>
       <div class="modal-wrapper__mainInput">
-        <span>Текст отклика</span>
+        <label class="bid-label">Текст отклика</label>
         <textarea v-model="description" />
       </div>
       <div class="modal-wrapper__inputs">
         <div class="modal-wrapper__input">
-          <span>Стоимость (руб)</span>
+          <label class="bid-label">Стоимость (руб)</label>
           <input v-model="price" type="text" />
         </div>
         <div class="modal-wrapper__input">
-          <span>Срок (в днях)</span>
-          <input v-model="term" type="text" />
+          <label class="bid-label">Срок (в днях)</label>
+          <input v-model="term" name="term" type="text" />
         </div>
       </div>
       <div class="modal-wrapper__under">
