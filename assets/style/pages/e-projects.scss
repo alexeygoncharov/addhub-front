@@ -15,6 +15,13 @@ input {
   border-radius: 4px;
 }
 
+.bid-label {
+  display: block;
+  margin-bottom: 0.31em;
+  font-size: 0.9375em;
+  font-weight: 500;
+  line-height: 120%;
+}
 .modal-wrapper {
   position: relative;
   inset: 0;
@@ -73,7 +80,7 @@ input {
     width: 100%;
     height: 150px;
     padding: 12px 20px;
-    margin: 20px 0;
+    margin: 0;
     font-weight: 300;
     resize: none;
     border: 2px solid #ccc;
