@@ -7,10 +7,12 @@
       ]"
     />
     <UIPageTop
+      v-model="bufSearch"
       title="Поиск услуг"
       description="Вам доступно более 500 000 предложений"
       :has-search="true"
       :has-select="true"
+      @submit="setSearch()"
     />
     <!-- <ModulesCatalogPopular /> -->
     <ModulesCatalog :store="catalogStore">
@@ -44,6 +46,13 @@
 <script setup lang="ts">
 import { useCatalogServicesStore } from '~/stores/catalog/services';
 const catalogStore = useCatalogServicesStore();
+const bufSearch = ref('');
+if (catalogStore.searchQuery) {
+  bufSearch.value = catalogStore.searchQuery;
+}
+const setSearch = () => {
+  catalogStore.searchQuery = bufSearch.value;
+};
 useHead({
   title: 'Каталог услуг',
 });

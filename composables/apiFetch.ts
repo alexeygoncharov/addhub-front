@@ -8,7 +8,6 @@ type apiFetchParams<T> = {
 export default async function <T>(
   endpoint: string,
   { options, needToken }: apiFetchParams<T> | undefined = {},
-  ignore?: boolean,
 ) {
   if (needToken) {
     const token = useCookie('authToken');
@@ -26,7 +25,7 @@ export default async function <T>(
   const { data, error } = await useFetch(endpoint, {
     key,
     baseURL: baseUrl,
-    watch: ignore && false,
+    watch: false,
     ...options,
   });
   stopLoading();

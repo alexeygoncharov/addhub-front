@@ -2,7 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 import type { User } from './../stores/catalog/catalog.type';
 
 export const useUserStore = defineStore('user', () => {
-  const favorites = ref<string[]>([]);
+  const favorites = ref<{ id: string; type: 'project' | 'service' }[]>([]);
   const user = ref<User>();
   const myBid = ref<Bid>();
   const selectedCurrency = ref(useCookie('selectedCurrency').value || 'RUB');
@@ -38,21 +38,20 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const getFavorites = () => {
-    if (process.client) {
-      const data = localStorage.getItem('favorites');
-      if (!data) return;
-      favorites.value = JSON.parse(data);
-    }
+    const data = useCookie<typeof favorites.value>('favorites');
+    if (!data.value) return;
+
+    favorites.value = data.value;
   };
-  const toggleFavorite = (id: string) => {
-    if (!process.client) return;
-    const index = favorites.value.indexOf(id);
+  const toggleFavorite = (id: string, type: 'project' | 'service') => {
+    const index = favorites.value.map((el) => el.id).indexOf(id);
+    const favoritesStorage = useCookie<typeof favorites.value>('favorites');
     if (index > -1) {
       favorites.value.splice(index, 1);
-      localStorage.setItem('favorites', JSON.stringify(favorites.value));
+      favoritesStorage.value = favorites.value;
     } else {
-      favorites.value.push(id);
-      localStorage.setItem('favorites', JSON.stringify(favorites.value));
+      favorites.value.push({ id, type });
+      favoritesStorage.value = favorites.value;
     }
   };
   // getFavorites();

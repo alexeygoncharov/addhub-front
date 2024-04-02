@@ -11,15 +11,5 @@
 </template>
 
 <script setup lang="ts">
-const authStore = useAuthStore();
-const userStore = useUserStore();
-const { getFavorites } = useUserStore();
 const commonStore = useCommonStore();
-getFavorites();
-commonStore.fetchCategories();
-commonStore.fetchCities();
-authStore.loadToken();
-if (authStore.token) {
-  await userStore.getMyUser();
-}
 </script>

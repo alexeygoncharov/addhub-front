@@ -157,7 +157,8 @@ const setFilters = (slug: string | undefined) => {
       query: route.query,
     });
   } else {
-    props.store.fetchItems(true);
+    props.store.fetchItems();
+    props.store.updateURL();
   }
 };
 </script>

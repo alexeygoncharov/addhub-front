@@ -4,7 +4,7 @@
     <UIVSelect
       :options="store.initialSorting"
       :initial-current-text="store.sorting"
-      @input="(sorting) => store.setSorting(sorting)"
+      @input="(sorting) => (store.sorting = sorting)"
     />
   </div>
 </template>
@@ -17,4 +17,5 @@ const props = defineProps({
     required: true,
   },
 });
+const store = props.store;
 </script>

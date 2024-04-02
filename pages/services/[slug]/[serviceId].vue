@@ -1,210 +1,135 @@
 <template>
-  <div>
-    <UIVBreadcrumbs
-      v-if="item && category"
-      :items="[
-        { name: 'Главная', to: '/' },
-        {
-          name: category?.title || 'Каталог услуг',
-          to: `/services/${category.slug}`,
-        },
-        { name: item.title },
-      ]"
-    />
+  <ModulesItem :item="item" type="service">
+    <template #item-content>
+      <div class="stat">
+        <UIStatCard
+          v-if="item"
+          :icon="'/img/stat-icon12.svg'"
+          :title="'Время выполнения'"
+          :value="pluralize(item.delivery_time, 'день', 'дня', 'дней')"
+        />
 
-    <div class="freelancer-top _pb85">
-      <div class="container">
-        <div class="freelancer-top__nav">
-          <button class="icon-btn">
-            <span class="icon-btn__round">
-              <img src="/img/share.svg" alt="" />
-            </span>
-            <span class="icon-btn__text"> Поделиться </span>
-          </button>
-          <button
-            class="icon-btn favorite-btn2"
-            :class="{ _added: item && favorites.includes(item?._id) }"
-            @click="item && toggleFavorite(item?._id)"
-          >
-            <span class="icon-btn__round">
-              <svg
-                width="26"
-                height="23"
-                viewBox="0 0 26 23"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+        <!-- <UIStatCard
+          v-if="item"
+          :icon="'/img/stat-icon13.svg'"
+          :title="'Параметр'"
+          value="Профессиональный"
+        /> -->
+        <UIStatCard
+          v-if="item"
+          :icon="'/img/stat-icon14.svg'"
+          :title="'Город'"
+          :value="item?.address.city.title"
+        />
+      </div>
+      <div class="gallery">
+        <div class="gallery__big">
+          <div class="swiper mySwiper2">
+            <Swiper
+              :modules="[SwiperPagination, SwiperNavigation]"
+              :slides-per-view="'auto'"
+              :navigation="{
+                prevEl: '.gallery__big .swiper-button-prev',
+                nextEl: '.gallery__big .swiper-button-next',
+              }"
+              @swiper="onSwiper"
+              @slide-change="
+                (e) => {
+                  activeSlide = e.activeIndex;
+                }
+              "
+            >
+              <SwiperSlide
+                v-for="(image, index) of item?.photos"
+                :key="index"
+                class="swiper-slide"
               >
-                <path
-                  d="M23.0775 12.2216L13.4334 21.5L3.78929 12.2216C3.15317 11.6203 2.65211 10.8976 2.31765 10.0989C1.9832 9.30027 1.82261 8.443 1.84598 7.58109C1.86935 6.71918 2.07619 5.87131 2.45346 5.09087C2.83073 4.31043 3.37026 3.61432 4.03809 3.04638C4.70591 2.47844 5.48756 2.05098 6.33381 1.7909C7.18006 1.53083 8.07257 1.44378 8.95515 1.53524C9.83774 1.62669 10.6913 1.89467 11.462 2.32231C12.2327 2.74994 12.9039 3.32796 13.4334 4.01996C13.9652 3.33298 14.6372 2.76001 15.4074 2.33692C16.1776 1.91382 17.0294 1.64971 17.9095 1.56112C18.7896 1.47252 19.6791 1.56134 20.5222 1.82202C21.3653 2.0827 22.144 2.50963 22.8095 3.07609C23.475 3.64255 24.0129 4.33634 24.3897 5.11405C24.7664 5.89175 24.9739 6.73663 24.999 7.5958C25.0242 8.45497 24.8665 9.30993 24.5359 10.1072C24.2053 10.9044 23.7088 11.6268 23.0775 12.2291"
-                  stroke="#222222"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-              </svg>
-            </span>
-            <span class="icon-btn__text"> Сохранить </span>
-          </button>
+                <a class="gallery__img">
+                  <NuxtImg
+                    crossorigin="anonymous"
+                    :src="baseUrl() + image"
+                    alt="Галерея"
+                    @click="() => (enabledViewer = true)"
+                  />
+                </a>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+          <div class="swiper-button swiper-button-prev">
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.98242 9.20279L11.6142 16.8134C11.8642 17.0626 12.269 17.0622 12.5187 16.8121C12.7681 16.5621 12.7674 16.157 12.5174 15.9076L5.3399 8.74998L12.5176 1.59236C12.7677 1.34293 12.7683 0.938134 12.5189 0.688057C12.3938 0.562696 12.2298 0.500015 12.0659 0.500015C11.9024 0.500015 11.7391 0.562277 11.6142 0.686768L3.98242 8.2972C3.86199 8.41701 3.79441 8.58008 3.79441 8.74998C3.79441 8.91987 3.86219 9.08275 3.98242 9.20279Z"
+                fill="#051036"
+              />
+            </svg>
+          </div>
+          <div class="swiper-button swiper-button-next">
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 17 17"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.0176 8.29721L5.38582 0.686587C5.13578 0.437381 4.73095 0.4378 4.48132 0.687877C4.23189 0.937921 4.23254 1.34298 4.48261 1.59238L11.6601 8.75002L4.48236 15.9076C4.23231 16.1571 4.23167 16.5619 4.48107 16.8119C4.6062 16.9373 4.77014 17 4.93407 17C5.09759 17 5.26088 16.9377 5.38579 16.8132L13.0176 9.2028C13.138 9.08299 13.2056 8.91992 13.2056 8.75002C13.2056 8.58013 13.1378 8.41725 13.0176 8.29721Z"
+                fill="#051036"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="gallery__small">
+          <div thumbsSlider class="swiper mySwiper">
+            <div class="swiper-wrapper">
+              <div
+                v-for="(image, i) in item?.photos"
+                :key="i"
+                class="swiper-slide"
+                style="cursor: pointer"
+                @click="thisSwiper.slideTo(i)"
+              >
+                <div class="gallery__img">
+                  <NuxtImg
+                    crossorigin="anonymous"
+                    :src="baseUrl() + image"
+                    alt="Галерея"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <UIImageViewer
+          v-if="item && enabledViewer"
+          v-model="enabledViewer"
+          :images="item.photos"
+          :active="activeSlide"
+        />
+      </div>
+
+      <div class="about-freelancer">
+        <div class="text20 medium-text">Об услуге</div>
+        <div class="text">
+          <p>{{ item?.description }}</p>
         </div>
       </div>
 
-      <UIPageTop :items="item" :title="item?.title" />
-    </div>
-
-    <div class="freelancer _pt0 _overflow-unset">
-      <div class="container">
-        <div class="freelancer__grid">
-          <div class="freelancer__col">
-            <div class="freelancer__inner">
-              <div class="stat">
-                <div class="stat-card">
-                  <div class="stat-card__icon">
-                    <img src="/img/stat-icon12.svg" alt="" />
-                  </div>
-                  <div v-if="item" class="stat-card__content">
-                    <div class="stat-card__title text17 medium-text">
-                      Время выполнения
-                    </div>
-                    <div class="stat-card__desc text15 light-text">
-                      {{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}
-                    </div>
-                  </div>
-                </div>
-
-                <!-- <div class="stat-card">
-                  <div class="stat-card__icon">
-                    <img src="/img/stat-icon13.svg" alt="" />
-                  </div>
-                  <div class="stat-card__content">
-                    <div class="stat-card__title text17 medium-text">
-                      Параметр
-                    </div>
-                    <div class="stat-card__desc text15 light-text">
-                      Профессиональный
-                    </div>
-                  </div>
-                </div> -->
-
-                <div class="stat-card">
-                  <div class="stat-card__icon">
-                    <img src="/img/stat-icon14.svg" alt="" />
-                  </div>
-                  <div class="stat-card__content">
-                    <div class="stat-card__title text17 medium-text">Город</div>
-                    <div class="stat-card__desc text15 light-text">
-                      {{ item?.address.city.title }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="gallery">
-                <div class="gallery__big">
-                  <div class="swiper mySwiper2">
-                    <Swiper
-                      :modules="[SwiperPagination, SwiperNavigation]"
-                      :slides-per-view="'auto'"
-                      :navigation="{
-                        prevEl: '.gallery__big .swiper-button-prev',
-                        nextEl: '.gallery__big .swiper-button-next',
-                      }"
-                      @swiper="onSwiper"
-                      @slide-change="
-                        (e) => {
-                          activeSlide = e.activeIndex;
-                        }
-                      "
-                    >
-                      <SwiperSlide
-                        v-for="(image, index) of item?.photos"
-                        :key="index"
-                        class="swiper-slide"
-                      >
-                        <a class="gallery__img">
-                          <NuxtImg
-                            crossorigin="anonymous"
-                            :src="baseUrl() + image"
-                            alt="Галерея"
-                            @click="() => (enabledViewer = true)"
-                          />
-                        </a>
-                      </SwiperSlide>
-                    </Swiper>
-                  </div>
-                  <div class="swiper-button swiper-button-prev">
-                    <svg
-                      width="17"
-                      height="17"
-                      viewBox="0 0 17 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M3.98242 9.20279L11.6142 16.8134C11.8642 17.0626 12.269 17.0622 12.5187 16.8121C12.7681 16.5621 12.7674 16.157 12.5174 15.9076L5.3399 8.74998L12.5176 1.59236C12.7677 1.34293 12.7683 0.938134 12.5189 0.688057C12.3938 0.562696 12.2298 0.500015 12.0659 0.500015C11.9024 0.500015 11.7391 0.562277 11.6142 0.686768L3.98242 8.2972C3.86199 8.41701 3.79441 8.58008 3.79441 8.74998C3.79441 8.91987 3.86219 9.08275 3.98242 9.20279Z"
-                        fill="#051036"
-                      />
-                    </svg>
-                  </div>
-                  <div class="swiper-button swiper-button-next">
-                    <svg
-                      width="17"
-                      height="17"
-                      viewBox="0 0 17 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13.0176 8.29721L5.38582 0.686587C5.13578 0.437381 4.73095 0.4378 4.48132 0.687877C4.23189 0.937921 4.23254 1.34298 4.48261 1.59238L11.6601 8.75002L4.48236 15.9076C4.23231 16.1571 4.23167 16.5619 4.48107 16.8119C4.6062 16.9373 4.77014 17 4.93407 17C5.09759 17 5.26088 16.9377 5.38579 16.8132L13.0176 9.2028C13.138 9.08299 13.2056 8.91992 13.2056 8.75002C13.2056 8.58013 13.1378 8.41725 13.0176 8.29721Z"
-                        fill="#051036"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div class="gallery__small">
-                  <div thumbsSlider class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                      <div
-                        v-for="(image, i) in item?.photos"
-                        :key="i"
-                        class="swiper-slide"
-                        style="cursor: pointer"
-                        @click="thisSwiper.slideTo(i)"
-                      >
-                        <div class="gallery__img">
-                          <NuxtImg
-                            crossorigin="anonymous"
-                            :src="baseUrl() + image"
-                            alt="Галерея"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <UIImageViewer
-                  v-if="item && enabledViewer"
-                  v-model="enabledViewer"
-                  :images="item.photos"
-                  :active="activeSlide"
-                />
-              </div>
-
-              <div class="about-freelancer">
-                <div class="text20 medium-text">Об услуге</div>
-                <div class="text">
-                  <p>{{ item?.description }}</p>
-                </div>
-              </div>
-
-              <div class="service-info">
-                <div class="service-info__col">
-                  <div class="service-info__title">Категория</div>
-                  <nuxtLink
-                    :to="`/services/${category?.slug}`"
-                    class="service-info__desc"
-                    >{{ category?.title }}</nuxtLink
-                  >
-                </div>
-                <!-- <div class="service-info__col">
+      <div class="service-info">
+        <div class="service-info__col">
+          <div class="service-info__title">Категория</div>
+          <nuxtLink
+            :to="`/services/${category?.slug}`"
+            class="service-info__desc"
+            >{{ category?.title }}</nuxtLink
+          >
+        </div>
+        <!-- <div class="service-info__col">
                   <div class="service-info__title">Инструменты</div>
                   <div class="service-info__desc">
                     Adobe XD, Figma, <br />
@@ -215,35 +140,35 @@
                   <div class="service-info__title">Устройства</div>
                   <div class="service-info__desc">Mobile, Desktop</div>
                 </div> -->
+      </div>
+
+      <div class="article-item article-reviews">
+        <div class="text20 medium-text">0 отзывов</div>
+
+        <div class="review-rating">
+          <div class="review-stat">
+            <div class="review-stat__num">0.00</div>
+            <div class="review-stat__info">
+              <div class="review-stat__type text17 medium-text">
+                Нет отзывов
               </div>
+              <div class="review-stat__count text15">0 отзывов</div>
+            </div>
+          </div>
+          <div class="review-rating__balls">
+            <div v-for="i in 5" :key="i" class="ball">
+              <div class="ball__type">
+                {{ pluralize(6 - i, 'звезда', 'звезды', 'звезд') }}
+              </div>
+              <div class="ball__progress">
+                <span style="width: 0%"></span>
+              </div>
+              <div class="ball__count">0</div>
+            </div>
+          </div>
+        </div>
 
-              <div class="article-item article-reviews">
-                <div class="text20 medium-text">0 отзывов</div>
-
-                <div class="review-rating">
-                  <div class="review-stat">
-                    <div class="review-stat__num">0.00</div>
-                    <div class="review-stat__info">
-                      <div class="review-stat__type text17 medium-text">
-                        Нет отзывов
-                      </div>
-                      <div class="review-stat__count text15">0 отзывов</div>
-                    </div>
-                  </div>
-                  <div class="review-rating__balls">
-                    <div v-for="i in 5" :key="i" class="ball">
-                      <div class="ball__type">
-                        {{ pluralize(6 - i, 'звезда', 'звезды', 'звезд') }}
-                      </div>
-                      <div class="ball__progress">
-                        <span style="width: 0%"></span>
-                      </div>
-                      <div class="ball__count">0</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- <div class="article-reviews__items">
+        <!-- <div class="article-reviews__items">
                   <div class="review-card2">
                     <div class="review-card2__top">
                       <div class="avatar">
@@ -326,192 +251,126 @@
                     <span>Показать еще</span>
                   </button>
                 </div> -->
-              </div>
+      </div>
 
-              <form class="article-item review-form">
-                <div class="review-form__top">
-                  <div class="text20 medium-text">Добавить отзыв</div>
-                  <div class="text15 text14-tablet light-text gray-text">
-                    Ваш электронный адрес не будет опубликован. Необходимые поля
-                    отмечены *
-                  </div>
-                </div>
-
-                <div class="review-form__rating">
-                  <div class="text16 medium-text">
-                    Ваша оценка оказанных услуг
-                  </div>
-                  <div class="rating">
-                    <div
-                      class="rating-input"
-                      data-total-rating="@@num"
-                      :data-rating-code="userRating"
-                    >
-                      <div
-                        v-for="i in 5"
-                        :key="i"
-                        class="rating-input__item"
-                        :data-rating-value="6 - i"
-                        @click="userRating = 6 - i"
-                      >
-                        <svg
-                          width="16"
-                          height="15"
-                          viewBox="0 0 16 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M14.4056 5.45593L14.4058 5.45594C14.5085 5.46524 14.596 5.53465 14.6283 5.63402L15.1038 5.4794L14.6282 5.6337C14.6608 5.73406 14.6307 5.84212 14.5526 5.91066L11.4354 8.64399L11.2115 8.84029L11.2774 9.13064L12.1965 13.1783C12.2198 13.2818 12.1797 13.3864 12.096 13.4469L12.0956 13.4472C12.0112 13.5084 11.8994 13.5132 11.8102 13.4599L8.25496 11.3337L7.99835 11.1803L7.74174 11.3337L4.18572 13.4599L4.18559 13.46C4.14437 13.4847 4.09873 13.4968 4.05299 13.4968C3.99937 13.4968 3.94683 13.4805 3.90167 13.4476L3.90067 13.4469C3.81696 13.3864 3.77686 13.2819 3.80017 13.1785C3.80018 13.1784 3.80019 13.1784 3.8002 13.1783L4.71922 9.13064L4.78515 8.84029L4.56128 8.64399L1.444 5.91058C1.44399 5.91057 1.44398 5.91056 1.44397 5.91055C1.36608 5.84222 1.33606 5.73399 1.36817 5.63455C1.40106 5.5349 1.48868 5.46552 1.59142 5.4559C1.59154 5.45588 1.59166 5.45587 1.59177 5.45586L5.71554 5.08154L6.01288 5.05455L6.13016 4.77999L7.75993 0.96436L7.76003 0.964121C7.801 0.868076 7.8939 0.806702 7.99833 0.806702C8.10241 0.806702 8.19587 0.867839 8.23766 0.965002C8.23768 0.965061 8.23771 0.96512 8.23773 0.965179L9.86716 4.77999L9.98443 5.05455L10.2818 5.08154L14.4056 5.45593Z"
-                            fill="white"
-                            stroke="#E1833F"
-                          />
-                        </svg>
-                      </div>
-
-                      <input
-                        ref="ratingInput"
-                        class="rating-input__field"
-                        type="number"
-                        :value="userRating"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review-form__fields">
-                  <fieldset class="fg _full">
-                    <label>Комментарий</label>
-                    <textarea></textarea>
-                  </fieldset>
-                  <fieldset class="fg">
-                    <label>Ваше имя</label>
-                    <input type="text" />
-                  </fieldset>
-                  <fieldset class="fg">
-                    <label>Email</label>
-                    <input type="email" placeholder="creative-layers088" />
-                  </fieldset>
-                  <div class="m-check _full">
-                    <input type="checkbox" />
-                    <label
-                      ><span
-                        >Сохранить мое имя, почту, и сайт в этом браузере для
-                        следующих комментариев</span
-                      ></label
-                    >
-                  </div>
-                </div>
-
-                <div class="review-form__nav">
-                  <button class="m-btn m-btn-blue">
-                    <span>Отправить</span>
-                  </button>
-                </div>
-              </form>
-            </div>
+      <form class="article-item review-form">
+        <div class="review-form__top">
+          <div class="text20 medium-text">Добавить отзыв</div>
+          <div class="text15 text14-tablet light-text gray-text">
+            Ваш электронный адрес не будет опубликован. Необходимые поля
+            отмечены *
           </div>
-          <div class="freelancer__col2">
-            <div class="offer-req offer-req2">
-              <div class="offer-req__price text28 medium-text">
-                <b>₽ </b> {{ item?.price }}
-              </div>
-              <!-- <div class="offer-req__text">
-                <div class="offer-req__title">
-                  Расклейка объявлений - 500 шт.
-                </div>
-                <div class="offer-req__desc">
-                  Расклею объявления в Ленинградской области, в районе таком-то
-                </div>
-              </div> -->
-              <div v-if="item" class="offer-req__duration">
-                <img src="/img/clock.svg" alt="" />
-                <span>{{
-                  pluralize(item.delivery_time, 'день', 'дня', 'дней')
-                }}</span>
-              </div>
-              <!-- <div class="offer-req__items">
-                <div class="offer-req__item">
-                  <div class="offer-req__item-text">500 объявлений</div>
-                </div>
-                <div class="offer-req__item">
-                  <div class="offer-req__item-text">Исходник</div>
-                </div>
-              </div> -->
-              <button class="offer-req__btn m-btn m-btn-blue m-btn-shadow">
-                <span>Заказать за {{ item?.price }} ₽</span>
-              </button>
-            </div>
+        </div>
 
-            <div class="about-client">
-              <div class="text20 text18-tablet medium-text">Об исполнителе</div>
-              <div class="about-client__info">
-                <div class="avatar">
-                  <NuxtImg
-                    crossorigin="anonymous"
-                    :src="baseUrl() + item?.createdBy.avatar"
-                    alt=""
+        <div class="review-form__rating">
+          <div class="text16 medium-text">Ваша оценка оказанных услуг</div>
+          <div class="rating">
+            <div
+              class="rating-input"
+              data-total-rating="@@num"
+              :data-rating-code="userRating"
+            >
+              <div
+                v-for="i in 5"
+                :key="i"
+                class="rating-input__item"
+                :data-rating-value="6 - i"
+                @click="userRating = 6 - i"
+              >
+                <svg
+                  width="16"
+                  height="15"
+                  viewBox="0 0 16 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.4056 5.45593L14.4058 5.45594C14.5085 5.46524 14.596 5.53465 14.6283 5.63402L15.1038 5.4794L14.6282 5.6337C14.6608 5.73406 14.6307 5.84212 14.5526 5.91066L11.4354 8.64399L11.2115 8.84029L11.2774 9.13064L12.1965 13.1783C12.2198 13.2818 12.1797 13.3864 12.096 13.4469L12.0956 13.4472C12.0112 13.5084 11.8994 13.5132 11.8102 13.4599L8.25496 11.3337L7.99835 11.1803L7.74174 11.3337L4.18572 13.4599L4.18559 13.46C4.14437 13.4847 4.09873 13.4968 4.05299 13.4968C3.99937 13.4968 3.94683 13.4805 3.90167 13.4476L3.90067 13.4469C3.81696 13.3864 3.77686 13.2819 3.80017 13.1785C3.80018 13.1784 3.80019 13.1784 3.8002 13.1783L4.71922 9.13064L4.78515 8.84029L4.56128 8.64399L1.444 5.91058C1.44399 5.91057 1.44398 5.91056 1.44397 5.91055C1.36608 5.84222 1.33606 5.73399 1.36817 5.63455C1.40106 5.5349 1.48868 5.46552 1.59142 5.4559C1.59154 5.45588 1.59166 5.45587 1.59177 5.45586L5.71554 5.08154L6.01288 5.05455L6.13016 4.77999L7.75993 0.96436L7.76003 0.964121C7.801 0.868076 7.8939 0.806702 7.99833 0.806702C8.10241 0.806702 8.19587 0.867839 8.23766 0.965002C8.23768 0.965061 8.23771 0.96512 8.23773 0.965179L9.86716 4.77999L9.98443 5.05455L10.2818 5.08154L14.4056 5.45593Z"
+                    fill="white"
+                    stroke="#E1833F"
                   />
-                  <span
-                    v-if="item?.createdBy.online_status === 'online'"
-                    class="service-card__user-online"
-                  ></span>
-                </div>
-                <div class="about-client__content">
-                  <div class="about-client__name text17 medium-text">
-                    {{ item?.createdBy.name }}
-                  </div>
-                  <div class="about-client__category">
-                    {{ item?.createdBy.active_role }}
-                  </div>
-                  <div class="about-client__rating">
-                    <img src="/img/star.svg" alt="" />
-                    <div class="about-client__rating-text">
-                      <span>{{ item?.createdBy.rate }}</span>
-                      <!-- (595 отзывов) -->
-                    </div>
-                  </div>
-                </div>
+                </svg>
               </div>
-              <!-- <div class="about-client__items">
-                <div class="about-client__item">
-                  <div class="about-client__item-title">Город</div>
-                  <div class="about-client__item-desc">{{item?.createdBy}}</div>
-                </div>
-                <div class="about-client__item">
-                  <div class="about-client__item-title">Заказов</div>
-                  <div class="about-client__item-desc">11-20</div>
-                </div>
-                <div class="about-client__item">
-                  <div class="about-client__item-title">Отдел</div>
-                  <div class="about-client__item-desc">UI/UX</div>
-                </div>
-              </div> -->
-              <button class="about-client__btn m-btn m-btn-blue-outline">
-                <span>Напишите мне</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="services services2 m-section">
-      <div class="container">
-        <div class="m-section__top">
-          <div class="m-section__text">
-            <div class="text32 medium-text">Вас также заинтересует</div>
-            <div class="text15 light-text">
-              Обеспечьте посетителю удобство работы в Интернете с помощью
-              надежного UX-дизайна.
+              <input
+                ref="ratingInput"
+                class="rating-input__field"
+                type="number"
+                :value="userRating"
+              />
             </div>
           </div>
         </div>
 
-        <ModulesProductSlider />
+        <div class="review-form__fields">
+          <fieldset class="fg _full">
+            <label>Комментарий</label>
+            <textarea></textarea>
+          </fieldset>
+          <fieldset class="fg">
+            <label>Ваше имя</label>
+            <input type="text" />
+          </fieldset>
+          <fieldset class="fg">
+            <label>Email</label>
+            <input type="email" placeholder="creative-layers088" />
+          </fieldset>
+          <div class="m-check _full">
+            <input type="checkbox" />
+            <label
+              ><span
+                >Сохранить мое имя, почту, и сайт в этом браузере для следующих
+                комментариев</span
+              ></label
+            >
+          </div>
+        </div>
+
+        <div class="review-form__nav">
+          <button class="m-btn m-btn-blue">
+            <span>Отправить</span>
+          </button>
+        </div>
+      </form>
+    </template>
+    <!--  -->
+
+    <template #item-volume>
+      <!-- <div class="offer-req__text">
+                  <div class="offer-req__title">
+                    Расклейка объявлений - 500 шт.
+                  </div>
+                  <div class="offer-req__desc">
+                    Расклею объявления в Ленинградской области, в районе таком-то
+                  </div>
+                </div> -->
+      <div v-if="item" class="offer-req__duration">
+        <img src="/img/clock.svg" alt="" />
+        <span>{{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}</span>
       </div>
-    </div>
-  </div>
+      <!-- <div class="offer-req__items">
+                  <div class="offer-req__item">
+                    <div class="offer-req__item-text">500 объявлений</div>
+                  </div>
+                  <div class="offer-req__item">
+                    <div class="offer-req__item-text">Исходник</div>
+                  </div>
+                </div> -->
+    </template>
+
+    <template #service-recommended>
+      <div class="services services2 m-section">
+        <div class="container">
+          <UISectionTop
+            title="Вас также заинтересует"
+            desc="Обеспечьте посетителю удобство работы в Интернете с помощью надежного UX-дизайна."
+          />
+
+          <ModulesProductSlider />
+        </div>
+      </div>
+    </template>
+  </ModulesItem>
 </template>
 
 <script setup lang="ts">
@@ -522,8 +381,7 @@ const userRating = ref(0);
 const commonStore = useCommonStore();
 const route = useRoute();
 const enabledViewer = ref(false);
-const { favorites } = storeToRefs(useUserStore());
-const { toggleFavorite } = useUserStore();
+
 let thisSwiper: Swiper;
 const onSwiper = (swiper: Swiper) => {
   thisSwiper = swiper;
@@ -531,18 +389,22 @@ const onSwiper = (swiper: Swiper) => {
 const category = commonStore.categories?.find(
   (item) => item.slug === route.params.slug,
 );
-useHead({
-  title,
-});
 const activeSlide = ref<number>(0);
 const item = ref<serviceItem>();
 const itemId = route.params.serviceId;
 const { data } = await apiFetch<ApiResponse<serviceItem>>(
   `/api/services/${itemId}`,
 );
+setTimeout(
+  () => apiFetch(`/api/services/${itemId}`, { options: { method: 'POST' } }),
+  2000,
+);
 const value = data.value;
 if (value) {
   item.value = value.result;
   title.value = item.value?.title;
 }
+useHead({
+  title,
+});
 </script>

@@ -25,20 +25,37 @@
                 {{ pluralize(0, 'отзыв', 'отзыва', 'отзывов') }}
               </span>
             </div>
-            <!-- <div class="page-top__item">
+            <div class="page-top__item">
               <img src="/img/copy.svg" alt="" />
-              <span>{{ items }}</span>
-            </div> -->
-            <!-- <div class="page-top__item">
+              <span>{{ items.orders }}</span>
+            </div>
+            <div class="page-top__item">
               <img src="/img/eye.svg" alt="" />
-              <span>{{ items.v }}</span>
-            </div> -->
+              <span>{{ items.views }}</span>
+            </div>
+          </div>
+          <div v-if="projectItem" class="page-top__items _gap10">
+            <div class="page-top__item">
+              <img src="/img/marker.svg" alt="" />
+              <span>{{ projectItem.address.city.title }}</span>
+            </div>
+            <div class="page-top__item">
+              <img src="/img/calendar.svg" alt="" />
+              <span class="_view1">{{
+                new Date(projectItem.createdAt).toISOString().split('T')[0]
+              }}</span>
+              <!-- <span class="_view2">Декабрь 2, 2023</span> -->
+            </div>
+            <div class="page-top__item">
+              <img src="/img/eye.svg" alt="" />
+              <span>{{ projectItem.views }}</span>
+            </div>
           </div>
         </div>
         <div v-if="hasSearch" class="page-search page-search2">
           <NuxtImg src="/img/search.svg" alt="" class="page-search__icon" />
           <div class="page-search__field fg">
-            <input type="text" placeholder="Найти услугу" />
+            <input v-model="search" type="text" placeholder="Найти услугу" />
           </div>
           <div v-if="hasSelect" class="category-select">
             <!-- <UIVSelect
@@ -46,7 +63,10 @@
               :placeholder="select.placeholder"
             /> -->
           </div>
-          <button class="page-search__btn m-btn m-btn-blue">
+          <button
+            class="page-search__btn m-btn m-btn-blue"
+            @click="emits('submit')"
+          >
             <span>Найти</span>
           </button>
         </div>
@@ -56,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import type { serviceItem } from '~/stores/catalog/catalog.type';
+import type { projectsItem } from '~/stores/catalog/catalog.type';
 const props = defineProps({
   hasSelect: {
     type: Boolean,
@@ -82,14 +102,20 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  projectItem: {
+    type: Object as PropType<projectsItem>,
+    default: undefined,
+  },
 });
-const select = ref({
-  placeholder: 'Выберите категорию',
-  options: [
-    { value: 'option1', text: 'Услуги' },
-    { value: 'option2', text: 'Проекты' },
-    { value: 'option3', text: 'Вакансии' },
-    { value: 'option4', text: 'Фрилансеры' },
-  ],
-});
+const emits = defineEmits(['submit']);
+const search = defineModel<string>();
+// const select = ref({
+//   placeholder: 'Выберите категорию',
+//   options: [
+//     { value: 'option1', text: 'Услуги' },
+//     { value: 'option2', text: 'Проекты' },
+//     { value: 'option3', text: 'Вакансии' },
+//     { value: 'option4', text: 'Фрилансеры' },
+//   ],
+// });
 </script>

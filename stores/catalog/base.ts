@@ -43,6 +43,7 @@ export function createCatalogStore<T>(
         },
       },
     ]);
+    const searchQuery = ref('');
     const showCatalogFilters = ref(false);
     const showAll = ref<number[]>([]);
     const popularItems = ref<T[]>();
@@ -68,13 +69,6 @@ export function createCatalogStore<T>(
     };
 
     const initializeFromURL = async () => {
-      watch(
-        filters,
-        () => {
-          updateURL();
-        },
-        { deep: true },
-      );
       const route = useRoute();
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]
@@ -88,6 +82,9 @@ export function createCatalogStore<T>(
       }
 
       const query = route.query;
+      if (query.search && !Array.isArray(query.search)) {
+        searchQuery.value = query.search;
+      }
       if (
         query.minPrice &&
         query.maxPrice &&
@@ -130,10 +127,17 @@ export function createCatalogStore<T>(
         (Array.isArray(query.page)
           ? Number(query.page[0])
           : Number(query.page)) || 1;
-      fetchItems();
+      watch(
+        [searchQuery, sorting, currentPage],
+        () => {
+          updateURL();
+          fetchItems();
+        },
+        { deep: true, immediate: true },
+      );
     };
 
-    const fetchItems = async (alien?: boolean) => {
+    const fetchItems = async () => {
       empty.value = false;
       loading.value = true;
       items.value = [];
@@ -151,21 +155,17 @@ export function createCatalogStore<T>(
           delete queryFilters[key as keyof typeof filters.value];
         }
       }
-      const { data } = await apiFetch<ApiListResponse<T[]>>(
-        apiUrl,
-        {
-          options: {
-            query: {
-              offset: currentPage.value,
-              limit: itemsPerPage.value,
-              filter: { ...queryFilters, category: category?._id },
-              sort: sorting.value.value,
-            },
+      const { data } = await apiFetch<ApiListResponse<T[]>>(apiUrl, {
+        options: {
+          query: {
+            offset: currentPage.value,
+            limit: itemsPerPage.value,
+            filter: { ...queryFilters, category: category?._id },
+            sort: sorting.value.value,
+            ...(searchQuery.value && { search: searchQuery.value }),
           },
         },
-        alien,
-      );
-
+      });
       const value = data.value;
       if (value) {
         items.value = value.result;
@@ -189,17 +189,6 @@ export function createCatalogStore<T>(
       }
     };
 
-    const setSorting = (sortingArg: typeof sorting.value) => {
-      sorting.value = sortingArg;
-      updateURL();
-      fetchItems(true);
-    };
-
-    const setPage = (page: number) => {
-      currentPage.value = page;
-      updateURL();
-    };
-
     const updateURL = () => {
       const router = useRouter();
       const query = {
@@ -217,6 +206,7 @@ export function createCatalogStore<T>(
         ...(filters.value?.['address.city']?.length && {
           cities: filters.value['address.city'],
         }),
+        ...(searchQuery.value && { search: searchQuery.value }),
       };
       router.push({ query });
     };
@@ -233,9 +223,6 @@ export function createCatalogStore<T>(
       totalPages,
       initializeFromURL,
       fetchItems,
-      // setFilters,
-      setSorting,
-      setPage,
       updateURL,
       fetchPopular,
       empty,
@@ -245,6 +232,7 @@ export function createCatalogStore<T>(
       showAll,
       showCatalogFilters,
       toggleShowAll,
+      searchQuery,
     };
   });
 }

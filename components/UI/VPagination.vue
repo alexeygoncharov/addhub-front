@@ -66,7 +66,7 @@ const props = defineProps({
     required: true,
   },
 });
-
+const store = props.store;
 const currentPage = computed(() => {
   return props.store.currentPage;
 });
@@ -132,17 +132,17 @@ const pageRangeText = computed(() => {
 
 const prevPage = () => {
   if (currentPage.value > 1) {
-    props.store.setPage(currentPage.value - 1);
+    store.currentPage = currentPage.value - 1;
   }
 };
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
-    props.store.setPage(currentPage.value + 1);
+    store.currentPage = currentPage.value + 1;
   }
 };
 const goToPage = (pageNumber: number) => {
   if (pageNumber && pageNumber >= 1 && pageNumber <= totalPages.value) {
-    props.store.setPage(pageNumber);
+    store.currentPage = pageNumber;
   }
 };
 </script>

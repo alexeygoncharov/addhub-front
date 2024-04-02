@@ -65,6 +65,8 @@ export interface catalogItem {
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
+  views: number;
+  orders: number;
   __v: number;
 }
 export interface serviceItem extends catalogItem {
