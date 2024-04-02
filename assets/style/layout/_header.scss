@@ -263,6 +263,10 @@
 
   > div {
     width: 100%;
+
+    input {
+      border-color: #dfdfdf;
+    }
   }
 
   &__btn {
@@ -461,7 +465,7 @@
     &-pin {
       position: absolute;
       top: 0.25em;
-      right: 0.1875em;
+      right: 0;
       width: 0.4375em;
       height: 0.4375em;
       background-color: #ff4c4c;

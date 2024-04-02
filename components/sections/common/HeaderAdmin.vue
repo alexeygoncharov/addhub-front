@@ -25,16 +25,27 @@
         </form>
 
         <div class="header-action2">
-          <div class="admin-header__type">
+          <button class="header-action__btn m-btn m-btn-blue-outline">
+            <span>{{
+              user?.active_role === 'seller'
+                ? 'Создать услугу'
+                : 'Создать проект'
+            }}</span>
+          </button>
+          <!-- <div class="admin-header__type">
             <div class="m-switch">
-              <input checked type="checkbox" />
+              <input
+                :checked="user?.active_role !== 'seller'"
+                type="checkbox"
+                disabled
+              />
               <label></label>
               <div class="text14">
                 <span class="_view1">Я фрилансер</span>
                 <span class="_view2">Я заказчик</span>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <a href="" class="header-action2__btn">
             <img src="/img/notification.svg" alt="" />
@@ -124,6 +135,8 @@
 </template>
 
 <script setup lang="ts">
+import type { User } from '~/stores/catalog/catalog.type';
+const user = defineModel<User>('user');
 const links = ref([
   {
     path: '/profile',

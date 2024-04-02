@@ -15,8 +15,8 @@
 
           <div class="main-offer">
             <div class="main-offer__img _scale-img">
-              <NuxtImg src="/img/man.webp" class="_view1" alt="" />
-              <NuxtImg src="/img/man2.webp" class="_view2" alt="" />
+              <NuxtImg src="/img/man.webp" preload class="_view1" alt="" />
+              <NuxtImg src="/img/man2.webp" preload class="_view2" alt="" />
             </div>
             <UIMainAdvantages />
           </div>

@@ -10,6 +10,16 @@
           <label>Заголовок проекта</label>
           <input type="text" placeholder="Заголовок" />
         </fieldset>
+        <fieldset class="fg _full">
+          <label>
+            <label>Описание</label>
+          </label>
+          <textarea placeholder="Текст описания"></textarea>
+        </fieldset>
+        <fieldset class="fg _full">
+          <label>Заголовок проекта</label>
+          <input type="text" placeholder="Заголовок" />
+        </fieldset>
         <fieldset class="fg">
           <label>Категория</label>
           <div class="m-select" data-placeholder="Выбрать">
@@ -258,13 +268,6 @@
               </div>
             </div>
           </div>
-        </fieldset>
-
-        <fieldset class="fg _full">
-          <label>
-            <!-- <Описание></Описание> -->
-          </label>
-          <textarea placeholder="Текст описания"></textarea>
         </fieldset>
       </div>
 

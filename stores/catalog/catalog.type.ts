@@ -73,6 +73,8 @@ export interface serviceItem extends catalogItem {
   tools: [];
   category: string;
   delivery_time: number;
+  service_volume: string;
+  service_volume_desc: string;
 }
 
 export interface servicesItem extends catalogItem {
@@ -86,6 +88,9 @@ export interface projectsItem extends catalogItem {
   skills: []; // TODO
   constructor: null; // TODO
   bids: Bid[];
+  files: string[];
+  service_volume: string;
+  service_volume_desc: string;
 }
 
 export interface freelancersItem {

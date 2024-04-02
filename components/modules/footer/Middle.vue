@@ -7,35 +7,23 @@
       <div class="footer-nav__hidden spoiler__hidden">
         <div class="spoiler__wrap">
           <div class="footer-nav__links">
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Карьера</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Карьера</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Пресса и новости</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Пресса и новости</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Партнерские отношения</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Партнерские отношения</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Политика конфиденциальности</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Политика конфиденциальности</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Условия использования</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Условия использования</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Связи с инвесторами</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Связи с инвесторами</span></nuxtLink
             >
           </div>
         </div>
@@ -66,25 +54,17 @@
       <div class="footer-nav__hidden spoiler__hidden">
         <div class="spoiler__wrap">
           <div class="footer-nav__links">
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Помощь и поддержка</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Помощь и поддержка</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Доверие и безопасность</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Доверие и безопасность</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Продажа на addhub</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Продажа на addhub</span></nuxtLink
             >
-            <a
-              href="https://delicate-gaufre-39d364.netlify.app/conditions"
-              class="footer-nav__link"
-              ><span>Покупка на addhub</span></a
+            <nuxtLink to="/conditions" class="footer-nav__link"
+              ><span>Покупка на addhub</span></nuxtLink
             >
           </div>
         </div>
@@ -102,7 +82,7 @@
           </button>
         </form>
       </div>
-      <div class="footer-app">
+      <!-- <div class="footer-app">
         <div class="text17 text15-tablet medium-text">Приложения</div>
         <div class="footer-app__links">
           <a
@@ -120,7 +100,7 @@
             <span>Android</span>
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

@@ -336,14 +336,12 @@
     <!--  -->
 
     <template #item-volume>
-      <!-- <div class="offer-req__text">
-                  <div class="offer-req__title">
-                    Расклейка объявлений - 500 шт.
-                  </div>
-                  <div class="offer-req__desc">
-                    Расклею объявления в Ленинградской области, в районе таком-то
-                  </div>
-                </div> -->
+      <div class="offer-req__text">
+        <div class="offer-req__title">{{ item?.service_volume }}</div>
+        <div class="offer-req__desc">
+          {{ item?.service_volume_desc }}
+        </div>
+      </div>
       <div v-if="item" class="offer-req__duration">
         <img src="/img/clock.svg" alt="" />
         <span>{{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}</span>
@@ -396,7 +394,8 @@ const { data } = await apiFetch<ApiResponse<serviceItem>>(
   `/api/services/${itemId}`,
 );
 setTimeout(
-  () => apiFetch(`/api/services/${itemId}`, { options: { method: 'POST' } }),
+  () =>
+    apiFetch(`/api/views/service/${itemId}`, { options: { method: 'POST' } }),
   2000,
 );
 const value = data.value;

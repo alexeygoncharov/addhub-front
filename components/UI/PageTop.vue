@@ -52,6 +52,23 @@
             </div>
           </div>
         </div>
+        <form v-if="help" class="blog-field fg">
+          <input type="text" placeholder="Поиск по базе ответов..." />
+          <button class="blog-field__btn hover-fill-primary">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.1163 1.60938C4.98403 1.60938 1.61792 4.97548 1.61792 9.10776C1.61792 13.24 4.98403 16.6127 9.1163 16.6127C10.8813 16.6127 12.5046 15.9941 13.7875 14.9671L16.9109 18.0889C17.0685 18.24 17.279 18.3233 17.4974 18.3211C17.7157 18.3189 17.9245 18.2312 18.079 18.0769C18.2335 17.9227 18.3214 17.714 18.3239 17.4957C18.3265 17.2774 18.2434 17.0667 18.0925 16.9089L14.9692 13.7856C15.997 12.5006 16.6163 10.8748 16.6163 9.10776C16.6163 4.97548 13.2486 1.60938 9.1163 1.60938ZM9.1163 3.27607C12.3478 3.27607 14.948 5.87623 14.948 9.10776C14.948 12.3393 12.3478 14.946 9.1163 14.946C5.88476 14.946 3.28459 12.3393 3.28459 9.10776C3.28459 5.87623 5.88476 3.27607 9.1163 3.27607Z"
+                fill="#041E42"
+              />
+            </svg>
+          </button>
+        </form>
         <div v-if="hasSearch" class="page-search page-search2">
           <NuxtImg src="/img/search.svg" alt="" class="page-search__icon" />
           <div class="page-search__field fg">
@@ -70,6 +87,13 @@
             <span>Найти</span>
           </button>
         </div>
+        <div v-if="button" class="page-top__nav">
+          <button class="m-btn m-btn-blue">
+            <nuxtLink :to="button.link"
+              ><span>{{ button.text }}</span></nuxtLink
+            >
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -78,6 +102,10 @@
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
 const props = defineProps({
+  button: {
+    type: Object as PropType<{ text: string; link: string }>,
+    default: undefined,
+  },
   hasSelect: {
     type: Boolean,
     default: false,
@@ -105,6 +133,10 @@ const props = defineProps({
   projectItem: {
     type: Object as PropType<projectsItem>,
     default: undefined,
+  },
+  help: {
+    type: Boolean,
+    default: false,
   },
 });
 const emits = defineEmits(['submit']);
