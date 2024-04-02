@@ -44,6 +44,7 @@
     </nuxtLink>
     <nuxtLink to="/profile/saved" class="header-action2__btn _favorite">
       <img src="/img/favorite.svg" alt="" />
+      <span v-if="favorites.length" class="header-action2__btn-pin"></span>
     </nuxtLink>
     <a href="" class="header-action2__user avatar">
       <NuxtImg src="/img/avatar10.webp" alt="" />
@@ -67,8 +68,10 @@
 import { OnClickOutside } from '@vueuse/components';
 const commonStore = useCommonStore();
 const authStore = useAuthStore();
+const userStore = useUserStore();
 const searchQuery = ref('');
 const activeSearch = ref(false);
+const favorites = storeToRefs(userStore).favorites;
 const mobMenu = defineModel<boolean>({ required: true });
 const toggleMenu = () => {
   mobMenu.value = !mobMenu.value;
@@ -77,15 +80,19 @@ const { isAuthenticated, isLoading } = storeToRefs(authStore);
 const { logout } = authStore;
 const items = ref<servicesItem[]>([]);
 const updateItems = async () => {
-  const data = await $fetch<ApiListResponse<servicesItem[]>>('/api/services/', {
-    baseURL: baseUrl(),
-    query: {
-      limit: 10,
-      search: searchQuery.value,
+  const { data } = await apiFetch<ApiListResponse<servicesItem[]>>(
+    '/api/services/',
+    {
+      options: {
+        query: {
+          limit: 10,
+          search: searchQuery.value,
+        },
+      },
     },
-  });
-  if (data.result) {
-    items.value = data.result;
+  );
+  if (data.value) {
+    items.value = data.value.result;
   }
 };
 </script>

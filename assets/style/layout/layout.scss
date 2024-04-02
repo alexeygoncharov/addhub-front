@@ -42,6 +42,10 @@
   padding: 1.25em 0;
   background-color: #fff;
 
+  .header-action__btn {
+    margin-right: 3em;
+  }
+
   &__inner {
     display: flex;
     align-items: center;
@@ -71,6 +75,7 @@
     align-items: center;
     min-width: 9em;
     margin-right: 2.875em;
+    margin-left: 3em;
     color: #000;
 
     .m-switch {

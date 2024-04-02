@@ -188,6 +188,13 @@
       font-size: 0.875em;
     }
   }
+
+  &__content {
+    &:hover {
+      color: inherit;
+      cursor: pointer;
+    }
+  }
 }
 
 .service-info {

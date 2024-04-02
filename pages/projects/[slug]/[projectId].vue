@@ -31,13 +31,13 @@
       <div class="attached-files article-item">
         <div class="text20 medium-text">Прикрепленные файлы</div>
         <div class="project-files__items">
-          <div class="file-item">
-            <div class="file-item__title">Техническое_задание_для</div>
-            <div class="file-item__format">PDF</div>
-          </div>
-          <div class="file-item">
-            <div class="file-item__title">logotype_photoshop_color</div>
-            <div class="file-item__format">JPG</div>
+          <div
+            v-for="(file, index) of item?.files"
+            :key="index"
+            class="file-item"
+          >
+            <div class="file-item__title">{{ getFileName(file) }}</div>
+            <div class="file-item__format">{{ getFileExtension(file) }}</div>
           </div>
         </div>
       </div>
@@ -157,8 +157,22 @@ const item = ref<projectsItem>();
 const route = useRoute();
 const itemId = route.params.projectId;
 const title = ref('');
+
+function getFileExtension(filename: string) {
+  // Разбиваем строку с именем файла по точке
+  const parts = filename.split('.');
+  // Возвращаем последний элемент массива (расширение файла)
+  return parts[parts.length - 1];
+}
+function getFileName(filename: string) {
+  // Разбиваем строку с именем файла по точке
+  const parts = filename.split('.');
+  // Возвращаем последний элемент массива (расширение файла)
+  return parts[parts.length - 2].split('/')[1];
+}
 setTimeout(
-  () => apiFetch(`/api/projects/${itemId}`, { options: { method: 'POST' } }),
+  () =>
+    apiFetch(`/api/views/project/${itemId}`, { options: { method: 'POST' } }),
   2000,
 );
 const { data } = await apiFetch<ApiResponse<projectsItem>>(
