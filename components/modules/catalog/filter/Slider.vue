@@ -78,7 +78,7 @@ const initSlider = () => {
     } else {
       priceMaxBuffer.value = value;
     }
-    // Эмитируем события для обновления родительских пропсов
+
     clearTimeout(filterTimeoutId.value);
     filterTimeoutId.value = setTimeout(() => {
       if (handle === 0) {

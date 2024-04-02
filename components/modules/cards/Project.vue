@@ -16,7 +16,11 @@
         <UISkeleton />
       </div>
     </div>
-    <div v-if="data" class="project-card__content">
+    <NuxtLink
+      v-if="data"
+      :to="`/projects/${commonStore.categories?.find((el) => el._id === data?.category)?.slug}/${data?._id}`"
+      class="project-card__content"
+    >
       <div class="project-card__title text20 medium-text">{{ data.title }}</div>
       <div class="project-card__props">
         <div class="project-card__prop">
@@ -25,7 +29,9 @@
         </div>
         <div class="project-card__prop">
           <NuxtImg src="/img/prop-icon2.svg" alt="" />
-          <span>{{ data.createdAt }}</span>
+          <span>{{
+            new Date(data.createdAt).toISOString().split('T')[0]
+          }}</span>
         </div>
         <div class="project-card__prop">
           <NuxtImg src="/img/prop-icon3.svg" alt="" />
@@ -37,7 +43,7 @@
           {{ data.description }}
         </div>
       </div>
-    </div>
+    </NuxtLink>
     <div v-else class="project-card__content">
       <UISkeleton class="project-card__title--skeleton" />
       <div class="project-card__props">
@@ -88,6 +94,7 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
+const commonStore = useCommonStore();
 const userStore = useUserStore();
 const props = defineProps({
   data: {

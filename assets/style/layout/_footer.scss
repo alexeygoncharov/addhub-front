@@ -205,6 +205,7 @@
   &._open {
     .footer-dropdown__list {
       pointer-events: unset;
+      cursor: pointer;
       opacity: 1;
       transform: translateY(0);
     }

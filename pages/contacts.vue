@@ -20,31 +20,17 @@
               </div>
             </div>
             <div class="contacts-info__items">
-              <div class="stat-card">
-                <div class="stat-card__icon">
-                  <img src="/img/stat-icon4.svg" alt="" />
-                </div>
-                <div class="stat-card__content">
-                  <div class="stat-card__title text17 medium-text">
-                    Telegram
-                  </div>
-                  <div class="stat-card__desc text15 light-text">
-                    <a href="">@addhub</a>
-                  </div>
-                </div>
-              </div>
+              <UIStatCard
+                icon="/img/stat-icon4.svg"
+                title="Telegram"
+                value="@addhub"
+              />
 
-              <div class="stat-card">
-                <div class="stat-card__icon">
-                  <img src="/img/stat-icon5.svg" alt="" />
-                </div>
-                <div class="stat-card__content">
-                  <div class="stat-card__title text17 medium-text">Email</div>
-                  <div class="stat-card__desc text15 light-text">
-                    <a href="">hello@worker.com</a>
-                  </div>
-                </div>
-              </div>
+              <UIStatCard
+                icon="/img/stat-icon5.svg"
+                title="Email"
+                value="hello@worker"
+              />
             </div>
           </div>
         </div>
@@ -63,7 +49,7 @@
               </fieldset>
               <fieldset class="fg _small">
                 <label>Email</label>
-                <input type="email" placeholder="alexander.orlovsky@mail..." />
+                <input type="email" placeholder="alexander.orl@mail..." />
               </fieldset>
               <fieldset class="fg _small _full">
                 <label>Сообщение</label>

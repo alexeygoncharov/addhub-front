@@ -39,7 +39,14 @@ const props = defineProps({
 });
 const isExpanded = ref(true);
 const filters = props.store.filters;
-
+watch(
+  () => props.store.filters.price,
+  () => {
+    props.store.fetchItems();
+    props.store.updateURL();
+  },
+  { deep: true },
+);
 const toggleSpoiler = () => {
   isExpanded.value = !isExpanded.value;
 };

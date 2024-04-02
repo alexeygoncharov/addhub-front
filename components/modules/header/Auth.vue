@@ -5,8 +5,8 @@
         v-model="searchQuery"
         type="text"
         placeholder="Поиск по услугам"
-        @focus="activeSearch = true"
         class="header-action__search-input"
+        @focus="activeSearch = true"
         @input="updateItems"
       />
       <div
@@ -20,7 +20,14 @@
           class="header-action__search-item"
           @click="() => (searchQuery = '')"
         >
-          <p>{{ item.title }}</p>
+          <div class="header-action__search-item-img">
+            <NuxtImg
+              :src="baseUrl() + item.photos[0]"
+              crossorigin="anonymous"
+              alt="preview"
+            />
+            <p>{{ item.title }}</p>
+          </div>
           <p>{{ item.price }}</p>
         </NuxtLink>
       </div>
@@ -31,9 +38,12 @@
       <NuxtImg src="/img/notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
     </a>
-    <a href="" class="header-action2__btn _mess">
+    <nuxtLink to="/profile/messages" class="header-action2__btn _mess">
       <NuxtImg src="/img/message.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
+    </nuxtLink>
+    <a href="" class="header-action2__btn _favorite">
+      <img src="/img/favorite.svg" alt="" />
     </a>
     <a href="" class="header-action2__user avatar">
       <NuxtImg src="/img/avatar10.webp" alt="" />

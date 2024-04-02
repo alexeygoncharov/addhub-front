@@ -11,12 +11,9 @@
 </template>
 
 <script setup lang="ts">
-const authStore = useAuthStore();
+definePageMeta({
+  middleware: 'authenticated',
+});
 
-const userStore = useUserStore();
-const { getFavorites } = useUserStore();
 const commonStore = useCommonStore();
-getFavorites();
-commonStore.fetchCategories();
-commonStore.fetchCities();
 </script>

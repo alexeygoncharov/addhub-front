@@ -2,8 +2,10 @@
   <div class="service-card">
     <button
       class="favorite-btn"
-      :class="{ _added: data && favorites.includes(data?._id) }"
-      @click.prevent="data && toggleFavorite(data?._id)"
+      :class="{
+        _added: data && favorites.map((el) => el.id).includes(data?._id),
+      }"
+      @click.prevent="data && toggleFavorite(data?._id, 'service')"
     >
       <svg
         width="26"
@@ -47,7 +49,7 @@
           </div>
         </SwiperSlide>
       </Swiper>
-      <div v-if="data.photos.length > 1" class="swiper-nav">
+      <div v-if="data.photos?.length > 1" class="swiper-nav">
         <div ref="prevBtn" class="swiper-button swiper-button-prev">
           <svg
             width="20"
@@ -129,10 +131,16 @@
       <div v-if="data" class="service-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
         <div class="service-card__reviews-text">
-          <span class="text15 medium-text">{{ data.reviews.length }} </span>
+          <span class="text15 medium-text">{{ data.reviews?.length }} </span>
           <span class="text14 gray-text">
             {{
-              pluralize(data.reviews.length, 'отзыв', 'отзыва', 'отзывов', true)
+              pluralize(
+                data.reviews?.length,
+                'отзыв',
+                'отзыва',
+                'отзывов',
+                true,
+              )
             }}
           </span>
         </div>
@@ -190,5 +198,19 @@ const props = defineProps({
     type: Object as PropType<servicesItem | undefined>,
     default: undefined,
   },
+  id: {
+    type: String,
+    default: undefined,
+  },
 });
+const data = ref(props.data);
+if (props.id) {
+  const { data: res } = await apiFetch<ApiResponse<servicesItem>>(
+    `/api/services/${props.id}`,
+  );
+
+  if (res.value) {
+    data.value = res.value.result;
+  }
+}
 </script>
