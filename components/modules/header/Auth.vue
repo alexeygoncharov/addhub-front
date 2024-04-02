@@ -42,9 +42,9 @@
       <NuxtImg src="/img/message.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
     </nuxtLink>
-    <a href="" class="header-action2__btn _favorite">
+    <nuxtLink to="/profile/saved" class="header-action2__btn _favorite">
       <img src="/img/favorite.svg" alt="" />
-    </a>
+    </nuxtLink>
     <a href="" class="header-action2__user avatar">
       <NuxtImg src="/img/avatar10.webp" alt="" />
     </a>
