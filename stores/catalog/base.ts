@@ -69,6 +69,7 @@ export function createCatalogStore<T>(
     };
 
     const initializeFromURL = async () => {
+      filters.value = {};
       const route = useRoute();
       const categorySlug = Array.isArray(route.params.slug)
         ? route.params.slug[0]
@@ -127,6 +128,7 @@ export function createCatalogStore<T>(
         (Array.isArray(query.page)
           ? Number(query.page[0])
           : Number(query.page)) || 1;
+
       watch(
         [searchQuery, sorting, currentPage],
         () => {
