@@ -7,9 +7,7 @@ export const useProfileStore = defineStore('profile', () => {
     const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
       options: {
         method: 'PUT',
-        body: {
-          formData,
-        },
+        body: formData,
       },
       needToken: true,
     });
