@@ -19,4 +19,36 @@ declare global {
     createdAt: string;
     updatedAt: string;
   }
+
+  interface Country {
+    _id: string;
+    title: string;
+  }
+  interface ItemCity extends Country {
+    country: string;
+    projects_count: number;
+    services_count: number;
+  }
+
+  export interface Profile {
+    _id: string;
+    user_name: string;
+    name: string;
+    surname: string;
+    email: string;
+    roles: string[];
+    active_role: string;
+    __v: number;
+    avatar: string;
+    phone_number: string;
+    profession: string;
+    slogan: string;
+    gender: string;
+    about_me: string;
+    address: {
+      country: Country;
+      city: ItemCity;
+    };
+    languages: string;
+  }
 }
