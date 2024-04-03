@@ -17,14 +17,14 @@
         </h1>
         <div class="article-top__info">
           <div class="avatar">
-            <img src="/img/avatar10.webp" alt="" />
+            <img src="../../public/img/avatar10.webp" alt="" />
           </div>
           <div class="article-top__item"><span>Александра Иванова</span></div>
           <div class="article-top__item"><span>Бизнес</span></div>
           <div class="article-top__item"><span>Декабрь 2, 2023</span></div>
         </div>
       </div>
-      <img src="/img/article.webp" alt="" class="article__img" />
+      <img src="../../public/img/article.webp" alt="" class="article__img" />
 
       <div class="article-item article-text">
         <h3>Обо всем по порядку</h3>
@@ -73,7 +73,7 @@
         </ul>
         <hr />
 
-        <img src="/img/article2.webp" alt="" />
+        <img src="../../public/img/article2.webp" alt="" />
 
         <h3>Требования</h3>
         <ul>
@@ -94,16 +94,16 @@
           </div>
           <div class="share__items _flex">
             <a href="" class="footer-socials__item">
-              <img src="/img/fb2.svg" alt="" />
+              <img src="../../public/img/fb2.svg" alt="" />
             </a>
             <a href="" class="footer-socials__item">
-              <img src="/img/twitter2.svg" alt="" />
+              <img src="../../public/img/twitter2.svg" alt="" />
             </a>
             <a href="" class="footer-socials__item">
-              <img src="/img/ig2.svg" alt="" />
+              <img src="../../public/img/ig2.svg" alt="" />
             </a>
             <a href="" class="footer-socials__item">
-              <img src="/img/linkedn2.svg" alt="" />
+              <img src="../../public/img/linkedin2.svg" alt="" />
             </a>
           </div>
         </div>

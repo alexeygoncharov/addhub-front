@@ -44,11 +44,11 @@ const selectRef = ref<HTMLDivElement>();
 const props = defineProps({
   options: {
     type: Array as PropType<
-      | {
-          text?: string;
-          value?: string;
-        }[]
-      | undefined
+      {
+        type: string;
+        text: string;
+        value: { [key: string]: number | undefined };
+      }[]
     >,
     required: true,
   },
@@ -58,13 +58,24 @@ const props = defineProps({
   },
   initialCurrentText: {
     type: Object as PropType<{
-      text?: string;
-      value?: string;
+      type: string;
+      text: string;
+      value: {
+        [key: string]: number | undefined;
+      };
     }>,
     default: () => null,
   },
 });
 
+console.log(
+  'options = ',
+  props.options,
+  'placeholder = ',
+  props.placeholder,
+  'initialCurrentText = ',
+  props.initialCurrentText,
+);
 const emits = defineEmits(['input']);
 const isOpen = ref(false);
 const currentText = ref(props.initialCurrentText);
@@ -81,7 +92,7 @@ const toggleSelect = () => {
 };
 const selectOption = (option: typeof props.initialCurrentText) => {
   currentText.value = option;
-  emits('input', option.value);
+  emits('input', option);
   isOpen.value = false;
 };
 const handleClickOutside = (event: MouseEvent) => {

@@ -3,14 +3,14 @@ import type { User } from './../stores/catalog/catalog.type';
 
 export const useUserStore = defineStore('user', () => {
   const favorites = ref<{ id: string; type: 'project' | 'service' }[]>([]);
-  const user = ref<User>();
+  const user = ref<Profile>();
   const myBid = ref<Bid>();
   const selectedCurrency = ref(useCookie('selectedCurrency').value || 'RUB');
   watch(selectedCurrency, () => {
     useCookie('selectedCurrency').value = selectedCurrency.value;
   });
   async function getMyUser() {
-    const { data } = await apiFetch<ApiResponse<User>>(`/api/users/me/`, {
+    const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
       options: {},
       needToken: true,
     });
