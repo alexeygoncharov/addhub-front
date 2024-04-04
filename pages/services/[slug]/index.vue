@@ -19,7 +19,7 @@
       <template #items>
         <div
           v-if="!catalogStore.loading && !catalogStore.empty"
-          class="services-items grid-col3 grid-tablet2 grid-mob-full"
+          class="services-items2 grid-col3 grid-tablet2 grid-mob-full"
         >
           <ModulesCardsService
             v-for="item of catalogStore.items"
@@ -29,7 +29,7 @@
         </div>
         <div
           v-else-if="!catalogStore.empty"
-          class="services-items grid-col3 grid-tablet2 grid-mob-full"
+          class="services-items2 grid-col3 grid-tablet2 grid-mob-full"
         >
           <ModulesCardsService v-for="i in 10" :key="i" />
         </div>

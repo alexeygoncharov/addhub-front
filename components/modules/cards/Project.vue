@@ -1,6 +1,6 @@
 <template>
-  <div class="project-card">
-    <div class="project-card__img">
+  <div class="service-card2">
+    <div class="service-card2__img">
       <div v-if="data" class="avatar">
         <img
           :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
@@ -19,74 +19,76 @@
     <NuxtLink
       v-if="data"
       :to="`/projects/${commonStore.categories?.find((el) => el._id === data?.category)?.slug}/${data?._id}`"
-      class="project-card__content"
+      class="service-card2__content"
     >
-      <div class="project-card__title text20 medium-text">{{ data.title }}</div>
-      <div class="project-card__props">
-        <div class="project-card__prop">
+      <div class="service-card2__title text20 medium-text">
+        {{ data.title }}
+      </div>
+      <div class="service-card2__props">
+        <div class="service-card2__prop">
           <NuxtImg src="/img/prop-icon.svg" alt="" />
           <span>{{ data.address.city.title }}</span>
         </div>
-        <div class="project-card__prop">
+        <div class="service-card2__prop">
           <NuxtImg src="/img/prop-icon2.svg" alt="" />
           <span>{{
             new Date(data.createdAt).toISOString().split('T')[0]
           }}</span>
         </div>
-        <div class="project-card__prop">
+        <div class="service-card2__prop">
           <NuxtImg src="/img/prop-icon3.svg" alt="" />
           <span>{{ data.bids.length }} отклик</span>
         </div>
       </div>
-      <div class="project-card__text">
+      <div class="service-card2__text">
         <div class="text15">
           {{ data.description }}
         </div>
       </div>
     </NuxtLink>
-    <div v-else class="project-card__content">
-      <UISkeleton class="project-card__title--skeleton" />
-      <div class="project-card__props">
-        <div class="project-card__prop project-card__prop--skeleton">
+    <div v-else class="service-card2__content">
+      <UISkeleton class="service-card2__title--skeleton" />
+      <div class="service-card2__props">
+        <div class="service-card2__prop service-card2__prop--skeleton">
           <NuxtImg src="/img/prop-icon.svg" alt="" />
           <UISkeleton></UISkeleton>
         </div>
-        <div class="project-card__prop project-card__prop--skeleton">
+        <div class="service-card2__prop service-card2__prop--skeleton">
           <NuxtImg src="/img/prop-icon2.svg" alt="" />
           <UISkeleton></UISkeleton>
         </div>
-        <div class="project-card__prop project-card__prop--skeleton">
+        <div class="service-card2__prop service-card2__prop--skeleton">
           <NuxtImg src="/img/prop-icon3.svg" alt="" />
           <UISkeleton></UISkeleton>
         </div>
       </div>
-      <div class="project-card__text project-card__text--skeleton">
+      <div class="service-card2__text service-card2__text--skeleton">
         <UISkeleton> </UISkeleton>
         <UISkeleton> </UISkeleton>
       </div>
     </div>
-    <div class="project-card__action">
-      <div class="project-card__price">
+    <div class="service-card2__action">
+      <div class="service-card2__price">
         <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
-        <UISkeleton v-else class="project-card__price--skeleton"></UISkeleton>
+        <UISkeleton v-else class="service-card2__price--skeleton"></UISkeleton>
       </div>
       <NuxtLink
         v-if="data && !isSendBid"
         :to="`/bid/${data?._id}`"
-        class="project-card__btn m-btn m-btn-blue3"
+        class="service-card2__btn m-btn m-btn-blue3"
       >
         Оставить отклик
       </NuxtLink>
       <NuxtLink
         v-else-if="data && isSendBid"
         :to="`/bid/${data?._id}`"
-        class="project-card__btn m-btn m-btn-blue3"
+        class="service-card2__btn m-btn m-btn-blue3"
       >
         Уже откликнулись
       </NuxtLink>
       <UISkeleton
         v-else
-        class="project-card__btn project-card__btn--skeleton"
+        class="service-card2__btn service-card2__btn--skeleton"
       ></UISkeleton>
     </div>
   </div>

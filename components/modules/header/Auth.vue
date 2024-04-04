@@ -1,6 +1,6 @@
 <template>
   <OnClickOutside class="header-action" @trigger="activeSearch = false">
-    <div class="header-action__wrapper">
+    <div v-if="!profile" class="header-action__wrapper">
       <input
         v-model="searchQuery"
         type="text"
@@ -34,10 +34,15 @@
     </div>
   </OnClickOutside>
   <div v-if="isAuthenticated && !isLoading" class="header-action2">
-    <a href="" class="header-action2__btn">
+    <button v-if="profile" class="header-action__btn m-btn m-btn-blue-outline">
+      <span>{{
+        user?.active_role === 'seller' ? 'Создать услугу' : 'Создать проект'
+      }}</span>
+    </button>
+    <nuxtLink to="/profile/notifications" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
-    </a>
+    </nuxtLink>
     <nuxtLink to="/profile/messages" class="header-action2__btn _mess">
       <NuxtImg src="/img/message.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
@@ -74,6 +79,7 @@ const commonStore = useCommonStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+const props = defineProps<{ profile: boolean }>();
 const searchQuery = ref('');
 const activeSearch = ref(false);
 const favorites = storeToRefs(userStore).favorites;

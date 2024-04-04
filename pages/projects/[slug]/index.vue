@@ -10,7 +10,7 @@
     />
     <ModulesCatalog :store="catalogStore">
       <template #items>
-        <div v-if="catalogStore.items?.length" class="project-items">
+        <div v-if="catalogStore.items?.length" class="services-items">
           <ModulesCardsProject
             v-for="item in catalogStore.items"
             :key="item._id"
@@ -23,7 +23,7 @@
             !catalogStore.empty ||
             (!catalogStore.empty && !catalogStore.items?.length)
           "
-          class="project-items"
+          class="services-items"
         >
           <ModulesCardsProject v-for="i in 10" :key="i" />
         </div>
