@@ -29,7 +29,7 @@
       <div class="article-item article-text">
         <h3>Обо всем по порядку</h3>
         <p>
-          Aliquam hendrerit sollicitudin purus, quis rutrum mi accumsan, не
+          Aliquot hendrix sollicitudin purus, quis rutrum mi accumsan, не
           включенный в другие категории. Каждому нужно пить орчи и нибх фасилис,
           но орчи он должен приготовить. Нет времени беспокоиться о беге. Так и
           было. Чат это текстовая ссылка, домашнее задание в свободное время.

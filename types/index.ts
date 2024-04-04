@@ -37,7 +37,7 @@ declare global {
     surname: string;
     email: string;
     roles: string[];
-    active_role: string;
+    active_role: 'buyer' | 'seller';
     __v: number;
     avatar: string;
     phone_number: string;

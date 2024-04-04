@@ -449,6 +449,12 @@
       margin-right: 0.625em;
       transform: translateY(-0.125em);
     }
+
+    &-text {
+      display: flex;
+      gap: 0.3em;
+      align-items: center;
+    }
   }
 
   &__user {

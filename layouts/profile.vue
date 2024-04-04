@@ -1,11 +1,11 @@
 <template>
   <div class="m-page admin-page">
     <div v-if="commonStore.categories" class="wrapper">
-      <SectionsCommonHeaderAdmin :user="userStore.user" />
+      <SectionsCommonHeaderProfile :user="userStore.user" />
       <main class="content">
         <slot></slot>
       </main>
-      <SectionsCommonFooterAdmin />
+      <SectionsCommonFooterProfile />
     </div>
   </div>
 </template>

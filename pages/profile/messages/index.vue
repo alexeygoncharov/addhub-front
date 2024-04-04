@@ -157,6 +157,6 @@
 <script setup lang="ts">
 const activeChat = ref(0);
 definePageMeta({
-  layout: 'admin',
+  layout: 'profile',
 });
 </script>

@@ -31,14 +31,16 @@
       <div class="attached-files article-item">
         <div class="text20 medium-text">Прикрепленные файлы</div>
         <div class="project-files__items">
-          <div
+          <nuxtLink
             v-for="(file, index) of item?.files"
             :key="index"
+            target="_blank"
+            :to="baseUrl() + file"
             class="file-item"
           >
             <div class="file-item__title">{{ getFileName(file) }}</div>
             <div class="file-item__format">{{ getFileExtension(file) }}</div>
-          </div>
+          </nuxtLink>
         </div>
       </div>
 

@@ -126,7 +126,7 @@
   }
 
   &-num {
-    font-size: 14px;
+    font-size: 14;
     line-height: 120%;
     color: $gray;
     opacity: 0.7;
@@ -168,7 +168,7 @@
   }
 }
 
-.service-card2 {
+.service-card3 {
   display: grid;
   grid-template-columns: 7.5em calc(100% - 8.5em);
   gap: 1em;
@@ -340,13 +340,15 @@
   }
 }
 
-.project-card2 {
+.project-card {
   display: grid;
   grid-template-columns: calc(100% - 41em) 18em 8em 12em;
   gap: 1em;
   align-items: center;
   padding: 1.25em 0;
+  border: 0;
   border-bottom: $border;
+  border-radius: 0;
 
   &:last-child {
     padding-bottom: 0;
@@ -443,7 +445,7 @@
     }
   }
 
-  .service-card2 {
+  .service-card3 {
     padding: 0.9375em 0;
   }
 
@@ -451,7 +453,7 @@
     padding-top: 1.25em;
   }
 
-  .project-card2 {
+  .project-card {
     grid-template-columns: 100%;
     gap: 0.81em;
     padding: 1.125em 0;
@@ -474,7 +476,7 @@
     }
   }
 
-  .service-card2 {
+  .service-card3 {
     grid-template-columns: 100%;
     gap: 0.5em;
 

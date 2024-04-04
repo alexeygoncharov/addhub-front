@@ -26,7 +26,7 @@ export interface User {
   email: string;
   password: string;
   roles: string[];
-  active_role: string;
+  active_role: 'buyer' | 'seller';
   balance: number;
   status: string;
   to_create_disputes: string;
@@ -65,32 +65,34 @@ export interface catalogItem {
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
-  views: number;
-  orders: number;
   __v: number;
+  service_volume: string;
+  service_volume_desc: string;
 }
 export interface serviceItem extends catalogItem {
   tools: [];
   category: string;
-  delivery_time: number;
-  service_volume: string;
-  service_volume_desc: string;
+  views: number;
+  orders: number;
+  reviews: number;
+  rate: number;
 }
 
 export interface servicesItem extends catalogItem {
   reviews: []; // TODO
   tools: []; // TODO
   category: Category;
+  rate: number;
 }
 
 export interface projectsItem extends catalogItem {
   category: string;
-  skills: []; // TODO
   constructor: null; // TODO
   bids: Bid[];
   files: string[];
-  service_volume: string;
-  service_volume_desc: string;
+}
+export interface projectItem extends projectsItem {
+  views: number;
 }
 
 export interface freelancersItem {
@@ -106,7 +108,7 @@ export interface freelancersItem {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  active_role: string;
+  active_role: 'buyer' | 'seller';
   payment_method: string[];
   roles: string[];
   to_create_disputes: string;

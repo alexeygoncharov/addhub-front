@@ -92,7 +92,7 @@
         <ul class="mob-menu__links">
           <li>
             <nuxtLink
-              to="/profile/personal"
+              to="/profile/settings"
               :active-class="'_active'"
               class="mob-menu__link"
             >
@@ -136,10 +136,10 @@
 
 <script setup lang="ts">
 import type { User } from '~/stores/catalog/catalog.type';
-const user = defineModel<User>('user');
+const user = defineModel<Profile>('user');
 const links = ref([
   {
-    path: '/profile',
+    path: '/profile/dashboard',
     title: 'Главная',
     icon: ` <svg
               width="18"
