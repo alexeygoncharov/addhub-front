@@ -1,19 +1,11 @@
 <template>
   <UIVBreadcrumbs :items="[{ name: 'Главная', to: '/' }, { name: 'Блог' }]" />
 
-  <div class="page-top">
-    <div class="container">
-      <div class="page-top__inner">
-        <div class="page-top__text">
-          <h1 class="text32 medium-text">Блог</h1>
-          <div class="page-top__desc text15">
-            Обеспечьте посетителю удобство работы в Интернете с помощью
-            надежного UX-дизайна.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <UIPageTop
+    title="Блог"
+    description=" Обеспечьте посетителю удобство работы в Интернете с помощью
+            надежного UX-дизайна."
+  />
 
   <div class="blog-page">
     <div class="container">
@@ -68,125 +60,11 @@
 
         <div class="blog-page__content">
           <div class="blog-page__items">
-            <div class="blog-card3">
-              <a href="" class="blog-card3__img _scale-img">
-                <img src="/img/blog8.webp" alt="" />
-              </a>
-              <div class="blog-card3__content">
-                <div class="blog-card3__text">
-                  <div class="blog-card3__type">Бизнес</div>
-                  <a href="" class="blog-card3__title text28 medium-text">
-                    Начни онлайн-бизнес и работай не выходя из дома
-                  </a>
-                  <div class="blog-card3__desc text15 light-text">
-                    Многие пакеты настольных издательских систем и редакторы
-                    веб-страниц теперь используют Lorem Ipsum в качестве текста
-                    модели по умолчанию, а поиск по запросу «lorem ipsum»
-                    позволит обнаружить многие веб-сайты, которые все еще
-                    находятся в зачаточном состоянии.
-                  </div>
-                </div>
-                <a href="" class="blog-card3__user">
-                  <div class="avatar">
-                    <img src="/img/avatar6.webp" alt="" />
-                  </div>
-                  <div class="blog-card3__user-info">
-                    <div class="blog-card3__user-title">Александр Сидоров</div>
-                    <div class="blog-card3__user-desc">Декабрь 2, 2023</div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="blog-card3">
-              <a href="" class="blog-card3__img _scale-img">
-                <img src="/img/blog9.webp" alt="" />
-              </a>
-              <div class="blog-card3__content">
-                <div class="blog-card3__text">
-                  <div class="blog-card3__type">Бизнес</div>
-                  <a href="" class="blog-card3__title text28 medium-text">
-                    Начни онлайн-бизнес и работай не выходя из дома
-                  </a>
-                  <div class="blog-card3__desc text15 light-text">
-                    Многие пакеты настольных издательских систем и редакторы
-                    веб-страниц теперь используют Lorem Ipsum в качестве текста
-                    модели по умолчанию, а поиск по запросу «lorem ipsum»
-                    позволит обнаружить многие веб-сайты, которые все еще
-                    находятся в зачаточном состоянии.
-                  </div>
-                </div>
-                <a href="" class="blog-card3__user">
-                  <div class="avatar">
-                    <img src="/img/avatar6.webp" alt="" />
-                  </div>
-                  <div class="blog-card3__user-info">
-                    <div class="blog-card3__user-title">Александр Сидоров</div>
-                    <div class="blog-card3__user-desc">Декабрь 2, 2023</div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="blog-card3">
-              <a href="" class="blog-card3__img _scale-img">
-                <img src="/img/blog8.webp" alt="" />
-              </a>
-              <div class="blog-card3__content">
-                <div class="blog-card3__text">
-                  <div class="blog-card3__type">Бизнес</div>
-                  <a href="" class="blog-card3__title text28 medium-text">
-                    Начни онлайн-бизнес и работай не выходя из дома
-                  </a>
-                  <div class="blog-card3__desc text15 light-text">
-                    Многие пакеты настольных издательских систем и редакторы
-                    веб-страниц теперь используют Lorem Ipsum в качестве текста
-                    модели по умолчанию, а поиск по запросу «lorem ipsum»
-                    позволит обнаружить многие веб-сайты, которые все еще
-                    находятся в зачаточном состоянии.
-                  </div>
-                </div>
-                <a href="" class="blog-card3__user">
-                  <div class="avatar">
-                    <img src="/img/avatar6.webp" alt="" />
-                  </div>
-                  <div class="blog-card3__user-info">
-                    <div class="blog-card3__user-title">Александр Сидоров</div>
-                    <div class="blog-card3__user-desc">Декабрь 2, 2023</div>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div class="blog-card3">
-              <a href="" class="blog-card3__img _scale-img">
-                <img src="/img/blog10.webp" alt="" />
-              </a>
-              <div class="blog-card3__content">
-                <div class="blog-card3__text">
-                  <div class="blog-card3__type">Бизнес</div>
-                  <a href="" class="blog-card3__title text28 medium-text">
-                    Начни онлайн-бизнес и работай не выходя из дома
-                  </a>
-                  <div class="blog-card3__desc text15 light-text">
-                    Многие пакеты настольных издательских систем и редакторы
-                    веб-страниц теперь используют Lorem Ipsum в качестве текста
-                    модели по умолчанию, а поиск по запросу «lorem ipsum»
-                    позволит обнаружить многие веб-сайты, которые все еще
-                    находятся в зачаточном состоянии.
-                  </div>
-                </div>
-                <a href="" class="blog-card3__user">
-                  <div class="avatar">
-                    <img src="/img/avatar6.webp" alt="" />
-                  </div>
-                  <div class="blog-card3__user-info">
-                    <div class="blog-card3__user-title">Александр Сидоров</div>
-                    <div class="blog-card3__user-desc">Декабрь 2, 2023</div>
-                  </div>
-                </a>
-              </div>
-            </div>
+            <ModulesBlogCard
+              v-for="i in 3"
+              :key="i"
+              :item="{}"
+            ></ModulesBlogCard>
           </div>
 
           <div class="pagination">
@@ -239,53 +117,11 @@
             Свежие публикации
           </div>
           <div class="blog-recent__items">
-            <a href="" class="blog-card2">
-              <div class="blog-card2__img avatar _scale-img">
-                <img src="/img/blog5.png" alt="" />
-              </div>
-              <div class="blog-card2__content">
-                <div class="blog-card2__title">
-                  Почему государственные школы должны продолжать
-                </div>
-                <div class="blog-card2__date">
-                  <span class="text14 gray-text light-text">
-                    Декабрь 2, 2023
-                  </span>
-                </div>
-              </div>
-            </a>
-
-            <a href="" class="blog-card2">
-              <div class="blog-card2__img avatar _scale-img">
-                <img src="/img/blog6.png" alt="" />
-              </div>
-              <div class="blog-card2__content">
-                <div class="blog-card2__title">
-                  Преимущества использования технологий
-                </div>
-                <div class="blog-card2__date">
-                  <span class="text14 gray-text light-text">
-                    Декабрь 2, 2023
-                  </span>
-                </div>
-              </div>
-            </a>
-
-            <a href="" class="blog-card2">
-              <div class="blog-card2__img avatar _scale-img">
-                <img src="/img/blog7.png" alt="" />
-              </div>
-              <div class="blog-card2__content">
-                <div class="blog-card2__title">
-                  Лучшая альтернатива оцениванию сочинений
-                </div>
-                <div class="blog-card2__date">
-                  <span class="text14 gray-text light-text">
-                    Декабрь 2, 2023
-                  </span>
-                </div>
-              </div>
-            </a>
+            <ModulesBlogMiniCard
+              v-for="i in 3"
+              :key="i"
+              :item="{}"
+            ></ModulesBlogMiniCard>
           </div>
         </div>
 

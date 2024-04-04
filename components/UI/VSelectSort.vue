@@ -68,14 +68,14 @@ const props = defineProps({
   },
 });
 
-console.log(
-  'options = ',
-  props.options,
-  'placeholder = ',
-  props.placeholder,
-  'initialCurrentText = ',
-  props.initialCurrentText,
-);
+// console.log(
+//   'options = ',
+//   props.options,
+//   'placeholder = ',
+//   props.placeholder,
+//   'initialCurrentText = ',
+//   props.initialCurrentText,
+// );
 const emits = defineEmits(['input']);
 const isOpen = ref(false);
 const currentText = ref(props.initialCurrentText);

@@ -157,7 +157,7 @@ import { useProfileStore } from '../../stores/profile';
 import { useCommonStore } from '../../stores/common';
 import _id from '../bid/[_id].vue';
 definePageMeta({
-  layout: 'admin',
+  layout: 'profile',
 });
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();

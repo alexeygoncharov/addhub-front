@@ -90,158 +90,20 @@
         </div>
       </div>
       <div class="advantages__grid grid-col4 grid-tablet2 grid-mob-full">
-        <div class="advantage-card">
-          <div class="advantage-card__icon">
-            <img src="/img/advantage-icon3.svg" alt="" />
-          </div>
-          <div class="advantage-card__info">
-            <div class="advantage-card__title text20 medium-text">
-              Опубликуйте проект
-            </div>
-            <div class="advantage-card__desc text15 light-text">
-              Опубликовать проект бесплатно и легко. Просто заполните название,
-              описание.
-            </div>
-          </div>
-        </div>
-
-        <div class="advantage-card">
-          <div class="advantage-card__icon">
-            <img src="/img/advantage-icon4.svg" alt="" />
-          </div>
-          <div class="advantage-card__info">
-            <div class="advantage-card__title text20 medium-text">
-              Выберите исполнителя
-            </div>
-            <div class="advantage-card__desc text15 light-text">
-              Опубликовать вакансию бесплатно и легко. Просто заполните
-              название, описание.
-            </div>
-          </div>
-        </div>
-
-        <div class="advantage-card">
-          <div class="advantage-card__icon">
-            <img src="/img/advantage-icon5.svg" alt="" />
-          </div>
-          <div class="advantage-card__info">
-            <div class="advantage-card__title text20 medium-text">
-              Оплачивайте безопасно
-            </div>
-            <div class="advantage-card__desc text15 light-text">
-              Опубликовать вакансию бесплатно и легко. Просто заполните
-              название, описание.
-            </div>
-          </div>
-        </div>
-
-        <div class="advantage-card">
-          <div class="advantage-card__icon">
-            <img src="/img/advantage-icon6.svg" alt="" />
-          </div>
-          <div class="advantage-card__info">
-            <div class="advantage-card__title text20 medium-text">
-              Мы на связи 24/7
-            </div>
-            <div class="advantage-card__desc text15 light-text">
-              Опубликовать вакансию бесплатно и легко. Просто заполните
-              название, описание.
-            </div>
-          </div>
-        </div>
+        <ModulesCardsAdvantage
+          v-for="(card, i) in steps"
+          :key="i"
+          :icon="card.icon"
+          :title="card.title"
+          :desc="card.desc"
+        />
       </div>
     </div>
   </div>
 
-  <div class="advantages2 cut-section">
-    <div class="container">
-      <div class="advantages2__inner">
-        <div class="advantages2__content">
-          <div class="advantages2__top">
-            <div class="text32 medium-text">
-              Все фрилансеры мира на вашем рабочем столе
-            </div>
-          </div>
-          <div class="advantages2__items">
-            <div class="advantage-card">
-              <div class="advantage-card__icon">
-                <img src="/img/advantage-icon2.svg" alt="" />
-              </div>
-              <div class="advantage-card__info">
-                <div class="advantage-card__title text20 medium-text">
-                  Гарантия качества
-                </div>
-                <div class="advantage-card__desc text15 light-text">
-                  Проверьте портфолио любого исполнителя, отзывы <br />
-                  клиентов и подтверждение личности.
-                </div>
-              </div>
-            </div>
+  <SectionsCommonAdvantages2 img="man4.webp" />
 
-            <div class="advantage-card">
-              <div class="advantage-card__icon">
-                <img src="/img/advantage-icon7.svg" alt="" />
-              </div>
-              <div class="advantage-card__info">
-                <div class="advantage-card__title text20 medium-text">
-                  Бесплатно, пока не найдете исполнителя
-                </div>
-                <div class="advantage-card__desc text15 light-text">
-                  Проведите собеседование с потенциальным кандидатом, подходящим
-                  для вашей работы, договоритесь о стоимости и платите только за
-                  ту работу, которую вы одобрите.
-                </div>
-              </div>
-            </div>
-
-            <div class="advantage-card">
-              <div class="advantage-card__icon">
-                <img src="/img/advantage-icon.svg" alt="" />
-              </div>
-              <div class="advantage-card__info">
-                <div class="advantage-card__title text20 medium-text">
-                  Безопасно и надежно
-                </div>
-                <div class="advantage-card__desc text15 light-text">
-                  Сосредоточьтесь на своей работе, зная, что мы помогаем
-                  защитить ваши данные и конфиденциальность. Мы здесь с
-                  круглосуточной поддержкой, если вам это нужно.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="advantages2__img _scale-img">
-          <img src="/img/man4.webp" alt="" />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="advantage-nums">
-    <div class="container">
-      <div class="advantage-nums__inner">
-        <div class="advantage-nums__items">
-          <div class="advantage-stat">
-            <div class="advantage-stat__title text38 medium-text">20K</div>
-            <div class="advantage-stat__desc text15">Всего исполнителей</div>
-          </div>
-          <div class="advantage-stat">
-            <div class="advantage-stat__title text38 medium-text">32K</div>
-            <div class="advantage-stat__desc text15">Положительных отзывов</div>
-          </div>
-          <div class="advantage-stat">
-            <div class="advantage-stat__title text38 medium-text">90K</div>
-            <div class="advantage-stat__desc text15">Заявок получено</div>
-          </div>
-          <div class="advantage-stat">
-            <div class="advantage-stat__title text38 medium-text">15K</div>
-            <div class="advantage-stat__desc text15">Проектов завершено</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <SectionsCommonAdvantageNums />
 
   <SectionsCommonFaq :questions="questions" />
 </template>
@@ -250,6 +112,46 @@
 const authStore = useAuthStore();
 const auth = storeToRefs(authStore).isAuthenticated;
 const active = ref(0);
+const cardList = [
+  {
+    title: 'Гарантия качества',
+    desc: 'Проверьте портфолио любого исполнителя, отзывы клиентов и подтверждение личности.',
+    icon: '/img/advantage-icon2.svg',
+  },
+  {
+    title: 'Бесплатно, пока не найдете исполнителя',
+    desc: 'Проведите собеседование с потенциальным кандидатом, подходящим для вашей работы, договоритесь о стоимости и платите только за ту работу, которую вы одобрите.',
+    icon: '/img/advantage-icon7.svg',
+  },
+  {
+    title: 'Безопасно и надежно',
+    desc: 'Сосредоточьтесь на своей работе, зная, что мы помогаем защитить ваши данные и конфиденциальность. Мы здесь с круглосуточной поддержкой, если вам это нужно.',
+    icon: '/img/advantage-icon.svg',
+  },
+];
+
+const steps = ref([
+  {
+    title: 'Опубликуйте проект',
+    desc: 'Опубликовать проект бесплатно и легко. Просто заполните название, описание.',
+    icon: '/img/advantage-icon3.svg',
+  },
+  {
+    title: 'Выберите исполнителя',
+    desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
+    icon: '/img/advantage-icon4.svg',
+  },
+  {
+    title: 'Оплачивайте безопасно',
+    desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
+    icon: '/img/advantage-icon5.svg',
+  },
+  {
+    title: 'Мы на связи 24/7',
+    desc: 'Опубликовать вакансию бесплатно и легко. Просто заполните название, описание.',
+    icon: '/img/advantage-icon6.svg',
+  },
+]);
 const questions = ref([
   {
     title: 'Какие способы оплаты поддерживаются?',

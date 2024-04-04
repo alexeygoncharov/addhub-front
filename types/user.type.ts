@@ -5,5 +5,5 @@ export interface userData {
   email: string;
   password: string;
   repeatPassword: string;
-  role: string;
+  role: 'buyer' | 'seller';
 }

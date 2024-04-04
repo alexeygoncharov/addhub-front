@@ -131,15 +131,16 @@
       <div v-if="data" class="service-card__reviews _flex">
         <NuxtImg src="/img/star.svg" alt="" />
         <div class="service-card__reviews-text">
-          <span class="text15 medium-text">{{ data.reviews?.length }} </span>
+          <span class="text15 medium-text">{{ data.rate }} </span>
           <span class="text14 gray-text">
             {{
               pluralize(
-                data.reviews?.length,
+                !Array.isArray(data.reviews)
+                  ? data.reviews
+                  : data.reviews.length,
                 'отзыв',
                 'отзыва',
                 'отзывов',
-                true,
               )
             }}
           </span>
@@ -187,7 +188,7 @@
 </template>
 
 <script setup lang="ts">
-import type { servicesItem } from '~/stores/catalog/catalog.type';
+import type { servicesItem, serviceItem } from '~/stores/catalog/catalog.type';
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
 const prevBtn = ref<HTMLDivElement | null>(null);
@@ -195,7 +196,7 @@ const nextBtn = ref<HTMLDivElement | null>(null);
 const pagination = ref<HTMLDivElement | null>(null);
 const props = defineProps({
   data: {
-    type: Object as PropType<servicesItem | undefined>,
+    type: Object as PropType<servicesItem | serviceItem | undefined>,
     default: undefined,
   },
   id: {

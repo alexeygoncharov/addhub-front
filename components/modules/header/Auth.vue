@@ -46,9 +46,13 @@
       <img src="/img/favorite.svg" alt="" />
       <span v-if="favorites.length" class="header-action2__btn-pin"></span>
     </nuxtLink>
-    <a href="" class="header-action2__user avatar">
-      <NuxtImg src="/img/avatar10.webp" alt="" />
-    </a>
+    <nuxtLink to="/profile" class="header-action2__user avatar">
+      <NuxtImg
+        crossorigin="anonymous"
+        :src="baseUrl() + user?.avatar"
+        alt="user avatar"
+      />
+    </nuxtLink>
     <button class="burger" @click="toggleMenu">
       <NuxtImg src="/img/burger.svg" alt="" class="_view1" />
       <NuxtImg src="/img/burger2.svg" alt="" class="_view2" />
@@ -69,6 +73,7 @@ import { OnClickOutside } from '@vueuse/components';
 const commonStore = useCommonStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const searchQuery = ref('');
 const activeSearch = ref(false);
 const favorites = storeToRefs(userStore).favorites;

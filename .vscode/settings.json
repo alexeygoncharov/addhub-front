@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["Addhub", "nitropack", "nouislider", "nums", "stylelint"],
+  "cSpell.words": [
+    "Addhub",
+    "apexcharts",
+    "nitropack",
+    "nouislider",
+    "nums",
+    "stylelint"
+  ],
   "cSpell.language": "en,ru",
   "css.validate": false,
   "less.validate": false,

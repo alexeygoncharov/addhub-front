@@ -45,5 +45,6 @@ export default defineNuxtConfig({
   routeRules: {
     '/projects': { redirect: '/projects/all' },
     '/services': { redirect: '/services/all' },
+    '/profile': { redirect: '/profile/dashboard' },
   },
 });

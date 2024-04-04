@@ -27,7 +27,7 @@
             </UIVButton>
             <UIVButton
               color="white"
-              :path="isAuthenticated ? '/profile/projects/create' : '/login'"
+              :path="isAuthenticated ? '/profile/create' : '/login'"
             >
               Разместить заказ
             </UIVButton>

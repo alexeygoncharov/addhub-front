@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'admin',
+  layout: 'profile',
 });
 const active = ref('services');
 const userStore = useUserStore();
