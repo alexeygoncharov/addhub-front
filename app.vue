@@ -12,6 +12,7 @@ const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 getFavorites();
 commonStore.fetchCategories();
+commonStore.fetchCountries();
 commonStore.fetchCities();
 authStore.loadToken();
 if (authStore.token) {

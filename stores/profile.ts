@@ -16,9 +16,25 @@ export const useProfileStore = defineStore('profile', () => {
       profile.value = value.result;
     }
   }
+
+  async function changePassword(formData: FormData) {
+    const { data } = await apiFetch<ApiResponse<any>>(
+      `/api/users/change_password`,
+      {
+        options: {
+          method: 'PUT',
+          body: formData,
+        },
+        needToken: true,
+      },
+    );
+    const value = data.value;
+  }
+
   // getFavorites();
   return {
     favorites,
+    changePassword,
     editProfile,
     profile,
   };

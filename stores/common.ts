@@ -20,8 +20,14 @@ export interface City {
   services_count: number;
 }
 
+export interface Country {
+  _id: string;
+  title: string;
+}
+
 export const useCommonStore = defineStore('common', () => {
   const cities = ref<City[]>();
+  const countries = ref<Country[]>();
   const categories = ref<Category[]>();
   async function fetchCities() {
     const { data } = await apiFetch<ApiResponse<City[]>>('/api/cities/');
@@ -40,7 +46,33 @@ export const useCommonStore = defineStore('common', () => {
     }
   }
 
-  return { cities, categories, fetchCities, fetchCategories };
+  async function fetchCountries() {
+    const { data } = await apiFetch<ApiResponse<Country[]>>('/api/countries/');
+    const value = data.value;
+    if (value) {
+      countries.value = value.result;
+    }
+  }
+
+  async function uploadFile(file: File) {
+    const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+      options: {
+        method: 'POST',
+        body: file,
+      },
+    });
+    const value = data.value;
+    return value?.result;
+  }
+  return {
+    cities,
+    categories,
+    countries,
+    fetchCities,
+    fetchCategories,
+    fetchCountries,
+    uploadFile,
+  };
 });
 
 if (import.meta.hot) {
