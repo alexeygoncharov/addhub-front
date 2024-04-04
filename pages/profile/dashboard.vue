@@ -6,10 +6,10 @@
           Просмотры профиля
         </div>
         <div class="sort">
-          <div class="m-select">
+          <div class="m-select" :class="{ _open: isDropdownOpen }">
             <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"> Неделя </span>
+            <div class="m-select__toggle" @click="toggleDropdown()">
+              <span class="m-select__current"> {{ dropdownValue }} </span>
               <svg
                 width="6"
                 height="6"
@@ -23,16 +23,22 @@
                 />
               </svg>
             </div>
-            <OnClickOutside>
+            <OnClickOutside @trigger="isDropdownOpen = false">
               <div class="m-select__dropdown">
-                <div class="m-select__option _active" data-value="Неделя">
-                  <span>Неделя</span>
-                </div>
-                <div class="m-select__option" data-value="Месяц">
-                  <span>Месяц</span>
-                </div>
-                <div class="m-select__option" data-value="Год">
-                  <span>Год</span>
+                <div
+                  v-for="item of dropdownItems"
+                  :key="item"
+                  class="m-select__option"
+                  :class="{ _active: item === dropdownValue }"
+                  data-value="Неделя"
+                  @click="
+                    {
+                      dropdownValue = item;
+                      toggleDropdown();
+                    }
+                  "
+                >
+                  <span>{{ item }}</span>
                 </div>
               </div>
             </OnClickOutside>
@@ -221,8 +227,10 @@ import { OnClickOutside } from '@vueuse/components';
 definePageMeta({ layout: 'profile' });
 const userStore = useUserStore();
 const user = storeToRefs(userStore).user;
-
+const [isDropdownOpen, toggleDropdown] = useToggle();
 const colors = ['#5D68F1', '#F3F4FF', '#DADDFF'];
+const dropdownValue = ref('Неделя');
+const dropdownItems = ['Неделя', 'Месяц', 'Год'];
 const donutOptions = {
   labels: ['Прямой', 'По ссылке', 'Поиск'],
   chart: {

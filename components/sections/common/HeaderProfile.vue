@@ -24,48 +24,7 @@
           </button>
         </form>
 
-        <div class="header-action2">
-          <button class="header-action__btn m-btn m-btn-blue-outline">
-            <span>{{
-              user?.active_role === 'seller'
-                ? 'Создать услугу'
-                : 'Создать проект'
-            }}</span>
-          </button>
-          <!-- <div class="admin-header__type">
-            <div class="m-switch">
-              <input
-                :checked="user?.active_role !== 'seller'"
-                type="checkbox"
-                disabled
-              />
-              <label></label>
-              <div class="text14">
-                <span class="_view1">Я фрилансер</span>
-                <span class="_view2">Я заказчик</span>
-              </div>
-            </div>
-          </div> -->
-
-          <a href="" class="header-action2__btn">
-            <img src="/img/notification.svg" alt="" />
-            <span class="header-action2__btn-pin"></span>
-          </a>
-          <a href="" class="header-action2__btn _mess">
-            <img src="/img/message.svg" alt="" />
-            <span class="header-action2__btn-pin"></span>
-          </a>
-          <a href="" class="header-action2__btn _favorite">
-            <img src="/img/favorite.svg" alt="" />
-          </a>
-          <a href="" class="header-action2__user avatar">
-            <img src="/img/avatar10.webp" alt="" />
-          </a>
-          <button class="burger">
-            <img src="/img/burger.svg" alt="" class="_view1" />
-            <img src="/img/burger2.svg" alt="" class="_view2" />
-          </button>
-        </div>
+        <ModulesHeaderAuth v-model="mobMenu" profile />
       </div>
     </div>
     <div class="admin-menu">
@@ -137,6 +96,7 @@
 <script setup lang="ts">
 import type { User } from '~/stores/catalog/catalog.type';
 const user = defineModel<Profile>('user');
+const mobMenu = ref(false);
 const links = ref([
   {
     path: '/profile/dashboard',
@@ -288,7 +248,7 @@ const links = ref([
   },
   {
     title: 'Финансы',
-    path: '/profile/finances',
+    path: '/profile/finance',
     icon: `<svg
               width="18"
               height="18"
