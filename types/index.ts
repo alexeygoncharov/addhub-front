@@ -1,3 +1,4 @@
+import type { User } from '~/stores/catalog/catalog.type';
 export type { ApiResponse, ApiListResponse };
 
 declare global {
@@ -12,7 +13,7 @@ declare global {
   export interface Bid {
     _id: string;
     project_id: string;
-    user: string;
+    user: User;
     price: number;
     term: number;
     status: string;

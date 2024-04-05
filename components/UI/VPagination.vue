@@ -61,32 +61,28 @@
 <script setup lang="ts">
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
 const props = defineProps({
-  store: {
-    type: Object as PropType<CatalogStores>,
+  totalItems: {
+    type: Number,
+    required: true,
+  },
+  itemsPerPage: {
+    type: Number,
+    required: true,
+  },
+  totalPages: {
+    type: Number,
     required: true,
   },
 });
-const store = props.store;
-const currentPage = computed(() => {
-  return props.store.currentPage;
-});
-const totalItems = computed(() => {
-  return props.store.totalItems;
-});
-const itemsPerPage = computed(() => {
-  return props.store.itemsPerPage;
-});
-const totalPages = computed(() => {
-  return props.store.totalPages;
-});
+const currentPage = defineModel<number>({ required: true });
 const pages = computed(() => {
   const pages = [];
-  if (totalItems.value <= itemsPerPage.value) {
+  if (props.totalItems <= props.itemsPerPage) {
     // Если всего элементов меньше или равно количеству на странице, показываем только одну страницу.
     return [1];
   }
 
-  const totalPagesArg = totalPages.value;
+  const totalPagesArg = props.totalPages;
   const currentPageArg = currentPage.value;
   const wingSize = 2; // Количество страниц вокруг текущей страницы
 
@@ -116,33 +112,33 @@ const pages = computed(() => {
   return pages;
 });
 const pageRangeText = computed(() => {
-  if (totalItems.value === 0) {
+  if (props.totalItems === 0) {
     return `0 – 0 из 0 публикаций`;
   }
   const startItem = Math.min(
-    (currentPage.value - 1) * itemsPerPage.value + 1,
-    totalItems.value,
+    (currentPage.value - 1) * props.itemsPerPage + 1,
+    props.totalItems,
   );
   const endItem = Math.min(
-    startItem + itemsPerPage.value - 1,
-    totalItems.value,
+    startItem + props.itemsPerPage - 1,
+    props.totalItems,
   );
-  return `${startItem} – ${endItem} из ${pluralize(totalItems.value, 'публикация', 'публикации', 'публикаций')}`;
+  return `${startItem} – ${endItem} из ${pluralize(props.totalItems, 'публикация', 'публикации', 'публикаций')}`;
 });
 
 const prevPage = () => {
   if (currentPage.value > 1) {
-    store.currentPage = currentPage.value - 1;
+    currentPage.value = currentPage.value - 1;
   }
 };
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    store.currentPage = currentPage.value + 1;
+  if (currentPage.value < props.totalPages) {
+    currentPage.value = currentPage.value + 1;
   }
 };
 const goToPage = (pageNumber: number) => {
-  if (pageNumber && pageNumber >= 1 && pageNumber <= totalPages.value) {
-    store.currentPage = pageNumber;
+  if (pageNumber && pageNumber >= 1 && pageNumber <= props.totalPages) {
+    currentPage.value = pageNumber;
   }
 };
 </script>

@@ -44,53 +44,58 @@
         </div>
       </div>
 
-      <!-- <div class="freelancer-offers">
+      <div v-if="item?.createdBy === user?._id" class="freelancer-offers">
         <div class="text20 text18-tablet medium-text">
           Предложения фрилансеров {{ item?.bids.length }}
         </div>
         <div class="freelancer-offers__items">
-          <div class="offer-card" v-for="bid of item?.bids" :key="bid._id">
+          <div v-for="bid of item?.bids" :key="bid._id" class="offer-card">
             <div class="offer-card__content">
               <div class="avatar">
-                <img src="/img/avatar3.webp" alt="" />
+                <img
+                  v-if="bid.user.avatar"
+                  crossorigin="anonymous"
+                  :src="baseUrl() + bid.user.avatar"
+                  alt=""
+                />
+                <span v-else>{{ bid.user.name[0] }}</span>
                 <span class="service-card__user-online"></span>
               </div>
               <div class="offer-card__info">
                 <div class="offer-card__name text17 medium-text">
-                  Константин Сухоруков
+                  {{ bid.user.name }}
                 </div>
                 <div class="offer-card__items">
                   <div class="offer-card__item _rating">
                     <img src="/img/star.svg" alt="" />
                     <div class="offer-card__item-text">
-                      <span>4.9</span> (595 отзывов)
+                      <span>{{ bid.user.rate }}</span>
+                      <!-- (595 отзывов) -->
                     </div>
                   </div>
-                  <div class="offer-card__item">
+                  <!-- <div class="offer-card__item">
                     <img src="/img/marker3.svg" alt="" />
                     <div class="offer-card__item-text">Екатеринбург</div>
-                  </div>
+                  </div> -->
                   <div class="offer-card__item">
                     <img src="/img/prop-icon2.svg" alt="" />
-                    <div class="offer-card__item-text">2 часа назад</div>
+                    <div class="offer-card__item-text">{{ bid.createdAt }}</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="offer-card__nums">
-              <div class="offer-card__price">100 ₽</div>
-              <div class="offer-card__period">за 100 часов</div>
+              <div class="offer-card__price">{{ bid.price }} ₽</div>
+              <!-- <div class="offer-card__period">за 100 часов</div> -->
             </div>
             <div class="offer-card__text">
               <div class="text15 light-text">
-                Многие пакеты настольных издательских систем и редакторы
-                веб-страниц теперь используют Lorem Ipsum в качестве текста
-                модели по умолчанию.
+                <!-- {{  }} -->
               </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <div class="freelancer-req">
         <div class="text20 medium-text">Предложить свои услуги</div>
@@ -159,6 +164,8 @@ const item = ref<projectsItem>();
 const route = useRoute();
 const itemId = route.params.projectId;
 const title = ref('');
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
 function getFileExtension(filename: string) {
   // Разбиваем строку с именем файла по точке

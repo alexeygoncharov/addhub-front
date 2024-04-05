@@ -1,7 +1,5 @@
 <template>
-  <div class="admin-top">
-    <div class="text32 medium-text">Мой профиль</div>
-  </div>
+  <ModulesProfileTop>Мой профиль</ModulesProfileTop>
 
   <div class="profile-item">
     <div class="profile-item__top">

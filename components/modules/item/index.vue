@@ -94,10 +94,12 @@
               <div class="about-client__info">
                 <div class="avatar">
                   <NuxtImg
+                    v-if="item?.createdBy.avatar"
                     crossorigin="anonymous"
                     :src="baseUrl() + item?.createdBy.avatar"
                     alt=""
                   />
+                  <span v-else>{{ item?.createdBy.name[0] }}</span>
                   <span
                     v-if="item?.createdBy.online_status === 'online'"
                     class="service-card__user-online"

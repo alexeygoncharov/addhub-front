@@ -24,10 +24,8 @@ export interface User {
   name: string;
   surname: string;
   email: string;
-  password: string;
   roles: string[];
   active_role: 'buyer' | 'seller';
-  balance: number;
   status: string;
   to_create_disputes: string;
   online_status: string;

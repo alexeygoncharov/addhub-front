@@ -1,7 +1,5 @@
 <template>
-  <div class="admin-top">
-    <div class="text32 medium-text">Новый проект</div>
-  </div>
+  <ModulesProfileTop>Новый проект</ModulesProfileTop>
 
   <div class="profile-item">
     <div class="profile-item__bottom _pt0">
@@ -318,6 +316,7 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'profile',
+  middleware: 'authenticated',
 });
 </script>
 

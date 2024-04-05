@@ -1,7 +1,5 @@
 <template>
-  <div class="admin-top">
-    <div class="text32 medium-text">Сообщения</div>
-  </div>
+  <ModulesProfileTop>Сообщения</ModulesProfileTop>
 
   <div class="chat _active">
     <button class="chat__back">
@@ -158,5 +156,6 @@
 const activeChat = ref(0);
 definePageMeta({
   layout: 'profile',
+  middleware: 'authenticated',
 });
 </script>

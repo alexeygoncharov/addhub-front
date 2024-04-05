@@ -3,10 +3,12 @@
     <div class="service-card2__img">
       <div v-if="data" class="avatar">
         <img
+          v-if="data.createdBy.avatar"
           :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
           alt=""
           crossorigin="anonymous"
         />
+        <span v-else>{{ data.createdBy.name[0] }}</span>
         <span
           v-if="data.createdBy.online_status === 'online'"
           class="service-card__user-online"

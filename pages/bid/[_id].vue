@@ -4,10 +4,12 @@
       <div class="header">
         <div class="avatar">
           <img
+            v-if="data?.createdBy.avatar"
             :src="`${baseUrl()}/${data?.createdBy.avatar}`"
             alt=""
             crossorigin="anonymous"
           />
+          <span v-else>{{ data?.createdBy.name[0] }}</span>
           <span
             v-if="data?.createdBy.online_status === 'online'"
             class="modal-card__user-online"

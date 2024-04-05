@@ -501,11 +501,21 @@
 }
 
 .avatar {
-  display: block;
+  display: flex;
   flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
   width: 1.875em;
   height: 1.875em;
+  overflow: hidden;
+  background-color: $green;
   border-radius: 50%;
+
+  a:hover {
+    span {
+      color: inherit;
+    }
+  }
 
   img {
     display: block;
