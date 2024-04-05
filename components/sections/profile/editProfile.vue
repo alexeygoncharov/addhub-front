@@ -20,7 +20,8 @@
           <div class="photo-field__action">
             <button
               class="photo-field__btn photo-field__delete m-btn"
-              @click.prevent="reset()"
+              type="submit"
+              @click.prevent="deleteAvatar"
             >
               <svg
                 width="22"
@@ -154,11 +155,16 @@ import { useProfileStore } from '../../../stores/profile';
 import { useCommonStore } from '../../../stores/common';
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();
-const { open, reset, onChange } = useFileDialog({
+const { open, onChange } = useFileDialog({
   accept: 'image/*', // Set to accept only image files
   // directory: true, // Select directories instead of files if set true
   multiple: false,
 });
+
+const deleteAvatar = async () => {
+  if (form.value.avatar) commonStore.deleteFile(form.value.avatar);
+  await refreshNuxtData();
+};
 
 onChange(async (files) => {
   if (files) {
