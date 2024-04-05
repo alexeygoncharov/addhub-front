@@ -10,5 +10,5 @@ export function getPublicMedia(filename: string) {
 }
 
 export function getAvatarUrl(name?: string) {
-  if (name) return getPublicMedia(name);
+  if (name) return getPublicMedia(name.replace('/files', 'files'));
 }

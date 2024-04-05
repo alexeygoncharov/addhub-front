@@ -162,8 +162,14 @@ const { open, reset, onChange } = useFileDialog({
 
 onChange(async (files) => {
   if (files) {
-    const res = await commonStore.uploadFile(files[0]);
-    if (res) form.value.avatar = files[0].name;
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    await commonStore.uploadFile(formData).then(async (filename: string) => {
+      form.value.avatar = filename;
+      formData.delete('file');
+      formData.append('avatar', filename);
+      await profileStore.editProfile(formData);
+    });
   }
 });
 
