@@ -32,8 +32,12 @@
       </div>
 
       <div class="profile-item__nav">
-        <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
-          <span @click.prevent="submitPassword">Сохранить</span>
+        <button
+          type="submit"
+          class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+          @click.prevent="submitPassword"
+        >
+          <span>Сохранить</span>
         </button>
       </div>
     </div>
