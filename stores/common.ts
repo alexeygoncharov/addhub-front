@@ -54,6 +54,20 @@ export const useCommonStore = defineStore('common', () => {
     }
   }
 
+  async function deleteFile(path: string) {
+    const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+      options: {
+        body: {
+          filepath: path,
+        },
+      },
+    });
+    const value = data.value;
+    if (value) {
+      return value.result;
+    }
+  }
+
   async function uploadFile(file: FormData) {
     const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
       needToken: true,
@@ -63,7 +77,9 @@ export const useCommonStore = defineStore('common', () => {
       },
     });
     const value = data.value;
-    return value?.result;
+    if (value) {
+      return value.result;
+    }
   }
   return {
     cities,
@@ -73,6 +89,7 @@ export const useCommonStore = defineStore('common', () => {
     fetchCategories,
     fetchCountries,
     uploadFile,
+    deleteFile,
   };
 });
 
