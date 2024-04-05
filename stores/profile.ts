@@ -3,11 +3,30 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 export const useProfileStore = defineStore('profile', () => {
   const favorites = ref<string[]>([]);
   const profile = ref<Profile>();
-  async function editProfile(formData: FormData) {
+  interface changePassword {
+    oldPassord: string;
+    newPassword: string;
+    repeatPassword: string;
+  }
+
+  interface EditProfile {
+    avatar?: string;
+    name?: string;
+    email?: string;
+    user_name?: string;
+    phone_number?: string;
+    slogan?: string;
+    gender?: string;
+    country?: string;
+    city?: string;
+    about_me?: string;
+  }
+
+  async function editProfile(form: EditProfile) {
     const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
       options: {
         method: 'PUT',
-        body: formData,
+        body: form,
       },
       needToken: true,
     });
@@ -17,13 +36,13 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
-  async function changePassword(formData: FormData) {
+  async function changePassword(form: changePassword) {
     const { data } = await apiFetch<ApiResponse<any>>(
       `/api/users/change_password`,
       {
         options: {
           method: 'PUT',
-          body: formData,
+          body: form,
         },
         needToken: true,
       },
