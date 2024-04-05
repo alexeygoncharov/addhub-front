@@ -9,11 +9,24 @@ export const useProfileStore = defineStore('profile', () => {
     repeatPassword: string;
   }
 
-  async function editProfile(formData: FormData) {
+  interface EditProfile {
+    avatar?: string;
+    name?: string;
+    email?: string;
+    user_name?: string;
+    phone_number?: string;
+    slogan?: string;
+    gender?: string;
+    country?: string;
+    city?: string;
+    about_me?: string;
+  }
+
+  async function editProfile(form: EditProfile) {
     const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
       options: {
         method: 'PUT',
-        body: formData,
+        body: form,
       },
       needToken: true,
     });

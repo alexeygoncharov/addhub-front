@@ -7,8 +7,8 @@
     <div class="profile-item__top">
       <div class="text17 medium-text">Настройки профиля</div>
     </div>
-    <form id="form" class="profile-item__bottom">
-      <div class="photo-field">
+    <div id="form" class="profile-item__bottom">
+      <form class="photo-field">
         <div class="avatar">
           <img
             crossorigin="anonymous"
@@ -20,7 +20,7 @@
           <div class="photo-field__action">
             <button
               class="photo-field__btn photo-field__delete m-btn"
-              @click.prevent="reset()"
+              @click="reset()"
             >
               <svg
                 width="22"
@@ -46,7 +46,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </form>
 
       <div class="profile-item__grid">
         <fieldset class="fg">
@@ -138,12 +138,12 @@
         <button
           class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
           type="submit"
-          @click.prevent="submitProfile"
+          @click="submitProfile"
         >
           <span>Сохранить</span>
         </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -168,7 +168,7 @@ onChange(async (files) => {
       form.value.avatar = filename;
       formData.delete('file');
       formData.append('avatar', filename);
-      await profileStore.editProfile(formData);
+      await profileStore.editProfile({ avatar: filename });
     });
   }
 });
@@ -203,16 +203,18 @@ const form = ref({
 });
 
 async function submitProfile() {
-  const formData = new FormData();
-  if (form.value.name) formData.append('name', form.value.name);
-  if (form.value.email) formData.append('email', form.value.email);
-  if (form.value.user_name) formData.append('user_name', form.value.user_name);
-  if (form.value.phone_number)
-    formData.append('phone_number', form.value.phone_number);
-  if (form.value.slogan) formData.append('slogan', form.value.slogan);
-  if (form.value.gender) formData.append('gender', form.value.gender);
-  if (form.value.city) formData.append('city', form.value.city);
-  if (form.value.about_me) formData.append('about_me', form.value.about_me);
-  await profileStore.editProfile(formData);
+  const data = {
+    avatar: form.value?.avatar,
+    name: form.value?.name,
+    email: form.value?.email,
+    user_name: form.value?.user_name,
+    phone_number: form.value?.phone_number,
+    slogan: form.value?.slogan,
+    gender: form.value?.gender,
+    country: form.value?.country,
+    city: form.value?.city,
+    about_me: form.value?.about_me,
+  };
+  await profileStore.editProfile(data);
 }
 </script>
