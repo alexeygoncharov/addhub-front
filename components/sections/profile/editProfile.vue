@@ -21,7 +21,7 @@
             <button
               class="photo-field__btn photo-field__delete m-btn"
               type="submit"
-              @click="deleteAvatar"
+              @click.prevent="deleteAvatar"
             >
               <svg
                 width="22"
