@@ -91,7 +91,9 @@
           <UIVSelect
             :initial-current-text="{
               value: userStore.user?.gender,
-              text: userStore.user?.gender,
+              text: genders.options.find((item) => {
+                if (item.value === userStore.user?.gender) return item;
+              })?.text,
             }"
             :options="genders.options"
             :placeholder="genders.placeholder"
@@ -161,20 +163,20 @@ const { open, onChange } = useFileDialog({
   multiple: false,
 });
 
-const deleteAvatar = async () => {
+const deleteAvatar = () => {
   if (form.value.avatar) commonStore.deleteFile(form.value.avatar);
-  await refreshNuxtData();
+  // await refreshNuxtData();
 };
 
-onChange(async (files) => {
+onChange((files) => {
   if (files) {
     const formData = new FormData();
     formData.append('file', files[0]);
-    await commonStore.uploadFile(formData).then(async (filename: string) => {
+    commonStore.uploadFile(formData).then((filename: string) => {
       form.value.avatar = filename;
       formData.delete('file');
       formData.append('avatar', filename);
-      await profileStore.editProfile({ avatar: filename });
+      profileStore.editProfile({ avatar: filename });
     });
   }
 });

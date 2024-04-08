@@ -56,9 +56,11 @@ export const useCommonStore = defineStore('common', () => {
 
   async function deleteFile(path: string) {
     const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+      needToken: true,
       options: {
+        method: 'DELETE',
         body: {
-          filepath: path,
+          filePath: path,
         },
       },
     });
