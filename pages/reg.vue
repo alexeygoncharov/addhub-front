@@ -136,7 +136,7 @@ const { register: authRegister } = useAuthStore();
 const register = async () => {
   const result = await authRegister(regDetails.value);
   if (result) {
-    await navigateTo('/login');
+    await navigateTo('/');
     useToast({
       message: 'Регистрация прошла успешно',
       type: 'success',
