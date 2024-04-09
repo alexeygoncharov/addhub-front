@@ -13,23 +13,26 @@
         v-if="searchQuery && activeSearch"
         class="header-action__search-list"
       >
-        <NuxtLink
-          v-for="item in items"
-          :key="item._id"
-          :to="`/services/${item.category.slug}/${item._id}`"
-          class="header-action__search-item"
-          @click="() => (searchQuery = '')"
-        >
-          <div class="header-action__search-item-img">
-            <NuxtImg
-              :src="baseUrl() + item.photos[0]"
-              crossorigin="anonymous"
-              alt="preview"
-            />
-            <p>{{ item.title }}</p>
-          </div>
-          <p>{{ item.price }}</p>
-        </NuxtLink>
+        <div v-if="items.length">
+          <NuxtLink
+            v-for="item in items"
+            :key="item._id"
+            :to="`/services/${item.category.slug}/${item._id}`"
+            class="header-action__search-item"
+            @click="() => (searchQuery = '')"
+          >
+            <div class="header-action__search-item-img">
+              <NuxtImg
+                :src="baseUrl() + item.photos[0]"
+                crossorigin="anonymous"
+                alt="preview"
+              />
+              <p>{{ item.title }}</p>
+            </div>
+            <p>{{ item.price }}</p>
+          </NuxtLink>
+        </div>
+        <div v-else class="header-action__stub">Ничего не найдено</div>
       </div>
     </div>
   </OnClickOutside>
