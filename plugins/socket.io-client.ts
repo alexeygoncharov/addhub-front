@@ -1,16 +1,18 @@
 import { io } from 'socket.io-client';
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const socket = io('wss://hub.rdcd.ru/');
+  const authToken = useCookie('authToken');
+  const socket = io('https://hub.rdcd.ru', { transports: ['polling'] });
   const isConnected = ref(false);
   const transport = ref('N/A');
   function onConnect() {
     isConnected.value = true;
     transport.value = socket.io.engine.transport.name;
-    console.log('connected!!!');
     socket.io.engine.on('upgrade', (rawTransport) => {
       transport.value = rawTransport.name;
     });
+
+    console.log('connected!!!', transport.value);
   }
 
   function onDisconnect() {
