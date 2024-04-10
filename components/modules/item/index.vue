@@ -18,7 +18,29 @@
         { name: item.title },
       ]"
     />
-
+    <div v-if="isRevealed" class="modal-screen">
+      <div class="modal-message">
+        <div class="modal-wrapper-message">
+          <div class="header">
+            <div class="avatar">
+              <img
+                :src="`${baseUrl()}/${item?.createdBy.avatar}`"
+                alt=""
+                crossorigin="anonymous"
+              />
+            </div>
+          </div>
+          <div class="modal-wrapper__mainInput">
+            <label class="bid-label">Текст сообщения</label>
+            <textarea v-model="message.text"></textarea>
+          </div>
+          <div class="modal-wrapper__under">
+            <button @click="cancel">Cancel</button>
+            <button @click="confirm(item?.createdBy._id)">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="freelancer-top _pb85">
       <div class="container">
         <div class="freelancer-top__nav">
@@ -133,9 +155,10 @@
                   <div class="about-client__item-desc">UI/UX</div>
                 </div>
               </div> -->
+
               <button
                 class="about-client__btn m-btn m-btn-blue-outline"
-                @click="sendMessage(item?.createdBy._id)"
+                @click="reveal"
               >
                 <span>{{
                   type === 'service' ? `Напишите мне` : 'Написать заказчику'
@@ -155,16 +178,21 @@ import type { projectsItem, serviceItem } from '~/stores/catalog/catalog.type';
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
 const messagesStore = useMessagesStore();
-const msg = ref({
-  message: 'шалом ариец',
+const message = ref({
+  text: '',
   recipient: '',
 });
 
-function sendMessage(userId: string) {
-  console.log('userId = ', userId);
-  msg.value.recipient = userId;
-  messagesStore.createMessage(msg.value);
-}
+const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
+
+onConfirm((userId: string) => {
+  message.value.recipient = userId;
+  messagesStore.createMessage(message.value).then(() => {
+    message.value.text = '';
+    useToast({ message: 'Сообщение отправлено', type: 'success' });
+  });
+});
+
 const props = defineProps<
   | {
       item: serviceItem | undefined;

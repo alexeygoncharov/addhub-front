@@ -132,8 +132,8 @@
 </template>
 <script setup lang="ts">
 const messagesStore = useMessagesStore();
-const msg = ref({ recipient: '', message: '' });
+const message = ref({ recipient: '', text: '' });
 function sendMessage() {
-  messagesStore.createMessage(msg.value);
+  messagesStore.createMessage(message.value);
 }
 </script>

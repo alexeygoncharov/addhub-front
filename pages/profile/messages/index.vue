@@ -22,16 +22,11 @@
 import { io } from 'socket.io-client';
 import { useMessagesStore } from '~/stores/messages';
 const socket = io('https://hub.rdcd.ru/');
-const msg = ref({ recipient: '', message: '' });
 const messagesStore = useMessagesStore();
-const activeChat = ref(0);
 definePageMeta({
   layout: 'profile',
 });
 
-function sendMessage() {
-  messagesStore.createMessage(msg.value);
-}
 const isConnected = ref(false);
 const transport = ref('N/A');
 

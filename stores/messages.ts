@@ -2,7 +2,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const messages = ref();
   const activeChat = ref(0);
   interface Message {
-    message: string;
+    text: string;
     recipient: string;
   }
   // const categories = ref<Category[]>()
@@ -28,7 +28,7 @@ export const useMessagesStore = defineStore('messages', () => {
         needToken: true,
         options: {
           method: 'POST',
-          body: { message: msg.message, recipient: msg.recipient },
+          body: { message: msg.text, recipient: msg.recipient },
         },
       });
       const value = data.value;
