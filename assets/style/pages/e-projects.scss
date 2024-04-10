@@ -1,7 +1,7 @@
 .modal-screen {
+  position: fixed;
   inset: 0;
   z-index: 50000;
-  position: fixed;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -19,14 +19,6 @@
   border-radius: 0 0 12px 12px;
 }
 
-input {
-  width: 100%;
-  height: 40px;
-  padding: 0 15px;
-  margin: 0;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-}
 
 .bid-label {
   display: block;
@@ -156,9 +148,9 @@ input {
 
 .modal-message {
   position: relative;
+  inset: 0;
   width: 100%;
   max-width: 500px;
-  inset: 0;
   margin: 50px auto;
   background-color: #fff;
   border-radius: 0 0 12px 12px;
@@ -182,12 +174,12 @@ input {
 }
 
 .modal-wrapper-message {
-  padding: 20px;
   position: relative;
   inset: 0;
   z-index: 1111;
   max-width: 750px;
   max-height: 600px;
+  padding: 20px;
   margin: auto;
   overflow: auto;
   border-radius: 0 0 12px 12px;

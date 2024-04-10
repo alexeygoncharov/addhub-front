@@ -23,7 +23,7 @@
         </button>
       </div>
 
-      <a href="" class="notification-item" v-for="i in 4" :key="i">
+      <a v-for="i in 4" :key="i" href="" class="notification-item">
         <div class="avatar">
           <img
             :src="`/img/notification-icon${i + 1 > 1 && i + 1}.svg`"
