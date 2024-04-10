@@ -133,7 +133,10 @@
                   <div class="about-client__item-desc">UI/UX</div>
                 </div>
               </div> -->
-              <button class="about-client__btn m-btn m-btn-blue-outline">
+              <button
+                class="about-client__btn m-btn m-btn-blue-outline"
+                @click="sendMessage(item?.createdBy._id)"
+              >
                 <span>{{
                   type === 'service' ? `Напишите мне` : 'Написать заказчику'
                 }}</span>
@@ -151,6 +154,17 @@
 import type { projectsItem, serviceItem } from '~/stores/catalog/catalog.type';
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
+const messagesStore = useMessagesStore();
+const msg = ref({
+  message: 'шалом ариец',
+  recipient: '',
+});
+
+function sendMessage(userId: string) {
+  console.log('userId = ', userId);
+  msg.value.recipient = userId;
+  messagesStore.createMessage(msg.value);
+}
 const props = defineProps<
   | {
       item: serviceItem | undefined;

@@ -61,6 +61,7 @@
     "nouislider": "^15.7.1",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
+    "socket.io-client": "^4.7.5",
     "swiper": "^11.0.7",
     "typescript": "^5.4.2",
     "typescript-eslint": "^7.3.1",
