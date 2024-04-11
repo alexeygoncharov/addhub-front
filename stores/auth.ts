@@ -14,6 +14,7 @@ interface regResponse {
   roles: string[];
   activeRole: string;
   _id: string;
+  accessToken: string;
 }
 
 export const useAuthStore = defineStore('auth', () => {
@@ -59,8 +60,8 @@ export const useAuthStore = defineStore('auth', () => {
     );
     const value = data.value;
     if (value && !error.value) {
+      saveToken(value.result.accessToken, true);
       return value;
-      // console.log('Регистрация прошла успешно');
     }
     if (error.value) {
       useToast({

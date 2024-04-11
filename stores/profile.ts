@@ -23,22 +23,8 @@ export const useProfileStore = defineStore('profile', () => {
   }
 
   async function editProfile(form: EditProfile) {
-    const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
-      options: {
-        method: 'PUT',
-        body: form,
-      },
-      needToken: true,
-    });
-    const value = data.value;
-    if (value) {
-      profile.value = value.result;
-    }
-  }
-
-  async function changePassword(form: changePassword) {
-    const { data } = await apiFetch<ApiResponse<any>>(
-      `/api/users/change_password`,
+    const { data, error } = await apiFetch<ApiResponse<Profile>>(
+      `/api/users/me/`,
       {
         options: {
           method: 'PUT',
@@ -48,6 +34,45 @@ export const useProfileStore = defineStore('profile', () => {
       },
     );
     const value = data.value;
+    if (data.value && !error) {
+      const value = data.value;
+      useToast({
+        message: 'Данные успешно сохранены',
+        type: 'success',
+      });
+      return value;
+    } else {
+      useToast({
+        message: 'Ошибка при сохранении',
+        type: 'error',
+      });
+    }
+  }
+
+  async function changePassword(form: changePassword) {
+    const { data, error } = await apiFetch<ApiResponse<any>>(
+      `/api/users/change_password`,
+      {
+        options: {
+          method: 'PUT',
+          body: form,
+        },
+        needToken: true,
+      },
+    );
+    if (data.value && !error) {
+      const value = data.value;
+      useToast({
+        message: 'Новый пароль успешно сохранен',
+        type: 'success',
+      });
+      return value;
+    } else {
+      useToast({
+        message: 'Ошибка при сохранении',
+        type: 'error',
+      });
+    }
   }
 
   // getFavorites();

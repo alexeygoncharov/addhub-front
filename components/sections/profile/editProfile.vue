@@ -201,7 +201,6 @@ const form = ref({
   avatar: userStore.user?.avatar,
   name: userStore.user?.name,
   email: userStore.user?.email,
-  user_name: userStore.user?.user_name,
   phone_number: userStore.user?.phone_number,
   slogan: userStore.user?.slogan,
   gender: userStore.user?.gender,
@@ -215,7 +214,6 @@ async function submitProfile() {
     avatar: form.value?.avatar,
     name: form.value?.name,
     email: form.value?.email,
-    user_name: form.value?.user_name,
     phone_number: form.value?.phone_number,
     slogan: form.value?.slogan,
     gender: form.value?.gender,
@@ -223,6 +221,19 @@ async function submitProfile() {
     city: form.value?.city,
     about_me: form.value?.about_me,
   };
-  await profileStore.editProfile(data);
+  await profileStore
+    .editProfile(data)
+    .then(() => {
+      useToast({
+        message: 'Данные сохранены',
+        type: 'success',
+      });
+    })
+    .catch(() => {
+      useToast({
+        message: 'Ошибка при сохранении',
+        type: 'error',
+      });
+    });
 }
 </script>
