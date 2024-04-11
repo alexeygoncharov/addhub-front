@@ -20,8 +20,7 @@ interface regResponse {
 export const useAuthStore = defineStore('auth', () => {
   const token = ref(null) as Ref<string | null>;
   const isLoading = ref(false);
-  const isAuthenticated = computed(() => useCookie('authToken').value !== null);
-
+  const isAuthenticated = computed(() => !!useCookie('authToken').value);
   async function login(email: string, password: string, rememberMe: boolean) {
     const { data, error } = await apiFetch<ApiResponse<string>>(
       '/api/auth/login',
