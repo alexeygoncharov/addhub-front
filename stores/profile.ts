@@ -33,8 +33,7 @@ export const useProfileStore = defineStore('profile', () => {
         needToken: true,
       },
     );
-    const value = data.value;
-    if (data.value && !error) {
+    if (data.value && !error.value) {
       const value = data.value;
       useToast({
         message: 'Данные успешно сохранены',
@@ -49,6 +48,23 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
+  async function updateAvatar(filename: string) {
+    const { data, error } = await apiFetch<ApiResponse<Profile>>(
+      `/api/users/me/`,
+      {
+        options: {
+          method: 'PUT',
+          body: { avatar: filename },
+        },
+        needToken: true,
+      },
+    );
+    if (data.value && !error.value) {
+      const value = data.value;
+      return value;
+    }
+  }
+
   async function changePassword(form: changePassword) {
     const { data, error } = await apiFetch<ApiResponse<any>>(
       `/api/users/change_password`,
@@ -60,7 +76,7 @@ export const useProfileStore = defineStore('profile', () => {
         needToken: true,
       },
     );
-    if (data.value && !error) {
+    if (data.value && !error.value) {
       const value = data.value;
       useToast({
         message: 'Новый пароль успешно сохранен',
@@ -80,6 +96,7 @@ export const useProfileStore = defineStore('profile', () => {
     favorites,
     changePassword,
     editProfile,
+    updateAvatar,
     profile,
   };
 });

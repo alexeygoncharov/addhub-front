@@ -164,8 +164,10 @@ const { open, onChange } = useFileDialog({
 });
 
 const deleteAvatar = () => {
-  if (form.value.avatar) commonStore.deleteFile(form.value.avatar);
-  // await refreshNuxtData();
+  if (form.value.avatar)
+    commonStore.deleteFile(form.value.avatar).then(() => {
+      form.value.avatar = '';
+    });
 };
 
 onChange((files) => {
@@ -176,7 +178,7 @@ onChange((files) => {
       form.value.avatar = filename;
       formData.delete('file');
       formData.append('avatar', filename);
-      profileStore.editProfile({ avatar: filename });
+      profileStore.updateAvatar(filename);
     });
   }
 });
@@ -221,19 +223,6 @@ async function submitProfile() {
     city: form.value?.city,
     about_me: form.value?.about_me,
   };
-  await profileStore
-    .editProfile(data)
-    .then(() => {
-      useToast({
-        message: 'Данные сохранены',
-        type: 'success',
-      });
-    })
-    .catch(() => {
-      useToast({
-        message: 'Ошибка при сохранении',
-        type: 'error',
-      });
-    });
+  await profileStore.editProfile(data);
 }
 </script>
