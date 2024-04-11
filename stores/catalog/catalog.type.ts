@@ -24,10 +24,8 @@ export interface User {
   name: string;
   surname: string;
   email: string;
-  password: string;
   roles: string[];
   active_role: 'buyer' | 'seller';
-  balance: number;
   status: string;
   to_create_disputes: string;
   online_status: string;
@@ -88,11 +86,16 @@ export interface servicesItem extends catalogItem {
 export interface projectsItem extends catalogItem {
   category: string;
   constructor: null; // TODO
-  bids: Bid[];
+  bids: BidList[];
   files: string[];
 }
-export interface projectItem extends projectsItem {
+
+export interface projectItem extends catalogItem {
   views: number;
+  bids: Bid[];
+  category: string;
+  constructor: null; // TODO
+  files: string[];
 }
 
 export interface freelancersItem {

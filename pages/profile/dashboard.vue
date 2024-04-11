@@ -1,5 +1,8 @@
 <template>
-  <SectionsProfileDashboard v-if="user?.active_role !== 'buyer'">
+  <SectionsProfileDashboard
+    v-if="user?.active_role !== 'buyer' && user"
+    :user="user"
+  >
     <div class="dashboard-card _big">
       <div class="dashboard-card__top">
         <div class="dashboard-card__title text17 medium-text">
@@ -98,89 +101,17 @@
       </div>
     </div>
   </SectionsProfileDashboard>
-  <SectionsProfileDashboard v-else>
+  <SectionsProfileDashboard v-else :user="user">
     <div class="dashboard-card _big2">
       <div class="dashboard-card__top">
         <div class="dashboard-card__title text17 medium-text">Мои проекты</div>
-        <a href="" class="dashboard-card__link">
+        <nuxtLink to="/profile/items" class="dashboard-card__link">
           <span>Смотреть все</span>
-        </a>
+        </nuxtLink>
       </div>
       <div class="dashboard-card__bottom">
         <div class="dashboard-card__projects">
-          <div class="project-card">
-            <div class="project-card__col1">
-              <div class="project-card__title">
-                Мобильное приложение для доставки еды
-              </div>
-              <div class="reply-row__props">
-                <div class="reply-row__prop">
-                  <img src="/img/marker2.svg" alt="" />
-                  <span>Москва, Россия</span>
-                </div>
-                <div class="reply-row__prop">
-                  <img src="/img/calendar2.svg" alt="" />
-                  <span>2 часа назад</span>
-                </div>
-                <div class="reply-row__prop">
-                  <img src="/img/reply.svg" alt="" />
-                  <span>5 предложений</span>
-                </div>
-              </div>
-            </div>
-            <div class="project-card__col2">
-              <div class="project-card__type">Веб-дизайн и приложений</div>
-            </div>
-            <div class="project-card__col3">
-              <div class="project-card__price">₽500000</div>
-            </div>
-            <div class="project-card__col4">
-              <div class="project-card__nums">
-                <div class="project-card__count">
-                  <span>5</span>
-                </div>
-                <div class="project-card__nums-title">новых предложений</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
-            <div class="project-card__col1">
-              <div class="project-card__title">
-                Мобильное приложение для доставки еды
-              </div>
-              <div class="reply-row__props">
-                <div class="reply-row__prop">
-                  <img src="/img/marker2.svg" alt="" />
-                  <span>Москва, Россия</span>
-                </div>
-                <div class="reply-row__prop">
-                  <img src="/img/calendar2.svg" alt="" />
-                  <span>2 часа назад</span>
-                </div>
-                <div class="reply-row__prop">
-                  <img src="/img/reply.svg" alt="" />
-                  <span>5 предложений</span>
-                </div>
-              </div>
-            </div>
-            <div class="project-card__col2">
-              <div class="project-card__type">Веб-дизайн и приложений</div>
-            </div>
-            <div class="project-card__col3">
-              <div class="project-card__price">₽500000</div>
-            </div>
-            <div class="project-card__col4">
-              <div class="project-card__nums">
-                <div class="project-card__count">
-                  <span>5</span>
-                </div>
-                <div class="project-card__nums-title">новых предложений</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="project-card">
+          <div v-for="i in 3" :key="i" class="project-card">
             <div class="project-card__col1">
               <div class="project-card__title">
                 Мобильное приложение для доставки еды
@@ -224,7 +155,7 @@
 <script setup lang="ts">
 import type { ApexOptions } from 'apexcharts';
 import { OnClickOutside } from '@vueuse/components';
-definePageMeta({ layout: 'profile' });
+definePageMeta({ layout: 'profile', middleware: 'authenticated' });
 const userStore = useUserStore();
 const user = storeToRefs(userStore).user;
 const [isDropdownOpen, toggleDropdown] = useToggle();

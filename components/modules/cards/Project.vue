@@ -3,10 +3,12 @@
     <div class="service-card2__img">
       <div v-if="data" class="avatar">
         <img
-          :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
+          v-if="data.createdBy.avatar"
+          :src="baseUrl() + data.createdBy.avatar"
           alt=""
           crossorigin="anonymous"
         />
+        <Avatar v-else :size="80" :name="data.createdBy.name" />
         <span
           v-if="data.createdBy.online_status === 'online'"
           class="service-card__user-online"
@@ -72,42 +74,40 @@
         <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
         <UISkeleton v-else class="service-card2__price--skeleton"></UISkeleton>
       </div>
-      <NuxtLink
-        v-if="data && !isSendBid"
-        :to="`/bid/${data?._id}`"
+      <div
+        v-if="data && !userBid"
         class="service-card2__btn m-btn m-btn-blue3"
+        @click="showBid = true"
       >
         Оставить отклик
-      </NuxtLink>
-      <NuxtLink
-        v-else-if="data && isSendBid"
-        :to="`/bid/${data?._id}`"
-        class="service-card2__btn m-btn m-btn-blue3"
-      >
+      </div>
+      <div v-else-if="data" class="service-card2__btn m-btn m-btn-blue3">
         Уже откликнулись
-      </NuxtLink>
+      </div>
       <UISkeleton
         v-else
         class="service-card2__btn service-card2__btn--skeleton"
       ></UISkeleton>
     </div>
+    <ModulesProductBidModal
+      v-if="showBid && data"
+      :id="data?._id"
+      v-model="showBid"
+      v-model:item="data"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
+const showBid = ref(false);
 const commonStore = useCommonStore();
 const userStore = useUserStore();
-const props = defineProps({
-  data: {
-    type: Object as PropType<projectsItem | undefined>,
-    default: undefined,
-  },
-});
+const data = defineModel<projectsItem>();
 
 // TODO доработать запрос на бэке
-const isSendBid = computed(() => {
-  return props.data?.bids.find((bid) => {
+const userBid = computed(() => {
+  return data.value?.bids.find((bid) => {
     return bid.user === userStore.user?._id;
   });
 });

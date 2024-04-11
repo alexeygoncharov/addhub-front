@@ -1,13 +1,16 @@
 <template>
-  <div class="admin-top">
-    <div class="text32 medium-text">Новый проект</div>
-  </div>
+  <ModulesProfileTop>{{
+    user?.active_role === 'buyer' ? `Новый проект` : `Новая услуга`
+  }}</ModulesProfileTop>
 
   <div class="profile-item">
     <div class="profile-item__bottom _pt0">
       <div class="profile-item__grid">
         <fieldset class="fg _full">
-          <label>Заголовок проекта</label>
+          <label
+            >Заголовок
+            {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
+          >
           <input type="text" placeholder="Заголовок" />
         </fieldset>
         <fieldset class="fg _full">
@@ -15,10 +18,6 @@
             <label>Описание</label>
           </label>
           <textarea placeholder="Текст описания"></textarea>
-        </fieldset>
-        <fieldset class="fg _full">
-          <label>Заголовок проекта</label>
-          <input type="text" placeholder="Заголовок" />
         </fieldset>
         <fieldset class="fg">
           <label>Категория</label>
@@ -240,6 +239,14 @@
           </div>
         </fieldset>
 
+        <fieldset class="fg _full">
+          <label>Объём проекта(заголовок)</label>
+          <input type="text" placeholder="Заголовок" />
+        </fieldset>
+        <fieldset class="fg _full">
+          <label>Объём проекта(описание)</label>
+          <input type="text" placeholder="Описание" />
+        </fieldset>
         <fieldset class="fg">
           <label>Город</label>
           <div class="m-select" data-placeholder="Выбрать">
@@ -279,7 +286,7 @@
     </div>
   </div>
 
-  <div class="profile-item">
+  <div v-if="user?.active_role === 'buyer'" class="profile-item">
     <div class="profile-item__top">
       <div class="text17 medium-text">Загрузить файлы</div>
     </div>
@@ -313,12 +320,20 @@
       </div>
     </div>
   </div>
+  <div v-else class="profile-item__nav">
+    <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
+      <span>Опубликовать</span>
+    </button>
+  </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
   layout: 'profile',
+  middleware: 'authenticated',
 });
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 </script>
 
 <style scoped lang="scss"></style>

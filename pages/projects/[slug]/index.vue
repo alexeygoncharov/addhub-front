@@ -12,9 +12,9 @@
       <template #items>
         <div v-if="catalogStore.items?.length" class="services-items">
           <ModulesCardsProject
-            v-for="item in catalogStore.items"
-            :key="item._id"
-            :data="item"
+            v-for="(el, index) in catalogStore.items"
+            :key="catalogStore.items[index]._id"
+            v-model="catalogStore.items[index]"
           />
         </div>
 

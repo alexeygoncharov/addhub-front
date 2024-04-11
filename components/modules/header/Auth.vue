@@ -13,35 +13,53 @@
         v-if="searchQuery && activeSearch"
         class="header-action__search-list"
       >
-        <div v-if="items.length">
-          <NuxtLink
-            v-for="item in items"
-            :key="item._id"
-            :to="`/services/${item.category.slug}/${item._id}`"
-            class="header-action__search-item"
-            @click="() => (searchQuery = '')"
-          >
-            <div class="header-action__search-item-img">
-              <NuxtImg
-                :src="baseUrl() + item.photos[0]"
-                crossorigin="anonymous"
-                alt="preview"
-              />
-              <p>{{ item.title }}</p>
-            </div>
-            <p>{{ item.price }}</p>
-          </NuxtLink>
-        </div>
-        <div v-else class="header-action__stub">Ничего не найдено</div>
+        <NuxtLink
+          v-for="item in items"
+          :key="item._id"
+          :to="`/services/${item.category.slug}/${item._id}`"
+          class="header-action__search-item"
+          @click="() => (searchQuery = '')"
+        >
+          <div class="header-action__search-item-img">
+            <NuxtImg
+              :src="baseUrl() + item.photos[0]"
+              crossorigin="anonymous"
+              alt="preview"
+            />
+            <p>{{ item.title }}</p>
+          </div>
+          <p>{{ item.price }}</p>
+        </NuxtLink>
+        <p v-if="!items.length" class="header-action__search-item">
+          Ничего не найдено
+        </p>
       </div>
     </div>
   </OnClickOutside>
   <div v-if="isAuthenticated && !isLoading" class="header-action2">
-    <button v-if="profile" class="header-action__btn m-btn m-btn-blue-outline">
+    <NuxtLink
+      v-if="profile"
+      to="/profile/items/create"
+      class="header-action__btn m-btn m-btn-blue-outline"
+    >
       <span>{{
         user?.active_role === 'seller' ? 'Создать услугу' : 'Создать проект'
       }}</span>
-    </button>
+    </NuxtLink>
+    <!-- <div class="admin-header__type">
+            <div class="m-switch">
+              <input
+                :checked="user?.active_role !== 'seller'"
+                type="checkbox"
+                disabled
+              />
+              <label></label>
+              <div class="text14">
+                <span class="_view1">Я фрилансер</span>
+                <span class="_view2">Я заказчик</span>
+              </div>
+            </div>
+          </div> -->
     <nuxtLink to="/profile/notifications" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
@@ -56,10 +74,12 @@
     </nuxtLink>
     <nuxtLink to="/profile" class="header-action2__user avatar">
       <NuxtImg
+        v-if="user?.avatar"
         crossorigin="anonymous"
         :src="baseUrl() + user?.avatar"
         alt="user avatar"
       />
+      <Avatar v-else :size="80" :name="user?.name" />
     </nuxtLink>
     <button class="burger" @click="toggleMenu">
       <NuxtImg src="/img/burger.svg" alt="" class="_view1" />
@@ -82,7 +102,7 @@ const commonStore = useCommonStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-const props = defineProps<{ profile: boolean }>();
+const props = defineProps<{ profile?: boolean }>();
 const searchQuery = ref('');
 const activeSearch = ref(false);
 const favorites = storeToRefs(userStore).favorites;

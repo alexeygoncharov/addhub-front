@@ -25,7 +25,10 @@
     </button>
     <NuxtLink
       v-if="data"
-      :to="data && `/services/${data.category.slug}/${data?._id}`"
+      :to="
+        data &&
+        `/services/${typeof data.category === 'string' ? commonStore.categories?.find((el) => el._id === data?.category)?.slug : data.category.slug}/${data?._id}`
+      "
       class="service-card__slider _nested-slider"
     >
       <Swiper
@@ -118,7 +121,10 @@
 
       <NuxtLink
         v-if="data"
-        :to="data && `/services/${data.category.slug}/${data?._id}`"
+        :to="
+          data &&
+          `/services/${typeof data.category === 'string' ? commonStore.categories?.find((el) => el._id === data?.category)?.slug : data.category.slug}/${data?._id}`
+        "
         class="service-card__title text17 medium-text"
       >
         {{ data.title }}
@@ -154,10 +160,12 @@
         <NuxtLink to="/services/all" class="service-card__user _flex">
           <div class="avatar">
             <img
-              :src="`${$config.public.apiBase}/${data.createdBy.avatar}`"
+              v-if="data.createdBy.avatar"
+              :src="baseUrl() + data.createdBy.avatar"
               alt=""
               crossorigin="anonymous"
             />
+            <Avatar v-else :size="80" :name="data.createdBy.name" />
 
             <span
               v-if="data.createdBy.online_status === 'online'"
@@ -190,6 +198,7 @@
 <script setup lang="ts">
 import type { servicesItem, serviceItem } from '~/stores/catalog/catalog.type';
 const { favorites } = storeToRefs(useUserStore());
+const commonStore = useCommonStore();
 const { toggleFavorite } = useUserStore();
 const prevBtn = ref<HTMLDivElement | null>(null);
 const nextBtn = ref<HTMLDivElement | null>(null);

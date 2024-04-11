@@ -86,7 +86,7 @@ const initSlider = () => {
       } else {
         priceMax.value = value;
       }
-    }, 1000);
+    }, 300);
   });
 };
 const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();

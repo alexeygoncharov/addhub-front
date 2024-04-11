@@ -25,12 +25,18 @@ export const useBidsStore = defineStore('bids', () => {
     }
   }
 
-  async function createBid(id: string, price: number, term: number) {
+  async function createBid(
+    id: string,
+    price: number,
+    term: number,
+    description: string,
+  ) {
     try {
-      const { data } = await apiFetch<ApiResponse<Bid>>(
+      const { data } = await apiFetch<ApiResponse<BidList>>(
         `/api/projects/${id}/bids`,
         {
-          options: { method: 'POST', body: { price, term } },
+          options: { method: 'POST', body: { price, term, description } },
+          needToken: true,
         },
       );
       const value = data.value;

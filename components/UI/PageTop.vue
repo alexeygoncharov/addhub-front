@@ -10,7 +10,13 @@
           <div v-if="items" class="page-top__items _gap10">
             <div class="page-top__user">
               <div class="avatar">
-                <img src="/img/avatar.webp" alt="" />
+                <img
+                  v-if="items.createdBy.avatar"
+                  :src="baseUrl() + items.createdBy.avatar"
+                  alt=""
+                  crossorigin="anonymous"
+                />
+                <Avatar v-else :size="80" :name="items.createdBy.name" />
                 <span
                   v-if="items.createdBy.online_status === 'online'"
                   class="service-card__user-online"
@@ -34,21 +40,21 @@
               <span>{{ items.views }}</span>
             </div>
           </div>
-          <div v-if="projectItem" class="page-top__items _gap10">
+          <div v-if="currentItem" class="page-top__items _gap10">
             <div class="page-top__item">
               <img src="/img/marker.svg" alt="" />
-              <span>{{ projectItem.address.city.title }}</span>
+              <span>{{ currentItem.address.city.title }}</span>
             </div>
             <div class="page-top__item">
               <img src="/img/calendar.svg" alt="" />
               <span class="_view1">{{
-                new Date(projectItem.createdAt).toISOString().split('T')[0]
+                new Date(currentItem.createdAt).toISOString().split('T')[0]
               }}</span>
               <!-- <span class="_view2">Декабрь 2, 2023</span> -->
             </div>
             <div class="page-top__item">
               <img src="/img/eye.svg" alt="" />
-              <span>{{ projectItem.views }}</span>
+              <span>{{ currentItem.views }}</span>
             </div>
           </div>
         </div>
@@ -100,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import type { projectsItem } from '~/stores/catalog/catalog.type';
+import type { projectItem } from '~/stores/catalog/catalog.type';
 const props = defineProps({
   button: {
     type: Object as PropType<{ text: string; link: string }>,
@@ -130,8 +136,8 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  projectItem: {
-    type: Object as PropType<projectsItem>,
+  currentItem: {
+    type: Object as PropType<projectItem>,
     default: undefined,
   },
   help: {
