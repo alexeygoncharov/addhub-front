@@ -6,11 +6,13 @@ export const useMessagesStore = defineStore('messages', () => {
     recipient: string;
   }
   // const categories = ref<Category[]>()
-  async function fetchMessageList() {
+  async function fetchMessageList(userId: string) {
     try {
       const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
         needToken: true,
-        options: {},
+        options: {
+          body: { second_side: userId },
+        },
       });
       const value = data.value;
       if (value) {
@@ -20,6 +22,17 @@ export const useMessagesStore = defineStore('messages', () => {
     } catch (error) {
       // console.error('Ошибка при загрузке городов', error);
     }
+  }
+
+  async function fetchChats() {
+    const { data } = await apiFetch<ApiResponse<any>>(
+      `/api/messages/my_chats`,
+      {
+        needToken: true,
+        options: {},
+      },
+    );
+    return data.value?.result;
   }
 
   async function createMessage(msg: Message) {
@@ -40,7 +53,13 @@ export const useMessagesStore = defineStore('messages', () => {
     }
   }
 
-  return { fetchMessageList, createMessage, messages, activeChat };
+  return {
+    fetchMessageList,
+    createMessage,
+    fetchChats,
+    messages,
+    activeChat,
+  };
 });
 
 if (import.meta.hot) {

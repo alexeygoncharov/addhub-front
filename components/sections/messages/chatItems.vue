@@ -1,16 +1,16 @@
 <template>
   <div class="chat-items">
     <div
-      v-for="i in 10"
-      :key="i"
+      v-for="item in chats"
+      :key="item"
       class="chat-item"
-      @click="messageStore.activeChat = i"
+      @click="selectChat(item)"
     >
       <div class="avatar">
-        <img src="/img/avatar17.webp" alt="" />
+        <img :src="getAvatarUrl(item.user.avatar)" alt="" />
       </div>
       <div class="chat-item__info">
-        <div class="chat-item__name">Андрей Ветров</div>
+        <div class="chat-item__name">{{ item.user.name }}</div>
         <div class="chat-item__prof">Руководитель департамента</div>
       </div>
       <div class="chat-item__nums">
@@ -18,8 +18,14 @@
       </div>
     </div>
   </div>
-  <SectionsMessagesChatContent></SectionsMessagesChatContent>
 </template>
 <script setup lang="ts">
 const messageStore = useMessagesStore();
+const chats = await messageStore.fetchChats();
+
+function selectChat(item: any) {
+  messageStore.activeChat = item;
+  // console.log(item);
+  messageStore.fetchMessageList(item.user._id);
+}
 </script>

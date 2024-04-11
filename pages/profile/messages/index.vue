@@ -24,9 +24,4 @@ const messagesStore = useMessagesStore();
 definePageMeta({
   layout: 'profile',
 });
-
-onMounted(() => {
-  messagesStore.fetchMessageList();
-  // console.log('messages ', messagesStore.messages);
-});
 </script>

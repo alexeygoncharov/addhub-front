@@ -2,7 +2,12 @@ import { io } from 'socket.io-client';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
-  const socket = io('https://hub.rdcd.ru', { transports: ['polling'] });
+  const socket = io('https://hub.rdcd.ru', {
+    extraHeaders: {
+      Authorization: `Bearer ${authToken}`,
+    },
+    transports: ['polling'],
+  });
   const isConnected = ref(false);
   const transport = ref('N/A');
   function onConnect() {

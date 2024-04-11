@@ -1,7 +1,7 @@
 <template>
   <div class="chat__content">
     <div
-      v-for="i in 10"
+      v-for="i in messagesStore.messages"
       :key="i"
       class="chat-content"
       :class="[
@@ -132,6 +132,7 @@
 </template>
 <script setup lang="ts">
 const messagesStore = useMessagesStore();
+
 const message = ref({ recipient: '', text: '' });
 function sendMessage() {
   messagesStore.createMessage(message.value);
