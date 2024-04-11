@@ -1,6 +1,6 @@
 export const useMessagesStore = defineStore('messages', () => {
   const messages = ref();
-  const activeChat = ref(0);
+  const activeChat = ref();
   interface Message {
     text: string;
     recipient: string;
@@ -11,9 +11,10 @@ export const useMessagesStore = defineStore('messages', () => {
       const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
         needToken: true,
         options: {
-          body: { second_side: userId },
+          query: { second_side: userId },
         },
       });
+      console.log('data = ', data);
       const value = data.value;
       if (value) {
         messages.value = data.value;

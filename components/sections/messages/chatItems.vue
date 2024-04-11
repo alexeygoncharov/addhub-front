@@ -4,7 +4,7 @@
       v-for="item in chats"
       :key="item"
       class="chat-item"
-      @click="selectChat(item)"
+      @click="selectChat(item.user)"
     >
       <div class="avatar">
         <img :src="getAvatarUrl(item.user.avatar)" alt="" />
@@ -23,9 +23,8 @@
 const messageStore = useMessagesStore();
 const chats = await messageStore.fetchChats();
 
-function selectChat(item: any) {
-  messageStore.activeChat = item;
-  // console.log(item);
-  messageStore.fetchMessageList(item.user._id);
+function selectChat(respondent: any) {
+  messageStore.activeChat = respondent;
+  messageStore.fetchMessageList(respondent._id);
 }
 </script>

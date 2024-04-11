@@ -1,22 +1,22 @@
 <template>
   <div class="chat__content">
     <div
-      v-for="i in messagesStore.messages"
+      v-for="i in 1"
       :key="i"
       class="chat-content"
       :class="[
         { _type2: i % 2 === 0 },
-        { _active: messagesStore.activeChat == i },
+        { _active: !!messagesStore.activeChat },
       ]"
       data-id="1"
     >
       <div class="chat-content__top">
         <div class="chat-user">
           <div class="avatar">
-            <img src="/img/avatar17.webp" alt="" />
+            <img src="" alt="" />
           </div>
           <div class="chat-user__info">
-            <div class="chat-user__name">Андрей Ветров</div>
+            <div class="chat-user__name"></div>
             <div class="chat-user__status">
               <span>онлайн</span>
             </div>
@@ -48,55 +48,7 @@
           </button>
         </div>
       </div>
-
-      <div class="messages">
-        <div class="messages__split">
-          <div class="messages__split-text text14">
-            Андрей Ветров открыл диспут
-          </div>
-        </div>
-
-        <div class="message-item">
-          <div class="message-user">
-            <div class="avatar">
-              <img src="/img/avatar17.webp" alt="" />
-            </div>
-            <div class="message-user__name">Андрей Ветров</div>
-            <div class="message-user__time">
-              <span>35 мин</span>
-            </div>
-          </div>
-
-          <div class="message-item__content">
-            <div class="message-item__text">
-              Не смогли найти общий язык, но часть проекта уже выполнена,
-              поэтому пришли к обоюдному согласию разделить бюджет проекта
-              50/50. Прошу выплатить 50% от бюджета исполнителю, 50% вернуть
-              мне.
-            </div>
-          </div>
-        </div>
-
-        <div class="message-item _judge">
-          <div class="message-user">
-            <div class="avatar">
-              <img src="/img/avatar20.webp" alt="" />
-            </div>
-            <div class="message-user__name">Арбитраж</div>
-            <div class="message-user__time">
-              <span>35 мин</span>
-            </div>
-          </div>
-
-          <div class="message-item__content">
-            <div class="message-item__text">
-              Уважаемый исполнитель, вы принимаете условия Заказчика на выплату
-              вознаграждения в размере 50%?
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <SectionsMessagesMessage></SectionsMessagesMessage>
       <div class="chat-nav _flex">
         <div class="chat-nav__field">
           <textarea placeholder="Напишите сообщение"></textarea>
