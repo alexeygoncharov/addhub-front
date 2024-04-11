@@ -393,11 +393,13 @@ const itemId = route.params.serviceId;
 const { data } = await apiFetch<ApiResponse<serviceItem>>(
   `/api/services/${itemId}`,
 );
-setTimeout(
-  () =>
-    apiFetch(`/api/views/service/${itemId}`, { options: { method: 'POST' } }),
-  2000,
-);
+if (process.client) {
+  setTimeout(
+    () =>
+      apiFetch(`/api/views/service/${itemId}`, { options: { method: 'POST' } }),
+    2000,
+  );
+}
 const value = data.value;
 if (value) {
   item.value = value.result;

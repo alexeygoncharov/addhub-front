@@ -1,5 +1,5 @@
 <template>
-  <ModulesItem :item="item" type="project">
+  <ModulesItem :item="item" type="project" @submit="showBid = true">
     <template #item-content>
       <div class="stat">
         <!-- <UIStatCard
@@ -58,7 +58,7 @@
                   :src="baseUrl() + bid.user.avatar"
                   alt=""
                 />
-                <span v-else>{{ bid.user.name[0] }}</span>
+                <Avatar v-else :size="80" :name="bid.user.name" />
                 <span class="service-card__user-online"></span>
               </div>
               <div class="offer-card__info">
@@ -97,23 +97,25 @@
         </div>
       </div>
 
-      <div class="freelancer-req">
-        <div class="text20 medium-text">Предложить свои услуги</div>
+      <div v-if="userBid" class="freelancer-req">
+        <div class="text20 medium-text">Ваш отклик</div>
         <div class="freelancer-req__grid">
           <fieldset class="fg">
-            <label>Ваша цена</label>
-            <input type="text" />
+            <label>Цена</label>
+            <p>{{ userBid?.price }}</p>
           </fieldset>
           <fieldset class="fg">
             <label>Срок</label>
-            <input type="text" />
+            <p>{{ userBid?.term }}</p>
           </fieldset>
           <fieldset class="fg _full">
-            <label>Опишите ваше предложение</label>
-            <textarea></textarea>
+            <label>Сопроводительное письмо</label>
+            <p>
+              {{ userBid?.description }}
+            </p>
           </fieldset>
         </div>
-        <div class="freelancer-req__items">
+        <!-- <div class="freelancer-req__items">
           <div class="req-answer">
             <input type="radio" name="req" />
             <div class="req-answer__inner">
@@ -152,21 +154,36 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </template>
   </ModulesItem>
+  <ModulesProductBidModal
+    v-show="showBid"
+    :id="itemId"
+    v-model="showBid"
+    @new-bid="updateProject()"
+  />
 </template>
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-const item = ref<projectsItem>();
+const showBid = ref(false);
+// TODO доработать запрос на бке
+const userBid = computed(() => {
+  return item.value?.bids.find((bid) => {
+    return bid.user._id === userStore.user?._id;
+  });
+});
+
+const item = ref<projectItem>();
 const route = useRoute();
-const itemId = route.params.projectId;
+const itemId = Array.isArray(route.params.projectId)
+  ? route.params.projectId[1]
+  : route.params.projectId;
 const title = ref('');
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-
 function getFileExtension(filename: string) {
   // Разбиваем строку с именем файла по точке
   const parts = filename.split('.');
@@ -179,19 +196,24 @@ function getFileName(filename: string) {
   // Возвращаем последний элемент массива (расширение файла)
   return parts[parts.length - 2].split('/')[1];
 }
-setTimeout(
-  () =>
-    apiFetch(`/api/views/project/${itemId}`, { options: { method: 'POST' } }),
-  2000,
-);
-const { data } = await apiFetch<ApiResponse<projectsItem>>(
-  `/api/projects/${itemId}`,
-);
-const value = data.value;
-if (value) {
-  item.value = value.result;
-  title.value = item.value?.title;
+if (process.client) {
+  setTimeout(
+    () =>
+      apiFetch(`/api/views/project/${itemId}`, { options: { method: 'POST' } }),
+    2000,
+  );
 }
+const updateProject = async () => {
+  const { data } = await apiFetch<ApiResponse<projectItem>>(
+    `/api/projects/${itemId}`,
+  );
+  const value = data.value;
+  if (value) {
+    item.value = value.result;
+    title.value = item.value?.title;
+  }
+};
+updateProject();
 useHead({
   title,
 });

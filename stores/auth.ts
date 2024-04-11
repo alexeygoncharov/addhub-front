@@ -12,6 +12,7 @@ interface userData {
 interface regResponse {
   email: string;
   roles: string[];
+  accessToken: string;
   activeRole: string;
   _id: string;
 }
@@ -59,10 +60,21 @@ export const useAuthStore = defineStore('auth', () => {
     );
     const value = data.value;
     if (value && !error.value) {
+      saveToken(value.result.accessToken, true);
       return value;
-      // console.log('Регистрация прошла успешно');
     }
     if (error.value) {
+      if (error.value.data.message === 'Email already exists') {
+        return useToast({
+          message: 'Пользователь с таким email уже существует',
+          type: 'error',
+        });
+      } else if (error.value.data.message === 'User name already exists') {
+        return useToast({
+          message: 'Пользователь с таким логином уже существует',
+          type: 'error',
+        });
+      }
       useToast({
         message: 'Непредвиденная ошибка ' + error.value.data.message,
         type: 'error',
@@ -76,7 +88,7 @@ export const useAuthStore = defineStore('auth', () => {
     useSessionStorage('authToken', '').value = null;
   }
 
-  function saveToken(tokenArg: string, rememberMe: boolean) {
+  async function saveToken(tokenArg: string, rememberMe: boolean) {
     token.value = tokenArg;
     if (rememberMe) {
       useCookie('authToken', {
@@ -84,6 +96,13 @@ export const useAuthStore = defineStore('auth', () => {
       }).value = tokenArg;
     } else {
       useSessionStorage('authToken', '').value = tokenArg;
+    }
+    await nextTick();
+    const authStore = useAuthStore();
+    const userStore = useUserStore();
+    authStore.loadToken();
+    if (authStore.token) {
+      userStore.getMyUser();
     }
   }
 

@@ -54,15 +54,34 @@ export const useCommonStore = defineStore('common', () => {
     }
   }
 
-  async function uploadFile(file: File) {
+  async function deleteFile(path: string) {
     const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+      needToken: true,
+      options: {
+        method: 'DELETE',
+        body: {
+          filePath: path,
+        },
+      },
+    });
+    const value = data.value;
+    if (value) {
+      return value.result;
+    }
+  }
+
+  async function uploadFile(file: FormData) {
+    const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+      needToken: true,
       options: {
         method: 'POST',
         body: file,
       },
     });
     const value = data.value;
-    return value?.result;
+    if (value) {
+      return value.result;
+    }
   }
   return {
     cities,
@@ -72,6 +91,7 @@ export const useCommonStore = defineStore('common', () => {
     fetchCategories,
     fetchCountries,
     uploadFile,
+    deleteFile,
   };
 });
 

@@ -30,6 +30,9 @@
           </div>
           <p>{{ item.price }}</p>
         </NuxtLink>
+        <p v-if="!items.length" class="header-action__search-item">
+          Ничего не найдено
+        </p>
       </div>
     </div>
   </OnClickOutside>
@@ -76,7 +79,7 @@
         :src="baseUrl() + user?.avatar"
         alt="user avatar"
       />
-      <span v-else>{{ user?.name[0] }}</span>
+      <Avatar v-else :size="80" :name="user?.name" />
     </nuxtLink>
     <button class="burger" @click="toggleMenu">
       <NuxtImg src="/img/burger.svg" alt="" class="_view1" />
@@ -99,7 +102,7 @@ const commonStore = useCommonStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-const props = defineProps<{ profile: boolean }>();
+const props = defineProps<{ profile?: boolean }>();
 const searchQuery = ref('');
 const activeSearch = ref(false);
 const favorites = storeToRefs(userStore).favorites;

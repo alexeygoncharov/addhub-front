@@ -4,11 +4,11 @@
       <div class="avatar">
         <img
           v-if="data.avatar"
-          :src="`${$config.public.apiBase}/${data.avatar}`"
+          :src="baseUrl() + data.avatar"
           alt=""
           crossorigin="anonymous"
         />
-        <span v-else>{{ data.name[0] }}</span>
+        <Avatar v-else :size="80" :name="data.name" />
         <span
           v-if="data.online_status === 'online'"
           class="service-card__user-online"

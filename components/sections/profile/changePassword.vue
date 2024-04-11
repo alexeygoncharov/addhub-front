@@ -32,8 +32,12 @@
       </div>
 
       <div class="profile-item__nav">
-        <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
-          <span @click.prevent="submitPassword">Сохранить</span>
+        <button
+          type="submit"
+          class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+          @click.prevent="submitPassword"
+        >
+          <span>Сохранить</span>
         </button>
       </div>
     </div>
@@ -50,14 +54,11 @@ const passwordForm = ref({
 });
 
 async function submitPassword() {
-  const formData = new FormData();
-  if (passwordForm.value.oldPassord)
-    formData.append('old_password', passwordForm.value.oldPassord);
-  if (passwordForm.value.newPassword)
-    formData.append('new_password', passwordForm.value.newPassword);
-  if (passwordForm.value.repeatPassword)
-    formData.append('repeat_new_password', passwordForm.value.repeatPassword);
-
-  await profileStore.changePassword(formData);
+  const data = {
+    oldPassord: passwordForm.value.oldPassord,
+    newPassword: passwordForm.value.newPassword,
+    repeatPassword: passwordForm.value.repeatPassword,
+  };
+  await profileStore.changePassword(data);
 }
 </script>

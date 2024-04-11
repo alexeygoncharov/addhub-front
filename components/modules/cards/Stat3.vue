@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="stat-card3__img">
-      <img src="icon" alt="" />
+      <img :src="icon" alt="" />
     </div>
   </div>
 </template>

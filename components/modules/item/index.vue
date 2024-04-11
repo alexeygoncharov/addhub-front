@@ -59,7 +59,7 @@
 
       <UIPageTop
         :items="type === 'service' ? (item as serviceItem) : undefined"
-        :project-item="type === 'project' ? (item as projectsItem) : undefined"
+        :project-item="type === 'project' ? (item as projectItem) : undefined"
         :title="item?.title"
       />
     </div>
@@ -78,11 +78,18 @@
                 <b>₽ </b> {{ item?.price }}
               </div>
               <slot name="item-volume"></slot>
-              <button class="offer-req__btn m-btn m-btn-blue m-btn-shadow">
+              <button
+                class="offer-req__btn m-btn m-btn-blue m-btn-shadow"
+                @click="emits('submit')"
+              >
                 <span>{{
                   type === 'service'
                     ? `Заказать за ${item?.price} ₽`
-                    : 'Откликнуться'
+                    : item &&
+                        'bids' in item &&
+                        item.bids.find((bid) => bid.user._id === user?._id)
+                      ? 'Отклик оставлен'
+                      : 'Откликнуться'
                 }}</span>
               </button>
             </div>
@@ -99,7 +106,7 @@
                     :src="baseUrl() + item?.createdBy.avatar"
                     alt=""
                   />
-                  <span v-else>{{ item?.createdBy.name[0] }}</span>
+                  <Avatar v-else :size="80" :name="item?.createdBy.name" />
                   <span
                     v-if="item?.createdBy.online_status === 'online'"
                     class="service-card__user-online"
@@ -150,16 +157,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { projectsItem, serviceItem } from '~/stores/catalog/catalog.type';
+import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
+const emits = defineEmits(['submit']);
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const props = defineProps<
   | {
       item: serviceItem | undefined;
       type: 'service';
     }
   | {
-      item: projectsItem | undefined;
+      item: projectItem | undefined;
       type: 'project';
     }
 >();
