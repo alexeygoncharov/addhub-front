@@ -48,7 +48,7 @@
           </button>
         </div>
       </div>
-      <SectionsMessagesMessage></SectionsMessagesMessage>
+      <SectionsMessagesChatMessages></SectionsMessagesChatMessages>
       <div class="chat-nav _flex">
         <div class="chat-nav__field">
           <textarea placeholder="Напишите сообщение"></textarea>

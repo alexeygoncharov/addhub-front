@@ -14,10 +14,9 @@ export const useMessagesStore = defineStore('messages', () => {
           query: { second_side: userId },
         },
       });
-      console.log('data = ', data);
       const value = data.value;
       if (value) {
-        messages.value = data.value;
+        messages.value = data.value?.result;
       }
       return data.value;
     } catch (error) {
