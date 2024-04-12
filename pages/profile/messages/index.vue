@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { useMessagesStore } from '~/stores/messages';
 const messagesStore = useMessagesStore();
+await messagesStore.fetchChats();
 definePageMeta({
   layout: 'profile',
 });

@@ -1,4 +1,4 @@
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
@@ -16,8 +16,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     socket.io.engine.on('upgrade', (rawTransport) => {
       transport.value = rawTransport.name;
     });
-
-    console.log('connected!!!', transport.value);
   }
 
   function onDisconnect() {

@@ -21,7 +21,7 @@
       <div class="avatar">
         <img src="" alt="" />
       </div>
-      <div class="message-user__name">{{ 'sdasdasdsa' }}</div>
+      <div class="message-user__name">{{ message._id }}</div>
       <div class="message-user__time">
         <span>35 мин</span>
       </div>
@@ -35,7 +35,6 @@
   </div>
 </template>
 <script setup lang="ts">
-const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const props = defineProps({
   message: {

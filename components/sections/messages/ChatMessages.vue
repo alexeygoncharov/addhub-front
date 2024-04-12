@@ -13,6 +13,15 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
+
 const messagesStore = useMessagesStore();
-console.log('messages tut = ', messagesStore.messages);
+// const userStore = useUserStore();
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
+socket.on('new_message', (newMessage) => {
+  messagesStore.messages.push(newMessage);
+  messagesStore.fetchChats();
+  // console.log('new message = ', data);
+});
 </script>

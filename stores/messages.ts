@@ -1,6 +1,8 @@
 export const useMessagesStore = defineStore('messages', () => {
-  const messages = ref();
+  const messages = ref<Array<any>>();
+  const newMessage = ref();
   const activeChat = ref();
+  const chats = ref();
   interface Message {
     text: string;
     recipient: string;
@@ -32,6 +34,7 @@ export const useMessagesStore = defineStore('messages', () => {
         options: {},
       },
     );
+    chats.value = data.value?.result;
     return data.value?.result;
   }
 
@@ -59,6 +62,8 @@ export const useMessagesStore = defineStore('messages', () => {
     fetchChats,
     messages,
     activeChat,
+    newMessage,
+    chats,
   };
 });
 

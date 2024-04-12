@@ -16,7 +16,9 @@
             <img src="" alt="" />
           </div>
           <div class="chat-user__info">
-            <div class="chat-user__name"></div>
+            <div class="chat-user__name">
+              {{ 'messagesStore.activeChat.name' }}
+            </div>
             <div class="chat-user__status">
               <span>онлайн</span>
             </div>
@@ -51,7 +53,10 @@
       <SectionsMessagesChatMessages></SectionsMessagesChatMessages>
       <div class="chat-nav _flex">
         <div class="chat-nav__field">
-          <textarea placeholder="Напишите сообщение"></textarea>
+          <textarea
+            v-model="message.text"
+            placeholder="Напишите сообщение"
+          ></textarea>
         </div>
         <div class="chat-nav__action _flex">
           <div class="chat-nav__file">
@@ -84,9 +89,10 @@
 </template>
 <script setup lang="ts">
 const messagesStore = useMessagesStore();
-
 const message = ref({ recipient: '', text: '' });
 function sendMessage() {
-  messagesStore.createMessage(message.value);
+  message.value.recipient = messagesStore.activeChat._id;
+  if (message.value.recipient.length && message.value.text.length)
+    messagesStore.createMessage(message.value);
 }
 </script>
