@@ -164,8 +164,10 @@ const { open, onChange } = useFileDialog({
 });
 
 const deleteAvatar = () => {
-  if (form.value.avatar) commonStore.deleteFile(form.value.avatar);
-  // await refreshNuxtData();
+  if (form.value.avatar)
+    commonStore.deleteFile(form.value.avatar).then(() => {
+      form.value.avatar = '';
+    });
 };
 
 onChange((files) => {
@@ -176,7 +178,7 @@ onChange((files) => {
       form.value.avatar = filename;
       formData.delete('file');
       formData.append('avatar', filename);
-      profileStore.editProfile({ avatar: filename });
+      profileStore.updateAvatar(filename);
     });
   }
 });
@@ -201,7 +203,6 @@ const form = ref({
   avatar: userStore.user?.avatar,
   name: userStore.user?.name,
   email: userStore.user?.email,
-  user_name: userStore.user?.user_name,
   phone_number: userStore.user?.phone_number,
   slogan: userStore.user?.slogan,
   gender: userStore.user?.gender,
@@ -215,7 +216,6 @@ async function submitProfile() {
     avatar: form.value?.avatar,
     name: form.value?.name,
     email: form.value?.email,
-    user_name: form.value?.user_name,
     phone_number: form.value?.phone_number,
     slogan: form.value?.slogan,
     gender: form.value?.gender,

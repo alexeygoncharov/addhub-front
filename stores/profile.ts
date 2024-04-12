@@ -23,21 +23,50 @@ export const useProfileStore = defineStore('profile', () => {
   }
 
   async function editProfile(form: EditProfile) {
-    const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
-      options: {
-        method: 'PUT',
-        body: form,
+    const { data, error } = await apiFetch<ApiResponse<Profile>>(
+      `/api/users/me/`,
+      {
+        options: {
+          method: 'PUT',
+          body: form,
+        },
+        needToken: true,
       },
-      needToken: true,
-    });
-    const value = data.value;
-    if (value) {
-      profile.value = value.result;
+    );
+    if (data.value && !error.value) {
+      const value = data.value;
+      useToast({
+        message: 'Данные успешно сохранены',
+        type: 'success',
+      });
+      return value;
+    } else {
+      useToast({
+        message: 'Ошибка при сохранении',
+        type: 'error',
+      });
+    }
+  }
+
+  async function updateAvatar(filename: string) {
+    const { data, error } = await apiFetch<ApiResponse<Profile>>(
+      `/api/users/me/`,
+      {
+        options: {
+          method: 'PUT',
+          body: { avatar: filename },
+        },
+        needToken: true,
+      },
+    );
+    if (data.value && !error.value) {
+      const value = data.value;
+      return value;
     }
   }
 
   async function changePassword(form: changePassword) {
-    const { data } = await apiFetch<ApiResponse<any>>(
+    const { data, error } = await apiFetch<ApiResponse<any>>(
       `/api/users/change_password`,
       {
         options: {
@@ -47,7 +76,19 @@ export const useProfileStore = defineStore('profile', () => {
         needToken: true,
       },
     );
-    const value = data.value;
+    if (data.value && !error.value) {
+      const value = data.value;
+      useToast({
+        message: 'Новый пароль успешно сохранен',
+        type: 'success',
+      });
+      return value;
+    } else {
+      useToast({
+        message: 'Ошибка при сохранении',
+        type: 'error',
+      });
+    }
   }
 
   // getFavorites();
@@ -55,6 +96,7 @@ export const useProfileStore = defineStore('profile', () => {
     favorites,
     changePassword,
     editProfile,
+    updateAvatar,
     profile,
   };
 });

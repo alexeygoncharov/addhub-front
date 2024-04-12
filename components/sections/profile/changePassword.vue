@@ -59,6 +59,10 @@ async function submitPassword() {
     newPassword: passwordForm.value.newPassword,
     repeatPassword: passwordForm.value.repeatPassword,
   };
-  await profileStore.changePassword(data);
+  await profileStore.changePassword(data).then(() => {
+    passwordForm.value.newPassword = '';
+    passwordForm.value.oldPassord = '';
+    passwordForm.value.repeatPassword = '';
+  });
 }
 </script>
