@@ -1,10 +1,16 @@
 <template>
-  <div v-if="message.sender === userStore.user?._id" class="message-item _own">
+  <div
+    v-if="
+      message.sender._id === userStore.user?._id ||
+      message.sender === userStore.user?._id
+    "
+    class="message-item _own"
+  >
     <div class="message-user">
       <div class="avatar">
-        <img src="" alt="" />
+        <img :src="baseUrl() + message.sender?.avatar" alt="" />
       </div>
-      <div class="message-user__name">Вы</div>
+      <div class="message-user__name">{{ message.sender?.name }}</div>
       <div class="message-user__time">
         <span>{{ dayjs(message.createdAt).fromNow() }}</span>
       </div>
@@ -19,9 +25,9 @@
   <div v-else class="message-item">
     <div class="message-user">
       <div class="avatar">
-        <img src="" alt="" />
+        <img :src="baseUrl() + message.recipient?.avatar" alt="" />
       </div>
-      <div class="message-user__name">{{ message.name }}</div>
+      <div class="message-user__name">{{ message.recipient?.name }}</div>
       <div class="message-user__time">
         <span>{{ dayjs(message.createdAt).fromNow() }}</span>
       </div>
@@ -38,7 +44,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
-
 const userStore = useUserStore();
 const props = defineProps({
   message: {

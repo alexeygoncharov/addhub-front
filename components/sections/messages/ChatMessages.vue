@@ -12,17 +12,18 @@
 
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
-// import { ref } from 'vue';
-// import { useInfiniteScroll } from '@vueuse/core';
 
 const messagesStore = useMessagesStore();
-const userStore = useUserStore();
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 
-// const el = ref<HTMLElement | null>(null);
+// messagesStore.fetchMessageList({
+//   second_side: messagesStore.activeChat._id,
+//   offset: messagesStore.offset,
+// });
 
 socket.on('new_message', (newMessage) => {
+  console.log('new message = ', newMessage);
   messagesStore.messages.push(newMessage);
 });
 </script>

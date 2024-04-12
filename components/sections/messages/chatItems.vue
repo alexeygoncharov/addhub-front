@@ -7,7 +7,7 @@
       @click="selectChat(item.user)"
     >
       <div class="avatar">
-        <img :src="getAvatarUrl(item.user.avatar)" alt="" />
+        <img :src="baseUrl() + item.user.avatar" alt="" />
       </div>
       <div class="chat-item__info">
         <div class="chat-item__name">{{ item.user.name }}</div>
@@ -32,6 +32,7 @@ function selectChat(respondent: any) {
   messageStore.activeChat = respondent;
   messageStore.fetchMessageList({
     second_side: respondent._id,
+    offset: messageStore.offset,
   });
 }
 </script>

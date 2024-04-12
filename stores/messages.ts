@@ -16,22 +16,18 @@ export const useMessagesStore = defineStore('messages', () => {
   }
   // const categories = ref<Category[]>()
   async function fetchMessageList(list: MessagesList) {
-    try {
-      const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
-        needToken: true,
-        options: {
-          query: list,
-        },
-      });
-      const value = data.value;
-      if (value) {
-        console.log('value.result = ', value.result);
-        addMessages(value.result);
-      }
-      return data.value;
-    } catch (error) {
-      // console.error('Ошибка при загрузке городов', error);
+    const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
+      needToken: true,
+      options: {
+        query: list,
+      },
+    });
+    const value = data.value;
+    if (value) {
+      // console.log('value.result = ', value.result);
+      addMessages(value.result);
     }
+    return data.value;
   }
 
   function addMessages(payload: any) {
@@ -39,8 +35,8 @@ export const useMessagesStore = defineStore('messages', () => {
     payload.forEach((element) => {
       messages.value.push(element);
     });
-    console.log('messages.value = ', messages);
-    console.log('offset = ', offset.value);
+    offset.value += 1; // Увеличение смещения
+    console.log(payload);
   }
 
   function resetMessages() {
