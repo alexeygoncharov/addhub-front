@@ -18,6 +18,7 @@ export default async function <T>(
       };
     }
   }
+
   const baseUrl = useRuntimeConfig().public.apiBase;
   const key =
     endpoint + ((options?.query && JSON.stringify(options?.query)) || '');

@@ -3,10 +3,12 @@
     <div class="freelance-card__top">
       <div class="avatar">
         <img
-          :src="`${$config.public.apiBase}/${data.avatar}`"
+          v-if="data.avatar"
+          :src="baseUrl() + data.avatar"
           alt=""
           crossorigin="anonymous"
         />
+        <Avatar v-else :size="80" :name="data.name" />
         <span
           v-if="data.online_status === 'online'"
           class="service-card__user-online"

@@ -1,52 +1,38 @@
 <template>
-  <div class="admin-top">
-    <div class="text32 medium-text">Панель управления</div>
-  </div>
+  <ModulesProfileTop> Панель управления</ModulesProfileTop>
 
   <div class="finance-stat grid-col4">
-    <div class="stat-card3">
-      <div class="stat-card3__content">
-        <div class="stat-card3__title">Услуг предложено</div>
-        <div class="stat-card3__num">25</div>
-        <div class="stat-card3__desc"><span>10</span> новых предложений</div>
-      </div>
-      <div class="stat-card3__img">
-        <img src="/img/stat-icon15.svg" alt="" />
-      </div>
-    </div>
+    <ModulesCardsStat3
+      title="Услуг предложено"
+      num="25"
+      desc="10"
+      desc2="новых предложений"
+      icon="/img/stat-icon15.svg"
+    />
 
-    <div class="stat-card3">
-      <div class="stat-card3__content">
-        <div class="stat-card3__title">Завершено проектов</div>
-        <div class="stat-card3__num">1292</div>
-        <div class="stat-card3__desc"><span>80+</span> новых завершено</div>
-      </div>
-      <div class="stat-card3__img">
-        <img src="/img/stat-icon16.svg" alt="" />
-      </div>
-    </div>
+    <ModulesCardsStat3
+      title="Завершено проектов"
+      num="1292"
+      desc="80+"
+      desc2="новых завершено"
+      icon="/img/stat-icon16.svg"
+    />
 
-    <div class="stat-card3">
-      <div class="stat-card3__content">
-        <div class="stat-card3__title">Заявок в очереди</div>
-        <div class="stat-card3__num">182</div>
-        <div class="stat-card3__desc"><span>35+</span> новых заявок</div>
-      </div>
-      <div class="stat-card3__img">
-        <img src="/img/stat-icon17.svg" alt="" />
-      </div>
-    </div>
+    <ModulesCardsStat3
+      title="Заявок в очереди"
+      num="182"
+      desc="35+"
+      desc2="новых заявок"
+      icon="/img/stat-icon17.svg"
+    />
 
-    <div class="stat-card3">
-      <div class="stat-card3__content">
-        <div class="stat-card3__title">Всего отзывов</div>
-        <div class="stat-card3__num">22,786</div>
-        <div class="stat-card3__desc"><span>290+</span> новых отзывов</div>
-      </div>
-      <div class="stat-card3__img">
-        <img src="/img/stat-icon18.svg" alt="" />
-      </div>
-    </div>
+    <ModulesCardsStat3
+      title="Всего отзывов"
+      num="22,786"
+      desc="290+"
+      desc2="новых отзывов"
+      icon="/img/stat-icon18.svg"
+    />
   </div>
 
   <div class="dashboard">
@@ -54,11 +40,12 @@
     <div class="dashboard-card">
       <div class="dashboard-card__top _type2">
         <div class="dashboard-card__title text17 medium-text">
-          Мои популярные услуги
+          Мои популярные
+          {{ user?.active_role === 'seller' ? 'услуги' : 'проекты' }}
         </div>
-        <a href="" class="dashboard-card__link">
+        <nuxtLink to="/profile/items" class="dashboard-card__link">
           <span>Смотреть все</span>
-        </a>
+        </nuxtLink>
       </div>
       <div class="dashboard-card__bottom">
         <div class="dashboard-card__services">
@@ -258,6 +245,10 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps<{
+  user: Profile;
+}>();
+</script>
 
 <style scoped></style>

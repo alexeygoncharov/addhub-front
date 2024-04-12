@@ -8,7 +8,6 @@
   }
 }
 
-
 .auth-form {
   width: 42.875em;
   max-width: 100%;
@@ -25,7 +24,7 @@
     font-weight: 500;
     line-height: 120%;
   }
-  
+
   &__top {
     @include grid100gap(0.5em);
   }
@@ -47,6 +46,7 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 10px;
+    margin-bottom: 1em;
   }
 
   &__fields {

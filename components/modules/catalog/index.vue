@@ -37,7 +37,12 @@
           </div>
 
           <slot name="items"></slot>
-          <UIVPagination :store="store" />
+          <UIVPagination
+            v-model="store.currentPage"
+            :items-per-page="store.itemsPerPage"
+            :total-items="store.totalItems"
+            :total-pages="store.totalPages"
+          />
         </div>
       </div>
     </div>
@@ -52,6 +57,7 @@ const props = defineProps({
     type: Object as PropType<CatalogStores>,
   },
 });
+const store = props.store;
 const { showCatalogFilters } = storeToRefs(props.store);
 props.store.initializeFromURL();
 </script>

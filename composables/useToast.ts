@@ -6,7 +6,7 @@ export default function ({
   timeout = 5000,
 }: {
   message: string;
-  type?: string;
+  type?: 'info' | 'error' | 'success';
   timeout?: number;
 }) {
   const toastApp = createApp(ToastComponent, {
