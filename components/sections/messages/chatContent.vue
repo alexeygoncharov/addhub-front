@@ -17,7 +17,7 @@
           </div>
           <div class="chat-user__info">
             <div class="chat-user__name">
-              {{ 'messagesStore.activeChat.name' }}
+              {{ messagesStore.activeChat?.name }}
             </div>
             <div class="chat-user__status">
               <span>онлайн</span>

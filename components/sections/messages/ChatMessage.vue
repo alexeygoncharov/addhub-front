@@ -6,7 +6,7 @@
       </div>
       <div class="message-user__name">Вы</div>
       <div class="message-user__time">
-        <span>35 мин</span>
+        <span>{{ dayjs(message.createdAt).fromNow() }}</span>
       </div>
     </div>
 
@@ -21,9 +21,9 @@
       <div class="avatar">
         <img src="" alt="" />
       </div>
-      <div class="message-user__name">{{ message._id }}</div>
+      <div class="message-user__name">{{ message.name }}</div>
       <div class="message-user__time">
-        <span>35 мин</span>
+        <span>{{ dayjs(message.createdAt).fromNow() }}</span>
       </div>
     </div>
 
@@ -35,6 +35,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+
 const userStore = useUserStore();
 const props = defineProps({
   message: {
@@ -42,4 +46,5 @@ const props = defineProps({
     required: true,
   },
 });
+// console.log('message tutu = ', props.message);
 </script>

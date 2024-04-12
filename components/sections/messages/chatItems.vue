@@ -14,15 +14,24 @@
         <div class="chat-item__prof">{{ item.latestMessage.message }}</div>
       </div>
       <div class="chat-item__nums">
-        <div class="chat-item__time">35 мин</div>
+        <div class="chat-item__time">
+          {{ dayjs(item.latestMessage.createdAt).fromNow() }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+
 const messageStore = useMessagesStore();
 function selectChat(respondent: any) {
+  messageStore.resetMessages();
   messageStore.activeChat = respondent;
-  messageStore.fetchMessageList(respondent._id);
+  messageStore.fetchMessageList({
+    second_side: respondent._id,
+  });
 }
 </script>

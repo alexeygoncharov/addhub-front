@@ -24,9 +24,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   socket.on('connect', onConnect);
-  socket.on('new_message', (data) => {
-    console.log('new message ', data);
-  });
   socket.on('disconnect', onDisconnect);
   socket.on('connect_error', (err) => {
     // the reason of the error, for example "xhr poll error"

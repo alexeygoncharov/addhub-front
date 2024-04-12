@@ -1,29 +1,51 @@
 export const useMessagesStore = defineStore('messages', () => {
-  const messages = ref<Array<any>>();
+  const messages = ref<Array<any>>([]);
   const newMessage = ref();
   const activeChat = ref();
+  const limit = 10; // Вы можете выбрать любое значение для limit
+  const offset = ref(1);
   const chats = ref();
   interface Message {
     text: string;
     recipient: string;
   }
+  interface MessagesList {
+    second_side: string;
+    limit?: number;
+    offset?: number;
+  }
   // const categories = ref<Category[]>()
-  async function fetchMessageList(userId: string) {
+  async function fetchMessageList(list: MessagesList) {
     try {
       const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
         needToken: true,
         options: {
-          query: { second_side: userId },
+          query: list,
         },
       });
       const value = data.value;
       if (value) {
-        messages.value = data.value?.result;
+        console.log('value.result = ', value.result);
+        addMessages(value.result);
       }
       return data.value;
     } catch (error) {
       // console.error('Ошибка при загрузке городов', error);
     }
+  }
+
+  function addMessages(payload: any) {
+    // console.log('start = ', payload.length);
+    payload.forEach((element) => {
+      messages.value.push(element);
+    });
+    console.log('messages.value = ', messages);
+    console.log('offset = ', offset.value);
+  }
+
+  function resetMessages() {
+    messages.value = [];
+    offset.value = 1;
   }
 
   async function fetchChats() {
@@ -60,6 +82,9 @@ export const useMessagesStore = defineStore('messages', () => {
     fetchMessageList,
     createMessage,
     fetchChats,
+    resetMessages,
+    offset,
+    limit,
     messages,
     activeChat,
     newMessage,

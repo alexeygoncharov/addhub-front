@@ -1,8 +1,5 @@
 <template>
   <div class="messages">
-    <!--<div class="messages__split">
-      <div class="messages__split-text text14">Андрей Ветров открыл диспут</div>
-    </div> -->
     <SectionsMessagesChatMessage
       v-for="message in messagesStore.messages"
       :id="'message' + message._id"
@@ -12,16 +9,20 @@
     ></SectionsMessagesChatMessage>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
+// import { ref } from 'vue';
+// import { useInfiniteScroll } from '@vueuse/core';
 
 const messagesStore = useMessagesStore();
-// const userStore = useUserStore();
+const userStore = useUserStore();
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
+
+// const el = ref<HTMLElement | null>(null);
+
 socket.on('new_message', (newMessage) => {
   messagesStore.messages.push(newMessage);
-  messagesStore.fetchChats();
-  // console.log('new message = ', data);
 });
 </script>
