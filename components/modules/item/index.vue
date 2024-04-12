@@ -18,7 +18,29 @@
         { name: item.title },
       ]"
     />
-
+    <div v-if="isRevealed" class="modal-screen">
+      <div class="modal-message">
+        <div class="modal-wrapper-message">
+          <div class="header">
+            <div class="avatar">
+              <img
+                :src="`${baseUrl()}/${item?.createdBy.avatar}`"
+                alt=""
+                crossorigin="anonymous"
+              />
+            </div>
+          </div>
+          <div class="modal-wrapper__mainInput">
+            <label class="bid-label">Текст сообщения</label>
+            <textarea v-model="message.text"></textarea>
+          </div>
+          <div class="modal-wrapper__under">
+            <button @click="cancel">Cancel</button>
+            <button @click="confirm(item?.createdBy._id)">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="freelancer-top _pb85">
       <div class="container">
         <div class="freelancer-top__nav">
@@ -142,7 +164,11 @@
                   <div class="about-client__item-desc">UI/UX</div>
                 </div>
               </div> -->
-              <button class="about-client__btn m-btn m-btn-blue-outline">
+
+              <button
+                class="about-client__btn m-btn m-btn-blue-outline"
+                @click="reveal"
+              >
                 <span>{{
                   type === 'service' ? `Напишите мне` : 'Написать заказчику'
                 }}</span>
@@ -161,6 +187,22 @@ import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
 const emits = defineEmits(['submit']);
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
+const messagesStore = useMessagesStore();
+const message = ref({
+  text: '',
+  recipient: '',
+});
+
+const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
+
+onConfirm((userId: string) => {
+  message.value.recipient = userId;
+  messagesStore.createMessage(message.value).then(() => {
+    message.value.text = '';
+    useToast({ message: 'Сообщение отправлено', type: 'success' });
+  });
+});
+
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const props = defineProps<
