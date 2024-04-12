@@ -80,7 +80,7 @@
               <slot name="item-volume"></slot>
               <button
                 class="offer-req__btn m-btn m-btn-blue m-btn-shadow"
-                @click="emits('submit')"
+                @click="createOrder()"
               >
                 <span>{{
                   type === 'service'
@@ -142,11 +142,14 @@
                   <div class="about-client__item-desc">UI/UX</div>
                 </div>
               </div> -->
-              <button class="about-client__btn m-btn m-btn-blue-outline">
+              <nuxtLink
+                to="/messages"
+                class="about-client__btn m-btn m-btn-blue-outline"
+              >
                 <span>{{
                   type === 'service' ? `Напишите мне` : 'Написать заказчику'
                 }}</span>
-              </button>
+              </nuxtLink>
             </div>
           </div>
         </div>
@@ -159,6 +162,13 @@
 <script setup lang="ts">
 import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
 const emits = defineEmits(['submit']);
+const createOrder = () => {
+  if (user.value) {
+    emits('submit');
+  } else {
+    navigateTo('/login');
+  }
+};
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
 const userStore = useUserStore();

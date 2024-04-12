@@ -12,13 +12,13 @@
   grid-template-columns: repeat(3, calc(100% / 3 - 3.5em / 3));
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .grid-mob-full {
     grid-template-columns: 100%;
   }
 
   .grid-tablet2 {
-    @media screen and (width >= 577px) {
+    @media screen and (min-width: 577px) {
       grid-template-columns: repeat(2, calc(50% - 0.875em));
     }
   }

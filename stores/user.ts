@@ -11,7 +11,6 @@ export const useUserStore = defineStore('user', () => {
   });
   async function getMyUser() {
     const { data } = await apiFetch<ApiResponse<Profile>>(`/api/users/me/`, {
-      options: {},
       needToken: true,
     });
     const value = data.value;
@@ -26,7 +25,6 @@ export const useUserStore = defineStore('user', () => {
     const { data } = await apiFetch<ApiResponse<Bid>>(
       `/api/users/my_bid/${id}`,
       {
-        options: {},
         needToken: true,
       },
     );

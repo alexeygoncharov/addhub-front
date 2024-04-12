@@ -352,7 +352,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .page-top {
     margin-top: 0;
     background-color: $secondary;
@@ -548,7 +548,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .blog-card3 {
     grid-template-columns: 100%;
 
@@ -586,7 +586,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .page-top {
     &__nav {
       margin-top: 1.06em;

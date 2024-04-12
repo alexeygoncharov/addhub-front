@@ -147,7 +147,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .disputes-table,
   .finance-table {
     padding: 0;
@@ -263,7 +263,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .disputes-table,
   .finance-table {
     tbody {

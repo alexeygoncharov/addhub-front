@@ -64,7 +64,7 @@
   }
 
   .categories-slider {
-    @media screen and (width >= 993px) {
+    @media screen and (min-width: 993px) {
       .swiper {
         &-wrapper {
           display: grid;
@@ -150,7 +150,7 @@
         }
       }
 
-      @media screen and (width >= 993px) {
+      @media screen and (min-width: 993px) {
         .swiper-pagination {
           display: none;
         }
@@ -194,7 +194,7 @@
     }
   }
 
-  @media screen and (width <= 992px) {
+  @media screen and (max-width: 992px) {
     .m-section {
       &__top {
         flex-direction: column;
@@ -254,7 +254,7 @@
     }
   }
 
-  @media screen and (width <= 427px) {
+  @media screen and (max-width: 427px) {
     .categories-slider {
       .swiper {
         &-slide {
@@ -546,7 +546,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .service-card {
     &__img {
       border-radius: 0.9375em 0.9375em 0 0;

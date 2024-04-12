@@ -108,7 +108,7 @@
             <label>Срок</label>
             <p>{{ userBid?.term }}</p>
           </fieldset>
-          <fieldset class="fg _full">
+          <fieldset v-if="userBid?.description" class="fg _full">
             <label>Сопроводительное письмо</label>
             <p>
               {{ userBid?.description }}
@@ -168,7 +168,7 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-const showBid = ref(false);
+const showBid = ref(true);
 // TODO доработать запрос на бке
 const userBid = computed(() => {
   return item.value?.bids.find((bid) => {

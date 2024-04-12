@@ -487,7 +487,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .catalog {
     padding: 1.5em 0 3em;
 
@@ -642,13 +642,13 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .freelancers-items {
     grid-template-columns: 100%;
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .catalog {
     padding: 1.25em 0 1.69em;
   }

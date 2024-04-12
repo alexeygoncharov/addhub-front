@@ -151,12 +151,29 @@ const titles = [
   'Завершено',
   'Отменено',
 ];
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const currentPage = ref(1);
 const activeTab = ref(0);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+
+const items = ref([]);
+const updateItems = async () => {
+  const { data } = await apiFetch<ApiListResponse<{}[]>>(
+    `/api/${user.value?.active_role === 'seller' ? 'services' : 'projects'}/my`,
+    {
+      needToken: true,
+    },
+  );
+  const value = data.value;
+  if (value?.status === 200) {
+    items.value = value.result;
+  }
+};
+updateItems();
 </script>
 
 <style scoped></style>

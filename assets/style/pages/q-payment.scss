@@ -227,7 +227,7 @@
   max-width: 21.75em;
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .payment {
     padding: 0 0 3.375em;
 
@@ -345,7 +345,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .pay-info2 {
     grid-template-columns: 100%;
   }
@@ -390,7 +390,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .payment {
     font-size: 0.75em;
   }

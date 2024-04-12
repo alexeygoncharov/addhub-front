@@ -161,7 +161,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .auth {
     padding: 0 0 2.63em;
   }
@@ -247,7 +247,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .auth-form {
     padding: 0.81em 1.37em 1.56em;
     margin-top: 1.06em;

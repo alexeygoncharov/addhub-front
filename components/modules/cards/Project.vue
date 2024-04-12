@@ -77,7 +77,7 @@
       <div
         v-if="data && !userBid"
         class="service-card2__btn m-btn m-btn-blue3"
-        @click="showBid = true"
+        @click="openBidModal()"
       >
         Оставить отклик
       </div>
@@ -104,7 +104,12 @@ const showBid = ref(false);
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const data = defineModel<projectsItem>();
-
+const openBidModal = () => {
+  if (!userStore.user) {
+    return navigateTo('/login');
+  }
+  showBid.value = true;
+};
 // TODO доработать запрос на бэке
 const userBid = computed(() => {
   return data.value?.bids.find((bid) => {

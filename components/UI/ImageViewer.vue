@@ -134,7 +134,7 @@ const prev = ref<HTMLElement | null>(null);
         max-height: 100%;
         object-fit: contain;
 
-        @media screen and (width <= 992px) {
+        @media screen and (max-width: 992px) {
           width: 100%;
         }
       }

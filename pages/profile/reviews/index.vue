@@ -9,7 +9,7 @@
         :class="{ _active: fromMe }"
         @click="fromMe = true"
       >
-        <span>{{
+        <span v-if="user">{{
           user.active_role === 'buyer' ? 'Фрилансерам' : 'Клиентам'
         }}</span>
       </div>
@@ -19,7 +19,7 @@
         :class="{ _active: !fromMe }"
         @click="fromMe = false"
       >
-        <span>{{
+        <span v-if="user">{{
           user.active_role === 'buyer' ? 'От фрилансеров' : 'От клиентов'
         }}</span>
       </div>
@@ -88,6 +88,17 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+const reviews = ref([]);
+const updateReviews = async () => {
+  const { data } = await apiFetch<ApiListResponse<{}[]>>('/api/reviews/my', {
+    needToken: true,
+  });
+  const value = data.value;
+  if (value?.status === 200) {
+    reviews.value = value.result;
+  }
+};
+updateReviews();
 </script>
 
 <style lang="scss" scoped></style>

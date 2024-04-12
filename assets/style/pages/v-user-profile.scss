@@ -13,7 +13,7 @@
   &__bottom {
     padding-top: 1.875em;
 
-    @media screen and (width >= 993px) {
+    @media screen and (min-width: 993px) {
       &._pt0 {
         padding-top: 0;
       }
@@ -28,7 +28,7 @@
     margin-top: 1.875em;
 
     &._type2 {
-      @media screen and (width >= 993px) {
+      @media screen and (min-width: 993px) {
         grid-template-columns: 100%;
 
         .fg {
@@ -184,7 +184,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .profile-item {
     padding: 0;
 
@@ -234,7 +234,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .photo-field {
     position: relative;
 
@@ -319,7 +319,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .project-files {
     &__items {
       grid-template-columns: 100%;

@@ -72,7 +72,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .contacts-top {
     .page-top__inner {
       padding: 1.25em 0 14.88em;
@@ -144,7 +144,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .contacts-form {
     &__top {
       max-width: 15.125em;
@@ -171,7 +171,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .contacts-top {
     .page-top__inner {
       padding: 1em 0 6.69em;

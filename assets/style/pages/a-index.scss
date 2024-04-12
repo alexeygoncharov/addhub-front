@@ -10,7 +10,7 @@
   margin-left: auto;
   border-radius: 0.625em;
 
-  @media screen and (width <= 1700px) {
+  @media screen and (max-width: 1700px) {
     border-radius: 0;
   }
 }
@@ -126,7 +126,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .main {
     padding: 1.5em 0;
 
@@ -230,7 +230,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .main {
     &__text {
       gap: 1.06em;

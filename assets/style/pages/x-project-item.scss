@@ -364,7 +364,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .freelancer-req {
     padding-top: 2.625em;
     margin-top: 1.75em;
@@ -558,7 +558,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .freelancer-req {
     &__grid {
       grid-template-columns: 100%;
@@ -613,7 +613,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .offer-req {
     padding: 0.5em 1em 0.875em;
   }

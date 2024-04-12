@@ -4,7 +4,7 @@ export const useProfileStore = defineStore('profile', () => {
   const favorites = ref<string[]>([]);
   const profile = ref<Profile>();
   interface changePassword {
-    oldPassord: string;
+    oldPassword: string;
     newPassword: string;
     repeatPassword: string;
   }

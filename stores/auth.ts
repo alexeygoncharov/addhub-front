@@ -85,6 +85,8 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = null;
     useCookie('authToken').value = null;
     useSessionStorage('authToken', '').value = null;
+    const userStore = useUserStore();
+    userStore.user = undefined;
   }
 
   async function saveToken(tokenArg: string, rememberMe: boolean) {

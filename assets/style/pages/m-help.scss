@@ -54,7 +54,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .page-top {
     .blog-field {
       width: 100%;
@@ -118,7 +118,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .knowledge {
     &__grid {
       grid-template-columns: 100%;
@@ -126,7 +126,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .faq-page {
     &__items {
       gap: 3.125em;

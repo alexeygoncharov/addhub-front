@@ -202,7 +202,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .saves {
     padding: 0;
     background-color: transparent;
@@ -333,7 +333,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .saves {
     &__grid {
       grid-template-columns: 100%;

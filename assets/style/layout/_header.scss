@@ -253,7 +253,7 @@
 
 .header-action {
   position: relative;
-  z-index: 10;
+  z-index: 5;
   display: flex;
   flex: 1;
   align-items: center;
@@ -488,7 +488,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .master-menu,
   .master-nav,
   .header-action,
@@ -575,7 +575,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .mob-menu {
     &__account-top,
     &__link {

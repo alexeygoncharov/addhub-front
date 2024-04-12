@@ -59,6 +59,17 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+const disputes = ref([]);
+const updateDisputes = async () => {
+  const { data } = await apiFetch<ApiListResponse<{}[]>>('/api/disputes', {
+    needToken: true,
+  });
+  const value = data.value;
+  if (value?.status === 200) {
+    disputes.value = value.result;
+  }
+};
+updateDisputes();
 </script>
 
 <style scoped></style>

@@ -49,6 +49,17 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+const notifications = ref([]);
+const updateNotifications = async () => {
+  const { data } = await apiFetch<ApiListResponse<{}[]>>('/api/notifications', {
+    needToken: true,
+  });
+  const value = data.value;
+  if (value?.status === 200) {
+    notifications.value = value.result;
+  }
+};
+updateNotifications();
 </script>
 
 <style scoped></style>
