@@ -3,13 +3,17 @@
     ref="selectRef"
     :class="[
       'm-select',
-      { _open: isOpen, '_not-select': placeholder && !currentText },
+      {
+        _open: isOpen,
+        '_not-select': placeholder && !initialCurrentText,
+        'm-select__disabled': disabled,
+      },
     ]"
   >
-    <input class="m-select__field" type="hidden" />
+    <input class="m-select__field" type="hidden" :disabled="disabled" />
     <div class="m-select__toggle" @click="toggleSelect">
       <span class="m-select__current">
-        {{ currentText?.text || placeholder }}
+        {{ initialCurrentText?.text || placeholder }}
       </span>
       <svg
         width="9"
@@ -28,7 +32,10 @@
       <div
         v-for="option in options"
         :key="option.text"
-        :class="['m-select__option', { _active: currentText === option }]"
+        :class="[
+          'm-select__option',
+          { _active: initialCurrentText === option },
+        ]"
         @click="selectOption(option)"
       >
         <span>{{ option.text }}</span>
@@ -63,11 +70,14 @@ const props = defineProps({
     }>,
     default: () => null,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emits = defineEmits(['input']);
 const isOpen = ref(false);
-const currentText = ref(props.initialCurrentText);
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
@@ -80,7 +90,7 @@ const toggleSelect = () => {
   isOpen.value = !isOpen.value;
 };
 const selectOption = (option: typeof props.initialCurrentText) => {
-  currentText.value = option;
+  // initialCurrentText.value = option;
   emits('input', option.value);
   isOpen.value = false;
 };

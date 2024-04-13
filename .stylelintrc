@@ -22,6 +22,7 @@
         "ignore": ["after-comment", "first-nested"],
         "severity": "warning"
       }
-    ]
+    ],
+    "media-feature-range-notation": null
   }
 }

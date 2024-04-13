@@ -43,7 +43,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .conditions {
     padding: 2.81em 0 3.31em;
 
@@ -53,7 +53,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .conditions {
     padding: 2em 0 3em;
   }

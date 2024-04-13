@@ -125,7 +125,7 @@
   }
 
   .advantage-card {
-    @media screen and (width >= 577px) {
+    @media screen and (min-width: 577px) {
       display: flex;
       align-items: flex-start;
 
@@ -207,7 +207,7 @@
   text-align: center;
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .find-talent {
     .container {
       padding: 0;
@@ -352,7 +352,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .advantage-card {
     text-align: center;
 
@@ -413,7 +413,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .find-talent {
     &__img {
       padding-bottom: 64.7%;

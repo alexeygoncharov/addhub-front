@@ -6,7 +6,7 @@
         @submit="
           (e) => {
             e.preventDefault();
-            createBid();
+            editableData ? updateBid() : createBid();
           }
         "
       >
@@ -22,21 +22,41 @@
 
         <div class="modal-wrapper__mainInput">
           <label class="bid-label">Текст отклика</label>
-          <textarea v-model="description" />
+          <textarea v-if="!editableData" v-model="description" />
+          <textarea v-else v-model="editableData.description" />
         </div>
         <div class="modal-wrapper__inputs">
           <div class="modal-wrapper__input">
             <label class="bid-label">Стоимость (руб)</label>
-            <input v-model="price" required type="text" />
+            <input v-if="!editableData" v-model="price" required type="text" />
+            <input v-else v-model="editableData.price" required type="text" />
           </div>
           <div class="modal-wrapper__input">
             <label class="bid-label">Срок (в днях)</label>
-            <input v-model="term" required name="term" type="text" />
+            <input
+              v-if="!editableData"
+              v-model="term"
+              required
+              name="term"
+              type="text"
+            />
+            <input
+              v-else
+              v-model="editableData.term"
+              required
+              name="term"
+              type="text"
+            />
           </div>
         </div>
         <div class="modal-wrapper__under">
           <div class="send-button">
-            <button :disabled="!price || !term" type="submit">
+            <button
+              :disabled="
+                !editable ? !price || !term : !editable.price || !editable.term
+              "
+              type="submit"
+            >
               Предложить услугу
             </button>
           </div>
@@ -51,20 +71,40 @@ import { OnClickOutside } from '@vueuse/components';
 import type { projectsItem } from '~/stores/catalog/catalog.type';
 const showBid = defineModel<boolean>({ required: true });
 const bidsStore = useBidsStore();
-const item = defineModel<projectsItem>('item');
+const item = defineModel<projectsItem>('item', { default: undefined });
 const price = ref<number>();
 const term = ref<number>();
 const description = ref<string>();
-const emit = defineEmits(['newBid']);
+const emit = defineEmits(['newBid', 'updateBid']);
+const editableData = defineModel<Bid>('editable', { default: undefined });
 const props = defineProps<{ id: string }>();
+async function updateBid() {
+  if (
+    !editableData.value.price ||
+    !editableData.value.term ||
+    !editableData.value
+  )
+    return;
+  showBid.value = false;
+  const data = editableData.value;
+  const result = await bidsStore.updateBid(data._id, data.project_id._id, {
+    price: data.price,
+    term: data.term,
+    description: data.description || '',
+  });
+  if (result) {
+    emit('updateBid');
+    console.log(result);
+  }
+}
 async function createBid() {
-  if (!price.value || !term.value || !description.value) return;
+  if (!price.value || !term.value) return;
   showBid.value = false;
   const data = await bidsStore.createBid(
     props.id as string,
     price.value,
     term.value,
-    description.value,
+    description.value || '',
   );
   if (data) {
     item.value?.bids.push(data);

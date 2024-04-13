@@ -11,42 +11,56 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="i in 8" :key="i" class="reply-row">
+        <tr v-for="(bid, index) in bids" :key="bid._id" class="reply-row">
           <td>
             <div class="reply-row__info">
               <a href="" class="avatar">
-                <img src="/img/avatar16.webp" alt="" />
+                <img
+                  v-if="bid.project_id.createdBy.avatar"
+                  :src="baseUrl() + bid.project_id.createdBy.avatar"
+                  crossorigin="anonymous"
+                  alt=""
+                />
+                <Avatar
+                  v-else
+                  :size="40"
+                  :name="bid.project_id.createdBy.name"
+                />
               </a>
               <div class="reply-row__content">
                 <div class="reply-row__title text17 medium-text">
-                  <a href="">Мобильное приложение по доставке еды</a>
+                  <a href="">{{ bid.project_id.title }}</a>
                 </div>
                 <div class="reply-row__props">
                   <div class="reply-row__prop">
                     <img src="/img/marker2.svg" alt="" />
-                    <span>Москва, Россия</span>
+                    <span>{{
+                      commonStore.cities?.find(
+                        (c) => c._id === bid.project_id.address.city,
+                      )?.title
+                    }}</span>
                   </div>
                   <div class="reply-row__prop">
                     <img src="/img/calendar2.svg" alt="" />
-                    <span>Декабрь 2, 2023</span>
+                    <span>{{ $dayjs(bid.createdAt).fromNow() }}</span>
                   </div>
-                  <div class="reply-row__prop">
+                  <!-- <div class="reply-row__prop">
                     <img src="/img/reply.svg" alt="" />
                     <span>1 предложение</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
           </td>
           <td>
             <div class="reply-row__price">
-              <span class="text17 medium-text">₽ 100 - 150</span>
+              <span class="text17 medium-text">₽ {{ bid.price }}</span>
             </div>
           </td>
           <td>
             <div class="reply-row__action">
               <div class="reply-row__btn">
-                <button class="m-btn m-btn-blue3">
+                <button class="m-btn m-btn-blue3" @click="editBid(bid)">
                   <svg
                     width="20"
                     height="20"
@@ -71,7 +85,10 @@
                 </div>
               </div>
               <div class="reply-row__btn">
-                <button class="m-btn m-btn-blue3">
+                <button
+                  class="m-btn m-btn-blue3"
+                  @click="deleteBid(bid, index)"
+                >
                   <svg
                     width="20"
                     height="20"
@@ -96,19 +113,61 @@
         </tr>
       </tbody>
     </table>
-
     <UIVPagination
       v-model="currentPage"
       :items-per-page="8"
-      :total-items="24"
-      :total-pages="3"
+      :total-items="totalItems"
+      :total-pages="Math.ceil(totalItems / 8)"
+    />
+    <ModulesProductBidModal
+      v-if="openBidEdit"
+      :id="editableData?.project_id._id || ''"
+      v-model="openBidEdit"
+      v-model:editable="editableData"
+      @update-bid="updateBids()"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({ layout: 'profile', middleware: 'authenticated' });
+const commonStore = useCommonStore();
 const currentPage = ref(1);
+const totalItems = ref(0);
+const openBidEdit = ref(false);
+const editableData = ref<Bid>();
+const bidsStore = useBidsStore();
+const bids = ref<Bid[]>();
+const editBid = (bid: Bid) => {
+  openBidEdit.value = true;
+  editableData.value = { ...bid };
+};
+const deleteBid = async (bid: Bid, index: number) => {
+  const result = await bidsStore.deleteBid(bid.project_id._id, bid._id);
+  if (result) {
+    bids.value?.splice(index, 1);
+  }
+};
+const updateBids = async () => {
+  const { data } = await apiFetch<ApiListResponse<Bid[]>>(
+    '/api/projects/bids/my',
+    {
+      needToken: true,
+      options: {
+        query: {
+          offset: currentPage.value,
+          limit: 8,
+        },
+      },
+    },
+  );
+  const value = data.value;
+  if (value?.status === 200) {
+    totalItems.value = value.total;
+    bids.value = value.result;
+  }
+};
+updateBids();
 </script>
 
 <style scoped></style>

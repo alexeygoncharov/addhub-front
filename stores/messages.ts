@@ -89,5 +89,5 @@ export const useMessagesStore = defineStore('messages', () => {
 });
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useBidsStore, import.meta.hot));
+  import.meta.hot.accept(acceptHMRUpdate(useMessagesStore, import.meta.hot));
 }

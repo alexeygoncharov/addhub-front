@@ -15,7 +15,7 @@
         <tr v-for="i in 10" :key="i" class="finance-row">
           <td>
             <div class="finance-row__title">Дата</div>
-            <div class="finance-row__desc light-text">29.11.2023</div>
+            <div class="finance-row__desc light-text">29.11.2024</div>
           </td>
           <td>
             <div class="finance-row__title">Сделка</div>
@@ -59,6 +59,17 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+const disputes = ref([]);
+const updateDisputes = async () => {
+  const { data } = await apiFetch<ApiListResponse<{}[]>>('/api/disputes', {
+    needToken: true,
+  });
+  const value = data.value;
+  if (value?.status === 200) {
+    // disputes.value = value.result;
+  }
+};
+updateDisputes();
 </script>
 
 <style scoped></style>

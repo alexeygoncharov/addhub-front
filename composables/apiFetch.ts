@@ -10,8 +10,11 @@ export default async function <T>(
   { options, needToken }: apiFetchParams<T> | undefined = {},
 ) {
   if (needToken) {
+    if (!options) {
+      options = {};
+    }
     const token = useCookie('authToken');
-    if (token && options) {
+    if (token) {
       options.headers = {
         ...(options.headers || {}),
         Authorization: `Bearer ${token.value}`,

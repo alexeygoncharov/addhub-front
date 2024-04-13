@@ -31,7 +31,7 @@ body {
   font-weight: 400;
   color: $black;
 
-  @media screen and (width <= 1480px) {
+  @media screen and (max-width: 1480px) {
     font-size: calc(100vw * (16 / 1480));
   }
 
@@ -62,11 +62,11 @@ a {
   color: #e74c3c;
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .m-page {
     font-size: calc(100vw * (16 / 428));
 
-    @media screen and (width >= 577px) {
+    @media screen and (min-width: 577px) {
       font-size: calc(100vw * (16 / 768));
     }
   }
@@ -76,7 +76,7 @@ a {
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .m-page {
     font-size: calc(100vw * (16 / 320));
   }

@@ -299,7 +299,7 @@ body .services3 {
     margin-bottom: 1.5em;
   }
 
-  @media screen and (width >= 993px) {
+  @media screen and (min-width: 993px) {
     .product-slider {
       &__slide {
         width: 20% !important;
@@ -358,7 +358,7 @@ body .services3 {
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .page-search {
     position: relative;
     width: 100%;
@@ -504,7 +504,7 @@ body .services3 {
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .service-info {
     grid-template-columns: 100%;
   }
@@ -578,7 +578,7 @@ body .services3 {
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .page-search {
     margin-top: 0.94em;
   }

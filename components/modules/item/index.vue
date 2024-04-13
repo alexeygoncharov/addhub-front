@@ -102,7 +102,7 @@
               <slot name="item-volume"></slot>
               <button
                 class="offer-req__btn m-btn m-btn-blue m-btn-shadow"
-                @click="emits('submit')"
+                @click="createOrder()"
               >
                 <span>{{
                   type === 'service'
@@ -185,6 +185,17 @@
 <script setup lang="ts">
 import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
 const emits = defineEmits(['submit']);
+const createOrder = () => {
+  if (user.value) {
+    if (
+      props.type === 'project' &&
+      !props.item?.bids.find((bid) => bid.user._id === user.value?._id)
+    )
+      emits('submit');
+  } else {
+    navigateTo('/login');
+  }
+};
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
 const messagesStore = useMessagesStore();

@@ -159,7 +159,7 @@
   box-shadow: $shadow3;
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .m-btn {
     height: 3.125em;
     padding: 0 1em;

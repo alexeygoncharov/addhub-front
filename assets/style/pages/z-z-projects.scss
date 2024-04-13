@@ -25,7 +25,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .projects-table {
     th,
     td {

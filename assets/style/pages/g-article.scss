@@ -244,7 +244,7 @@
         }
       }
 
-      @media screen and (width >= 993px) {
+      @media screen and (min-width: 993px) {
         align-items: flex-end;
         text-align: right;
       }
@@ -499,7 +499,7 @@
   grid-column: 1/-1;
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .article {
     padding: 0.25em 0 3.3125em;
 
@@ -663,11 +663,11 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .article-top {
     gap: 1.06em;
 
-    @media screen and (width >= 428px) {
+    @media screen and (min-width: 428px) {
       &__info {
         position: relative;
         flex-wrap: wrap;
@@ -713,7 +713,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .article {
     .article-bottom {
       margin-top: 2.31em;

@@ -235,7 +235,7 @@
 
     .swiper {
       &-slide {
-        @media screen and (width >= 993px) {
+        @media screen and (min-width: 993px) {
           width: 22.3125em;
           padding-right: 1.75em;
         }
@@ -336,7 +336,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .freelancer-top {
     padding-top: 0.5em;
 
@@ -520,7 +520,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .review-rating {
     display: block;
   }
@@ -537,7 +537,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .freelancer-top {
     &__inner {
       padding: 1.31em 0.9375em;

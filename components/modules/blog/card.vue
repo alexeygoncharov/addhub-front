@@ -22,7 +22,7 @@
         </div>
         <div class="blog-card3__user-info">
           <div class="blog-card3__user-title">Александр Сидоров</div>
-          <div class="blog-card3__user-desc">Декабрь 2, 2023</div>
+          <div class="blog-card3__user-desc">Декабрь 2, 2024</div>
         </div>
       </a>
     </div>

@@ -1,11 +1,17 @@
 <template>
   <ModulesProfileTop
-    >Мои проекты
+    >Мои {{ user?.active_role === 'buyer' ? 'проекты' : 'услуги' }}
 
     <template #btn>
-      <button class="admin-top__btn m-btn m-btn-blue m-btn-shadow">
-        <span>Создать проект</span>
-      </button></template
+      <nuxtLink
+        to="/profile/items/create"
+        class="admin-top__btn m-btn m-btn-blue m-btn-shadow"
+      >
+        <span
+          >Создать
+          {{ user?.active_role === 'buyer' ? 'проект' : 'услугу' }}</span
+        >
+      </nuxtLink></template
     >
   </ModulesProfileTop>
 
@@ -17,24 +23,24 @@
       <div class="tabs-select__hidden">
         <div class="tabs">
           <div
-            v-for="(title, index) of titles"
-            :key="title"
+            v-for="(el, index) in titles"
+            :key="el.value"
             class="m-tab _tab"
-            :class="{ _active: activeTab === index }"
-            @click="activeTab = index"
+            :class="{ _active: activeTab === el.value }"
+            @click="
+              () => {
+                activeTab = el.value;
+                updateItems();
+              }
+            "
           >
-            <span>{{ title }}</span>
+            <span>{{ el.title }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      v-for="i in 5"
-      :key="i"
-      class="tab-content"
-      :class="{ _active: activeTab === i - 1 }"
-    >
+    <div class="tab-content _active">
       <table>
         <thead>
           <tr>
@@ -59,7 +65,7 @@
                     </div>
                     <div class="reply-row__prop">
                       <img src="/img/calendar2.svg" alt="" />
-                      <span>Декабрь 2, 2023</span>
+                      <span>Декабрь 2, 2024</span>
                     </div>
                     <div class="reply-row__prop">
                       <img src="/img/reply.svg" alt="" />
@@ -145,18 +151,37 @@
 
 <script setup lang="ts">
 const titles = [
-  'Опубликовано',
-  'Не опубликовано',
-  'Активные',
-  'Завершено',
-  'Отменено',
+  { title: 'Опубликовано', value: 'published' },
+  { title: 'Не опубликовано', value: 'not_published' },
+  { title: 'Активные', value: 'active' },
+  { title: 'Завершено', value: 'completed' },
+  { title: 'Отменено', value: 'canceled' },
 ];
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const currentPage = ref(1);
-const activeTab = ref(0);
+const activeTab = ref('published');
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+
+const items = ref([]);
+const updateItems = async () => {
+  const { data } = await apiFetch<ApiListResponse<[]>>(
+    `/api/${user.value?.active_role === 'seller' ? 'services' : 'projects'}/my`,
+    {
+      needToken: true,
+    },
+  );
+  const value = data.value;
+  if (value?.status === 200) {
+    console.log(value);
+
+    items.value = value.result;
+  }
+};
+updateItems();
 </script>
 
 <style scoped></style>

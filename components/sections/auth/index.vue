@@ -10,14 +10,18 @@
           UX-дизайна.
         </div>
       </div>
-      <Form v-slot="{ meta }" class="auth-form" @submit="emits('submit')">
+      <Form
+        v-slot="{ meta, setFieldError }"
+        class="auth-form"
+        @submit="emits('submit')"
+      >
         <div class="auth-form__top">
           <div class="auth-form__title text20 medium-text">
             {{
               isLogin ? 'Добро пожаловать!' : 'Регистрация нового пользователя'
             }}
           </div>
-          <slot name="fields" :meta="meta" />
+          <slot name="fields" :meta="meta" :set-field-error="setFieldError" />
           <div class="auth-form__desc text15">
             {{
               !isLogin ? 'Уже зарегистрированы?' : 'Еще не зарегистрированы?'

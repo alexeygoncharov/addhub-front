@@ -4,9 +4,11 @@
       :items="[{ name: 'Главная', to: '/' }, { name: 'Каталог проектов' }]"
     />
     <UIPageTop
+      v-model="bufSearch"
       title="Поиск проектов"
       description="Вам доступно более 500 000 предложений"
       :has-search="true"
+      @submit="setSearch()"
     />
     <ModulesCatalog :store="catalogStore">
       <template #items>
@@ -39,8 +41,11 @@
 
 <script setup lang="ts">
 import { useCatalogProjectsStore } from '~/stores/catalog/projects';
+const bufSearch = ref('');
 const catalogStore = useCatalogProjectsStore();
-
+const setSearch = () => {
+  catalogStore.searchQuery = bufSearch.value;
+};
 useHead({
   title: 'Каталог проектов',
 });

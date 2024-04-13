@@ -253,7 +253,7 @@
 
 .header-action {
   position: relative;
-  z-index: 10;
+  z-index: 5;
   display: flex;
   flex: 1;
   align-items: center;
@@ -272,6 +272,7 @@
   &__btn {
     height: 2.75em;
     padding: 0 1.75em;
+    margin-right: 3em;
   }
 
   &__stub {
@@ -484,11 +485,35 @@
   }
 
   &__user {
-    margin-left: 0.5625em;
+    position: relative;
+
+    a {
+      margin-left: 0.5625em;
+    }
+
+    .master-nav__submenu {
+      right: 0;
+      width: 12em;
+
+      li > a {
+        flex-direction: row-reverse;
+      }
+
+      li > a::after {
+        rotate: 180deg;
+      }
+    }
+
+    &:hover {
+      .master-nav__submenu {
+        pointer-events: unset;
+        opacity: 1;
+      }
+    }
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .master-menu,
   .master-nav,
   .header-action,
@@ -575,7 +600,15 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 577px) {
+  .header-action {
+    &__btn {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 427px) {
   .mob-menu {
     &__account-top,
     &__link {

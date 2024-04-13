@@ -108,7 +108,7 @@
             <label>Срок</label>
             <p>{{ userBid?.term }}</p>
           </fieldset>
-          <fieldset class="fg _full">
+          <fieldset v-if="userBid?.description" class="fg _full">
             <label>Сопроводительное письмо</label>
             <p>
               {{ userBid?.description }}

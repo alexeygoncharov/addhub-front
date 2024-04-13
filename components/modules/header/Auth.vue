@@ -38,7 +38,6 @@
   </OnClickOutside>
   <div v-if="isAuthenticated && !isLoading" class="header-action2">
     <NuxtLink
-      v-if="profile"
       to="/profile/items/create"
       class="header-action__btn m-btn m-btn-blue-outline"
     >
@@ -72,15 +71,25 @@
       <img src="/img/favorite.svg" alt="" />
       <span v-if="favorites.length" class="header-action2__btn-pin"></span>
     </nuxtLink>
-    <nuxtLink to="/profile" class="header-action2__user avatar">
-      <NuxtImg
-        v-if="user?.avatar"
-        crossorigin="anonymous"
-        :src="baseUrl() + user?.avatar"
-        alt="user avatar"
-      />
-      <Avatar v-else :size="80" :name="user?.name" />
-    </nuxtLink>
+    <div class="header-action2__user">
+      <nuxtLink to="/profile" class="avatar">
+        <NuxtImg
+          v-if="user?.avatar"
+          preload
+          crossorigin="anonymous"
+          :src="baseUrl() + user?.avatar"
+          alt="user avatar"
+        />
+        <Avatar v-else :size="80" :name="user?.name" />
+      </nuxtLink>
+      <ul class="master-nav__submenu">
+        <li>
+          <nuxt-link :to="`/profile`"> Личный кабинет </nuxt-link>
+          <nuxt-link :to="`/profile`"> Мой профиль </nuxt-link>
+          <nuxt-link @click="logout"> Выход </nuxt-link>
+        </li>
+      </ul>
+    </div>
     <button class="burger" @click="toggleMenu">
       <NuxtImg src="/img/burger.svg" alt="" class="_view1" />
       <NuxtImg src="/img/burger2.svg" alt="" class="_view2" />

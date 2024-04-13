@@ -21,7 +21,7 @@
           </div>
           <div class="article-top__item"><span>Александра Иванова</span></div>
           <div class="article-top__item"><span>Бизнес</span></div>
-          <div class="article-top__item"><span>Декабрь 2, 2023</span></div>
+          <div class="article-top__item"><span>Декабрь 2, 2024</span></div>
         </div>
       </div>
       <img src="../../public/img/article.webp" alt="" class="article__img" />
@@ -336,7 +336,7 @@
             <img src="/img/blog.webp" alt="" />
           </a>
           <div class="blog-card__content">
-            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2023</div>
+            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2024</div>
             <div class="blog-card__info">
               <a href="" class="blog-card__title text20 medium-text">
                 Начни онлайн-бизнес и работай из дома
@@ -353,7 +353,7 @@
             <img src="/img/blog2.webp" alt="" />
           </a>
           <div class="blog-card__content">
-            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2023</div>
+            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2024</div>
             <div class="blog-card__info">
               <a href="" class="blog-card__title text20 medium-text">
                 Начни онлайн-бизнес и работай из дома
@@ -370,7 +370,7 @@
             <img src="/img/blog3.webp" alt="" />
           </a>
           <div class="blog-card__content">
-            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2023</div>
+            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2024</div>
             <div class="blog-card__info">
               <a href="" class="blog-card__title text20 medium-text">
                 Начни онлайн-бизнес и работай из дома
@@ -387,7 +387,7 @@
             <img src="/img/blog4.webp" alt="" />
           </a>
           <div class="blog-card__content">
-            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2023</div>
+            <div class="blog-card__date text14 gray-text">Ноябрь 23, 2024</div>
             <div class="blog-card__info">
               <a href="" class="blog-card__title text20 medium-text">
                 Начни онлайн-бизнес и работай из дома

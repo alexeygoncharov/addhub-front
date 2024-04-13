@@ -151,7 +151,7 @@
                 </a>
               </div>
               <div class="buy-card__bottom">
-                <div class="buy-card__date">Февраль 26, 2023</div>
+                <div class="buy-card__date">Февраль 26, 2024</div>
                 <div class="buy-card__price">₽983</div>
               </div>
             </div>
@@ -169,7 +169,7 @@
                 </a>
               </div>
               <div class="buy-card__bottom">
-                <div class="buy-card__date">Февраль 26, 2023</div>
+                <div class="buy-card__date">Февраль 26, 2024</div>
                 <div class="buy-card__price">₽983</div>
               </div>
             </div>
@@ -187,7 +187,7 @@
                 </a>
               </div>
               <div class="buy-card__bottom">
-                <div class="buy-card__date">Февраль 26, 2023</div>
+                <div class="buy-card__date">Февраль 26, 2024</div>
                 <div class="buy-card__price">₽983</div>
               </div>
             </div>

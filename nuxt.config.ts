@@ -30,9 +30,15 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'nuxt-swiper',
     '@vueuse/nuxt',
+    'dayjs-nuxt',
     // '@nuxtjs/sitemap',
     // '@nuxtjs/robots',
   ],
+  dayjs: {
+    locales: ['ru'],
+    plugins: ['relativeTime'],
+    defaultLocale: 'ru',
+  },
   css: ['~/assets/style/style.scss'],
   runtimeConfig: {
     public: {
@@ -45,6 +51,6 @@ export default defineNuxtConfig({
   routeRules: {
     '/projects': { redirect: '/projects/all' },
     '/services': { redirect: '/services/all' },
-    '/profile': { redirect: '/profile/dashboard' },
+    '/profile': { redirect: '/profile/bids' },
   },
 });

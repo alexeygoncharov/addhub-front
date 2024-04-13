@@ -285,7 +285,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .m-table {
     table {
       display: block;
@@ -383,7 +383,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .replies {
     tbody {
       grid-template-columns: 100%;

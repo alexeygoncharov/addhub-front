@@ -55,7 +55,7 @@ export const useCommonStore = defineStore('common', () => {
   }
 
   async function deleteFile(path: string) {
-    const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+    const { data } = await apiFetch<{ status: number }>('/api/files/single', {
       needToken: true,
       options: {
         method: 'DELETE',
@@ -66,12 +66,12 @@ export const useCommonStore = defineStore('common', () => {
     });
     const value = data.value;
     if (value) {
-      return value.result;
+      return value.status;
     }
   }
 
   async function uploadFile(file: FormData) {
-    const { data } = await apiFetch<ApiResponse<any>>('/api/files/single', {
+    const { data } = await apiFetch<ApiResponse<string>>('/api/files/single', {
       needToken: true,
       options: {
         method: 'POST',

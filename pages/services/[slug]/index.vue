@@ -11,7 +11,6 @@
       title="Поиск услуг"
       description="Вам доступно более 500 000 предложений"
       :has-search="true"
-      :has-select="true"
       @submit="setSearch()"
     />
     <!-- <ModulesCatalogPopular /> -->

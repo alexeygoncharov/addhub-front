@@ -210,7 +210,7 @@
   }
 }
 
-@media screen and (width <= 992px) {
+@media screen and (max-width: 992px) {
   .reviews {
     padding: 1.94em 0 4.43em;
 
@@ -231,7 +231,7 @@
       }
     }
 
-    @media screen and (width >= 577px) {
+    @media screen and (min-width: 577px) {
       &__tabs {
         justify-content: center;
       }
@@ -320,7 +320,7 @@
   }
 }
 
-@media screen and (width <= 576px) {
+@media screen and (max-width: 576px) {
   .offer {
     &__media {
       grid-template-columns: 45.2% calc(54.8% - 0.5em);
@@ -343,7 +343,7 @@
   }
 }
 
-@media screen and (width <= 427px) {
+@media screen and (max-width: 427px) {
   .reviews {
     padding: 2.5em 0 3.3em;
 
