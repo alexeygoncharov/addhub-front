@@ -187,7 +187,11 @@ import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
 const emits = defineEmits(['submit']);
 const createOrder = () => {
   if (user.value) {
-    emits('submit');
+    if (
+      props.type === 'project' &&
+      !props.item?.bids.find((bid) => bid.user._id === user.value?._id)
+    )
+      emits('submit');
   } else {
     navigateTo('/login');
   }

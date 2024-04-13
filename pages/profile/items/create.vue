@@ -4,286 +4,157 @@
   }}</ModulesProfileTop>
 
   <div class="profile-item">
-    <div class="profile-item__bottom _pt0">
+    <form
+      id="create-item-form"
+      name="create-item-form"
+      class="profile-item__bottom _pt0"
+      @submit="
+        (e) => {
+          e.preventDefault();
+          createItem();
+        }
+      "
+    >
       <div class="profile-item__grid">
         <fieldset class="fg _full">
           <label
             >Заголовок
             {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
           >
-          <input type="text" placeholder="Заголовок" />
+          <input
+            v-model="form.title"
+            required
+            type="text"
+            placeholder="Заголовок"
+          />
         </fieldset>
         <fieldset class="fg _full">
           <label>
             <label>Описание</label>
           </label>
-          <textarea placeholder="Текст описания"></textarea>
+          <textarea
+            v-model="form.description"
+            required
+            placeholder="Текст описания"
+          ></textarea>
         </fieldset>
         <fieldset class="fg">
           <label>Категория</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Категория 1">
-                <span>Категория 1</span>
-              </div>
-              <div class="m-select__option" data-value="Категория 2">
-                <span>Категория 2</span>
-              </div>
-            </div>
-          </div>
+          <UIVSelect
+            :initial-current-text="{
+              value: form.category,
+              text: commonStore.categories?.find((item) => {
+                if (item._id === form.category) return item;
+              })?.title,
+            }"
+            :options="
+              commonStore.categories?.map((item) => {
+                return { text: item.title, value: item._id };
+              })
+            "
+            :placeholder="'Выберите категорию'"
+            @input="(category) => (form.category = category)"
+          />
         </fieldset>
 
-        <fieldset class="fg">
+        <!-- <fieldset class="fg">
           <label>Подкатегория</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Подкатегория 1">
-                <span>Подкатегория 1</span>
-              </div>
-              <div class="m-select__option" data-value="Подкатегория 2">
-                <span>Подкатегория 2</span>
-              </div>
-            </div>
-          </div>
-        </fieldset>
+        </fieldset> -->
 
         <fieldset class="fg">
           <label>Срок</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Срок 1">
-                <span>Срок 1</span>
-              </div>
-              <div class="m-select__option" data-value="Срок 2">
-                <span>Срок 2</span>
-              </div>
-            </div>
-          </div>
         </fieldset>
 
         <fieldset class="fg">
           <label>Цена</label>
-          <input type="text" placeholder="₽" />
+          <input v-model="form.price" required type="text" placeholder="₽" />
         </fieldset>
         <fieldset class="fg">
           <label>Страна</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Страна 1">
-                <span>Страна 1</span>
-              </div>
-              <div class="m-select__option" data-value="Страна 2">
-                <span>Страна 2</span>
-              </div>
-            </div>
-          </div>
+          <UIVSelect
+            :initial-current-text="{
+              value: form.country,
+              text: commonStore.countries?.find((item) => {
+                if (item._id === form.country) return item;
+              })?.title,
+            }"
+            :options="
+              commonStore.countries?.map((item) => {
+                return { text: item.title, value: item._id };
+              })
+            "
+            :placeholder="'Выберите страну'"
+            @input="
+              (country) => {
+                form.country !== country && (form.city = '');
+                form.country = country;
+              }
+            "
+          />
         </fieldset>
 
-        <fieldset class="fg">
+        <!-- <fieldset class="fg">
           <label>Уровень</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Уровень 1">
-                <span>Уровень 1</span>
-              </div>
-              <div class="m-select__option" data-value="Уровень 2">
-                <span>Уровень 2</span>
-              </div>
-            </div>
-          </div>
-        </fieldset>
+        </fieldset> -->
 
-        <fieldset class="fg">
+        <!-- <fieldset class="fg">
           <label>Языки</label>
-          <div class="m-select _multi-select">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-check">
-                <input
-                  checked
-                  type="checkbox"
-                  data-id="1"
-                  data-value="Английский"
-                />
-                <label><span>Английский</span></label>
-              </div>
-              <div class="m-check">
-                <input type="checkbox" data-id="2" data-value="Русский" />
-                <label><span>Русский</span></label>
-              </div>
-            </div>
-          </div>
+          
         </fieldset>
         <fieldset class="fg">
           <label>Уровень языка</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Уровень 1">
-                <span>Уровень 1</span>
-              </div>
-              <div class="m-select__option" data-value="Уровень 2">
-                <span>Уровень 2</span>
-              </div>
-            </div>
-          </div>
-        </fieldset>
+        </fieldset> -->
 
         <fieldset class="fg _full">
           <label>Объём проекта(заголовок)</label>
-          <input type="text" placeholder="Заголовок" />
+          <input
+            v-model="form.service_volume"
+            type="text"
+            required
+            placeholder="Заголовок"
+          />
         </fieldset>
         <fieldset class="fg _full">
           <label>Объём проекта(описание)</label>
-          <input type="text" placeholder="Описание" />
+          <input
+            v-model="form.service_volume_desc"
+            type="text"
+            required
+            placeholder="Описание"
+          />
         </fieldset>
         <fieldset class="fg">
           <label>Город</label>
-          <div class="m-select" data-placeholder="Выбрать">
-            <input class="m-select__field" type="hidden" />
-            <div class="m-select__toggle">
-              <span class="m-select__current"></span>
-              <svg
-                width="9"
-                height="6"
-                viewBox="0 0 9 6"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5.07671 5.33928L8.86404 1.55188C8.9517 1.46428 9 1.34735 9 1.22266C9 1.09798 8.9517 0.981043 8.86404 0.893445L8.58519 0.614529C8.40349 0.433037 8.10818 0.433037 7.92675 0.614529L4.74638 3.7949L1.56248 0.611C1.47482 0.523402 1.35795 0.475036 1.23333 0.475036C1.10858 0.475036 0.991712 0.523402 0.903975 0.611L0.625198 0.889915C0.537531 0.977582 0.489235 1.09445 0.489235 1.21913C0.489235 1.34382 0.537531 1.46075 0.625198 1.54835L4.41599 5.33928C4.50393 5.42709 4.62135 5.47531 4.74617 5.47504C4.87148 5.47531 4.98883 5.42709 5.07671 5.33928Z"
-                  fill="#041E42"
-                />
-              </svg>
-            </div>
-            <div class="m-select__dropdown">
-              <div class="m-select__option" data-value="Город 1">
-                <span>Город 1</span>
-              </div>
-              <div class="m-select__option" data-value="Город 2">
-                <span>Город 2</span>
-              </div>
-            </div>
-          </div>
+
+          <UIVSelect
+            :initial-current-text="{
+              value: form.city,
+              text: commonStore.cities?.find((item) => {
+                if (item._id === form.city) return item;
+              })?.title,
+            }"
+            :disabled="!form.country"
+            :options="
+              commonStore.cities
+                ?.filter((el) =>
+                  form.country ? el.country === form.country : true,
+                )
+                .map((item) => {
+                  return { text: item.title, value: item._id };
+                })
+            "
+            :placeholder="'Выберите город'"
+            @input="(city) => (form.city = city)"
+          />
         </fieldset>
       </div>
 
-      <div class="profile-item__nav">
+      <!-- <div class="profile-item__nav">
         <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
           <span>Сохранить</span>
         </button>
-      </div>
-    </div>
+      </div> -->
+    </form>
   </div>
 
   <div v-if="user?.active_role === 'buyer'" class="profile-item">
@@ -321,7 +192,11 @@
     </div>
   </div>
   <div v-else class="profile-item__nav">
-    <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
+    <button
+      type="submit"
+      form="create-item-form"
+      class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+    >
       <span>Опубликовать</span>
     </button>
   </div>
@@ -332,8 +207,33 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+const form = ref({
+  title: '',
+  description: '',
+  price: '',
+  city: '',
+  country: '',
+  category: '',
+  service_volume_desc: '',
+  service_volume: '',
+  delivery_time: '10 дней',
+});
+const commonStore = useCommonStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+
+const createItem = async () => {
+  const body =
+    user.value?.active_role === 'buyer' ? { ...form.value } : { ...form.value };
+  const { data, error } = await apiFetch(
+    `/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}`,
+    { options: { method: 'POST', body }, needToken: true },
+  );
+  const value = data.value;
+  if (value) {
+    console.log(value);
+  }
+};
 </script>
 
 <style scoped lang="scss"></style>

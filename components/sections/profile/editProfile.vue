@@ -8,13 +8,15 @@
     <div id="form" class="profile-item__bottom">
       <form class="photo-field">
         <div class="avatar">
-          <img
+          <NuxtImg
             v-if="form.avatar"
+            preload
             crossorigin="anonymous"
             :src="getAvatarUrl(form.avatar)"
-            alt=""
+            alt="avatar"
           />
           <Avatar v-else :size="80" :name="form.name" />
+          <div v-if="avatarLoading" class="photo-field__loader" />
         </div>
         <div class="photo-field__content">
           <div class="photo-field__action">
@@ -155,29 +157,43 @@ import { useFileDialog } from '@vueuse/core';
 import { useUserStore } from '../../../stores/user';
 import { useProfileStore } from '../../../stores/profile';
 import { useCommonStore } from '../../../stores/common';
+const avatarLoading = ref(false);
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const { open, onChange } = useFileDialog({
   accept: 'image/*', // Set to accept only image files
   // directory: true, // Select directories instead of files if set true
   multiple: false,
 });
 
-const deleteAvatar = () => {
-  if (form.value.avatar) commonStore.deleteFile(form.value.avatar);
+const deleteAvatar = async () => {
+  if (form.value.avatar) {
+    const data = await commonStore.deleteFile(form.value.avatar);
+    if (data && user.value) {
+      form.value.avatar = '';
+      user.value.avatar = '';
+    }
+  }
   // await refreshNuxtData();
 };
 
-onChange((files) => {
+onChange(async (files) => {
   if (files) {
     const formData = new FormData();
     formData.append('file', files[0]);
-    commonStore.uploadFile(formData).then((filename: string) => {
-      form.value.avatar = filename;
+    console.log(0);
+    avatarLoading.value = true;
+    const data = await commonStore.uploadFile(formData);
+    avatarLoading.value = false;
+    if (data) {
+      form.value.avatar = result;
       formData.delete('file');
-      formData.append('avatar', filename);
-      profileStore.editProfile({ avatar: filename });
-    });
+      formData.append('avatar', result);
+      profileStore.editProfile({ avatar: result });
+      user.value && (user.value.avatar = result);
+    }
   }
 });
 
@@ -196,7 +212,6 @@ const genders = ref({
   ],
 });
 
-const userStore = useUserStore();
 const form = ref({
   avatar: userStore.user?.avatar,
   name: userStore.user?.name,

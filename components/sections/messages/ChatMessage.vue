@@ -12,7 +12,7 @@
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <div class="message-user__time">
-        <span>{{ dayjs(message.createdAt).fromNow() }}</span>
+        <span>{{ $dayjs(message.createdAt).fromNow() }}</span>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
       </div>
       <div class="message-user__name">{{ message.recipient?.name }}</div>
       <div class="message-user__time">
-        <span>{{ dayjs(message.createdAt).fromNow() }}</span>
+        <span>{{ $dayjs(message.createdAt).fromNow() }}</span>
       </div>
     </div>
 
@@ -41,9 +41,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
 const userStore = useUserStore();
 const props = defineProps({
   message: {

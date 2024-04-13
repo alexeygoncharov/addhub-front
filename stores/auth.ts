@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (value && !error.value) {
       saveToken(value.result, rememberMe);
       return 'success';
-    } else if (error.value?.statusCode === 500) {
+    } else if (error.value?.statusCode === 400) {
       useToast({ message: 'Неверный логин или пароль', type: 'error' });
     } else {
       useToast({ message: 'Непредвиденная ошибка', type: 'error' });
@@ -85,6 +85,8 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = null;
     useCookie('authToken').value = null;
     useSessionStorage('authToken', '').value = null;
+    const route = useRoute();
+    if (route.name?.toString().startsWith('profile')) navigateTo('/');
     const userStore = useUserStore();
     userStore.user = undefined;
   }

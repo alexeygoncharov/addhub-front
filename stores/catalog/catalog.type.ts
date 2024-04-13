@@ -54,10 +54,6 @@ export interface catalogItem {
   price: number;
   photos: string[];
   delivery_time: number;
-  address: {
-    country: Country;
-    city: ItemCity;
-  };
   status: string;
   createdBy: User;
   updatedBy: string;
@@ -74,6 +70,10 @@ export interface serviceItem extends catalogItem {
   orders: number;
   reviews: number;
   rate: number;
+  address: {
+    country: Country;
+    city: ItemCity;
+  };
 }
 
 export interface servicesItem extends catalogItem {
@@ -81,6 +81,10 @@ export interface servicesItem extends catalogItem {
   tools: []; // TODO
   category: Category;
   rate: number;
+  address: {
+    country: Country;
+    city: ItemCity;
+  };
 }
 
 export interface projectsItem extends catalogItem {
@@ -88,14 +92,30 @@ export interface projectsItem extends catalogItem {
   constructor: null; // TODO
   bids: BidList[];
   files: string[];
+  address: {
+    country: Country;
+    city: ItemCity;
+  };
 }
 
-export interface projectItem extends catalogItem {
+export interface baseProject extends catalogItem {
   views: number;
   bids: Bid[];
   category: string;
   constructor: null; // TODO
   files: string[];
+}
+export interface projectItem extends baseProject {
+  address: {
+    country: Country;
+    city: ItemCity;
+  };
+}
+export interface bidProject extends baseProject {
+  address: {
+    country: string;
+    city: string;
+  };
 }
 
 export interface freelancersItem {

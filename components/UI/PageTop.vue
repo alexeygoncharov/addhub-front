@@ -50,7 +50,7 @@
               <span class="_view1">{{
                 new Date(currentItem.createdAt).toISOString().split('T')[0]
               }}</span>
-              <!-- <span class="_view2">Декабрь 2, 2023</span> -->
+              <!-- <span class="_view2">Декабрь 2, 2024</span> -->
             </div>
             <div class="page-top__item">
               <img src="/img/eye.svg" alt="" />

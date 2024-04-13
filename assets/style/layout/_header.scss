@@ -272,6 +272,7 @@
   &__btn {
     height: 2.75em;
     padding: 0 1.75em;
+    margin-right: 3em;
   }
 
   &__stub {
@@ -484,7 +485,31 @@
   }
 
   &__user {
-    margin-left: 0.5625em;
+    position: relative;
+
+    a {
+      margin-left: 0.5625em;
+    }
+
+    .master-nav__submenu {
+      right: 0;
+      width: 12em;
+
+      li > a {
+        flex-direction: row-reverse;
+      }
+
+      li > a::after {
+        rotate: 180deg;
+      }
+    }
+
+    &:hover {
+      .master-nav__submenu {
+        pointer-events: unset;
+        opacity: 1;
+      }
+    }
   }
 }
 
@@ -572,6 +597,14 @@
     background-color: #fff;
     transition: all 0.4s;
     transform: translateX(100%);
+  }
+}
+
+@media screen and (max-width: 577px) {
+  .header-action {
+    &__btn {
+      display: none;
+    }
   }
 }
 

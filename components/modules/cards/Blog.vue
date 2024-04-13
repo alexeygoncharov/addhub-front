@@ -4,7 +4,7 @@
       <NuxtImg :src="'/img/' + img" alt="" />
     </a>
     <div class="blog-card__content">
-      <div class="blog-card__date text14 gray-text">Ноябрь 23, 2023</div>
+      <div class="blog-card__date text14 gray-text">Ноябрь 23, 2024</div>
       <div class="blog-card__info">
         <a href="" class="blog-card__title text20 medium-text">
           Начни онлайн-бизнес и работай из дома

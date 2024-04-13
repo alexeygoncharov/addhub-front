@@ -15,17 +15,13 @@
       </div>
       <div class="chat-item__nums">
         <div class="chat-item__time">
-          {{ dayjs(item.latestMessage.createdAt).fromNow() }}
+          {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
-
 const messageStore = useMessagesStore();
 function selectChat(respondent: any) {
   messageStore.resetMessages();

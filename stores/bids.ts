@@ -47,43 +47,50 @@ export const useBidsStore = defineStore('bids', () => {
       // console.error('Ошибка при загрузке категорий', error);
     }
   }
-  async function updateBid(id: string, bidId: string, status: any) {
-    try {
-      const { data } = await apiFetch<ApiResponse<Bid>>(
-        `/api/projects/${id}/bids/${bidId}`,
-        {
-          options: {
-            method: 'PUT',
-            body: {
-              status,
-            },
-          },
+  async function updateBid(
+    id: string,
+    bidId: string,
+    body: {
+      price: number;
+      term: number;
+      description: string;
+      status?: string;
+    },
+  ) {
+    const { data, error } = await apiFetch<ApiResponse<Bid>>(
+      `/api/projects/${id}/bids/${bidId}`,
+      {
+        options: {
+          method: 'PUT',
+          body,
         },
-      );
-      const value = data.value;
-      if (value) {
-        return value?.result;
-      }
-    } catch (error) {
-      // console.error('Ошибка при загрузке категорий', error);
+        needToken: true,
+      },
+    );
+    if (error.value) {
+      return useToast({ message: error.value.data.message, type: 'error' });
+    }
+    const value = data.value;
+    if (value) {
+      return value?.result;
     }
   }
   async function deleteBid(id: string, bidId: string) {
-    try {
-      const { data } = await apiFetch<ApiResponse<Bid>>(
-        `/api/projects/${id}/bids/${bidId}`,
-        {
-          options: {
-            method: 'DELETE',
-          },
+    const { data, error } = await apiFetch<ApiResponse<Bid>>(
+      `/api/projects/${id}/bids/${bidId}`,
+      {
+        options: {
+          method: 'DELETE',
         },
-      );
-      const value = data.value;
-      if (value) {
-        return value.result;
-      }
-    } catch (error) {
-      // console.error('Ошибка при загрузке категорий', error);
+      },
+    );
+    if (error.value) {
+      return useToast({ message: error.value.data.message, type: 'error' });
+    }
+
+    const value = data.value;
+    if (value) {
+      return value.result;
     }
   }
 

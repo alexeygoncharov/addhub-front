@@ -6,7 +6,7 @@
     <div class="blog-card2__content">
       <div class="blog-card2__title">Преимущества использования технологий</div>
       <div class="blog-card2__date">
-        <span class="text14 gray-text light-text"> Декабрь 2, 2023 </span>
+        <span class="text14 gray-text light-text"> Декабрь 2, 2024 </span>
       </div>
     </div>
   </a>

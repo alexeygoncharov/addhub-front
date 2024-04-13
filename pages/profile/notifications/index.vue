@@ -21,41 +21,55 @@
         </button>
       </div>
 
-      <a v-for="i in 4" :key="i" href="" class="notification-item">
+      <a
+        v-for="notification in notifications"
+        :key="notification._id"
+        href=""
+        class="notification-item"
+      >
         <div class="avatar">
-          <img
+          <!-- <img
             :src="`/img/notification-icon${i + 1 > 1 && i + 1}.svg`"
             alt=""
-          />
+          /> -->
         </div>
         <div class="notification-item__title">
-          <div class="text15 text14-tablet">Ваше резюме обновлено</div>
+          <div class="text15 text14-tablet">{{ notification.description }}</div>
         </div>
       </a>
     </div>
 
     <UIVPagination
       v-model="currentPage"
-      :items-per-page="4"
-      :total-items="16"
-      :total-pages="4"
+      :items-per-page="8"
+      :total-items="totalItems"
+      :total-pages="Math.ceil(totalItems / 8)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Notification } from '~/types/profile.type';
 const currentPage = ref(1);
+const totalItems = ref(0);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
-const notifications = ref([]);
+const notifications = ref<Notification[]>();
 const updateNotifications = async () => {
-  const { data } = await apiFetch<ApiListResponse<{}[]>>('/api/notifications', {
-    needToken: true,
-  });
+  const { data } = await apiFetch<ApiListResponse<Notification[]>>(
+    '/api/notifications',
+    {
+      needToken: true,
+      options: {
+        query: { offset: currentPage.value, limit: 8 },
+      },
+    },
+  );
   const value = data.value;
   if (value?.status === 200) {
+    totalItems.value = value.total;
     notifications.value = value.result;
   }
 };

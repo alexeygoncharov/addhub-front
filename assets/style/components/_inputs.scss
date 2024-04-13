@@ -53,6 +53,11 @@
         width: 0.5625em;
       }
     }
+
+    &__disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
   }
 }
 

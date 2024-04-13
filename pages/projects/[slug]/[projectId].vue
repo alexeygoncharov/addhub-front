@@ -168,7 +168,7 @@
 
 <script setup lang="ts">
 import type { projectsItem } from '~/stores/catalog/catalog.type';
-const showBid = ref(true);
+const showBid = ref(false);
 // TODO доработать запрос на бке
 const userBid = computed(() => {
   return item.value?.bids.find((bid) => {
