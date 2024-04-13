@@ -15,6 +15,7 @@ interface regResponse {
   accessToken: string;
   activeRole: string;
   _id: string;
+  accessToken: string;
 }
 
 export const useAuthStore = defineStore('auth', () => {
