@@ -336,9 +336,9 @@
 }
 
 .messages {
-  height: calc(100% - 13.125em);
+  height: 100vh;
   padding: 2.5em;
-  overflow-y: auto;
+  overflow: scroll;
 
   @include scroll;
 
