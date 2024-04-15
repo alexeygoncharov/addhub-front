@@ -25,7 +25,6 @@ export const useMessagesStore = defineStore('messages', () => {
     });
     const value = data.value;
     if (value) {
-      // console.log('value.result = ', value.result);
       addMessages(value.result);
     }
     return data.value?.result;
@@ -34,7 +33,7 @@ export const useMessagesStore = defineStore('messages', () => {
   function addMessages(payload: any) {
     isLoadedMessages.value = payload;
     payload.forEach((element) => {
-      messages.value.push(element);
+      messages.value.unshift(element);
     });
   }
 

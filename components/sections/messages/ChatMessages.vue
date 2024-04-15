@@ -3,6 +3,7 @@
     v-infinite-scroll="[
       loadMessages,
       {
+        direction: 'top',
         distance: 10,
         canLoadMore: () => {
           return messagesStore.isLoadedMessages.length;
@@ -26,7 +27,6 @@ import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
-const loaded = ref();
 
 async function loadMessages() {
   messagesStore.offset += 1;
@@ -37,7 +37,6 @@ async function loadMessages() {
 }
 
 socket.on('new_message', (newMessage) => {
-  // console.log('new message = ', newMessage);
   messagesStore.messages.push(newMessage);
 });
 </script>
