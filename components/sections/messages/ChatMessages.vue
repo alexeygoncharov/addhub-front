@@ -1,8 +1,20 @@
 <template>
-  <div class="messages">
+  <div
+    v-infinite-scroll="[
+      loadMessages,
+      {
+        direction: 'top',
+        interval: 200,
+        distance: 10,
+        canLoadMore: () => {
+          return messagesStore.isLoadedMessages.length;
+        },
+      },
+    ]"
+    class="messages"
+  >
     <SectionsMessagesChatMessage
       v-for="message in messagesStore.messages"
-      :id="'message' + message._id"
       :key="message._id"
       class="item"
       :message="message"
@@ -12,18 +24,20 @@
 
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
-
+import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 
-// messagesStore.fetchMessageList({
-//   second_side: messagesStore.activeChat._id,
-//   offset: messagesStore.offset,
-// });
+async function loadMessages() {
+  messagesStore.offset += 1;
+  await messagesStore.fetchMessageList({
+    second_side: messagesStore.activeChat._id,
+    offset: messagesStore.offset,
+  });
+}
 
 socket.on('new_message', (newMessage) => {
-  console.log('new message = ', newMessage);
   messagesStore.messages.push(newMessage);
 });
 </script>

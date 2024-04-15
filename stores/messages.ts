@@ -2,6 +2,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const messages = ref<Array<any>>([]);
   const newMessage = ref();
   const activeChat = ref();
+  const isLoadedMessages = ref();
   const limit = 10; // Вы можете выбрать любое значение для limit
   const offset = ref(1);
   const chats = ref();
@@ -24,19 +25,16 @@ export const useMessagesStore = defineStore('messages', () => {
     });
     const value = data.value;
     if (value) {
-      // console.log('value.result = ', value.result);
       addMessages(value.result);
     }
-    return data.value;
+    return data.value?.result;
   }
 
   function addMessages(payload: any) {
-    // console.log('start = ', payload.length);
+    isLoadedMessages.value = payload;
     payload.forEach((element) => {
-      messages.value.push(element);
+      messages.value.unshift(element);
     });
-    offset.value += 1; // Увеличение смещения
-    console.log(payload);
   }
 
   function resetMessages() {
@@ -85,6 +83,7 @@ export const useMessagesStore = defineStore('messages', () => {
     activeChat,
     newMessage,
     chats,
+    isLoadedMessages,
   };
 });
 
