@@ -5,7 +5,7 @@ export default function () {
 
 export function getPublicMedia(filename: string) {
   const baseUrl = useRuntimeConfig().public.apiBase;
-  const publicUrl = `${baseUrl}${filename}`;
+  const publicUrl = `${baseUrl}/${filename}`;
   return publicUrl;
 }
 

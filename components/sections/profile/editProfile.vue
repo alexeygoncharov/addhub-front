@@ -151,10 +151,10 @@ onChange((files) => {
     formData.append('file', files[0]);
     commonStore.uploadFile(formData).then((filename?: string) => {
       if (filename) {
-        form.value.avatar = filename;
+        form.value.avatar = filename.replace('/files', 'files');
         formData.delete('file');
-        formData.append('avatar', filename);
-        profileStore.updateAvatar(filename);
+        formData.append('avatar', form.value.avatar);
+        profileStore.updateAvatar(form.value.avatar);
       }
     });
   }

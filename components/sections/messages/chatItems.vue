@@ -7,7 +7,11 @@
       @click="selectChat(item.user)"
     >
       <div class="avatar">
-        <img :src="baseUrl() + item.user.avatar" alt="" />
+        <img
+          crossorigin="anonymous"
+          :src="getAvatarUrl(item.user.avatar)"
+          alt=""
+        />
       </div>
       <div class="chat-item__info">
         <div class="chat-item__name">{{ item.user.name }}</div>
@@ -17,9 +21,9 @@
         <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>
-        <div class="chat-item__count">
+        <!--  <div class="chat-item__count">
           <span>2</span>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
