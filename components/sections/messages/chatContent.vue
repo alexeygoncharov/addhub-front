@@ -51,7 +51,6 @@
         </div>
       </div>
       <SectionsMessagesChatMessages
-        v-if="messagesStore.activeChat?._id"
         :key="messagesStore.activeChat?._id"
       ></SectionsMessagesChatMessages>
       <div class="chat-nav _flex">
@@ -91,11 +90,25 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
 const messagesStore = useMessagesStore();
 const message = ref({ recipient: '', text: '' });
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
+const userStore = useUserStore();
+
 function sendMessage() {
   message.value.recipient = messagesStore.activeChat._id;
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
 }
+
+socket.on('new_message', (newMessage) => {
+  if (
+    userStore.user?._id === newMessage.sender._id ||
+    newMessage.sender._id === messagesStore.activeChat._id
+  ) {
+    messagesStore.messages.unshift(newMessage);
+  }
+});
 </script>

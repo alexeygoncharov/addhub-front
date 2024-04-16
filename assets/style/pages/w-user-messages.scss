@@ -336,6 +336,8 @@
 }
 
 .messages {
+  display: flex;
+  flex-direction: column-reverse;
   height: 500px;
   padding: 2.5em;
   overflow: scroll;

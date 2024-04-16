@@ -8,7 +8,11 @@
   >
     <div class="message-user">
       <div class="avatar">
-        <img :src="baseUrl() + message.sender?.avatar" alt="" />
+        <img
+          crossorigin="anonymous"
+          :src="getAvatarUrl(message.sender?.avatar)"
+          alt=""
+        />
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <div class="message-user__time">
@@ -25,7 +29,11 @@
   <div v-else class="message-item">
     <div class="message-user">
       <div class="avatar">
-        <img :src="baseUrl() + message.sender?.avatar" alt="" />
+        <img
+          crossorigin="anonymous"
+          :src="getAvatarUrl(message.sender?.avatar)"
+          alt=""
+        />
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <div class="message-user__time">
@@ -48,5 +56,4 @@ const props = defineProps({
     required: true,
   },
 });
-// console.log('message tutu = ', props.message);
 </script>

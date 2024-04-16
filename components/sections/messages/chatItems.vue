@@ -2,12 +2,16 @@
   <div class="chat-items">
     <div
       v-for="item in messageStore.chats"
-      :key="item._id"
+      :key="item.latestMessage._id"
       class="chat-item"
       @click="selectChat(item.user)"
     >
       <div class="avatar">
-        <img :src="baseUrl() + item.user.avatar" alt="" />
+        <img
+          crossorigin="anonymous"
+          :src="getAvatarUrl(item.user.avatar)"
+          alt=""
+        />
       </div>
       <div class="chat-item__info">
         <div class="chat-item__name">{{ item.user.name }}</div>
@@ -17,6 +21,9 @@
         <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>
+        <!--  <div class="chat-item__count">
+          <span>2</span>
+        </div>-->
       </div>
     </div>
   </div>
@@ -27,7 +34,7 @@ function selectChat(respondent: any) {
   messageStore.resetMessages();
   messageStore.activeChat = respondent;
   messageStore.fetchMessageList({
-    second_side: respondent._id,
+    second_side: messageStore.activeChat._id,
     offset: messageStore.offset,
   });
 }

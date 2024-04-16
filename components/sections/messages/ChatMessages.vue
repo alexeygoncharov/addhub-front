@@ -7,7 +7,7 @@
         interval: 200,
         distance: 10,
         canLoadMore: () => {
-          return messagesStore.isLoadedMessages.length;
+          return messagesStore.isLoadedMessages?.length;
         },
       },
     ]"
@@ -23,12 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Socket } from 'socket.io-client';
 import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
-const nuxtApp = useNuxtApp();
-const socket = nuxtApp.$socket as Socket;
-
 async function loadMessages() {
   messagesStore.offset += 1;
   await messagesStore.fetchMessageList({
@@ -36,8 +32,4 @@ async function loadMessages() {
     offset: messagesStore.offset,
   });
 }
-
-socket.on('new_message', (newMessage) => {
-  messagesStore.messages.push(newMessage);
-});
 </script>
