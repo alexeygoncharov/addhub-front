@@ -166,6 +166,7 @@
               </div> -->
 
               <button
+                v-if="isAuthenticated"
                 class="about-client__btn m-btn m-btn-blue-outline"
                 @click="reveal"
               >
@@ -199,6 +200,7 @@ const createOrder = () => {
 const { favorites } = storeToRefs(useUserStore());
 const { toggleFavorite } = useUserStore();
 const messagesStore = useMessagesStore();
+const { isAuthenticated } = useAuthStore();
 const message = ref({
   text: '',
   recipient: '',
