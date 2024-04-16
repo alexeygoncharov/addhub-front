@@ -8,7 +8,7 @@
   >
     <div class="message-user">
       <div class="avatar">
-        <img :src="getAvatarUrl(message.sender?.avatar)" alt="" />
+        <img :src="baseUrl() + '/' + message.sender?.avatar" alt="" />
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <div class="message-user__time">
@@ -25,7 +25,7 @@
   <div v-else class="message-item">
     <div class="message-user">
       <div class="avatar">
-        <img :src="getAvatarUrl(message.sender?.avatar)" alt="" />
+        <img :src="baseUrl() + '/' + message.sender?.avatar" alt="" />
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <div class="message-user__time">
