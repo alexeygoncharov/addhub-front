@@ -15,7 +15,6 @@ export const useMessagesStore = defineStore('messages', () => {
     limit?: number;
     offset?: number;
   }
-  // const categories = ref<Category[]>()
   async function fetchMessageList(list: MessagesList) {
     const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
       needToken: true,
@@ -33,7 +32,7 @@ export const useMessagesStore = defineStore('messages', () => {
   function addMessages(payload: any) {
     isLoadedMessages.value = payload;
     payload.forEach((element) => {
-      messages.value.unshift(element);
+      messages.value.push(element);
     });
   }
 

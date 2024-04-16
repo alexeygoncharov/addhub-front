@@ -339,6 +339,8 @@
   height: 500px;
   padding: 2.5em;
   overflow: scroll;
+  display: flex;
+  flex-direction: column-reverse;
 
   @include scroll;
 

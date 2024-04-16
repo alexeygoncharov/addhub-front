@@ -7,7 +7,7 @@
         interval: 200,
         distance: 10,
         canLoadMore: () => {
-          return messagesStore.isLoadedMessages.length;
+          return messagesStore.isLoadedMessages?.length;
         },
       },
     ]"
@@ -48,7 +48,7 @@ socket.on('new_message', (newMessage) => {
     userStore.user?._id === newMessage.sender._id ||
     newMessage.sender._id === messagesStore.activeChat._id
   ) {
-    messagesStore.messages.push(newMessage);
+    messagesStore.messages.unshift(newMessage);
   }
 });
 </script>
