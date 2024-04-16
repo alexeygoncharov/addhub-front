@@ -2,7 +2,7 @@
   <div class="chat-items">
     <div
       v-for="item in messageStore.chats"
-      :key="item._id"
+      :key="item.latestMessage._id"
       class="chat-item"
       @click="selectChat(item.user)"
     >

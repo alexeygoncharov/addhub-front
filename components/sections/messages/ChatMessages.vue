@@ -28,6 +28,12 @@ import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
+const userStore = useUserStore();
+
+messagesStore.fetchMessageList({
+  second_side: messagesStore.activeChat._id,
+  offset: messagesStore.offset,
+});
 
 async function loadMessages() {
   messagesStore.offset += 1;
@@ -38,6 +44,11 @@ async function loadMessages() {
 }
 
 socket.on('new_message', (newMessage) => {
-  messagesStore.messages.push(newMessage);
+  if (
+    userStore.user?._id === newMessage.sender._id ||
+    newMessage.sender._id === messagesStore.activeChat._id
+  ) {
+    messagesStore.messages.push(newMessage);
+  }
 });
 </script>

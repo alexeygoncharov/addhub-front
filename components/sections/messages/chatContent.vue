@@ -52,7 +52,6 @@
       </div>
       <SectionsMessagesChatMessages
         v-if="messagesStore.activeChat?._id"
-        :key="messagesStore.activeChat?._id"
       ></SectionsMessagesChatMessages>
       <div class="chat-nav _flex">
         <div class="chat-nav__field">
