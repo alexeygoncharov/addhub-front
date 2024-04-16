@@ -17,6 +17,9 @@
         <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>
+        <div class="chat-item__count">
+          <span>2</span>
+        </div>
       </div>
     </div>
   </div>
@@ -26,9 +29,5 @@ const messageStore = useMessagesStore();
 function selectChat(respondent: any) {
   messageStore.resetMessages();
   messageStore.activeChat = respondent;
-  messageStore.fetchMessageList({
-    second_side: respondent._id,
-    offset: messageStore.offset,
-  });
 }
 </script>
