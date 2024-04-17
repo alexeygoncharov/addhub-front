@@ -21,9 +21,9 @@
         <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>
-        <!--  <div class="chat-item__count">
+        <div class="chat-item__count">
           <span>2</span>
-        </div>-->
+        </div>
       </div>
     </div>
   </div>
