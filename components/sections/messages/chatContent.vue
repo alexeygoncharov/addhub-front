@@ -101,11 +101,31 @@ function sendMessage() {
   message.value.recipient = messagesStore.activeChat._id;
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
+  message.value = { recipient: '', text: '' };
 }
 
 socket.on('new_message', (newMessage) => {
+  // TODO: подумать получше
+  const me = userStore.user?._id;
+  // если мне написали из нового чата (которого пока что не существует) обновляю chatlist
+  if (me !== newMessage.sender._id) {
+    const isNewChat = messagesStore.chats.find((item: any) => {
+      return item.user._id !== newMessage.sender._id;
+    });
+    if (isNewChat) {
+      messagesStore.fetchChats();
+    }
+  }
+  // мапплю lastmessage для отображения в chatlists у сендера, который мне отправил сообщение
+  messagesStore.chats.map((item: any) => {
+    if (item.user._id === newMessage.recipient._id)
+      return (item.latestMessage = newMessage);
+    return item;
+  });
+
+  // добавляю новое сообщение
   if (
-    userStore.user?._id === newMessage.sender._id ||
+    me === newMessage.sender._id ||
     newMessage.sender._id === messagesStore.activeChat._id
   ) {
     messagesStore.messages.unshift(newMessage);
