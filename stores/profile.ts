@@ -17,8 +17,10 @@ export const useProfileStore = defineStore('profile', () => {
     phone_number?: string;
     slogan?: string;
     gender?: string;
-    country?: string;
-    city?: string;
+    address?: {
+      city?: string;
+      country?: string;
+    };
     about_me?: string;
   }
 
