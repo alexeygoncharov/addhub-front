@@ -90,7 +90,7 @@ const toggleSelect = () => {
   isOpen.value = !isOpen.value;
 };
 const selectOption = (option: typeof props.initialCurrentText) => {
-  console.log('option ', option);
+  // console.log('option ', option);
   // initialCurrentText.value = option;
   emits('input', option.value);
   isOpen.value = false;

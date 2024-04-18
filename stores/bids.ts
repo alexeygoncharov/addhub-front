@@ -79,6 +79,7 @@ export const useBidsStore = defineStore('bids', () => {
     const { data, error } = await apiFetch<ApiResponse<Bid>>(
       `/api/projects/${id}/bids/${bidId}`,
       {
+        needToken: true,
         options: {
           method: 'DELETE',
         },

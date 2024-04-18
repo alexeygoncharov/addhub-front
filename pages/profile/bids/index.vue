@@ -23,7 +23,7 @@
                 />
                 <Avatar
                   v-else
-                  :size="40"
+                  :size="80"
                   :name="bid.project_id.createdBy.name"
                 />
               </a>
@@ -124,7 +124,7 @@
       :id="editableData?.project_id._id || ''"
       v-model="openBidEdit"
       v-model:editable="editableData"
-      @update-bid="updateBids()"
+      @submit="updateBids()"
     />
   </div>
 </template>

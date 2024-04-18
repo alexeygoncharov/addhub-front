@@ -23,7 +23,7 @@
       <div class="tabs-select__hidden">
         <div class="tabs">
           <div
-            v-for="(el, index) in titles"
+            v-for="el in titles"
             :key="el.value"
             class="m-tab _tab"
             :class="{ _active: activeTab === el.value }"
