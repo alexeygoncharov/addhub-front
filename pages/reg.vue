@@ -28,7 +28,7 @@
         <label>Логин</label>
         <Field
           v-model.trim="regDetails.username"
-          rules="required|alpha_dash"
+          rules="required|alpha_dash|username"
           name="username"
           type="text"
           autocomplete="username"
@@ -66,13 +66,11 @@
         <label>Email адрес</label>
         <Field
           v-model.trim="regDetails.email"
-          rules="required|email"
+          rules="required|emailFetch"
           name="email"
           autocomplete="email"
           type="email"
           placeholder="hello@mail.com"
-          @update:model-value="updateAccess(false, 'email', setFieldError)"
-          @blur="updateAccess(true, 'email', setFieldError)"
         />
         <ErrorMessage name="email" class="error-message" />
       </fieldset>
@@ -101,9 +99,7 @@
         <ErrorMessage name="repeatPassword" class="error-message" />
       </fieldset>
       <UIVButton
-        :disabled="
-          !meta.valid || !regDetails.role || !usernameAccess || !emailAccess
-        "
+        :disabled="!meta.valid || !regDetails.role"
         color="blue"
         :is-shadow="true"
         type="submit"
@@ -130,8 +126,7 @@ useHead({
 });
 
 const focusChanged = ref(false);
-const usernameAccess = ref(false);
-const emailAccess = ref(false);
+
 const timeoutId = ref();
 
 const regDetails = ref({
@@ -181,40 +176,44 @@ const updateAccess = (
   type: 'username' | 'email',
   setFieldError: (field: string, message: string | undefined) => void,
 ) => {
-  if (timeoutId.value) clearTimeout(timeoutId.value);
-  if (!focus) focusChanged.value = false;
-  if (focusChanged.value) return;
-  usernameAccess.value = false;
-  emailAccess.value = false;
-  if (type === 'email' && !email(regDetails.value.email)) return;
-  if (
-    type === 'username' &&
-    !regDetails.value.username.trim() &&
-    !alpha_dash(regDetails.value.username, { locale: 'ru' })
-  )
-    return;
-  if (focus) {
-    checkValue(
-      setFieldError,
-      type === 'username'
-        ? '/api/auth/check_username'
-        : '/api/auth/check_email',
-      type === 'username' ? usernameAccess : emailAccess,
-      type,
-    );
-  } else {
-    timeoutId.value = setTimeout(() => {
-      checkValue(
-        setFieldError,
-        type === 'username'
-          ? '/api/auth/check_username'
-          : '/api/auth/check_email',
-        type === 'username' ? usernameAccess : emailAccess,
-        type,
-      );
-      focusChanged.value = true;
-    }, 1500);
-  }
+  // if (timeoutId.value) clearTimeout(timeoutId.value);
+  // if (!focus) focusChanged.value = false;
+  // if (focusChanged.value) return;
+  // usernameAccess.value = false;
+  // emailAccess.value = false;
+  // if (
+  //   type === 'email' &&
+  //   (!regDetails.value.email || !email(regDetails.value.email))
+  // )
+  //   return;
+  // if (
+  //   type === 'username' &&
+  //   (!regDetails.value.username ||
+  //     !alpha_dash(regDetails.value.username, { locale: 'ru' }))
+  // )
+  //   return;
+  // if (focus) {
+  //   checkValue(
+  //     setFieldError,
+  //     type === 'username'
+  //       ? '/api/auth/check_username'
+  //       : '/api/auth/check_email',
+  //     type === 'username' ? usernameAccess : emailAccess,
+  //     type,
+  //   );
+  // } else {
+  //   timeoutId.value = setTimeout(() => {
+  //     checkValue(
+  //       setFieldError,
+  //       type === 'username'
+  //         ? '/api/auth/check_username'
+  //         : '/api/auth/check_email',
+  //       type === 'username' ? usernameAccess : emailAccess,
+  //       type,
+  //     );
+  //     focusChanged.value = true;
+  //   }, 1500);
+  // }
 };
 // if (role === 'freelancer') {
 // } else if (role === 'seller') {
@@ -236,12 +235,12 @@ const handleSubmit = (
   values: Record<string, any>,
   actions: FormActions<typeof values>,
 ) => {
-  if (!usernameAccess.value) {
-    actions.setFieldError('username', 'Данный логин уже занят');
-  } else if (!emailAccess.value) {
-    actions.setFieldError('email', 'Данный email уже зарегистрирован');
-  } else {
-    register();
-  }
+  // if (!usernameAccess.value) {
+  //   actions.setFieldError('username', 'Данный логин уже занят');
+  // } else if (!emailAccess.value) {
+  //   actions.setFieldError('email', 'Данный email уже зарегистрирован');
+  // } else {
+  register();
+  // }
 };
 </script>

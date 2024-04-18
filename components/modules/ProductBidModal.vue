@@ -75,7 +75,7 @@ const item = defineModel<projectsItem>('item', { default: undefined });
 const price = ref<number>();
 const term = ref<number>();
 const description = ref<string>();
-const emit = defineEmits(['newBid', 'updateBid']);
+const emit = defineEmits(['newBid', 'submit']);
 const editableData = defineModel<Bid>('editable', { default: undefined });
 const props = defineProps<{ id: string }>();
 async function updateBid() {
@@ -87,14 +87,13 @@ async function updateBid() {
     return;
   showBid.value = false;
   const data = editableData.value;
-  const result = await bidsStore.updateBid(data._id, data.project_id._id, {
+  const result = await bidsStore.updateBid(data.project_id._id, data._id, {
     price: data.price,
     term: data.term,
     description: data.description || '',
   });
   if (result) {
-    emit('updateBid');
-    console.log(result);
+    emit('submit');
   }
 }
 async function createBid() {

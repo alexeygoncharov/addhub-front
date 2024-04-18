@@ -85,7 +85,7 @@
       <ul class="master-nav__submenu">
         <li>
           <nuxt-link :to="`/profile`"> Личный кабинет </nuxt-link>
-          <nuxt-link :to="`/profile`"> Мой профиль </nuxt-link>
+          <nuxt-link :to="`/profile/settings`"> Мой профиль </nuxt-link>
           <nuxt-link @click="logout"> Выход </nuxt-link>
         </li>
       </ul>

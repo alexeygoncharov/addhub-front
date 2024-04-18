@@ -11,10 +11,12 @@
       <form class="photo-field">
         <div class="avatar">
           <img
+            v-if="form.avatar"
             crossorigin="anonymous"
             :src="getAvatarUrl(form.avatar)"
             alt=""
           />
+          <Avatar v-else :size="80" :name="form.name" />
         </div>
         <div class="photo-field__content">
           <div class="photo-field__action">
