@@ -216,7 +216,7 @@ const form = ref({
   category: '',
   service_volume_desc: '',
   service_volume: '',
-  delivery_time: '10 дней',
+  delivery_time: '10',
 });
 const commonStore = useCommonStore();
 const userStore = useUserStore();
