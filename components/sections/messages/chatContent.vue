@@ -113,7 +113,10 @@ socket.on('new_message', (newMessage) => {
       return item.user._id !== newMessage.sender._id;
     });
     if (isNewChat) {
-      messagesStore.fetchChats();
+      messagesStore.fetchChats({
+        limit: messagesStore.limit,
+        offset: messagesStore.chatListOffset,
+      });
     }
   }
   // мапплю lastmessage для отображения в chatlists у сендера, который мне отправил сообщение

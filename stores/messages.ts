@@ -3,9 +3,12 @@ export const useMessagesStore = defineStore('messages', () => {
   const newMessage = ref();
   const activeChat = ref();
   const isLoadedMessages = ref();
+  const isLoadedChats = ref();
   const limit = 10; // Вы можете выбрать любое значение для limit
-  const offset = ref(1);
-  const chats = ref();
+  const messagesListOffset = ref(1);
+  const chatListOffset = ref(1);
+  const chats = ref<Array<any>>([]);
+  console.log('chats = ', chats);
   interface Message {
     text: string;
     recipient: string;
@@ -15,11 +18,15 @@ export const useMessagesStore = defineStore('messages', () => {
     limit?: number;
     offset?: number;
   }
-  async function fetchMessageList(list: MessagesList) {
+  interface ChatList {
+    limit?: number;
+    offset?: number;
+  }
+  async function fetchMessageList(payload: MessagesList) {
     const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
       needToken: true,
       options: {
-        query: list,
+        query: payload,
       },
     });
     const value = data.value;
@@ -36,20 +43,35 @@ export const useMessagesStore = defineStore('messages', () => {
     });
   }
 
-  function resetMessages() {
-    messages.value = [];
-    offset.value = 1;
+  function addChats(payload: any) {
+    // console.log('new chat ', payload);
+    isLoadedChats.value = payload;
+    payload.list.forEach((element) => {
+      chats.value.push(element);
+    });
+    console.log('payload chats ', chats);
   }
 
-  async function fetchChats() {
+  function resetMessages() {
+    messages.value = [];
+    messagesListOffset.value = 1;
+  }
+
+  async function fetchChats(payload: ChatList) {
     const { data } = await apiFetch<ApiResponse<any>>(
       `/api/messages/my_chats`,
       {
         needToken: true,
-        options: {},
+        options: {
+          query: payload,
+        },
       },
     );
-    chats.value = data.value?.result;
+    const value = data.value;
+    if (value) {
+      chats.value = value.result.list;
+      // addChats(value.result);
+    }
     return data.value?.result;
   }
 
@@ -76,13 +98,15 @@ export const useMessagesStore = defineStore('messages', () => {
     createMessage,
     fetchChats,
     resetMessages,
-    offset,
+    messagesListOffset,
+    chatListOffset,
     limit,
     messages,
     activeChat,
     newMessage,
     chats,
     isLoadedMessages,
+    isLoadedChats,
   };
 });
 
