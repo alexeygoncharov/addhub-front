@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-items">
+  <div v-infinite-scroll="[loadChats, { distance: 10 }]" class="chat-items">
     <div
       v-for="item in messagesStore.chats"
       :key="item._id"
@@ -35,8 +35,8 @@ const messagesStore = useMessagesStore();
 function selectChat(respondent: any) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
-  messagesStore.fetchMessageList({
-    second_side: messagesStore.getRespondent(respondent)?._id,
+  messagesStore.fetchChatMessagesList({
+    chat_id: messagesStore.activeChat?._id,
     offset: messagesStore.messagesListOffset,
   });
 }
@@ -46,11 +46,11 @@ messagesStore.fetchChats({
   offset: messagesStore.chatListOffset,
 });
 
-// async function loadMessages() {
-//   messagesStore.chatListOffset += 1;
-//   await messagesStore.fetchChats({
-//     limit: messagesStore.limit,
-//     offset: messagesStore.chatListOffset,
-//   });
-// }
+async function loadChats() {
+  messagesStore.chatListOffset += 1;
+  await messagesStore.fetchChats({
+    limit: messagesStore.limit,
+    offset: messagesStore.chatListOffset,
+  });
+}
 </script>
