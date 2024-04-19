@@ -35,8 +35,8 @@ const messagesStore = useMessagesStore();
 function selectChat(respondent: any) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
-  messagesStore.fetchMessageList({
-    second_side: messagesStore.getRespondent(respondent)?._id,
+  messagesStore.fetchChatMessagesList({
+    chat_id: messagesStore.activeChat?._id,
     offset: messagesStore.messagesListOffset,
   });
 }

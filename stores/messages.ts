@@ -15,7 +15,7 @@ export const useMessagesStore = defineStore('messages', () => {
     recipient: string;
   }
   interface MessagesList {
-    second_side: string;
+    chat_id: string;
     limit?: number;
     offset?: number;
   }
@@ -23,13 +23,16 @@ export const useMessagesStore = defineStore('messages', () => {
     limit?: number;
     offset?: number;
   }
-  async function fetchMessageList(payload: MessagesList) {
-    const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
-      needToken: true,
-      options: {
-        query: payload,
+  async function fetchChatMessagesList(payload: MessagesList) {
+    const { data } = await apiFetch<ApiResponse<any>>(
+      `/api/messages/chat/chat_id`,
+      {
+        needToken: true,
+        options: {
+          query: payload,
+        },
       },
-    });
+    );
     const value = data.value;
     if (value) {
       addMessages(value.result);
@@ -99,7 +102,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   return {
-    fetchMessageList,
+    fetchChatMessagesList,
     createMessage,
     fetchChats,
     resetMessages,
