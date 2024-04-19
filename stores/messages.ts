@@ -45,7 +45,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function getRespondent(chat: any) {
-    return chat.members.find((member) => member._id !== user?._id);
+    return chat?.members.find((member) => member._id !== user?._id);
   }
 
   function addChats(payload: any) {

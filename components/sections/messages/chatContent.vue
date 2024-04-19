@@ -13,11 +13,19 @@
       <div class="chat-content__top">
         <div class="chat-user">
           <div class="avatar">
-            <img src="" alt="" />
+            <img
+              crossorigin="anonymous"
+              :src="
+                getAvatarUrl(
+                  messagesStore.getRespondent(messagesStore.activeChat)?.avatar,
+                )
+              "
+              alt=""
+            />
           </div>
           <div class="chat-user__info">
             <div class="chat-user__name">
-              {{ messagesStore.activeChat?.name }}
+              {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
             </div>
             <div class="chat-user__status">
               <span>онлайн</span>
