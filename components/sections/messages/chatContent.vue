@@ -92,46 +92,53 @@
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
 const messagesStore = useMessagesStore();
+const userStore = useUserStore();
 const message = ref({ recipient: '', text: '' });
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
-const userStore = useUserStore();
 
 function sendMessage() {
-  message.value.recipient = messagesStore.activeChat._id;
+  message.value.recipient = messagesStore.activeChat.members[0]._id;
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
   message.value = { recipient: '', text: '' };
 }
 
 socket.on('new_message', (newMessage) => {
-  // TODO: подумать получше
-  const me = userStore.user?._id;
-  // если мне написали из нового чата (которого пока что не существует) обновляю chatlist
-  if (me !== newMessage.sender._id) {
-    const isNewChat = messagesStore.chats.find((item: any) => {
-      return item.user._id !== newMessage.sender._id;
-    });
-    if (isNewChat) {
-      messagesStore.fetchChats({
-        limit: messagesStore.limit,
-        offset: messagesStore.chatListOffset,
-      });
-    }
-  }
-  // мапплю lastmessage для отображения в chatlists у сендера, который мне отправил сообщение
-  messagesStore.chats.map((item: any) => {
-    if (item.user._id === newMessage.recipient._id)
-      return (item.latestMessage = newMessage);
-    return item;
-  });
+  const currentUserID = userStore.user?._id;
+  const activeChatRespondent = messagesStore.getRespondent(
+    messagesStore.activeChat,
+  );
 
-  // добавляю новое сообщение
+  if (isFromNewChat(newMessage, currentUserID)) {
+    messagesStore.fetchChats({
+      limit: messagesStore.limit,
+      offset: messagesStore.chatListOffset,
+    });
+  }
+
   if (
-    me === newMessage.sender._id ||
-    newMessage.sender._id === messagesStore.activeChat._id
+    isMessageForActiveChat(newMessage, currentUserID, activeChatRespondent?._id)
   ) {
     messagesStore.messages.unshift(newMessage);
   }
 });
+
+function isFromNewChat(newMessage: any, currentUserID?: string) {
+  return messagesStore.chats.every(
+    (chat) =>
+      chat.members.some((member) => member._id === newMessage.sender._id) ===
+      false,
+  );
+}
+function isMessageForActiveChat(
+  newMessage: any,
+  currentUserID?: string,
+  activeChatRespondentID: string,
+) {
+  return (
+    newMessage.sender._id === currentUserID ||
+    newMessage.sender._id === activeChatRespondentID
+  );
+}
 </script>

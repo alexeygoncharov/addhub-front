@@ -8,6 +8,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const messagesListOffset = ref(1);
   const chatListOffset = ref(1);
   const chats = ref<Array<any>>([]);
+  const { user } = useUserStore();
   console.log('chats = ', chats);
   interface Message {
     text: string;
@@ -41,6 +42,10 @@ export const useMessagesStore = defineStore('messages', () => {
     payload.forEach((element) => {
       messages.value.push(element);
     });
+  }
+
+  function getRespondent(chat: any) {
+    return chat.members.find((member) => member._id !== user?._id);
   }
 
   function addChats(payload: any) {
@@ -98,6 +103,7 @@ export const useMessagesStore = defineStore('messages', () => {
     createMessage,
     fetchChats,
     resetMessages,
+    getRespondent,
     messagesListOffset,
     chatListOffset,
     limit,

@@ -4,17 +4,19 @@
       v-for="item in messagesStore.chats"
       :key="item._id"
       class="chat-item"
-      @click="selectChat(item._id)"
+      @click="selectChat(item)"
     >
-      <div class="avatar">
+      <div v-if="messagesStore.getRespondent(item)" class="avatar">
         <img
           crossorigin="anonymous"
-          :src="getAvatarUrl(item.members[0].avatar)"
+          :src="getAvatarUrl(messagesStore.getRespondent(item)?.avatar)"
           alt=""
         />
       </div>
       <div class="chat-item__info">
-        <div class="chat-item__name">{{ item.members[0].name }}</div>
+        <div class="chat-item__name">
+          {{ messagesStore.getRespondent(item)?.name }}
+        </div>
       </div>
       <div class="chat-item__nums">
         <!-- <div class="chat-item__time">
@@ -33,7 +35,7 @@ function selectChat(respondent: any) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
   messagesStore.fetchMessageList({
-    second_side: messagesStore.activeChat._id,
+    second_side: messagesStore.getRespondent(respondent)?._id,
     offset: messagesStore.messagesListOffset,
   });
 }
@@ -42,7 +44,7 @@ messagesStore.fetchChats({
   limit: messagesStore.limit,
   offset: messagesStore.chatListOffset,
 });
-console.log('chatitems component ', messagesStore.chats);
+
 // async function loadMessages() {
 //   messagesStore.chatListOffset += 1;
 //   await messagesStore.fetchChats({
