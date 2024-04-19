@@ -1,5 +1,5 @@
 <template>
-  <div v-infinite-scroll="[loadChats, { distance: 10 }]" class="chat-items">
+  <div class="chat-items">
     <div
       v-for="item in messagesStore.chats"
       :key="item._id"

@@ -25,7 +25,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
   async function fetchChatMessagesList(payload: MessagesList) {
     const { data } = await apiFetch<ApiResponse<any>>(
-      `/api/messages/chat/chat_id`,
+      `/api/messages/chat/${payload.chat_id}`,
       {
         needToken: true,
         options: {
@@ -35,7 +35,7 @@ export const useMessagesStore = defineStore('messages', () => {
     );
     const value = data.value;
     if (value) {
-      addMessages(value.result);
+      addMessages(value.result.list);
     }
     return data.value?.result;
   }
@@ -66,15 +66,12 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   async function fetchChats(payload: ChatList) {
-    const { data } = await apiFetch<ApiResponse<any>>(
-      `/api/messages/my_chats`,
-      {
-        needToken: true,
-        options: {
-          query: payload,
-        },
+    const { data } = await apiFetch<ApiResponse<any>>(`/api/chat/my`, {
+      needToken: true,
+      options: {
+        query: payload,
       },
-    );
+    });
     const value = data.value;
     if (value) {
       chats.value = value.result.list;
