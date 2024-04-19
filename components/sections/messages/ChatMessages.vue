@@ -26,10 +26,10 @@
 import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 async function loadMessages() {
-  messagesStore.offset += 1;
+  messagesStore.messagesListOffset += 1;
   await messagesStore.fetchMessageList({
     second_side: messagesStore.activeChat._id,
-    offset: messagesStore.offset,
+    offset: messagesStore.messagesListOffset,
   });
 }
 </script>
