@@ -134,7 +134,7 @@ function isFromNewChat(newMessage: any, currentUserID?: string) {
 function isMessageForActiveChat(
   newMessage: any,
   currentUserID?: string,
-  activeChatRespondentID: string,
+  activeChatRespondentID?: string,
 ) {
   return (
     newMessage.sender._id === currentUserID ||
