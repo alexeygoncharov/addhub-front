@@ -18,12 +18,13 @@
           {{ messagesStore.getRespondent(item)?.name }}
         </div>
       </div>
+
       <div class="chat-item__nums">
         <!-- <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>-->
         <div class="chat-item__count">
-          <span>2</span>
+          <span>{{ item.unseen_messages }}</span>
         </div>
       </div>
     </div>
