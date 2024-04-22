@@ -41,6 +41,23 @@
     max-width: 1480px;
     padding: 0 2.5em;
     margin: 0 auto;
+    font-size: calc(1480px * (16 / 1480));
+
+    @media screen and (max-width: 1480px) {
+      font-size: calc(100vw * (16 / 1480));
+    }
+
+    @media screen and (max-width: 992px) {
+      font-size: calc(100vw * (16 / 428));
+
+      @media screen and (min-width: 577px) {
+        font-size: calc(100vw * (16 / 768));
+      }
+    }
+
+    @media screen and (max-width: 427px) {
+      font-size: calc(100vw * (16 / 320));
+    }
   }
 
   .header-action__btn {
@@ -134,10 +151,6 @@
         margin-right: 0.6875em;
       }
 
-      &__user {
-        margin-left: 1.06em;
-      }
-
       .avatar {
         display: flex;
         flex-shrink: 0;
@@ -153,6 +166,8 @@
 }
 
 .admin-menu {
+  font-size: 0.833vw;
+
   @media screen and (min-width: 993px) {
     position: fixed;
     top: 0;
@@ -296,7 +311,7 @@
 @media screen and (max-width: 992px) {
   .admin-page {
     .container {
-      padding: 0 0.9375em;
+      padding: 0 1.25em;
     }
 
     .wrapper {
@@ -315,7 +330,10 @@
 
   .admin-header {
     position: relative;
-    padding: 1em 0;
+
+    &__inner {
+      padding: 1em 0;
+    }
 
     .blog-field,
     &__type {
@@ -325,16 +343,13 @@
     &__logo {
       position: relative;
       z-index: 21;
+      width: 8.625em;
       margin-right: 0;
     }
 
     .header-action2 {
       &__btn {
         display: flex;
-      }
-
-      ._favorite {
-        display: none;
       }
 
       .burger {

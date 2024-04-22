@@ -1,5 +1,16 @@
 <script lang="ts" setup>
-const banners = defineModel<[]>('banners');
+interface banner {
+  loading?: number;
+  path: string;
+}
+const banners = defineModel<string[]>('banners', {
+  default: [],
+});
+const bufBanners = ref<banner[]>(
+  banners.value.map((banner) => ({
+    path: banner,
+  })),
+);
 
 const isDragActive = ref(false);
 
@@ -7,14 +18,13 @@ const loadingIds = ref<number[]>([]);
 let dropzoneEventsQueue = Promise.resolve();
 
 const dragenter = () => {
-  if (banners.value?.length === 10) return;
+  if (bufBanners.value?.length === 10) return;
   isDragActive.value = true;
 };
 
 const dragleave = () => {
   isDragActive.value = false;
 };
-
 function checkFile(file: File) {
   const validImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
   const fileType = file.type;
@@ -32,7 +42,7 @@ declare global {
   }
 }
 const uploadData = (file: File) => {
-  if (!banners.value) return;
+  if (!bufBanners.value) return;
   let originId = Date.now();
   while (loadingIds.value.includes(originId)) {
     originId = Date.now();
@@ -45,24 +55,22 @@ const uploadData = (file: File) => {
     //   );
     //   if (bannerIndex === undefined || bannerIndex < 0 || !banners.value) return;
     //   banners.value[bannerIndex] = response.data;
-    //
     //     banners.value = banners.value?.filter((b) => file.originId !== b.loading);
     //     showNotif('error', t('up.error'), response.message);
   });
-  banners.value.push({
-    download_url: '',
+  bufBanners.value.push({
     loading: originId,
-    id: 0,
-    file_key: '',
+    path: '',
   });
 };
 
 const handleFileUpload = (event: Event) => {
-  if (!banners.value || !event.target || banners.value.length === 10) return;
+  if (!bufBanners.value || !event.target || bufBanners.value.length === 10)
+    return;
   let files = (event.target as HTMLInputElement).files as unknown as File[];
   if (!files?.length) return;
-  if (files.length + banners.value.length > 10) {
-    files = Array.from(files).slice(0, 10 - banners.value.length);
+  if (files.length + bufBanners.value.length > 10) {
+    files = Array.from(files).slice(0, 10 - bufBanners.value.length);
   }
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -72,18 +80,19 @@ const handleFileUpload = (event: Event) => {
 };
 
 function deleteBanner(bannerIndex: number) {
-  if (!banners.value?.[bannerIndex]) return;
-  const bufBanner = banners.value?.[bannerIndex];
-  banners.value?.splice(bannerIndex, 1);
+  if (!bufBanners.value?.[bannerIndex]) return;
+  const bufBanner = bufBanners.value?.[bannerIndex];
+  bufBanners.value?.splice(bannerIndex, 1);
 
   return 1;
 }
 const drop = (e: DragEvent) => {
-  if (!e.dataTransfer || !banners.value || banners.value.length === 10) return;
+  if (!e.dataTransfer || !bufBanners.value || bufBanners.value.length === 10)
+    return;
   isDragActive.value = false;
   let files = e.dataTransfer.files as unknown as File[];
-  if (files.length + banners.value.length > 10) {
-    files = Array.from(files).slice(0, 10 - banners.value.length);
+  if (files.length + bufBanners.value.length > 10) {
+    files = Array.from(files).slice(0, 10 - bufBanners.value.length);
   }
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -92,7 +101,7 @@ const drop = (e: DragEvent) => {
   }
 };
 function imageListHeight() {
-  if (process.server || !banners.value) return;
+  if (process.server || !bufBanners.value) return;
   const container = document.querySelector(
     '.banners-settings__imageList',
   ) as HTMLDivElement;
@@ -106,11 +115,11 @@ function imageListHeight() {
   const numColumns = Math.floor(
     container.offsetWidth / (labels[0].offsetWidth + 15),
   );
-  const sumImage = banners.value?.length + 1;
+  const sumImage = bufBanners.value?.length + 1;
   const numRows = Math.ceil(sumImage / numColumns) || 1;
   container.style.height = labelHeight * numRows + 'px';
 }
-watch(() => banners.value?.length, imageListHeight);
+watch(() => bufBanners.value?.length, imageListHeight);
 onMounted(() => {
   imageListHeight();
   addEventListener('resize', () => {
@@ -120,30 +129,30 @@ onMounted(() => {
 </script>
 <template>
   <fieldset class="fg">
-    <label>Город</label>
+    <label>Загрузите изображения</label>
     <div
       class="banners-settings__body"
       @dragenter.prevent="dragenter"
       @dragover.prevent
     >
-      <div v-if="banners" class="banners-settings__imageList">
+      <div class="banners-settings__imageList">
         <label
           v-for="i in 10"
           :key="i"
           class="banners-settings__image"
           :class="{
-            'banners-settings__image--upload': banners?.length + 1 === i,
-            'banners-settings__image--hasImage': banners?.[i - 1]?.download_url,
-            'banners-settings__image--loading': banners?.[i - 1]?.loading,
+            'banners-settings__image--upload': bufBanners?.length + 1 === i,
+            'banners-settings__image--hasImage': bufBanners?.[i - 1]?.path,
+            'banners-settings__image--loading': bufBanners?.[i - 1]?.loading,
           }"
         >
           <img
-            v-if="banners?.[i - 1]?.download_url"
-            :src="banners[i - 1].download_url"
+            v-if="bufBanners?.[i - 1]?.path"
+            :src="bufBanners[i - 1].path"
             alt="product banner"
           />
           <svg
-            v-if="banners?.length + 1 == i"
+            v-if="bufBanners?.length + 1 == i"
             width="20"
             height="19"
             viewBox="0 0 20 19"
@@ -167,12 +176,12 @@ onMounted(() => {
             />
           </svg>
           <div
-            v-if="banners?.[i - 1]?.loading"
+            v-if="bufBanners?.[i - 1]?.loading"
             class="banners-settings__image--loading-icon"
           ></div>
           <input
             type="file"
-            :disabled="banners?.[i - 1] ? true : false"
+            :disabled="bufBanners?.[i - 1] ? true : false"
             multiple
             @change="handleFileUpload"
           />
@@ -229,4 +238,194 @@ onMounted(() => {
     </p>
   </fieldset>
 </template>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.banners-settings {
+  &__body {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    width: fit-content;
+    padding: 30px 9px 30px 30px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 1px 28px -14px #8fb6e240;
+  }
+
+  &__imageList {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+  }
+
+  &__image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 7em;
+    height: 7em;
+    overflow: visible;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    input {
+      display: none;
+    }
+
+    &--upload {
+      cursor: pointer;
+      background: #f5f5f5;
+      border: 0;
+    }
+
+    &--delete {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 23px;
+      height: 23px;
+      cursor: pointer;
+      background-color: rgb(255 255 255);
+      border-radius: 50%;
+      box-shadow: 0 4px 11.5px -5px #00000040;
+      transform: translate(50%, -50%);
+
+      &:hover {
+        display: flex;
+      }
+    }
+
+    &--loading {
+      /* Safari */
+
+      &-icon {
+        // width: vw(30);
+        // height: vw(30);
+        border: 3px solid #d9d9d9;
+        border-top: 3px solid #fff;
+        border-radius: 50%;
+        animation: spin 0.5s linear infinite; /* Safari */
+
+        &:hover {
+          // animation: none;
+          // border: 1px black solid;
+          // border-radius: 0;
+        }
+      }
+    }
+
+    &--hasImage {
+      border: 0;
+
+      &:hover {
+        // background-color: #d9d9d9;
+        .banners-settings__image--delete {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  &__messages {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #bababa;
+
+    &--mobile {
+      display: none;
+    }
+  }
+
+  &__drag {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #b6b6b6;
+
+    > p {
+      pointer-events: none;
+    }
+
+    &--active {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    &__body {
+      gap: 0;
+      width: 100%;
+      padding: 26px 20px;
+      border-radius: 15px;
+    }
+
+    &__imageList {
+      grid-template-rows: none;
+      grid-template-columns: repeat(auto-fill, minmax(97px, 1fr));
+      gap: 15px;
+      justify-items: center;
+      width: 100%;
+      padding-top: 7px;
+      overflow: hidden;
+    }
+
+    &__image {
+      width: 97px;
+      height: 97px;
+      border-radius: 6px img {
+        border-radius: 6px;
+      }
+
+      &--loading {
+        &-icon {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      &--hasImage {
+        .banners-settings__image--delete {
+          display: flex;
+        }
+      }
+    }
+
+    &__messages {
+      display: none;
+
+      &--mobile {
+        display: block;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #bababa;
+      }
+    }
+
+    &__drag {
+      font-size: 16px;
+
+      &-wrapper {
+        display: none;
+      }
+    }
+  }
+}
+</style>

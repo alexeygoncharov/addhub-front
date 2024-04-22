@@ -11,6 +11,7 @@ import { progress } from '~/composables/loader';
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1000;
   height: 3px;
   background: #917af8;
   transition: width 0.3s;

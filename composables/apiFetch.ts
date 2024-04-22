@@ -26,6 +26,7 @@ export default async function <T>(
   const key =
     endpoint + ((options?.query && JSON.stringify(options?.query)) || '');
   startLoading();
+
   const { data, error } = await useFetch(endpoint, {
     key,
     baseURL: baseUrl,

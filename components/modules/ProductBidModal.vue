@@ -75,7 +75,7 @@ const item = defineModel<projectsItem>('item', { default: undefined });
 const price = ref<number>();
 const term = ref<number>();
 const description = ref<string>();
-const emit = defineEmits(['newBid', 'submit']);
+const emit = defineEmits(['newBid', 'updateBid']);
 const editableData = defineModel<Bid>('editable', { default: undefined });
 const props = defineProps<{ id: string }>();
 async function updateBid() {
@@ -93,7 +93,7 @@ async function updateBid() {
     description: data.description || '',
   });
   if (result) {
-    emit('submit');
+    emit('updateBid');
   }
 }
 async function createBid() {

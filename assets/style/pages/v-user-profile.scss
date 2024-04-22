@@ -44,6 +44,7 @@
 
   &__nav {
     display: flex;
+    gap: 0.625em;
     margin-top: 1.875em;
   }
 
@@ -147,6 +148,7 @@
 }
 
 .file-item {
+  position: relative;
   padding: 1em 1em 1em 1.25em;
   background-color: $primary-white;
   background-image: url('/img/file.svg');
@@ -161,6 +163,26 @@
     line-height: 200%;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  &__delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+    background-color: rgb(255 255 255);
+    border-radius: 50%;
+    box-shadow: 0 4px 11.5px -5px #00000040;
+    transform: translate(50%, -50%);
+
+    &:hover {
+      display: flex;
+    }
   }
 
   &__bottom {
@@ -180,6 +202,12 @@
   &__weight {
     margin-left: 1.21em;
     color: #babfe4;
+  }
+
+  &:hover {
+    .file-item__delete {
+      display: flex;
+    }
   }
 }
 

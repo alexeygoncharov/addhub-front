@@ -51,17 +51,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="j in 8" :key="j" class="reply-row">
+          <tr v-for="(item, index) of items" :key="item._id" class="reply-row">
             <td>
               <div class="reply-row__info">
                 <div class="reply-row__content">
                   <div class="reply-row__title text17 medium-text">
-                    <a href="">Мобильное приложение по доставке еды</a>
+                    <a href="">{{ item.title }}</a>
                   </div>
                   <div class="reply-row__props">
                     <div class="reply-row__prop">
                       <img src="/img/marker2.svg" alt="" />
-                      <span>Москва, Россия</span>
+                      <span
+                        >{{ item.address.city.title }},
+                        {{ item.address.country.title }}</span
+                      >
                     </div>
                     <div class="reply-row__prop">
                       <img src="/img/calendar2.svg" alt="" />
@@ -69,7 +72,7 @@
                     </div>
                     <div class="reply-row__prop">
                       <img src="/img/reply.svg" alt="" />
-                      <span>1 предложение</span>
+                      <span>{{ item.reviews.length }}</span>
                     </div>
                   </div>
                 </div>
@@ -77,18 +80,23 @@
             </td>
             <td>
               <div class="reply-row__price">
-                <span class="text15 light-text"> Веб-дизайн и приложений </span>
+                <span class="text15 light-text">
+                  {{ item.category.title }}
+                </span>
               </div>
             </td>
             <td>
               <div class="reply-row__price">
-                <span class="text15 light-text"> ₽500000 </span>
+                <span class="text15 light-text"> ₽{{ item.price }} </span>
               </div>
             </td>
             <td>
               <div class="reply-row__action">
                 <div class="reply-row__btn">
-                  <button class="m-btn m-btn-blue3">
+                  <nuxtLink
+                    :to="`/profile/items/${item._id}/edit?type=${type}`"
+                    class="m-btn m-btn-blue3"
+                  >
                     <svg
                       width="20"
                       height="20"
@@ -105,14 +113,17 @@
                         fill="#9DA1C6"
                       />
                     </svg>
-                  </button>
+                  </nuxtLink>
                   <div class="tooltip">
                     <div class="tooltip__inner">
                       <div class="text14">Изменить</div>
                     </div>
                   </div>
                 </div>
-                <div class="reply-row__btn">
+                <div
+                  class="reply-row__btn"
+                  @click="deleteItem(item._id, index)"
+                >
                   <button class="m-btn m-btn-blue3">
                     <svg
                       width="20"
@@ -143,19 +154,20 @@
     <UIVPagination
       v-model="currentPage"
       :items-per-page="8"
-      :total-items="24"
-      :total-pages="3"
+      :total-items="total"
+      :total-pages="Math.ceil(total / 8)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { servicesItem } from '#imports';
 const titles = [
   { title: 'Опубликовано', value: 'published' },
-  { title: 'Не опубликовано', value: 'not_published' },
-  { title: 'Активные', value: 'active' },
-  { title: 'Завершено', value: 'completed' },
-  { title: 'Отменено', value: 'canceled' },
+  // { title: 'Не опубликовано', value: 'unpublished' },
+  // { title: 'Активные', value: 'pending' },
+  // { title: 'Завершено', value: 'completed' },
+  // { title: 'Отменено', value: 'canceled' },
 ];
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
@@ -165,20 +177,39 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
-
-const items = ref([]);
+const type = user.value?.active_role === 'buyer' ? 'project' : 'service';
+const deleteItem = async (id: string, index: number) => {
+  const { data, error } = await apiFetch<undefined>(
+    `/api/${type === 'project' ? 'projects' : 'services'}/${id}`,
+    { options: { method: 'DELETE' }, needToken: true },
+  );
+  if (error.value) {
+    useToast({ message: 'Произошла ошибка при удалении', type: 'error' });
+  } else {
+    items.value?.splice(index, 1);
+  }
+};
+const items = ref<servicesItem[]>();
+const total = ref(0);
 const updateItems = async () => {
-  const { data } = await apiFetch<ApiListResponse<[]>>(
+  const { data } = await apiFetch<ApiListResponse<servicesItem[]>>(
     `/api/${user.value?.active_role === 'seller' ? 'services' : 'projects'}/my`,
     {
       needToken: true,
+      options: {
+        query: {
+          // filter: { status: 'published' },
+          offset: currentPage.value,
+          limit: 8,
+        },
+        watch: [activeTab],
+      },
     },
   );
   const value = data.value;
   if (value?.status === 200) {
-    console.log(value);
-
-    items.value = value.result;
+    total.value = value.total;
+    items.value = value.result.list;
   }
 };
 updateItems();
