@@ -13,7 +13,7 @@ export const useMessagesStore = defineStore('messages', () => {
   interface Message {
     text: string;
     recipient: string;
-    services_id?: string;
+    service_id?: string;
   }
   interface MessagesList {
     chat_id: string;
@@ -103,7 +103,7 @@ export const useMessagesStore = defineStore('messages', () => {
           body: {
             message: msg.text,
             recipient: msg.recipient,
-            services_id: msg.services_id,
+            service_id: msg.service_id,
           },
         },
       });
