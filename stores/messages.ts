@@ -13,6 +13,7 @@ export const useMessagesStore = defineStore('messages', () => {
   interface Message {
     text: string;
     recipient: string;
+    services_id?: string;
   }
   interface MessagesList {
     chat_id: string;
@@ -99,7 +100,11 @@ export const useMessagesStore = defineStore('messages', () => {
         needToken: true,
         options: {
           method: 'POST',
-          body: { message: msg.text, recipient: msg.recipient },
+          body: {
+            message: msg.text,
+            recipient: msg.recipient,
+            services_id: msg.services_id,
+          },
         },
       });
       const value = data.value;
