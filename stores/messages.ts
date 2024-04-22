@@ -2,8 +2,8 @@ export const useMessagesStore = defineStore('messages', () => {
   const messages = ref<Array<any>>([]);
   const newMessage = ref();
   const activeChat = ref();
-  const isLoadedMessages = ref();
-  const isLoadedChats = ref();
+  const totalCountMessages = ref<number>(0);
+  const totalCountChats = ref<number>(0);
   const limit = 10; // Вы можете выбрать любое значение для limit
   const messagesListOffset = ref(1);
   const chatListOffset = ref(1);
@@ -35,14 +35,20 @@ export const useMessagesStore = defineStore('messages', () => {
     );
     const value = data.value;
     if (value) {
-      addMessages(value.result.list);
+      addMessages(value.result);
     }
     return data.value?.result;
   }
 
   function addMessages(payload: any) {
-    isLoadedMessages.value = payload;
-    payload.forEach((element) => {
+    console.log(
+      'get payload chats total = ',
+      payload,
+      'get payload messages length = ',
+      messages.value.length,
+    );
+    totalCountMessages.value = payload.total;
+    payload.list.forEach((element) => {
       messages.value.push(element);
     });
   }
@@ -52,8 +58,13 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function addChats(payload: any) {
-    // console.log('new chat ', payload);
-    isLoadedChats.value = payload;
+    console.log(
+      'get payload chats total = ',
+      payload.total,
+      'get payload chats length = ',
+      chats.value.length,
+    );
+    totalCountChats.value = payload.total;
     payload.list.forEach((element) => {
       chats.value.push(element);
     });
@@ -74,8 +85,8 @@ export const useMessagesStore = defineStore('messages', () => {
     });
     const value = data.value;
     if (value) {
-      chats.value = value.result.list;
-      // addChats(value.result);
+      // chats.value = value.result.list;
+      addChats(value.result);
     }
     return data.value?.result;
   }
@@ -111,8 +122,8 @@ export const useMessagesStore = defineStore('messages', () => {
     activeChat,
     newMessage,
     chats,
-    isLoadedMessages,
-    isLoadedChats,
+    totalCountMessages,
+    totalCountChats,
   };
 });
 
