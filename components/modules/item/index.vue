@@ -208,7 +208,7 @@ const { toggleFavorite } = useUserStore();
 const messagesStore = useMessagesStore();
 const { isAuthenticated } = useAuthStore();
 const message = ref({
-  services_id: '',
+  service_id: '',
   text: '',
   recipient: '',
 });
@@ -217,8 +217,8 @@ const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
 
 onConfirm((data: any) => {
   console.log('datata ', data);
-  message.value.services_id = data.serviceId;
-  console.log('data.serviceId ', message.value.services_id);
+  message.value.service_id = data.serviceId;
+  console.log('data.serviceId ', message.value.service_id);
   message.value.recipient = data.userId;
   messagesStore.createMessage(message.value).then(() => {
     message.value.text = '';
