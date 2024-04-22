@@ -8,7 +8,7 @@
         distance: 10,
         canLoadMore: () => {
           return (
-            messagesStore.totalCountMessages != messagesStore.messages.length
+            messagesStore.totalCountMessages > messagesStore.messages.length
           );
         },
       },

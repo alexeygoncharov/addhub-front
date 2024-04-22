@@ -6,7 +6,7 @@
         distance: 10,
         interval: 1000,
         canLoadMore: () => {
-          return messagesStore.totalCountChats != messagesStore.chats.length;
+          return messagesStore.totalCountChats > messagesStore.chats.length;
         },
       },
     ]"
