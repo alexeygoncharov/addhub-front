@@ -1,41 +1,56 @@
 <template>
   <div class="chat-items">
     <div
-      v-for="item in messageStore.chats"
-      :key="item.latestMessage._id"
+      v-for="item in messagesStore.chats"
+      :key="item._id"
       class="chat-item"
-      @click="selectChat(item.user)"
+      @click="selectChat(item)"
     >
-      <div class="avatar">
+      <div v-if="messagesStore.getRespondent(item)" class="avatar">
         <img
           crossorigin="anonymous"
-          :src="getAvatarUrl(item.user.avatar)"
+          :src="getAvatarUrl(messagesStore.getRespondent(item)?.avatar)"
           alt=""
         />
       </div>
       <div class="chat-item__info">
-        <div class="chat-item__name">{{ item.user.name }}</div>
-        <div class="chat-item__prof">{{ item.latestMessage.message }}</div>
-      </div>
-      <div class="chat-item__nums">
-        <div class="chat-item__time">
-          {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
+        <div class="chat-item__name">
+          {{ messagesStore.getRespondent(item)?.name }}
         </div>
-        <!--  <div class="chat-item__count">
-          <span>2</span>
+      </div>
+
+      <div class="chat-item__nums">
+        <!-- <div class="chat-item__time">
+          {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>-->
+        <div class="chat-item__count">
+          <span>{{ item.unseen_messages }}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-const messageStore = useMessagesStore();
+const messagesStore = useMessagesStore();
 function selectChat(respondent: any) {
-  messageStore.resetMessages();
-  messageStore.activeChat = respondent;
-  messageStore.fetchMessageList({
-    second_side: messageStore.activeChat._id,
-    offset: messageStore.offset,
+  messagesStore.resetMessages();
+  messagesStore.activeChat = respondent;
+  messagesStore.fetchChatMessagesList({
+    chat_id: messagesStore.activeChat?._id,
+    offset: messagesStore.messagesListOffset,
+  });
+}
+
+messagesStore.fetchChats({
+  limit: messagesStore.limit,
+  offset: messagesStore.chatListOffset,
+});
+
+async function loadChats() {
+  messagesStore.chatListOffset += 1;
+  await messagesStore.fetchChats({
+    limit: messagesStore.limit,
+    offset: messagesStore.chatListOffset,
   });
 }
 </script>

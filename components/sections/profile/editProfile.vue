@@ -89,12 +89,14 @@
           <label>Страна</label>
           <UIVSelect
             :initial-current-text="{
-              value: form.country?._id,
-              text: form.country?.title,
+              value: form.address.country,
+              text: countries?.find((item) => {
+                if (item.value === form.address.country) return item;
+              })?.text,
             }"
             :options="countries"
             :placeholder="'Выберите страну'"
-            @input="(country) => (form.country = country)"
+            @input="(country) => (form.address.country = country)"
           />
         </fieldset>
 
@@ -102,12 +104,14 @@
           <label>Город</label>
           <UIVSelect
             :initial-current-text="{
-              value: form.city?._id,
-              text: form.city?.title,
+              value: form.address.city,
+              text: cities?.find((item) => {
+                if (item.value === form.address.city) return item;
+              })?.text,
             }"
             :options="cities"
             :placeholder="'Выберите город'"
-            @input="(city) => (form.city = city)"
+            @input="(city) => (form.address.city = city)"
           />
         </fieldset>
 
@@ -185,8 +189,10 @@ const form = ref({
   phone_number: userStore.user?.phone_number,
   slogan: userStore.user?.slogan,
   gender: userStore.user?.gender,
-  country: userStore.user?.address?.country,
-  city: userStore.user?.address?.city,
+  address: {
+    city: userStore.user?.address?.city._id,
+    country: userStore.user?.address?.country._id,
+  },
   about_me: userStore.user?.about_me,
 });
 
@@ -198,8 +204,10 @@ async function submitProfile() {
     phone_number: form.value?.phone_number,
     slogan: form.value?.slogan,
     gender: form.value?.gender,
-    country: form.value?.country?._id,
-    city: form.value?.city?._id,
+    address: {
+      city: form.value?.address.city,
+      country: form.value?.address.country,
+    },
     about_me: form.value?.about_me,
   };
   await profileStore.editProfile(data);

@@ -3,28 +3,39 @@ export const useMessagesStore = defineStore('messages', () => {
   const newMessage = ref();
   const activeChat = ref();
   const isLoadedMessages = ref();
+  const isLoadedChats = ref();
   const limit = 10; // Вы можете выбрать любое значение для limit
-  const offset = ref(1);
-  const chats = ref();
+  const messagesListOffset = ref(1);
+  const chatListOffset = ref(1);
+  const chats = ref<Array<any>>([]);
+  const { user } = useUserStore();
+  console.log('chats = ', chats);
   interface Message {
     text: string;
     recipient: string;
   }
   interface MessagesList {
-    second_side: string;
+    chat_id: string;
     limit?: number;
     offset?: number;
   }
-  async function fetchMessageList(list: MessagesList) {
-    const { data } = await apiFetch<ApiResponse<any>>(`/api/messages`, {
-      needToken: true,
-      options: {
-        query: list,
+  interface ChatList {
+    limit?: number;
+    offset?: number;
+  }
+  async function fetchChatMessagesList(payload: MessagesList) {
+    const { data } = await apiFetch<ApiResponse<any>>(
+      `/api/messages/chat/${payload.chat_id}`,
+      {
+        needToken: true,
+        options: {
+          query: payload,
+        },
       },
-    });
+    );
     const value = data.value;
     if (value) {
-      addMessages(value.result);
+      addMessages(value.result.list);
     }
     return data.value?.result;
   }
@@ -36,20 +47,36 @@ export const useMessagesStore = defineStore('messages', () => {
     });
   }
 
-  function resetMessages() {
-    messages.value = [];
-    offset.value = 1;
+  function getRespondent(chat: any) {
+    return chat?.members.find((member) => member._id !== user?._id);
   }
 
-  async function fetchChats() {
-    const { data } = await apiFetch<ApiResponse<any>>(
-      `/api/messages/my_chats`,
-      {
-        needToken: true,
-        options: {},
+  function addChats(payload: any) {
+    // console.log('new chat ', payload);
+    isLoadedChats.value = payload;
+    payload.list.forEach((element) => {
+      chats.value.push(element);
+    });
+    console.log('payload chats ', chats);
+  }
+
+  function resetMessages() {
+    messages.value = [];
+    messagesListOffset.value = 1;
+  }
+
+  async function fetchChats(payload: ChatList) {
+    const { data } = await apiFetch<ApiResponse<any>>(`/api/chat/my`, {
+      needToken: true,
+      options: {
+        query: payload,
       },
-    );
-    chats.value = data.value?.result;
+    });
+    const value = data.value;
+    if (value) {
+      chats.value = value.result.list;
+      // addChats(value.result);
+    }
     return data.value?.result;
   }
 
@@ -72,17 +99,20 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   return {
-    fetchMessageList,
+    fetchChatMessagesList,
     createMessage,
     fetchChats,
     resetMessages,
-    offset,
+    getRespondent,
+    messagesListOffset,
+    chatListOffset,
     limit,
     messages,
     activeChat,
     newMessage,
     chats,
     isLoadedMessages,
+    isLoadedChats,
   };
 });
 

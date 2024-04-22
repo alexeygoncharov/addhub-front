@@ -21,8 +21,8 @@ export default async function <T>(
       };
     }
   }
-
   const baseUrl = useRuntimeConfig().public.apiBase;
+
   const key =
     endpoint + ((options?.query && JSON.stringify(options?.query)) || '');
   startLoading();
@@ -33,6 +33,14 @@ export default async function <T>(
     watch: false,
     ...options,
   });
+  console.log(
+    'start nitro',
+    baseUrl,
+    'endpoint',
+    endpoint,
+    'options ',
+    options,
+  );
   stopLoading();
   return { data, error } as {
     data: Ref<T | null | undefined>;
