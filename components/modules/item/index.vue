@@ -36,7 +36,13 @@
           </div>
           <div class="modal-wrapper__under">
             <button @click="cancel">Cancel</button>
-            <button @click="confirm(item?.createdBy._id)">Send</button>
+            <button
+              @click="
+                confirm({ userId: item?.createdBy._id, serviceId: item?._id })
+              "
+            >
+              Send
+            </button>
           </div>
         </div>
       </div>
@@ -202,14 +208,18 @@ const { toggleFavorite } = useUserStore();
 const messagesStore = useMessagesStore();
 const { isAuthenticated } = useAuthStore();
 const message = ref({
+  services_id: '',
   text: '',
   recipient: '',
 });
 
 const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
 
-onConfirm((userId: string) => {
-  message.value.recipient = userId;
+onConfirm((data: any) => {
+  console.log('datata ', data);
+  message.value.services_id = data.serviceId;
+  console.log('data.serviceId ', message.value.services_id);
+  message.value.recipient = data.userId;
   messagesStore.createMessage(message.value).then(() => {
     message.value.text = '';
     useToast({ message: 'Сообщение отправлено', type: 'success' });

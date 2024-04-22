@@ -2,17 +2,18 @@ export const useMessagesStore = defineStore('messages', () => {
   const messages = ref<Array<any>>([]);
   const newMessage = ref();
   const activeChat = ref();
-  const isLoadedMessages = ref();
-  const isLoadedChats = ref();
+  const totalCountMessages = ref<number>(0);
+  const totalCountChats = ref<number>(0);
   const limit = 10; // Вы можете выбрать любое значение для limit
   const messagesListOffset = ref(1);
   const chatListOffset = ref(1);
+  const totalUnseenMessages = ref<number>(0);
   const chats = ref<Array<any>>([]);
   const { user } = useUserStore();
-  console.log('chats = ', chats);
   interface Message {
     text: string;
     recipient: string;
+    services_id?: string;
   }
   interface MessagesList {
     chat_id: string;
@@ -35,14 +36,14 @@ export const useMessagesStore = defineStore('messages', () => {
     );
     const value = data.value;
     if (value) {
-      addMessages(value.result.list);
+      addMessages(value.result);
     }
     return data.value?.result;
   }
 
   function addMessages(payload: any) {
-    isLoadedMessages.value = payload;
-    payload.forEach((element) => {
+    totalCountMessages.value = payload.total;
+    payload.list.forEach((element) => {
       messages.value.push(element);
     });
   }
@@ -52,12 +53,11 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function addChats(payload: any) {
-    // console.log('new chat ', payload);
-    isLoadedChats.value = payload;
+    totalUnseenMessages.value = payload.totalUnSeen;
+    totalCountChats.value = payload.total;
     payload.list.forEach((element) => {
       chats.value.push(element);
     });
-    console.log('payload chats ', chats);
   }
 
   function resetMessages() {
@@ -74,10 +74,24 @@ export const useMessagesStore = defineStore('messages', () => {
     });
     const value = data.value;
     if (value) {
-      chats.value = value.result.list;
-      // addChats(value.result);
+      // chats.value = value.result.list;
+      addChats(value.result);
     }
     return data.value?.result;
+  }
+
+  async function deleteChat() {
+    if (!activeChat.value?._id) return;
+    await apiFetch<ApiResponse<any>>(`/api/chat/${activeChat.value?._id}`, {
+      needToken: true,
+      options: {
+        method: 'DELETE',
+      },
+    });
+    chats.value = chats.value.filter(
+      (item) => item._id !== activeChat.value._id,
+    );
+    activeChat.value = null;
   }
 
   async function createMessage(msg: Message) {
@@ -86,7 +100,11 @@ export const useMessagesStore = defineStore('messages', () => {
         needToken: true,
         options: {
           method: 'POST',
-          body: { message: msg.text, recipient: msg.recipient },
+          body: {
+            message: msg.text,
+            recipient: msg.recipient,
+            services_id: msg.services_id,
+          },
         },
       });
       const value = data.value;
@@ -104,6 +122,7 @@ export const useMessagesStore = defineStore('messages', () => {
     fetchChats,
     resetMessages,
     getRespondent,
+    deleteChat,
     messagesListOffset,
     chatListOffset,
     limit,
@@ -111,8 +130,9 @@ export const useMessagesStore = defineStore('messages', () => {
     activeChat,
     newMessage,
     chats,
-    isLoadedMessages,
-    isLoadedChats,
+    totalCountMessages,
+    totalCountChats,
+    totalUnseenMessages,
   };
 });
 

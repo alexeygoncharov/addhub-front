@@ -101,8 +101,11 @@
             />
           </svg>
           <span class="mob-menu__title">Сообщения</span>
-          <div class="mob-menu__num">
-            <span>2</span>
+          <div
+            v-if="messagesStore?.totalUnseenMessages > 0"
+            class="mob-menu__num"
+          >
+            <span>{{ messagesStore?.totalUnseenMessages }}</span>
           </div>
         </a>
       </li>
@@ -250,6 +253,7 @@
 <script setup lang="ts">
 const mobMenu = defineModel<boolean>({ required: true });
 const authStore = useAuthStore();
+const messagesStore = useMessagesStore();
 const { logout } = authStore;
 const { isAuthenticated, isLoading } = storeToRefs(authStore);
 watch(mobMenu, (value) => {
