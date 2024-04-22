@@ -41,7 +41,10 @@
             <img src="/img/thunder.svg" alt="" />
             <span>Открытый диспут</span>
           </div>
-          <button class="chat-content__delete _flex">
+          <button
+            class="chat-content__delete _flex"
+            @click="messagesStore.deleteChat()"
+          >
             <svg
               width="22"
               height="22"
@@ -106,7 +109,10 @@ const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 
 function sendMessage() {
-  message.value.recipient = messagesStore.activeChat.members[0]._id;
+  message.value.recipient = messagesStore.getRespondent(
+    messagesStore.activeChat,
+  )?._id;
+  console.log('message.value.recipient = ', message.value.recipient);
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
   message.value = { recipient: '', text: '' };

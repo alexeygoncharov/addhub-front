@@ -9,7 +9,6 @@ export const useMessagesStore = defineStore('messages', () => {
   const chatListOffset = ref(1);
   const chats = ref<Array<any>>([]);
   const { user } = useUserStore();
-  console.log('chats = ', chats);
   interface Message {
     text: string;
     recipient: string;
@@ -41,12 +40,6 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function addMessages(payload: any) {
-    console.log(
-      'get payload chats total = ',
-      payload,
-      'get payload messages length = ',
-      messages.value.length,
-    );
     totalCountMessages.value = payload.total;
     payload.list.forEach((element) => {
       messages.value.push(element);
@@ -58,17 +51,10 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function addChats(payload: any) {
-    console.log(
-      'get payload chats total = ',
-      payload.total,
-      'get payload chats length = ',
-      chats.value.length,
-    );
     totalCountChats.value = payload.total;
     payload.list.forEach((element) => {
       chats.value.push(element);
     });
-    console.log('payload chats ', chats);
   }
 
   function resetMessages() {
@@ -83,6 +69,24 @@ export const useMessagesStore = defineStore('messages', () => {
         query: payload,
       },
     });
+    const value = data.value;
+    if (value) {
+      // chats.value = value.result.list;
+      addChats(value.result);
+    }
+    return data.value?.result;
+  }
+
+  async function deleteChat() {
+    const { data } = await apiFetch<ApiResponse<any>>(
+      `/api/chat/${activeChat.value?._id}`,
+      {
+        needToken: true,
+        options: {
+          method: 'DELETE',
+        },
+      },
+    );
     const value = data.value;
     if (value) {
       // chats.value = value.result.list;
@@ -115,6 +119,7 @@ export const useMessagesStore = defineStore('messages', () => {
     fetchChats,
     resetMessages,
     getRespondent,
+    deleteChat,
     messagesListOffset,
     chatListOffset,
     limit,
