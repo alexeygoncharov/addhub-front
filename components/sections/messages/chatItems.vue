@@ -59,7 +59,6 @@ messagesStore.fetchChats({
 });
 
 async function loadChats() {
-  console.log('start chats');
   messagesStore.chatListOffset += 1;
   await messagesStore.fetchChats({
     limit: messagesStore.limit,

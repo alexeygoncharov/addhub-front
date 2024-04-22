@@ -78,21 +78,17 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   async function deleteChat() {
-    const { data } = await apiFetch<ApiResponse<any>>(
-      `/api/chat/${activeChat.value?._id}`,
-      {
-        needToken: true,
-        options: {
-          method: 'DELETE',
-        },
+    if (!activeChat.value?._id) return;
+    await apiFetch<ApiResponse<any>>(`/api/chat/${activeChat.value?._id}`, {
+      needToken: true,
+      options: {
+        method: 'DELETE',
       },
+    });
+    chats.value = chats.value.filter(
+      (item) => item._id !== activeChat.value._id,
     );
-    const value = data.value;
-    if (value) {
-      // chats.value = value.result.list;
-      addChats(value.result);
-    }
-    return data.value?.result;
+    activeChat.value = null;
   }
 
   async function createMessage(msg: Message) {

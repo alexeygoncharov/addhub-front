@@ -1,8 +1,8 @@
 <template>
   <div class="chat__content">
     <div
-      v-for="i in 1"
-      :key="i"
+      v-for="i in messagesStore.activeChat"
+      :key="i._id"
       class="chat-content"
       :class="[
         { _type2: i % 2 === 0 },
@@ -112,7 +112,6 @@ function sendMessage() {
   message.value.recipient = messagesStore.getRespondent(
     messagesStore.activeChat,
   )?._id;
-  console.log('message.value.recipient = ', message.value.recipient);
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
   message.value = { recipient: '', text: '' };
