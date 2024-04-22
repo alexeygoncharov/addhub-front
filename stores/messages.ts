@@ -7,6 +7,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const limit = 10; // Вы можете выбрать любое значение для limit
   const messagesListOffset = ref(1);
   const chatListOffset = ref(1);
+  const totalUnseenMessages = ref<number>(0);
   const chats = ref<Array<any>>([]);
   const { user } = useUserStore();
   interface Message {
@@ -51,6 +52,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function addChats(payload: any) {
+    totalUnseenMessages.value = payload.totalUnSeen;
     totalCountChats.value = payload.total;
     payload.list.forEach((element) => {
       chats.value.push(element);
@@ -125,6 +127,7 @@ export const useMessagesStore = defineStore('messages', () => {
     chats,
     totalCountMessages,
     totalCountChats,
+    totalUnseenMessages,
   };
 });
 

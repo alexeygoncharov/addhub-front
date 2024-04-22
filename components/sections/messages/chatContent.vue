@@ -1,11 +1,10 @@
 <template>
   <div class="chat__content">
     <div
-      v-for="i in messagesStore.activeChat"
-      :key="i._id"
+      :key="messagesStore.activeChat._id"
       class="chat-content"
       :class="[
-        { _type2: i % 2 === 0 },
+        /// { _type2: i % 2 === 0 }, -->
         { _active: !!messagesStore.activeChat },
       ]"
       data-id="1"
@@ -107,6 +106,8 @@ const userStore = useUserStore();
 const message = ref({ recipient: '', text: '' });
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
+
+console.log('activeChat = ', messagesStore.activeChat);
 
 function sendMessage() {
   message.value.recipient = messagesStore.getRespondent(
