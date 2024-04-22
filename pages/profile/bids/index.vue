@@ -16,16 +16,12 @@
             <div class="reply-row__info">
               <a href="" class="avatar">
                 <img
-                  v-if="bid.project_id.createdBy.avatar"
-                  :src="baseUrl() + bid.project_id.createdBy.avatar"
+                  v-if="bid.user.avatar"
+                  :src="baseUrl() + bid.user.avatar"
                   crossorigin="anonymous"
                   alt=""
                 />
-                <Avatar
-                  v-else
-                  :size="80"
-                  :name="bid.project_id.createdBy.name"
-                />
+                <Avatar v-else :size="40" :name="bid.user.name" />
               </a>
               <div class="reply-row__content">
                 <div class="reply-row__title text17 medium-text">
@@ -120,11 +116,11 @@
       :total-pages="Math.ceil(totalItems / 8)"
     />
     <ModulesProductBidModal
-      v-if="openBidEdit"
+      v-show="openBidEdit"
       :id="editableData?.project_id._id || ''"
       v-model="openBidEdit"
       v-model:editable="editableData"
-      @submit="updateBids()"
+      @update-bid="updateBids()"
     />
   </div>
 </template>
