@@ -222,12 +222,6 @@
           <div class="text15">Максимальный размер: 10 мб</div>
         </div>
       </div>
-
-      <div class="profile-item__nav">
-        <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
-          <span>Опубликовать</span>
-        </button>
-      </div>
     </div>
   </div>
   <ModulesProfileCreateItemDropZone v-else :banners="editableItem?.photos" />
