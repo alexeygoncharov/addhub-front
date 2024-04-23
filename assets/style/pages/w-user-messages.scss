@@ -53,7 +53,7 @@
 }
 
 .chat-items {
-  height: calc(100% - 3.8125em);
+  height: 500px;
   overflow-y: auto;
 
   @include scroll;
