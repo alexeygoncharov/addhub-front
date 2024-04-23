@@ -59,7 +59,10 @@ export const useMessagesStore = defineStore('messages', () => {
     totalCountChats.value = payload.total;
     if (totalCountChats.value > chats.value.length) {
       payload.list.forEach((element) => {
-        chats.value.push(element);
+        const isExisting = chats.value.some((chat) => chat._id === element._id);
+        if (!isExisting) {
+          chats.value.push(element);
+        }
       });
     }
   }
