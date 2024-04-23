@@ -59,6 +59,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  messagesStore.readMessage({ id: props.message._id, seen: true });
+  if (!props.message.seen)
+    messagesStore.readMessage({ id: props.message._id, seen: true });
 });
 </script>
