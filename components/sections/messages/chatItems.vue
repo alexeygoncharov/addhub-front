@@ -35,7 +35,7 @@
         <!-- <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>-->
-        <div class="chat-item__count">
+        <div v-if="item.unseen_messages > 0" class="chat-item__count">
           <span>{{ item.unseen_messages }}</span>
         </div>
       </div>
