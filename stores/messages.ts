@@ -43,9 +43,11 @@ export const useMessagesStore = defineStore('messages', () => {
 
   function addMessages(payload: any) {
     totalCountMessages.value = payload.total;
-    payload.list.forEach((element) => {
-      messages.value.push(element);
-    });
+    if (totalCountMessages.value > messages.value.length) {
+      payload.list.forEach((element) => {
+        messages.value.push(element);
+      });
+    }
   }
 
   function getRespondent(chat: any) {
@@ -55,9 +57,14 @@ export const useMessagesStore = defineStore('messages', () => {
   function addChats(payload: any) {
     totalUnseenMessages.value = payload.totalUnSeen;
     totalCountChats.value = payload.total;
-    payload.list.forEach((element) => {
-      chats.value.push(element);
-    });
+    if (totalCountChats.value > chats.value.length) {
+      payload.list.forEach((element) => {
+        const isExisting = chats.value.some((chat) => chat._id === element._id);
+        if (!isExisting) {
+          chats.value.push(element);
+        }
+      });
+    }
   }
 
   function resetMessages() {
