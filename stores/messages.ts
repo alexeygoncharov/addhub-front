@@ -61,7 +61,7 @@ export const useMessagesStore = defineStore('messages', () => {
       payload.list.forEach((element) => {
         const isExisting = chats.value.some((chat) => chat._id === element._id);
         if (!isExisting) {
-          chats.value.unshift(element);
+          chats.value.push(element);
         }
       });
     }
