@@ -123,6 +123,29 @@ export const useMessagesStore = defineStore('messages', () => {
     }
   }
 
+  async function readMessage(msg: any) {
+    try {
+      const { data } = await apiFetch<ApiResponse<any>>(
+        `/api/messages/${msg.id}`,
+        {
+          needToken: true,
+          options: {
+            method: 'PUT',
+            body: {
+              seen: msg.seen,
+            },
+          },
+        },
+      );
+      const value = data.value;
+      if (value) {
+        return value?.result;
+      }
+    } catch (error) {
+      // console.error('Ошибка при загрузке категорий', error);
+    }
+  }
+
   return {
     fetchChatMessagesList,
     createMessage,
@@ -130,6 +153,7 @@ export const useMessagesStore = defineStore('messages', () => {
     resetMessages,
     getRespondent,
     deleteChat,
+    readMessage,
     messagesListOffset,
     chatListOffset,
     limit,

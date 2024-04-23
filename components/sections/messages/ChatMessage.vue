@@ -50,10 +50,15 @@
 </template>
 <script setup lang="ts">
 const userStore = useUserStore();
+const messagesStore = useMessagesStore();
 const props = defineProps({
   message: {
     type: Object,
     required: true,
   },
+});
+
+onMounted(() => {
+  messagesStore.readMessage({ id: props.message._id, seen: true });
 });
 </script>
