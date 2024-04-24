@@ -28,8 +28,9 @@
             class="m-tab _tab"
             :class="{ _active: activeTab === el.value }"
             @click="
-              () => {
+              async () => {
                 activeTab = el.value;
+                await nextTick();
                 updateItems();
               }
             "
@@ -70,7 +71,7 @@
                       <img src="/img/calendar2.svg" alt="" />
                       <span>Декабрь 2, 2024</span>
                     </div>
-                    <div class="reply-row__prop">
+                    <div v-if="'reviews' in item" class="reply-row__prop">
                       <img src="/img/reply.svg" alt="" />
                       <span>{{ item.reviews.length }}</span>
                     </div>
@@ -81,7 +82,13 @@
             <td>
               <div class="reply-row__price">
                 <span class="text15 light-text">
-                  {{ item.category.title }}
+                  {{
+                    typeof item.category !== 'string'
+                      ? item.category.title
+                      : commonStore.categories?.find(
+                          (el) => el._id === item.category,
+                        )?.title
+                  }}
                 </span>
               </div>
             </td>
@@ -161,13 +168,14 @@
 </template>
 
 <script setup lang="ts">
-import type { servicesItem } from '#imports';
+import type { servicesItem, projectsItem } from '#imports';
+const commonStore = useCommonStore();
 const titles = [
   { title: 'Опубликовано', value: 'published' },
-  // { title: 'Не опубликовано', value: 'unpublished' },
-  // { title: 'Активные', value: 'pending' },
-  // { title: 'Завершено', value: 'completed' },
-  // { title: 'Отменено', value: 'canceled' },
+  { title: 'Отклонено', value: 'declined' },
+  { title: 'На рассмотрении', value: 'pending' },
+  { title: 'Одобрено', value: 'approved' },
+  { title: 'Заблокировано', value: 'blocked' },
 ];
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
@@ -189,27 +197,28 @@ const deleteItem = async (id: string, index: number) => {
     items.value?.splice(index, 1);
   }
 };
-const items = ref<servicesItem[]>();
+const items = ref<servicesItem[] | projectsItem[]>();
 const total = ref(0);
 const updateItems = async () => {
-  const { data } = await apiFetch<ApiListResponse<servicesItem[]>>(
+  const { data } = await apiFetch<
+    ApiListResponse<servicesItem[] | projectsItem[]>
+  >(
     `/api/${user.value?.active_role === 'seller' ? 'services' : 'projects'}/my`,
     {
       needToken: true,
       options: {
         query: {
-          // filter: { status: 'published' },
+          filter: { status: activeTab.value },
           offset: currentPage.value,
           limit: 8,
         },
-        watch: [activeTab],
       },
     },
   );
   const value = data.value;
-  if (value?.status === 200) {
+  if (value) {
     total.value = value.total;
-    items.value = value.result.list;
+    items.value = value.result;
   }
 };
 updateItems();

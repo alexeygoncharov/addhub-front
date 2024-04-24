@@ -2,8 +2,8 @@
   <UIVBreadcrumbs
     :items="[{ name: 'Главная', to: '/' }, { name: 'Вход в личный кабинет' }]"
   />
-  <SectionsAuth :type="'reg'" @submit="handleSubmit">
-    <template #fields="{ meta, setFieldError }">
+  <SectionsAuth :type="'reg'" @submit="register">
+    <template #fields="{ meta }">
       <div class="auth-form__roles">
         <div class="filter-check m-radio">
           <input
@@ -33,8 +33,6 @@
           type="text"
           autocomplete="username"
           placeholder="freelancer777"
-          @update:model-value="updateAccess(false, 'username', setFieldError)"
-          @blur="updateAccess(true, 'username', setFieldError)"
         />
         <ErrorMessage name="username" class="error-message" />
       </fieldset>
@@ -139,85 +137,6 @@ const regDetails = ref({
   role: '',
 });
 
-const checkValue = async (
-  setFieldError: (field: string, message: string | undefined) => void,
-  path: string,
-  valid: Ref<boolean>,
-  type: 'username' | 'email',
-) => {
-  const { data, error } = await apiFetch(path, {
-    options: {
-      body:
-        type === 'username'
-          ? { user_name: regDetails.value.username }
-          : { email: regDetails.value.email },
-      method: 'POST',
-    },
-  });
-
-  if (!error.value) {
-    valid.value = true;
-    if (type === 'username') setFieldError('username', undefined);
-    else {
-      setFieldError('email', undefined);
-    }
-  } else {
-    valid.value = false;
-
-    if (type === 'username')
-      setFieldError('username', 'Данный логин уже занят');
-    else {
-      setFieldError('email', 'Данный email уже зарегистрирован');
-    }
-  }
-};
-const updateAccess = (
-  focus: boolean,
-  type: 'username' | 'email',
-  setFieldError: (field: string, message: string | undefined) => void,
-) => {
-  // if (timeoutId.value) clearTimeout(timeoutId.value);
-  // if (!focus) focusChanged.value = false;
-  // if (focusChanged.value) return;
-  // usernameAccess.value = false;
-  // emailAccess.value = false;
-  // if (
-  //   type === 'email' &&
-  //   (!regDetails.value.email || !email(regDetails.value.email))
-  // )
-  //   return;
-  // if (
-  //   type === 'username' &&
-  //   (!regDetails.value.username ||
-  //     !alpha_dash(regDetails.value.username, { locale: 'ru' }))
-  // )
-  //   return;
-  // if (focus) {
-  //   checkValue(
-  //     setFieldError,
-  //     type === 'username'
-  //       ? '/api/auth/check_username'
-  //       : '/api/auth/check_email',
-  //     type === 'username' ? usernameAccess : emailAccess,
-  //     type,
-  //   );
-  // } else {
-  //   timeoutId.value = setTimeout(() => {
-  //     checkValue(
-  //       setFieldError,
-  //       type === 'username'
-  //         ? '/api/auth/check_username'
-  //         : '/api/auth/check_email',
-  //       type === 'username' ? usernameAccess : emailAccess,
-  //       type,
-  //     );
-  //     focusChanged.value = true;
-  //   }, 1500);
-  // }
-};
-// if (role === 'freelancer') {
-// } else if (role === 'seller') {
-
 useValidation();
 const { register: authRegister } = useAuthStore();
 
@@ -230,17 +149,5 @@ const register = async () => {
       type: 'success',
     });
   }
-};
-const handleSubmit = (
-  values: Record<string, any>,
-  actions: FormActions<typeof values>,
-) => {
-  // if (!usernameAccess.value) {
-  //   actions.setFieldError('username', 'Данный логин уже занят');
-  // } else if (!emailAccess.value) {
-  //   actions.setFieldError('email', 'Данный email уже зарегистрирован');
-  // } else {
-  register();
-  // }
 };
 </script>

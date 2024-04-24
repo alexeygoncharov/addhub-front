@@ -13,24 +13,30 @@ import ru from '@vee-validate/i18n/dist/locale/ru.json';
 
 async function validateEmail(value: string) {
   if (email(value)) {
-    const { data, error } = await apiFetch('/api/auth/check_email', {
-      options: {
-        body: { email: value },
-        method: 'POST',
+    const { data, error } = await apiFetch<ApiResponse<null>>(
+      '/api/auth/check_email',
+      {
+        options: {
+          body: { email: value },
+          method: 'POST',
+        },
       },
-    });
+    );
     return !!data.value || 'Пользователь с таким email уже существует';
   }
   return false;
 }
 async function validateUsername(value: string) {
   if (alpha_dash(value, ['']) || !value) {
-    const { data, error } = await apiFetch('/api/auth/check_username', {
-      options: {
-        body: { user_name: value },
-        method: 'POST',
+    const { data, error } = await apiFetch<ApiResponse<null>>(
+      '/api/auth/check_username',
+      {
+        options: {
+          body: { user_name: value },
+          method: 'POST',
+        },
       },
-    });
+    );
     return !!data.value || 'Пользователь с таким логином уже существует';
   }
   return false;

@@ -3,7 +3,11 @@ interface banner {
   loading?: number;
   path: string;
 }
-const banners = defineModel<string[]>('banners', {
+const props = defineProps<{
+  uploadPath: string;
+}>();
+const emit = defineEmits<{ (e: 'changed'): void }>();
+const banners = defineModel<string[]>({
   default: [],
 });
 const bufBanners = ref<banner[]>(
@@ -49,18 +53,35 @@ const uploadData = (file: File) => {
   }
   loadingIds.value.push(originId);
   file.originId = originId;
-  dropzoneEventsQueue = dropzoneEventsQueue.then(() => {
-    //   const bannerIndex = banners.value?.findIndex(
-    //     (b) => file.originId === b.loading,
-    //   );
-    //   if (bannerIndex === undefined || bannerIndex < 0 || !banners.value) return;
-    //   banners.value[bannerIndex] = response.data;
-    //     banners.value = banners.value?.filter((b) => file.originId !== b.loading);
-    //     showNotif('error', t('up.error'), response.message);
-  });
   bufBanners.value.push({
     loading: originId,
     path: '',
+  });
+  dropzoneEventsQueue = dropzoneEventsQueue.then(async () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const { data, error } = await apiFetch<ApiResponse<string>>(
+      props.uploadPath,
+      {
+        options: { method: 'POST', body: formData },
+        needToken: true,
+      },
+    );
+    if (!error.value && data.value) {
+      const bannerIndex = bufBanners.value?.findIndex(
+        (b) => file.originId === b.loading,
+      );
+      if (bannerIndex === undefined || bannerIndex < 0 || !bufBanners.value)
+        return;
+      bufBanners.value[bannerIndex] = { path: data.value.result };
+      banners.value = bufBanners.value.map((b) => b.path);
+      emit('changed');
+    } else {
+      bufBanners.value = bufBanners.value?.filter(
+        (b) => file.originId !== b.loading,
+      );
+      useToast({ message: 'Произошла ошибка при загрузке', type: 'error' });
+    }
   });
 };
 
@@ -79,12 +100,24 @@ const handleFileUpload = (event: Event) => {
   }
 };
 
-function deleteBanner(bannerIndex: number) {
+async function deleteBanner(bannerIndex: number) {
   if (!bufBanners.value?.[bannerIndex]) return;
   const bufBanner = bufBanners.value?.[bannerIndex];
   bufBanners.value?.splice(bannerIndex, 1);
-
-  return 1;
+  const { data, error } = await apiFetch<ApiResponse<string>>(
+    props.uploadPath,
+    {
+      options: { method: 'DELETE', body: { filePath: bufBanner.path } },
+      needToken: true,
+    },
+  );
+  if (error.value) {
+    bufBanners.value?.splice(bannerIndex, 0, bufBanner);
+    useToast({ message: 'Произошла ошибка при удалении', type: 'error' });
+  } else {
+    banners.value = bufBanners.value.map((b) => b.path);
+    emit('changed');
+  }
 }
 const drop = (e: DragEvent) => {
   if (!e.dataTransfer || !bufBanners.value || bufBanners.value.length === 10)
@@ -146,9 +179,10 @@ onMounted(() => {
             'banners-settings__image--loading': bufBanners?.[i - 1]?.loading,
           }"
         >
-          <img
+          <nuxtImg
             v-if="bufBanners?.[i - 1]?.path"
-            :src="bufBanners[i - 1].path"
+            :src="baseUrl() + bufBanners[i - 1].path"
+            crossorigin="anonymous"
             alt="product banner"
           />
           <svg
@@ -220,6 +254,7 @@ onMounted(() => {
       <p class="banners-settings__messages">
         Баннеры отображаются на странице товара.<br /><br />Изображения должны
         быть формата PNG, JPG. <br /><br />Максимум 10 изображений
+        <br /><br />Размер изображения не должен превышать 5 МБ
       </p>
       <div
         class="banners-settings__drag"
@@ -234,11 +269,22 @@ onMounted(() => {
     </div>
     <p class="banners-settings__messages--mobile">
       Баннеры отображаются на странице товара.<br /><br />Изображения должны
-      быть формата PNG, JPG. <br /><br />Максимум 10 изображений
+      быть формата PNG, JPG. <br /><br />Максимум 10 изображений <br /><br />
+      Размер изображения не должен превышать 5 МБ
     </p>
   </fieldset>
 </template>
 <style scoped lang="scss">
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .banners-settings {
   &__body {
     position: relative;
@@ -311,8 +357,8 @@ onMounted(() => {
       /* Safari */
 
       &-icon {
-        // width: vw(30);
-        // height: vw(30);
+        width: 3em;
+        height: 3em;
         border: 3px solid #d9d9d9;
         border-top: 3px solid #fff;
         border-radius: 50%;

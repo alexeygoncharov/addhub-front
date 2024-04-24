@@ -55,13 +55,17 @@
               })
             "
             :placeholder="'Выберите категорию'"
-            @input="(category) => (form.category = category)"
+            @input="
+              (category) => {
+                form.category = category;
+                errors.splice(errors.indexOf('category'), 1);
+              }
+            "
           />
+          <p v-if="errors.includes('category')" class="fg__error">
+            Обязательное поле
+          </p>
         </fieldset>
-
-        <!-- <fieldset class="fg">
-            <label>Подкатегория</label>
-          </fieldset> -->
 
         <fieldset class="fg">
           <label>Срок</label>
@@ -94,26 +98,18 @@
             :placeholder="'Выберите страну'"
             @input="
               (country) => {
+                errors.splice(errors.indexOf('country'), 1);
                 form.country !== country && (form.city = '');
                 form.country = country;
               }
             "
           />
+          <p v-if="errors.includes('country')" class="fg__error">
+            Обязательное поле
+          </p>
         </fieldset>
 
-        <!-- <fieldset class="fg">
-            <label>Уровень</label>
-          </fieldset> -->
-
-        <!-- <fieldset class="fg">
-            <label>Языки</label>
-            
-          </fieldset>
-          <fieldset class="fg">
-            <label>Уровень языка</label>
-          </fieldset> -->
-
-        <fieldset v-if="user?.active_role === 'buyer'" class="fg _full">
+        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
           <label>Объём проекта(заголовок)</label>
           <input
             v-model="form.service_volume"
@@ -122,7 +118,7 @@
             placeholder="Заголовок"
           />
         </fieldset>
-        <fieldset v-if="user?.active_role === 'buyer'" class="fg _full">
+        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
           <label>Объём проекта(описание)</label>
           <input
             v-model="form.service_volume_desc"
@@ -152,11 +148,28 @@
                 })
             "
             :placeholder="'Выберите город'"
-            @input="(city) => (form.city = city)"
+            @input="
+              (city) => {
+                form.city = city;
+                errors.splice(errors.indexOf('city'), 1);
+              }
+            "
           />
+          <p v-if="errors.includes('city')" class="fg__error">
+            Обязательное поле
+          </p>
         </fieldset>
       </div>
     </form>
+    <div class="profile-item__nav">
+      <button
+        type="submit"
+        form="create-item-form"
+        class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      >
+        <span>Сохранить</span>
+      </button>
+    </div>
   </div>
 
   <div
@@ -212,29 +225,44 @@
             </div>
           </nuxtLink>
           <div class="file-input">
-            <input type="file" />
+            <input type="file" @change="uploadFile" />
             <div class="file-input__wrap">
               <div class="file-input__title">Загрузить файлы</div>
             </div>
           </div>
         </div>
         <div class="project-files__hint">
-          <div class="text15">Максимальный размер: 10 мб</div>
+          <div class="text15">Максимальный размер: 5 мб</div>
         </div>
       </div>
     </div>
   </div>
-  <ModulesProfileCreateItemDropZone v-else :banners="editableItem?.photos" />
+  <ModulesProfileCreateItemDropZone
+    v-else-if="editableItem"
+    v-model="editableItem.photos"
+    :upload-path="'/api/files/single'"
+    @changed="editItem('image')"
+  />
   <div class="profile-item__nav">
     <button
-      type="submit"
-      form="create-item-form"
+      v-if="editableItem?.status === 'approved'"
+      class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      @click="publish"
+    >
+      <span>Опубликовать</span>
+    </button>
+    <button
+      v-else-if="editableItem?.status === 'pending'"
+      class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      disabled
+    >
+      <span>На проверке</span>
+    </button>
+    <button
+      v-else-if="editableItem?.status === 'published'"
       class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
     >
-      <span>Сохранить</span>
-    </button>
-    <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
-      <span>Опубликовать</span>
+      <span>Снять с публикации</span>
     </button>
   </div>
 </template>
@@ -244,6 +272,18 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+const publish = async () => {
+  if (!editableItem.value) return;
+  const { data, error } = await apiFetch(
+    `/api/services/publish/${editableItem.value._id}`,
+    { needToken: true, options: { method: 'PUT' } },
+  );
+  if (!error.value) {
+    editableItem.value.status = 'published';
+    useToast({ message: 'Успешно опубликовано', type: 'success' });
+  }
+};
+const errors = ref<string[]>([]);
 const deleteFile = async (file: string, index: number) => {
   const { data, error } = await apiFetch('/api/files/single', {
     options: { method: 'DELETE', body: { filePath: file } },
@@ -251,17 +291,47 @@ const deleteFile = async (file: string, index: number) => {
   });
   if (!error.value && editableItem.value && 'files' in editableItem.value) {
     editableItem.value?.files.splice(index, 1);
+    editItem('file');
   }
 };
-const uploadFile = async (file: File) => {
+function checkFile(file: File) {
+  if (file.size > 5 * 1024 * 1024) {
+    return false;
+  }
+  return true;
+}
+const uploadFile = async (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (
+    !editableItem.value ||
+    !('files' in editableItem.value) ||
+    !file ||
+    editableItem.value.files.length >= 10
+  )
+    return;
+  if (!checkFile) {
+    return useToast({
+      message: 'Размер файла не должен превышать 5 мб',
+      type: 'error',
+    });
+  }
   const formData = new FormData();
   formData.append('file', file);
-  const { data, error } = await apiFetch('/api/files/single', {
-    options: { method: 'POST', body: formData },
-  });
-  if (!error.value && editableItem.value && 'files' in editableItem.value) {
-    // editableItem.value?.files.push();
-    console.log('Успех');
+  const { data, error } = await apiFetch<ApiResponse<string>>(
+    '/api/files/single',
+    {
+      options: { method: 'POST', body: formData },
+      needToken: true,
+    },
+  );
+  if (
+    !error.value &&
+    editableItem.value &&
+    'files' in editableItem.value &&
+    data.value
+  ) {
+    editableItem.value?.files.push(data.value?.result);
+    editItem('file');
   }
 };
 const form = ref({
@@ -292,8 +362,9 @@ function getFileExtension(filename: string) {
 function getFileName(filename: string) {
   // Разбиваем строку с именем файла по точке
   const parts = filename.split('.');
-  // Возвращаем последний элемент массива (расширение файла)
-  return parts[parts.length - 2].split('/')[1];
+  const ext = parts[parts.length - 2].split('/');
+  // Возвращаем предпоследний элемент массива (называние файла)
+  return ext[ext.length - 1];
 }
 if (
   !route.params.id ||
@@ -308,7 +379,9 @@ const type = route.query.type as 'project' | 'service';
 const fetchItem = async () => {
   const { data, error } = await apiFetch<
     ApiResponse<projectItem | serviceItem>
-  >(`/api/${type === 'project' ? 'projects' : 'services'}/${id}`);
+  >(`/api/${type === 'project' ? 'projects' : 'services'}/${id}`, {
+    needToken: true,
+  });
   const value = data.value;
   if (value) {
     editableItem.value = value.result;
@@ -320,22 +393,35 @@ const fetchItem = async () => {
       title: value.result.title,
       description: value.result.description,
       price: value.result.price.toString(),
-      service_volume_desc: value.result.service_volume_desc,
-      service_volume: value.result.service_volume,
       delivery_time: value.result.delivery_time.toString(),
+      ...('service_volume_desc' in value.result &&
+        'service_volume' in value.result && {
+          service_volume_desc: value.result.service_volume_desc,
+          service_volume: value.result.service_volume,
+        }),
     };
   }
 };
 fetchItem();
-const editItem = async () => {
-  const body =
-    user.value?.active_role === 'buyer' ? { ...form.value } : { ...form.value };
-  const { data, error } = await apiFetch(
+const editItem = async (type?: 'file' | 'image') => {
+  if (!editableItem.value) return;
+  validateItem(form.value, errors);
+
+  if (errors.value.length) return;
+  const body = !type
+    ? { ...form.value }
+    : type === 'file' && 'files' in editableItem.value
+      ? { files: editableItem.value?.files }
+      : { photos: editableItem.value?.photos };
+  const { data, error } = await apiFetch<
+    ApiResponse<projectItem | serviceItem>
+  >(
     `/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}/${id}`,
     { options: { method: 'PUT', body }, needToken: true },
   );
   const value = data.value;
-  if (value) {
+  if (value && !type) {
+    editableItem.value = value.result;
     useToast({ message: 'Изменения сохранены', type: 'success' });
   }
 };

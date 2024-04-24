@@ -53,8 +53,16 @@
               })
             "
             :placeholder="'Выберите категорию'"
-            @input="(category) => (form.category = category)"
+            @input="
+              (category) => {
+                form.category = category;
+                errors.splice(errors.indexOf('category'), 1);
+              }
+            "
           />
+          <p v-if="errors.includes('category')" class="fg__error">
+            Обязательное поле
+          </p>
         </fieldset>
 
         <!-- <fieldset class="fg">
@@ -94,9 +102,13 @@
               (country) => {
                 form.country !== country && (form.city = '');
                 form.country = country;
+                errors.splice(errors.indexOf('country'), 1);
               }
             "
           />
+          <p v-if="errors.includes('country')" class="fg__error">
+            Обязательное поле
+          </p>
         </fieldset>
 
         <!-- <fieldset class="fg">
@@ -111,7 +123,7 @@
           <label>Уровень языка</label>
         </fieldset> -->
 
-        <fieldset v-if="user?.active_role === 'buyer'" class="fg _full">
+        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
           <label>Объём проекта(заголовок)</label>
           <input
             v-model="form.service_volume"
@@ -120,7 +132,7 @@
             placeholder="Заголовок"
           />
         </fieldset>
-        <fieldset v-if="user?.active_role === 'buyer'" class="fg _full">
+        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
           <label>Объём проекта(описание)</label>
           <input
             v-model="form.service_volume_desc"
@@ -150,70 +162,21 @@
                 })
             "
             :placeholder="'Выберите город'"
-            @input="(city) => (form.city = city)"
+            @input="
+              (city) => {
+                form.city = city;
+                errors.splice(errors.indexOf('city'), 1);
+              }
+            "
           />
+          <p v-if="errors.includes('city')" class="fg__error">
+            Обязательное поле
+          </p>
         </fieldset>
       </div>
-
-      <!-- <div class="profile-item__nav">
-        <button class="profile-item__btn m-btn m-btn-blue m-btn-shadow">
-          <span>Сохранить</span>
-        </button>
-      </div> -->
     </form>
   </div>
 
-  <div v-if="user?.active_role === 'buyer'" class="profile-item">
-    <div class="profile-item__top">
-      <div class="text17 medium-text">Загрузить файлы</div>
-    </div>
-    <div class="profile-item__bottom">
-      <div class="project-files">
-        <div class="project-files__items">
-          <div class="file-item">
-            <div class="file-item__title">Техническое_задание_для</div>
-            <div class="file-item__format">PDF</div>
-            <div class="file-item__delete" @click.prevent="">
-              <svg
-                width="9"
-                height="9"
-                viewBox="0 0 9 9"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="9.0011"
-                  y="8.30872"
-                  width="0.979191"
-                  height="11.7503"
-                  rx="0.489596"
-                  transform="rotate(135 9.0011 8.30872)"
-                  fill="#D0D0D0"
-                />
-                <rect
-                  x="8.30872"
-                  width="0.979191"
-                  height="11.7503"
-                  rx="0.489596"
-                  transform="rotate(45 8.30872 0)"
-                  fill="#D0D0D0"
-                />
-              </svg>
-            </div>
-          </div>
-          <div class="file-input">
-            <input type="file" />
-            <div class="file-input__wrap">
-              <div class="file-input__title">Загрузить файлы</div>
-            </div>
-          </div>
-        </div>
-        <div class="project-files__hint">
-          <div class="text15">Максимальный размер: 10 мб</div>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="profile-item__nav">
     <button
       type="submit"
@@ -244,19 +207,25 @@ const form = ref({
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-
+const errors = ref<string[]>([]);
 const createItem = async () => {
+  validateItem(form.value, errors);
+  if (errors.value.length) return;
   const body =
     user.value?.active_role === 'buyer' ? { ...form.value } : { ...form.value };
-  const { data, error } = await apiFetch(
-    `/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}`,
-    { options: { method: 'POST', body }, needToken: true },
-  );
+  const { data, error } = await apiFetch<
+    ApiResponse<projectItem | serviceItem>
+  >(`/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}`, {
+    options: { method: 'POST', body },
+    needToken: true,
+  });
   const value = data.value;
   if (value) {
     navigateTo(
-      `/profile/items/${value._id}/edit?type=${user.value?.active_role === 'buyer' ? 'project' : 'service'}&fromCreate=true`,
+      `/profile/items/${value.result._id}/edit?type=${user.value?.active_role === 'buyer' ? 'project' : 'service'}&fromCreate=true`,
     );
+  } else {
+    useToast({ message: 'Произошла ошибка', type: 'error' });
   }
 };
 </script>

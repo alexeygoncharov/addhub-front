@@ -60,8 +60,6 @@ export interface catalogItem {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  service_volume: string;
-  service_volume_desc: string;
 }
 export interface serviceItem extends catalogItem {
   tools: [];
@@ -70,6 +68,8 @@ export interface serviceItem extends catalogItem {
   orders: number;
   reviews: number;
   rate: number;
+  service_volume: string;
+  service_volume_desc: string;
   address: {
     country: Country;
     city: ItemCity;
@@ -81,6 +81,8 @@ export interface servicesItem extends catalogItem {
   tools: []; // TODO
   category: Category;
   rate: number;
+  service_volume: string;
+  service_volume_desc: string;
   address: {
     country: Country;
     city: ItemCity;
