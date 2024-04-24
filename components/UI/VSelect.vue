@@ -10,7 +10,13 @@
       },
     ]"
   >
-    <input class="m-select__field" type="hidden" :disabled="disabled" />
+    <input
+      class="m-select__field"
+      type="select"
+      :disabled="disabled"
+      :required="required"
+      :value="initialCurrentText?.value"
+    />
     <div class="m-select__toggle" @click="toggleSelect">
       <span class="m-select__current">
         {{ initialCurrentText?.text || placeholder }}
@@ -69,6 +75,10 @@ const props = defineProps({
       value?: string;
     }>,
     default: () => null,
+  },
+  required: {
+    type: Boolean,
+    default: false,
   },
   disabled: {
     type: Boolean,

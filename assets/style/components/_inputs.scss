@@ -2,6 +2,12 @@
   position: relative;
   margin: 0;
 
+  &__error {
+    margin-top: 1em;
+    font-size: 0.875em;
+    color: $red;
+  }
+
   label {
     display: block;
     margin-bottom: 0.31em;
@@ -57,6 +63,10 @@
     &__disabled {
       pointer-events: none;
       opacity: 0.5;
+    }
+
+    &__field {
+      display: none;
     }
   }
 }
