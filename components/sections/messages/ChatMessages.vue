@@ -7,7 +7,9 @@
         interval: 200,
         distance: 10,
         canLoadMore: () => {
-          return messagesStore.isLoadedMessages?.length;
+          return (
+            messagesStore.totalCountMessages > messagesStore.messages.length
+          );
         },
       },
     ]"

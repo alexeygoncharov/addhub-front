@@ -1,5 +1,17 @@
 <template>
-  <div class="chat-items">
+  <div
+    v-infinite-scroll="[
+      loadChats,
+      {
+        distance: 10,
+        interval: 1000,
+        canLoadMore: () => {
+          return messagesStore.totalCountChats > messagesStore.chats.length;
+        },
+      },
+    ]"
+    class="chat-items"
+  >
     <div
       v-for="item in messagesStore.chats"
       :key="item._id"
@@ -23,7 +35,7 @@
         <!-- <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>-->
-        <div class="chat-item__count">
+        <div v-if="item.unseen_messages > 0" class="chat-item__count">
           <span>{{ item.unseen_messages }}</span>
         </div>
       </div>
@@ -31,6 +43,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 function selectChat(respondent: any) {
   messagesStore.resetMessages();
@@ -40,7 +53,6 @@ function selectChat(respondent: any) {
     offset: messagesStore.messagesListOffset,
   });
 }
-
 messagesStore.fetchChats({
   limit: messagesStore.limit,
   offset: messagesStore.chatListOffset,

@@ -1,12 +1,11 @@
 <template>
   <div class="chat__content">
     <div
-      v-for="i in 1"
-      :key="i"
+      :key="messagesStore.activeChat?._id"
       class="chat-content"
       :class="[
-        { _type2: i % 2 === 0 },
-        { _active: !!messagesStore.activeChat },
+        /// { _type2: i % 2 === 0 }, -->
+        { _active: !!messagesStore.activeChat?._id },
       ]"
       data-id="1"
     >
@@ -32,16 +31,22 @@
             </div>
           </div>
         </div>
-        <div v-if="i % 2 !== 0" class="chat-content__order _flex">
+        <div
+          v-if="messagesStore.activeChat?._id"
+          class="chat-content__order _flex"
+        >
           <img src="/img/folder.svg" alt="" />
           <span>Чат по заказу "Расклеить объявления"</span>
         </div>
         <div class="chat-content__right _flex">
-          <div v-if="i % 2 == 0" class="chat-status">
+          <!--<div v-if="messagesStore.activeChat?._id" class="chat-status">
             <img src="/img/thunder.svg" alt="" />
             <span>Открытый диспут</span>
-          </div>
-          <button class="chat-content__delete _flex">
+          </div>-->
+          <button
+            class="chat-content__delete _flex"
+            @click="messagesStore.deleteChat()"
+          >
             <svg
               width="22"
               height="22"
@@ -106,7 +111,9 @@ const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 
 function sendMessage() {
-  message.value.recipient = messagesStore.activeChat.members[0]._id;
+  message.value.recipient = messagesStore.getRespondent(
+    messagesStore.activeChat,
+  )?._id;
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
   message.value = { recipient: '', text: '' };

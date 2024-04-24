@@ -53,7 +53,7 @@
 }
 
 .chat-items {
-  height: calc(100% - 3.8125em);
+  height: 500px;
   overflow-y: auto;
 
   @include scroll;
@@ -381,6 +381,11 @@
 
   &._own {
     align-items: flex-end;
+    
+    &__content {
+      max-width: 28.5em;
+      margin: 0.94em 0 0;
+    }
 
     .message-user {
       flex-direction: row-reverse;
@@ -394,10 +399,22 @@
       }
     }
 
-    .message-item__text {
+    .message-item__content {
       background-color: transparent;
       border: 1px solid rgba(#c8cbe8, 0.5);
+      border-radius: 0.5em;
     }
+
+    .message-item__text {
+      padding: 1.19em 1.81em 0;
+      background-color: transparent;
+    }
+  }
+
+  &__seen_icon {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 2px;
   }
 
   &._judge {
@@ -422,6 +439,10 @@
     * {
       line-height: inherit;
     }
+  }
+
+  svg {
+    width: 8px;
   }
 
   &__files {
