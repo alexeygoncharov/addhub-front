@@ -120,11 +120,6 @@ function sendMessage() {
 }
 
 socket.on('new_message', (data) => {
-  console.log('data ', data);
-  const currentUserID = userStore.user?._id;
-  const activeChatRespondentID = messagesStore.getRespondent(
-    messagesStore.activeChat,
-  )?._id;
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
   } else {
@@ -134,11 +129,7 @@ socket.on('new_message', (data) => {
   messagesStore.messages.unshift(data.newMessage);
 
   function isFromExistingChat(chatId: string) {
-    // Check if chat already exists in the store
-    return messagesStore.chats.some((chat) => chat._id === chatId); // &&
-    //  data.newMessage.sender._id === currentUserID) ||
-    // data.newMessage.sender._id === activeChatRespondentID
-    // );
+    return messagesStore.chats.some((chat) => chat._id === chatId);
   }
 
   function updateExistingChat(newChatData: any) {

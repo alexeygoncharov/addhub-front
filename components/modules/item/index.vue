@@ -216,9 +216,7 @@ const message = ref({
 const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
 
 onConfirm((data: any) => {
-  console.log('datata ', data);
   message.value.service_id = data.serviceId;
-  console.log('data.serviceId ', message.value.service_id);
   message.value.recipient = data.userId;
   messagesStore.createMessage(message.value).then(() => {
     message.value.text = '';
