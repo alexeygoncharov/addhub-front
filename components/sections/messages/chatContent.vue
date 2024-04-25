@@ -104,6 +104,7 @@
 </template>
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
+import ChatMessage from './ChatMessage.vue';
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const message = ref({ recipient: '', text: '' });
@@ -117,43 +118,61 @@ function sendMessage() {
   if (message.value.recipient.length && message.value.text.length)
     messagesStore.createMessage(message.value);
   message.value = { recipient: '', text: '' };
+
+  socket.once('new_message', (newMessage) => {
+    const currentUserID = userStore.user?._id;
+    const activeChatRespondent = messagesStore.getRespondent(
+      messagesStore.activeChat,
+    );
+
+    if (isFromNewChat(newMessage, currentUserID)) {
+      messagesStore.fetchChats({
+        limit: messagesStore.limit,
+        offset: messagesStore.chatListOffset,
+      });
+    }
+
+    if (
+      isMessageForActiveChat(
+        newMessage,
+        currentUserID,
+        activeChatRespondent?._id,
+      )
+    ) {
+      // отрефачить, поменять на push
+      messagesStore.messages.unshift(newMessage);
+    }
+  });
+
+  function isFromNewChat(newMessage: any, currentUserID?: string) {
+    return messagesStore.chats.every(
+      (chat) =>
+        chat.members.some((member) => member._id === newMessage.sender._id) ===
+        false,
+    );
+  }
+  function isMessageForActiveChat(
+    newMessage: any,
+    currentUserID?: string,
+    activeChatRespondentID?: string,
+  ) {
+    return (
+      newMessage.sender._id === currentUserID ||
+      newMessage.sender._id === activeChatRespondentID
+    );
+  }
 }
 
-socket.on('new_message', (newMessage) => {
-  const currentUserID = userStore.user?._id;
-  const activeChatRespondent = messagesStore.getRespondent(
-    messagesStore.activeChat,
-  );
-
-  if (isFromNewChat(newMessage, currentUserID)) {
-    messagesStore.fetchChats({
-      limit: messagesStore.limit,
-      offset: messagesStore.chatListOffset,
-    });
-  }
-
-  if (
-    isMessageForActiveChat(newMessage, currentUserID, activeChatRespondent?._id)
-  ) {
-    messagesStore.messages.unshift(newMessage);
-  }
+socket.on('delete_chat', (deletedChat) => {
+  messagesStore.chats.filter((item) => item._id !== deletedChat.id);
 });
 
-function isFromNewChat(newMessage: any, currentUserID?: string) {
-  return messagesStore.chats.every(
-    (chat) =>
-      chat.members.some((member) => member._id === newMessage.sender._id) ===
-      false,
-  );
-}
-function isMessageForActiveChat(
-  newMessage: any,
-  currentUserID?: string,
-  activeChatRespondentID?: string,
-) {
-  return (
-    newMessage.sender._id === currentUserID ||
-    newMessage.sender._id === activeChatRespondentID
-  );
-}
+socket.on('update_message', (updatedMessage) => {
+  messagesStore.messages.map((item) => {
+    if (item._id === updatedMessage.id) {
+      return (item.seen = true);
+    }
+    return item;
+  });
+});
 </script>
