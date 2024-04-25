@@ -45,7 +45,7 @@
         user?.active_role === 'seller' ? 'Создать услугу' : 'Создать проект'
       }}</span>
     </NuxtLink>
-    <div class="admin-header__type">
+    <div v-if="profile" class="admin-header__type">
       <div class="m-switch">
         <input
           v-if="user"
