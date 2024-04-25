@@ -46,7 +46,7 @@ declare global {
     roles: string[];
     active_role: 'buyer' | 'seller';
     __v: number;
-    avatar: string;
+    avatar?: string;
     phone_number: string;
     profession: string;
     slogan: string;
