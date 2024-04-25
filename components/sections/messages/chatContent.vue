@@ -140,6 +140,7 @@ function sendMessage() {
       )
     ) {
       // отрефачить, поменять на push
+      console.log('newMessage ', newMessage);
       messagesStore.messages.unshift(newMessage);
     }
   });
@@ -151,6 +152,7 @@ function sendMessage() {
         false,
     );
   }
+
   function isMessageForActiveChat(
     newMessage: any,
     currentUserID?: string,
