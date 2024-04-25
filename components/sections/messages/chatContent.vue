@@ -104,7 +104,6 @@
 </template>
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
-import ChatMessage from './ChatMessage.vue';
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const message = ref({ recipient: '', text: '' });
@@ -112,58 +111,35 @@ const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 
 function sendMessage() {
-  message.value.recipient = messagesStore.getRespondent(
-    messagesStore.activeChat,
-  )?._id;
-  if (message.value.recipient.length && message.value.text.length)
+  const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
+  message.value.recipient = activeChat ? activeChat._id : null;
+  if (message.value.recipient && message.value.text) {
     messagesStore.createMessage(message.value);
-  message.value = { recipient: '', text: '' };
-
-  socket.once('new_message', (newMessage) => {
-    const currentUserID = userStore.user?._id;
-    const activeChatRespondent = messagesStore.getRespondent(
-      messagesStore.activeChat,
-    );
-
-    if (isFromNewChat(newMessage, currentUserID)) {
-      messagesStore.fetchChats({
-        limit: messagesStore.limit,
-        offset: messagesStore.chatListOffset,
-      });
-    }
-
-    if (
-      isMessageForActiveChat(
-        newMessage,
-        currentUserID,
-        activeChatRespondent?._id,
-      )
-    ) {
-      // отрефачить, поменять на push
-      console.log('newMessage ', newMessage);
-      messagesStore.messages.unshift(newMessage);
-    }
-  });
-
-  function isFromNewChat(newMessage: any, currentUserID?: string) {
-    return messagesStore.chats.every(
-      (chat) =>
-        chat.members.some((member) => member._id === newMessage.sender._id) ===
-        false,
-    );
-  }
-
-  function isMessageForActiveChat(
-    newMessage: any,
-    currentUserID?: string,
-    activeChatRespondentID?: string,
-  ) {
-    return (
-      newMessage.sender._id === currentUserID ||
-      newMessage.sender._id === activeChatRespondentID
-    );
+    message.value = { recipient: '', text: '' };
   }
 }
+
+socket.on('new_message', (data) => {
+  if (!isFromExistingChat(data.chat._id)) {
+    messagesStore.chats.unshift(data.chat);
+  } else {
+    updateExistingChat(data.chat);
+  }
+
+  messagesStore.messages.unshift(data.newMessage);
+
+  function isFromExistingChat(chatId: string) {
+    return messagesStore.chats.some((chat) => chat._id === chatId);
+  }
+
+  function updateExistingChat(newChatData: any) {
+    // Remove outdated chat data and add updated one
+    messagesStore.chats = messagesStore.chats.filter(
+      (chat) => chat._id !== newChatData._id,
+    );
+    messagesStore.chats.unshift(newChatData);
+  }
+});
 
 socket.on('delete_chat', (deletedChat) => {
   messagesStore.chats.filter((item) => item._id !== deletedChat.id);
