@@ -111,18 +111,6 @@
           </p>
         </fieldset>
 
-        <!-- <fieldset class="fg">
-          <label>Уровень</label>
-        </fieldset> -->
-
-        <!-- <fieldset class="fg">
-          <label>Языки</label>
-          
-        </fieldset>
-        <fieldset class="fg">
-          <label>Уровень языка</label>
-        </fieldset> -->
-
         <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
           <label>Объём проекта(заголовок)</label>
           <input

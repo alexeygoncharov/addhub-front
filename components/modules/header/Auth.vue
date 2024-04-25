@@ -45,20 +45,25 @@
         user?.active_role === 'seller' ? 'Создать услугу' : 'Создать проект'
       }}</span>
     </NuxtLink>
-    <!-- <div class="admin-header__type">
-            <div class="m-switch">
-              <input
-                :checked="user?.active_role !== 'seller'"
-                type="checkbox"
-                disabled
-              />
-              <label></label>
-              <div class="text14">
-                <span class="_view1">Я фрилансер</span>
-                <span class="_view2">Я заказчик</span>
-              </div>
-            </div>
-          </div> -->
+    <div v-if="profile" class="admin-header__type">
+      <div class="m-switch">
+        <input
+          v-if="user"
+          :disabled="loading"
+          v-model="user.active_role"
+          true-value="buyer"
+          false-value="seller"
+          type="checkbox"
+          @change="roleSwitch"
+        />
+        <label></label>
+        <div class="text14">
+          <span class="_view1">Я фрилансер</span>
+          <span class="_view2">Я заказчик</span>
+        </div>
+      </div>
+    </div>
+
     <nuxtLink to="/profile/notifications" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
@@ -114,11 +119,33 @@ const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const props = defineProps<{ profile?: boolean }>();
 const searchQuery = ref('');
+// const isBuyer = user.value?.active_role === 'buyer';
 const activeSearch = ref(false);
 const favorites = storeToRefs(userStore).favorites;
 const mobMenu = defineModel<boolean>({ required: true });
 const toggleMenu = () => {
   mobMenu.value = !mobMenu.value;
+};
+const loading = ref(false);
+const roleSwitch = async () => {
+  loading.value = true;
+  const { data, error } = await apiFetch('/api/users/switch_role', {
+    needToken: true,
+    options: {
+      method: 'PUT',
+      body: {
+        active_role: user.value?.active_role,
+      },
+    },
+  });
+  loading.value = false;
+  if (error.value && user.value) {
+    if (user.value.active_role === 'buyer') {
+      user.value.active_role = 'seller';
+    } else {
+      user.value.active_role = 'buyer';
+    }
+  }
 };
 const { isAuthenticated, isLoading } = storeToRefs(authStore);
 const { logout } = authStore;

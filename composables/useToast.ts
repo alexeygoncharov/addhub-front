@@ -3,7 +3,7 @@ import ToastComponent from '~/components/UI/VToast.vue';
 export default function ({
   message,
   type = 'info',
-  timeout = 1000,
+  timeout = 3000,
 }: {
   message: string;
   type?: 'info' | 'error' | 'success';
