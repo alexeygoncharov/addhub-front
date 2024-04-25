@@ -173,7 +173,7 @@ const commonStore = useCommonStore();
 const titles = [
   { title: 'Опубликовано', value: 'published' },
   { title: 'Отклонено', value: 'declined' },
-  { title: 'На рассмотрении', value: 'pending' },
+  { title: 'Не опубликовано', value: 'stopped' },
   { title: 'Одобрено', value: 'approved' },
   { title: 'Заблокировано', value: 'blocked' },
 ];

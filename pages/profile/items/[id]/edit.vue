@@ -1,8 +1,6 @@
 <template>
   <ModulesProfileTop>{{
-    user?.active_role === 'buyer'
-      ? `Редактирование проекта`
-      : `Редактирование услуги`
+    type === 'project' ? `Редактирование проекта` : `Редактирование услуги`
   }}</ModulesProfileTop>
 
   <div v-if="!fromCreate" class="profile-item">
@@ -20,8 +18,7 @@
       <div class="profile-item__grid">
         <fieldset class="fg _full">
           <label
-            >Заголовок
-            {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
+            >Заголовок {{ type === 'project' ? 'проекта' : 'услуги' }}</label
           >
           <input
             v-model="form.title"
@@ -109,7 +106,7 @@
           </p>
         </fieldset>
 
-        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
+        <fieldset v-if="type === 'service'" class="fg _full">
           <label>Объём проекта(заголовок)</label>
           <input
             v-model="form.service_volume"
@@ -118,7 +115,7 @@
             placeholder="Заголовок"
           />
         </fieldset>
-        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
+        <fieldset v-if="type === 'service'" class="fg _full">
           <label>Объём проекта(описание)</label>
           <input
             v-model="form.service_volume_desc"
@@ -173,9 +170,7 @@
   </div>
 
   <div
-    v-if="
-      user?.active_role === 'buyer' && editableItem && 'files' in editableItem
-    "
+    v-if="type === 'project' && editableItem && 'files' in editableItem"
     class="profile-item"
   >
     <div class="profile-item__top">
@@ -247,7 +242,7 @@
     <button
       v-if="editableItem?.status === 'approved'"
       class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
-      @click="publish"
+      @click="switchPublish"
     >
       <span>Опубликовать</span>
     </button>
@@ -261,6 +256,7 @@
     <button
       v-else-if="editableItem?.status === 'published'"
       class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      @click="switchPublish"
     >
       <span>Снять с публикации</span>
     </button>
@@ -272,18 +268,47 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
-const publish = async () => {
+const form = ref({
+  title: '',
+  description: '',
+  price: '',
+  city: '',
+  country: '',
+  category: '',
+  service_volume_desc: '',
+  service_volume: '',
+  delivery_time: '',
+});
+const commonStore = useCommonStore();
+const route = useRoute();
+const id = route.params.id;
+const type = route.query.type as 'project' | 'service';
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
+const editableItem = ref<projectItem | serviceItem>();
+const errors = ref<string[]>([]);
+const fromCreate = Array.isArray(route.query.fromCreate)
+  ? false
+  : !!route.query.fromCreate;
+const switchPublish = async () => {
   if (!editableItem.value) return;
   const { data, error } = await apiFetch(
-    `/api/services/publish/${editableItem.value._id}`,
+    `/api/${type === 'project' ? 'projects' : 'services'}/${editableItem.value.status === 'published' ? 'stop' : 'publish'}/${editableItem.value._id}`,
     { needToken: true, options: { method: 'PUT' } },
   );
   if (!error.value) {
-    editableItem.value.status = 'published';
-    useToast({ message: 'Успешно опубликовано', type: 'success' });
+    editableItem.value.status =
+      editableItem.value.status === 'approved' ? 'published' : 'approved';
+    useToast({
+      message:
+        editableItem.value.status === 'published'
+          ? 'Успешно опубликовано'
+          : 'Успешно снято с публикации',
+      type: 'success',
+    });
   }
 };
-const errors = ref<string[]>([]);
+
 const deleteFile = async (file: string, index: number) => {
   const { data, error } = await apiFetch('/api/files/single', {
     options: { method: 'DELETE', body: { filePath: file } },
@@ -334,25 +359,6 @@ const uploadFile = async (event: Event) => {
     editItem('file');
   }
 };
-const form = ref({
-  title: '',
-  description: '',
-  price: '',
-  city: '',
-  country: '',
-  category: '',
-  service_volume_desc: '',
-  service_volume: '',
-  delivery_time: '',
-});
-const commonStore = useCommonStore();
-const userStore = useUserStore();
-const { user } = storeToRefs(userStore);
-const editableItem = ref<projectItem | serviceItem>();
-const route = useRoute();
-const fromCreate = Array.isArray(route.query.fromCreate)
-  ? false
-  : !!route.query.fromCreate;
 function getFileExtension(filename: string) {
   // Разбиваем строку с именем файла по точке
   const parts = filename.split('.');
@@ -374,8 +380,6 @@ if (
 ) {
   throw createError({ statusCode: 404 });
 }
-const id = route.params.id;
-const type = route.query.type as 'project' | 'service';
 const fetchItem = async () => {
   const { data, error } = await apiFetch<
     ApiResponse<projectItem | serviceItem>
@@ -403,24 +407,24 @@ const fetchItem = async () => {
   }
 };
 fetchItem();
-const editItem = async (type?: 'file' | 'image') => {
+const editItem = async (fileType?: 'file' | 'image') => {
   if (!editableItem.value) return;
   validateItem(form.value, errors);
 
   if (errors.value.length) return;
-  const body = !type
+  const body = !fileType
     ? { ...form.value }
-    : type === 'file' && 'files' in editableItem.value
+    : fileType === 'file' && 'files' in editableItem.value
       ? { files: editableItem.value?.files }
       : { photos: editableItem.value?.photos };
   const { data, error } = await apiFetch<
     ApiResponse<projectItem | serviceItem>
-  >(
-    `/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}/${id}`,
-    { options: { method: 'PUT', body }, needToken: true },
-  );
+  >(`/api/${type === 'project' ? 'projects' : 'services'}/${id}`, {
+    options: { method: 'PUT', body },
+    needToken: true,
+  });
   const value = data.value;
-  if (value && !type) {
+  if (value && !fileType) {
     editableItem.value = value.result;
     useToast({ message: 'Изменения сохранены', type: 'success' });
   }
