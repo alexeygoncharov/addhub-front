@@ -49,6 +49,7 @@
       <div class="m-switch">
         <input
           v-if="user"
+          :disabled="loading"
           v-model="user.active_role"
           true-value="buyer"
           false-value="seller"
@@ -124,7 +125,9 @@ const mobMenu = defineModel<boolean>({ required: true });
 const toggleMenu = () => {
   mobMenu.value = !mobMenu.value;
 };
+const loading = ref(false);
 const roleSwitch = async () => {
+  loading.value = true;
   const { data, error } = await apiFetch('/api/users/switch_role', {
     needToken: true,
     options: {
@@ -134,6 +137,7 @@ const roleSwitch = async () => {
       },
     },
   });
+  loading.value = false;
   if (error.value && user.value) {
     if (user.value.active_role === 'buyer') {
       user.value.active_role = 'seller';
