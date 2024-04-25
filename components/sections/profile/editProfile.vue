@@ -145,6 +145,7 @@ import { useProfileStore } from '../../../stores/profile';
 import { useCommonStore } from '../../../stores/common';
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();
+const userStore = useUserStore();
 const { open, onChange } = useFileDialog({
   accept: 'image/*', // Set to accept only image files
   // directory: true, // Select directories instead of files if set true
@@ -160,7 +161,10 @@ onChange((files) => {
         form.value.avatar = filename.replace('/files', 'files');
         formData.delete('file');
         formData.append('avatar', form.value.avatar);
-        profileStore.updateAvatar(form.value.avatar);
+        profileStore.updateAvatar(form.value.avatar).then(() => {
+          if (userStore.user?.avatar !== undefined)
+            userStore.user.avatar = form.value.avatar;
+        });
       }
     });
   }
@@ -181,7 +185,6 @@ const genders = ref({
   ],
 });
 
-const userStore = useUserStore();
 const form = ref({
   avatar: userStore.user?.avatar,
   name: userStore.user?.name,

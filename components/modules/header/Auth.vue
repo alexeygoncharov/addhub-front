@@ -75,6 +75,7 @@
       <nuxtLink to="/profile" class="avatar">
         <NuxtImg
           v-if="user?.avatar"
+          :key="user?.avatar"
           preload
           crossorigin="anonymous"
           :src="baseUrl() + user?.avatar"
