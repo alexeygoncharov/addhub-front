@@ -152,6 +152,7 @@ function sendMessage() {
         false,
     );
   }
+
   function isMessageForActiveChat(
     newMessage: any,
     currentUserID?: string,
@@ -159,7 +160,7 @@ function sendMessage() {
   ) {
     return (
       newMessage.sender._id === currentUserID ||
-      newMessage.recipient._id === activeChatRespondentID
+      newMessage.sender._id === activeChatRespondentID
     );
   }
 }
