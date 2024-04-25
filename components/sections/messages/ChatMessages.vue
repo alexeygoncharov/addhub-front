@@ -16,7 +16,9 @@
     class="messages"
   >
     <SectionsMessagesChatMessage
-      v-for="message in messagesStore.messages"
+      v-for="message in messagesStore.messages.filter(
+        (item) => item.chat_id === messagesStore.activeChat?._id,
+      )"
       :key="message._id"
       class="item"
       :message="message"

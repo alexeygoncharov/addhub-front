@@ -104,7 +104,6 @@
 </template>
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
-import ChatMessage from './ChatMessage.vue';
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const message = ref({ recipient: '', text: '' });
@@ -117,30 +116,39 @@ function sendMessage() {
   if (message.value.recipient && message.value.text) {
     messagesStore.createMessage(message.value);
     message.value = { recipient: '', text: '' };
-
-    socket.once('new_message', (data) => {
-      if (!isFromExistingChat(data.chat._id)) {
-        messagesStore.chats.unshift(data.chat);
-      } else {
-        updateExistingChat(data.chat);
-      }
-      messagesStore.messages.unshift(data.newMessage);
-    });
   }
 }
 
-function isFromExistingChat(chatId: string) {
-  // Check if chat already exists in the store
-  return messagesStore.chats.some((chat) => chat._id === chatId);
-}
+socket.on('new_message', (data) => {
+  console.log('data ', data);
+  const currentUserID = userStore.user?._id;
+  const activeChatRespondentID = messagesStore.getRespondent(
+    messagesStore.activeChat,
+  )?._id;
+  if (!isFromExistingChat(data.chat._id)) {
+    messagesStore.chats.unshift(data.chat);
+  } else {
+    updateExistingChat(data.chat);
+  }
 
-function updateExistingChat(newChatData: any) {
-  // Remove outdated chat data and add updated one
-  messagesStore.chats = messagesStore.chats.filter(
-    (chat) => chat._id !== newChatData._id,
-  );
-  messagesStore.chats.unshift(newChatData);
-}
+  messagesStore.messages.unshift(data.newMessage);
+
+  function isFromExistingChat(chatId: string) {
+    // Check if chat already exists in the store
+    return messagesStore.chats.some((chat) => chat._id === chatId); // &&
+    //  data.newMessage.sender._id === currentUserID) ||
+    // data.newMessage.sender._id === activeChatRespondentID
+    // );
+  }
+
+  function updateExistingChat(newChatData: any) {
+    // Remove outdated chat data and add updated one
+    messagesStore.chats = messagesStore.chats.filter(
+      (chat) => chat._id !== newChatData._id,
+    );
+    messagesStore.chats.unshift(newChatData);
+  }
+});
 
 socket.on('delete_chat', (deletedChat) => {
   messagesStore.chats.filter((item) => item._id !== deletedChat.id);
