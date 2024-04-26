@@ -50,9 +50,16 @@ socket.on('delete_chat', (deletedChat) => {
 });
 
 socket.on('update_message', (updatedMessage) => {
+  // console.log('updated message ', updatedMessage);
   messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       return (item.seen = true);
+    }
+    return item;
+  });
+  messagesStore.chats.map((item) => {
+    if (item._id === updatedMessage.id) {
+      return (item.unseen_messages -= 1);
     }
     return item;
   });
