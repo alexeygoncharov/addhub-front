@@ -89,7 +89,7 @@
           <label>Страна</label>
           <UIVSelect
             :initial-current-text="{
-              value: form.address.country,
+              value: form.address?.country,
               text: countries?.find((item) => {
                 if (item.value === form.address.country) return item;
               })?.text,
@@ -104,7 +104,7 @@
           <label>Город</label>
           <UIVSelect
             :initial-current-text="{
-              value: form.address.city,
+              value: form.address?.city,
               text: cities?.find((item) => {
                 if (item.value === form.address.city) return item;
               })?.text,
@@ -193,8 +193,8 @@ const form = ref({
   slogan: userStore.user?.slogan,
   gender: userStore.user?.gender,
   address: {
-    city: userStore.user?.address?.city._id,
-    country: userStore.user?.address?.country._id,
+    city: userStore.user?.address?.city?._id,
+    country: userStore.user?.address?.country?._id,
   },
   about_me: userStore.user?.about_me,
 });
