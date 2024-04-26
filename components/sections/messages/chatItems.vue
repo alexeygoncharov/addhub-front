@@ -13,7 +13,9 @@
     class="chat-items"
   >
     <div
-      v-for="item in messagesStore.chats"
+      v-for="item in messagesStore.chats.filter((chat) =>
+        chat.members.some((member: any) => member._id === userStore?.user?._id),
+      )"
       :key="item._id"
       class="chat-item"
       @click="selectChat(item)"
@@ -45,6 +47,7 @@
 <script setup lang="ts">
 import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
+const userStore = useUserStore();
 function selectChat(respondent: any) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
