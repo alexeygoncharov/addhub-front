@@ -21,6 +21,10 @@
     </div>
 
     <div class="message-item__content">
+      <SectionsMessagesMessageMedia
+        v-if="message?.files?.length"
+        :files="message?.files"
+      ></SectionsMessagesMessageMedia>
       <div class="message-item__text">
         {{ message.message }}
       </div>
@@ -112,6 +116,10 @@
     </div>
 
     <div class="message-item__content">
+      <SectionsMessagesMessageMedia
+        v-if="message?.files?.length"
+        :files="message?.files"
+      ></SectionsMessagesMessageMedia>
       <div class="message-item__text">
         {{ message.message }}
       </div>
