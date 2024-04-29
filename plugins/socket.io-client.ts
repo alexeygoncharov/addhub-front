@@ -4,7 +4,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
   const socket = io('https://hub.rdcd.ru', {
     extraHeaders: {
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken?.value}`,
     },
     transports: ['polling'],
   });
