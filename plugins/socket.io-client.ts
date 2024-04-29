@@ -23,7 +23,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     transport.value = 'N/A';
   }
 
-  socket.once('connect', onConnect);
+  socket.on('connect', onConnect);
   socket.on('disconnect', onDisconnect);
   socket.on('connect_error', (err) => {
     // the reason of the error, for example "xhr poll error"
