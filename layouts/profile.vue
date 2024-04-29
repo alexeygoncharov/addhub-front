@@ -71,4 +71,7 @@ socket.on('update_message', (updatedMessage) => {
     return item;
   });
 });
+onUnmounted(() => {
+  socket.off();
+});
 </script>
