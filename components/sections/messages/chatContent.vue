@@ -75,9 +75,13 @@
           ></textarea>
         </div>
         <div class="chat-nav__action _flex">
-          <div class="chat-nav__file">
-            <input type="file" />
-            <button class="chat-nav__file-btn">
+          <form class="chat-nav__file">
+            <div v-if="files">{{ files.item(0)?.name }}</div>
+            <button
+              type="button"
+              class="chat-nav__file-btn"
+              @click.prevent="open()"
+            >
               <svg
                 width="25"
                 height="25"
@@ -91,7 +95,7 @@
                 />
               </svg>
             </button>
-          </div>
+          </form>
           <button
             class="chat-nav__btn m-btn m-btn-blue m-btn-shadow"
             @click="sendMessage"
@@ -104,15 +108,39 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useFileDialog } from '@vueuse/core';
 const messagesStore = useMessagesStore();
-const message = ref({ recipient: '', text: '' });
+const commonStore = useCommonStore();
+type Message = {
+  recipient: string;
+  text: string;
+  files: string[];
+};
+const message = ref<Message>({ recipient: '', text: '', files: [] });
+const { files, reset, open } = useFileDialog({
+  accept: 'image/*', // Set to accept only image files
+});
 
 function sendMessage() {
   const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
   message.value.recipient = activeChat ? activeChat._id : null;
   if (message.value.recipient && message.value.text) {
-    messagesStore.createMessage(message.value);
-    message.value = { recipient: '', text: '' };
+    if (files.value?.length) {
+      const formData = new FormData();
+      formData.append('file', files.value?.item(0) as Blob);
+      commonStore.uploadFile(formData).then((filename?: string) => {
+        if (filename) {
+          message.value.files.push(filename);
+          messagesStore.createMessage(message.value);
+          message.value = { recipient: '', text: '', files: [] };
+          reset();
+        }
+      });
+    } else {
+      messagesStore.createMessage(message.value);
+      message.value = { recipient: '', text: '', files: [] };
+      reset();
+    }
   }
 }
 </script>
