@@ -15,6 +15,15 @@
 </template>
 
 <script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core';
+
+const debouncedFn = useDebounceFn(
+  () => {
+    // do something
+  },
+  1000,
+  { maxWait: 5000 },
+);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',

@@ -97,6 +97,7 @@
             </button>
           </form>
           <button
+            :disabled="!!!message?.text?.length"
             class="chat-nav__btn m-btn m-btn-blue m-btn-shadow"
             @click="sendMessage"
           >
