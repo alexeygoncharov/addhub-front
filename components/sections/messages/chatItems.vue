@@ -40,7 +40,7 @@
         <div
           v-if="
             item.unseen_messages > 0 &&
-            item.members[1]?._id === userStore.user?._id
+            item.members[0]?._id === userStore.user?._id
           "
           class="chat-item__count"
         >
