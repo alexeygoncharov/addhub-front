@@ -1,4 +1,4 @@
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
@@ -11,6 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const isConnected = ref(false);
   const transport = ref('N/A');
   function onConnect() {
+    console.log('socket start ');
     isConnected.value = true;
     transport.value = socket.io.engine.transport.name;
     socket.io.engine.on('upgrade', (rawTransport) => {

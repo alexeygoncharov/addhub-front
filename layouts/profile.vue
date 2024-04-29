@@ -29,46 +29,47 @@ const socket = nuxtApp.$socket as Socket;
 const full = computed(() => {
   return useRoute().path.includes('/profile');
 });
-
-socket.on('new_message', (data) => {
-  if (!isFromExistingChat(data.chat._id)) {
-    messagesStore.chats.unshift(data.chat);
-  } else {
-    updateExistingChat(data.chat);
-  }
-
-  messagesStore.messages.unshift(data.newMessage);
-
-  function isFromExistingChat(chatId: string) {
-    return messagesStore.chats.some((chat) => chat._id === chatId);
-  }
-
-  function updateExistingChat(newChatData: any) {
-    // Remove outdated chat data and add updated one
-    messagesStore.chats = messagesStore.chats.filter(
-      (chat) => chat._id !== newChatData._id,
-    );
-    messagesStore.chats.unshift(newChatData);
-  }
-});
-
-socket.on('delete_chat', (deletedChat) => {
-  messagesStore.chats.filter((item) => item._id !== deletedChat.id);
-});
-
-socket.on('update_message', (updatedMessage) => {
-  messagesStore.messages.map((item) => {
-    if (item._id === updatedMessage.id) {
-      return (item.seen = true);
+socket.on('connect', () => {
+  socket.on('new_message', (data) => {
+    if (!isFromExistingChat(data.chat._id)) {
+      messagesStore.chats.unshift(data.chat);
+    } else {
+      updateExistingChat(data.chat);
     }
-    return item;
+
+    messagesStore.messages.unshift(data.newMessage);
+
+    function isFromExistingChat(chatId: string) {
+      return messagesStore.chats.some((chat) => chat._id === chatId);
+    }
+
+    function updateExistingChat(newChatData: any) {
+      // Remove outdated chat data and add updated one
+      messagesStore.chats = messagesStore.chats.filter(
+        (chat) => chat._id !== newChatData._id,
+      );
+      messagesStore.chats.unshift(newChatData);
+    }
   });
-  messagesStore.chats.map((item) => {
-    if (item._id === updatedMessage.chat_id) {
-      messagesStore.totalUnseenMessages--;
-      return item.unseen_messages--;
-    }
-    return item;
+
+  socket.on('delete_chat', (deletedChat) => {
+    messagesStore.chats.filter((item) => item._id !== deletedChat.id);
+  });
+
+  socket.on('update_message', (updatedMessage) => {
+    messagesStore.messages.map((item) => {
+      if (item._id === updatedMessage.id) {
+        return (item.seen = true);
+      }
+      return item;
+    });
+    messagesStore.chats.map((item) => {
+      if (item._id === updatedMessage.chat_id) {
+        messagesStore.totalUnseenMessages--;
+        return item.unseen_messages--;
+      }
+      return item;
+    });
   });
 });
 onUnmounted(() => {
