@@ -71,6 +71,7 @@
           <textarea
             v-model="message.text"
             placeholder="Напишите сообщение"
+            @keydown.enter="sendMessage"
           ></textarea>
         </div>
         <div class="chat-nav__action _flex">
