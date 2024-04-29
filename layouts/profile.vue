@@ -65,6 +65,7 @@ socket.on('update_message', (updatedMessage) => {
   });
   messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
+      messagesStore.totalUnseenMessages--;
       return item.unseen_messages--;
     }
     return item;
