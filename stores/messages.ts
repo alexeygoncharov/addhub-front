@@ -14,6 +14,7 @@ export const useMessagesStore = defineStore('messages', () => {
     text: string;
     recipient: string;
     service_id?: string;
+    files?: Array<string>;
   }
   interface MessagesList {
     chat_id: string;
@@ -111,6 +112,7 @@ export const useMessagesStore = defineStore('messages', () => {
             message: msg.text,
             recipient: msg.recipient,
             service_id: msg.service_id,
+            files: msg.files,
           },
         },
       });

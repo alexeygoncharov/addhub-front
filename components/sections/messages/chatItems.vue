@@ -13,7 +13,9 @@
     class="chat-items"
   >
     <div
-      v-for="item in messagesStore.chats"
+      v-for="item in messagesStore.chats.filter((chat) =>
+        chat.members.some((member: any) => member._id === userStore?.user?._id),
+      )"
       :key="item._id"
       class="chat-item"
       @click="selectChat(item)"
@@ -35,7 +37,13 @@
         <!-- <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>-->
-        <div v-if="item.unseen_messages > 0" class="chat-item__count">
+        <div
+          v-if="
+            item.unseen_messages > 0 &&
+            item.members[1]?._id === userStore.user?._id
+          "
+          class="chat-item__count"
+        >
           <span>{{ item.unseen_messages }}</span>
         </div>
       </div>
@@ -45,6 +53,7 @@
 <script setup lang="ts">
 import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
+const userStore = useUserStore();
 function selectChat(respondent: any) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;

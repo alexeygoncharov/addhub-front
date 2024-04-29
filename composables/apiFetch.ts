@@ -33,14 +33,6 @@ export default async function <T>(
     watch: false,
     ...options,
   });
-  console.log(
-    'start nitro',
-    baseUrl,
-    'endpoint',
-    endpoint,
-    'options ',
-    options,
-  );
   stopLoading();
   return { data, error } as {
     data: Ref<T | null | undefined>;

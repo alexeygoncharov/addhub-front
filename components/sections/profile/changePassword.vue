@@ -8,7 +8,7 @@
         <fieldset class="fg">
           <label>Старый пароль</label>
           <input
-            v-model="passwordForm.oldPassord"
+            v-model="passwordForm.old_password"
             type="password"
             placeholder="********"
           />
@@ -16,7 +16,7 @@
         <fieldset class="fg">
           <label>Новый пароль</label>
           <input
-            v-model="passwordForm.newPassword"
+            v-model="passwordForm.new_password"
             type="password"
             placeholder="********"
           />
@@ -24,7 +24,7 @@
         <fieldset class="fg">
           <label>Повторить пароль</label>
           <input
-            v-model="passwordForm.repeatPassword"
+            v-model="passwordForm.repeat_new_password"
             type="password"
             placeholder="********"
           />
@@ -48,21 +48,21 @@
 const profileStore = useProfileStore();
 
 const passwordForm = ref({
-  oldPassord: '',
-  newPassword: '',
-  repeatPassword: '',
+  old_password: '',
+  new_password: '',
+  repeat_new_password: '',
 });
 
 async function submitPassword() {
   const data = {
-    oldPassord: passwordForm.value.oldPassord,
-    newPassword: passwordForm.value.newPassword,
-    repeatPassword: passwordForm.value.repeatPassword,
+    old_password: passwordForm.value.old_password,
+    new_password: passwordForm.value.new_password,
+    repeat_new_password: passwordForm.value.repeat_new_password,
   };
   await profileStore.changePassword(data).then(() => {
-    passwordForm.value.newPassword = '';
-    passwordForm.value.oldPassord = '';
-    passwordForm.value.repeatPassword = '';
+    passwordForm.value.new_password = '';
+    passwordForm.value.old_password = '';
+    passwordForm.value.repeat_new_password = '';
   });
 }
 </script>

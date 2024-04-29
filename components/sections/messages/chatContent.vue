@@ -103,57 +103,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Socket } from 'socket.io-client';
 const messagesStore = useMessagesStore();
-const userStore = useUserStore();
 const message = ref({ recipient: '', text: '' });
-const nuxtApp = useNuxtApp();
-const socket = nuxtApp.$socket as Socket;
 
 function sendMessage() {
-  message.value.recipient = messagesStore.getRespondent(
-    messagesStore.activeChat,
-  )?._id;
-  if (message.value.recipient.length && message.value.text.length)
+  const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
+  message.value.recipient = activeChat ? activeChat._id : null;
+  if (message.value.recipient && message.value.text) {
     messagesStore.createMessage(message.value);
-  message.value = { recipient: '', text: '' };
-}
-
-socket.on('new_message', (newMessage) => {
-  const currentUserID = userStore.user?._id;
-  const activeChatRespondent = messagesStore.getRespondent(
-    messagesStore.activeChat,
-  );
-
-  if (isFromNewChat(newMessage, currentUserID)) {
-    messagesStore.fetchChats({
-      limit: messagesStore.limit,
-      offset: messagesStore.chatListOffset,
-    });
+    message.value = { recipient: '', text: '' };
   }
-
-  if (
-    isMessageForActiveChat(newMessage, currentUserID, activeChatRespondent?._id)
-  ) {
-    messagesStore.messages.unshift(newMessage);
-  }
-});
-
-function isFromNewChat(newMessage: any, currentUserID?: string) {
-  return messagesStore.chats.every(
-    (chat) =>
-      chat.members.some((member) => member._id === newMessage.sender._id) ===
-      false,
-  );
-}
-function isMessageForActiveChat(
-  newMessage: any,
-  currentUserID?: string,
-  activeChatRespondentID?: string,
-) {
-  return (
-    newMessage.sender._id === currentUserID ||
-    newMessage.sender._id === activeChatRespondentID
-  );
 }
 </script>
