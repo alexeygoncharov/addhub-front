@@ -75,8 +75,8 @@
           ></textarea>
         </div>
         <div class="chat-nav__action _flex">
+          <div v-if="files">{{ files.item(0)?.name }}</div>
           <form class="chat-nav__file">
-            <div v-if="files">{{ files.item(0)?.name }}</div>
             <button
               type="button"
               class="chat-nav__file-btn"
