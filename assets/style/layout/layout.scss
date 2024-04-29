@@ -96,8 +96,10 @@
   &__type {
     display: flex;
     align-items: center;
-    min-width: 9em;
+    width: fit-content;
+    margin-right: 1em;
     color: #000;
+    text-wrap: nowrap;
 
     .m-switch {
       display: flex;
@@ -167,7 +169,7 @@
   font-size: 0.833vw;
 
   @media screen and (min-width: 993px) {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 19;

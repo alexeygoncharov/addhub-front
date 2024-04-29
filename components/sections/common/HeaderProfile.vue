@@ -116,7 +116,7 @@ const messagesStore = useMessagesStore();
 const user = defineModel<Profile>('user');
 
 const mobMenu = ref(false);
-const links = ref([
+const links = computed(() => [
   // {
   //   path: '/profile/dashboard',
   //   title: 'Главная',

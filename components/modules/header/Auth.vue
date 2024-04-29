@@ -49,8 +49,8 @@
       <div class="m-switch">
         <input
           v-if="user"
+          v-model="bufRole"
           :disabled="loading"
-          v-model="user.active_role"
           true-value="buyer"
           false-value="seller"
           type="checkbox"
@@ -80,6 +80,7 @@
       <nuxtLink to="/profile" class="avatar">
         <NuxtImg
           v-if="user?.avatar"
+          :key="user?.avatar"
           preload
           crossorigin="anonymous"
           :src="baseUrl() + user?.avatar"
@@ -116,6 +117,7 @@ const commonStore = useCommonStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
+const bufRole = ref(user.value?.active_role);
 const props = defineProps<{ profile?: boolean }>();
 const searchQuery = ref('');
 // const isBuyer = user.value?.active_role === 'buyer';
@@ -128,22 +130,32 @@ const toggleMenu = () => {
 const loading = ref(false);
 const roleSwitch = async () => {
   loading.value = true;
-  const { data, error } = await apiFetch('/api/users/switch_role', {
-    needToken: true,
-    options: {
-      method: 'PUT',
-      body: {
-        active_role: user.value?.active_role,
+  const { data, error } = await apiFetch<ApiResponse<string>>(
+    '/api/users/switch_role',
+    {
+      needToken: true,
+      options: {
+        method: 'PUT',
+        body: {
+          active_role: user.value?.active_role === 'buyer' ? 'seller' : 'buyer',
+        },
       },
     },
-  });
+  );
   loading.value = false;
   if (error.value && user.value) {
-    if (user.value.active_role === 'buyer') {
-      user.value.active_role = 'seller';
+    if (bufRole.value === 'buyer') {
+      bufRole.value = 'seller';
     } else {
-      user.value.active_role = 'buyer';
+      bufRole.value = 'buyer';
     }
+    return;
+  }
+  if (data.value && user.value) {
+    useCookie('authToken').value = data.value.result;
+    await nextTick();
+    user.value.active_role =
+      user.value?.active_role === 'buyer' ? 'seller' : 'buyer';
   }
 };
 const { isAuthenticated, isLoading } = storeToRefs(authStore);

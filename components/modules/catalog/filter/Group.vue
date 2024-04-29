@@ -1,5 +1,17 @@
 <template>
-  <div class="filter-group spoiler" :class="{ _active: isExpanded }">
+  <div
+    v-if="
+      filter.list[0].projects_count === undefined ||
+      filter.list[0].services_count === undefined ||
+      filter.list.find(
+        (item) =>
+          (item.services_count && item.services_count > 0) ||
+          (item.projects_count && item.projects_count > 0),
+      )
+    "
+    class="filter-group spoiler"
+    :class="{ _active: isExpanded }"
+  >
     <div class="filter-group__top spoiler__toggle" @click="toggleSpoiler">
       <div class="filter-group__title">{{ filter.title }}</div>
       <svg
@@ -46,7 +58,8 @@
               v-if="
                 filter.type === 'check' &&
                 (Array.isArray(filters[filterKey]) || !filters[filterKey]) &&
-                filtersCount
+                filtersCount &&
+                (item[filtersCount] === undefined || item[filtersCount])
               "
               v-model="filters[filterKey] as string[] | undefined"
               :title="item.title"
@@ -58,7 +71,8 @@
               v-else-if="
                 filter.type === 'radio' &&
                 !Array.isArray(filters[filterKey]) &&
-                filtersCount
+                filtersCount &&
+                (item[filtersCount] === undefined || item[filtersCount])
               "
               v-model="filters[filterKey] as string | undefined"
               :title="item.title"

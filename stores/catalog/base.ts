@@ -194,17 +194,17 @@ export function createCatalogStore<T>(
     const updateURL = () => {
       const router = useRouter();
       const query = {
-        page: currentPage.value,
+        ...(currentPage.value > 1 && { page: currentPage.value }),
         sort: sorting.value.value.price
           ? `price:${sorting.value.value.price}`
           : sorting.value.value.createdAt &&
             `createdAt:${sorting.value.value.createdAt}`,
-        minPrice:
-          filters.value.price?.$gte || initialFilters.value.price?.$gte || 0,
-        maxPrice:
-          filters.value.price?.$lte ||
-          initialFilters.value.price?.$lte ||
-          50000,
+        ...(filters.value.price?.$gte && {
+          minPrice: filters.value.price?.$gte,
+        }),
+        ...(filters.value.price?.$lte !== initialFilters.value.price?.$lte && {
+          maxPrice: filters.value.price?.$lte,
+        }),
         ...(filters.value?.['address.city']?.length && {
           cities: filters.value['address.city'],
         }),

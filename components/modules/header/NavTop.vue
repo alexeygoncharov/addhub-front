@@ -31,7 +31,6 @@
 <script setup lang="ts">
 const commonStore = useCommonStore();
 const list = ref([
-  { title: 'Главная', isHaveSubmenu: false, path: '/' },
   { title: 'Услуги', isHaveSubmenu: true, path: '/services' },
   { title: 'Биржа', isHaveSubmenu: true, path: '/projects' },
   {

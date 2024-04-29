@@ -221,7 +221,7 @@ const updateItems = async () => {
     items.value = value.result;
   }
 };
-updateItems();
+// updateItems();
 watch(() => user.value?.active_role, updateItems);
 </script>
 

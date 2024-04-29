@@ -260,6 +260,14 @@
     >
       <span>Снять с публикации</span>
     </button>
+    <NuxtLink
+      v-if="editableItem?.status === 'published'"
+      :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((item) => item._id === editableItem?.category)?.slug}/${editableItem._id}`"
+      class="m-btn m-btn-shadow"
+      @click="switchPublish"
+    >
+      <span>Посмотреть на сайте</span>
+    </NuxtLink>
   </div>
 </template>
 
