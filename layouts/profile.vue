@@ -27,7 +27,7 @@ const message = ref({ recipient: '', text: '' });
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 const full = computed(() => {
-  return useRoute().path.includes('/profile');
+  return useRoute().path.includes('/messages');
 });
 socket.on('new_message', (data) => {
   if (!isFromExistingChat(data.chat._id)) {
