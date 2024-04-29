@@ -54,4 +54,11 @@ export default defineNuxtConfig({
     '/services': { redirect: '/services/all' },
     '/profile': { redirect: '/profile/bids' },
   },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'ru',
+      },
+    },
+  },
 });

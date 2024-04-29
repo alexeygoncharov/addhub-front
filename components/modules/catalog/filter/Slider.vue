@@ -3,6 +3,7 @@
     <div class="filter-slider__inputs">
       <div class="fg">
         <label>От</label>
+
         <input
           v-model="priceMinBuffer"
           type="number"
@@ -38,6 +39,7 @@ const slider = ref<API>();
 const props = defineProps<{
   min: number;
   max: number;
+  store: CatalogStores;
 }>();
 const priceMin = defineModel<number>('priceMin', {
   required: true,
@@ -70,7 +72,6 @@ const initSlider = () => {
       max: props.max,
     },
   });
-
   slider.value.on('update', (values, handle) => {
     const value = parseInt(String(values[handle]), 10);
     if (handle === 0) {
@@ -101,4 +102,12 @@ const updateStartValue = (handle: number, event: Event) => {
   newValue[handle] = value;
   slider.value.set(newValue);
 };
+watch(
+  () => props.store.filters,
+  () => {
+    if (!slider.value) return;
+    slider.value.destroy();
+    initSlider();
+  },
+);
 </script>

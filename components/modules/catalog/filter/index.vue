@@ -21,6 +21,9 @@
           :index="index"
         />
       </template>
+      <button class="m-btn m-btn-blue-outline" @click="store.resetFilters()">
+        Сбросить фильтры
+      </button>
     </div>
   </div>
 </template>

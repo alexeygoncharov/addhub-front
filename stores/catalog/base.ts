@@ -67,7 +67,21 @@ export function createCatalogStore<T>(
         showAll.value.push(index);
       }
     };
+    const resetFilters = async () => {
+      filters.value = {
+        ...(initialFilters.value.price && {
+          price: {
+            $gte: initialFilters.value.price?.$gte,
+            $lte: initialFilters.value.price?.$lte,
+          },
+        }),
+      };
 
+      await navigateTo(`/${id}/all`);
+      setTimeout(() => {
+        initializeFromURL();
+      }, 50);
+    };
     const initializeFromURL = async () => {
       filters.value = {};
       const route = useRoute();
@@ -194,17 +208,18 @@ export function createCatalogStore<T>(
     const updateURL = () => {
       const router = useRouter();
       const query = {
-        page: currentPage.value,
+        ...(currentPage.value > 1 && { page: currentPage.value }),
         sort: sorting.value.value.price
           ? `price:${sorting.value.value.price}`
           : sorting.value.value.createdAt &&
             `createdAt:${sorting.value.value.createdAt}`,
-        minPrice:
-          filters.value.price?.$gte || initialFilters.value.price?.$gte || 0,
-        maxPrice:
-          filters.value.price?.$lte ||
-          initialFilters.value.price?.$lte ||
-          50000,
+        ...((filters.value.price?.$gte ||
+          filters.value.price?.$lte !== initialFilters.value.price?.$lte) && {
+          minPrice: filters.value.price?.$gte || 0,
+          maxPrice:
+            filters.value.price?.$lte || initialFilters.value.price?.$lte,
+        }),
+
         ...(filters.value?.['address.city']?.length && {
           cities: filters.value['address.city'],
         }),
@@ -235,6 +250,7 @@ export function createCatalogStore<T>(
       showCatalogFilters,
       toggleShowAll,
       searchQuery,
+      resetFilters,
     };
   });
 }

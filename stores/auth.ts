@@ -12,7 +12,6 @@ interface userData {
 interface regResponse {
   email: string;
   roles: string[];
-  accessToken: string;
   activeRole: string;
   _id: string;
   accessToken: string;

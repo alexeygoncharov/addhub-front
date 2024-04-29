@@ -1,6 +1,4 @@
 <template>
-  <ModulesProfileTop>Сообщения</ModulesProfileTop>
-
   <div class="chat _active">
     <button class="chat__back">
       <span>Назад</span>

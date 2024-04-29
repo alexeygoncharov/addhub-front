@@ -1,7 +1,10 @@
 .chat {
   display: grid;
+  flex: 1;
+  grid-template-rows: 100%;
   grid-template-columns: 25.9375em calc(100% - 25.9375em - 1.875em);
   gap: 1.875em;
+  height: 100%;
 
   &._active {
     .chat__content {
@@ -175,7 +178,8 @@
   }
 
   &._active {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 
   &__top {
@@ -337,10 +341,12 @@
 
 .messages {
   display: flex;
+  flex: 1;
   flex-direction: column-reverse;
-  height: 500px;
+  height: 50vh;
   padding: 2.5em;
   overflow: scroll;
+  zoom: 1.2;
 
   @include scroll;
 
@@ -381,7 +387,7 @@
 
   &._own {
     align-items: flex-end;
-    
+
     &__content {
       max-width: 28.5em;
       margin: 0.94em 0 0;

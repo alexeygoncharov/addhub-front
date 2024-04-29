@@ -25,6 +25,7 @@
 
   .content {
     padding: 3em 1.875em 0 21em;
+    overflow: hidden;
     background: rgb(243 244 255 / 42%);
     border-radius: 0.625em;
   }
@@ -96,8 +97,10 @@
   &__type {
     display: flex;
     align-items: center;
-    min-width: 9em;
+    width: fit-content;
+    margin-right: 1em;
     color: #000;
+    text-wrap: nowrap;
 
     .m-switch {
       display: flex;
@@ -167,7 +170,7 @@
   font-size: 0.833vw;
 
   @media screen and (min-width: 993px) {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 19;
