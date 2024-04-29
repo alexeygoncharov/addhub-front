@@ -34,7 +34,7 @@
   &._open {
     .m-select__dropdown {
       max-height: 200px;
-      overflow: scroll;
+      overflow-y: auto;
       pointer-events: unset;
       opacity: 1;
     }
@@ -267,6 +267,10 @@
 .filter {
   &__top {
     display: none;
+  }
+
+  .m-btn {
+    width: 100%;
   }
 }
 

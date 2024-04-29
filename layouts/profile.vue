@@ -1,6 +1,10 @@
 <template>
   <div class="m-page admin-page">
-    <div v-if="commonStore.categories" class="wrapper">
+    <div
+      v-if="commonStore.categories"
+      class="wrapper"
+      :class="{ wrapper__full: full }"
+    >
       <SectionsCommonHeaderProfile :user="userStore.user" />
       <main class="content">
         <slot></slot>
@@ -22,6 +26,9 @@ const messagesStore = useMessagesStore();
 const message = ref({ recipient: '', text: '' });
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
+const full = computed(() => {
+  return useRoute().path.includes('/profile');
+});
 
 socket.on('new_message', (data) => {
   if (!isFromExistingChat(data.chat._id)) {

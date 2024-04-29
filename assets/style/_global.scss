@@ -16,6 +16,10 @@ html {
   min-height: 100vh;
 }
 
+.wrapper__full {
+  height: 100vh;
+}
+
 .content {
   display: flex;
   flex-direction: column;

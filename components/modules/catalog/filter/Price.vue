@@ -18,11 +18,12 @@
     <div class="filter-group__bottom spoiler__hidden">
       <div class="spoiler__wrap">
         <ModulesCatalogFilterSlider
-          v-if="store.initialFilters.price && filters.price"
-          v-model:priceMin="filters.price.$gte"
-          v-model:priceMax="filters.price.$lte"
+          v-if="store.initialFilters.price && store.filters.price"
+          v-model:priceMin="store.filters.price.$gte"
+          v-model:priceMax="store.filters.price.$lte"
           :min="store.initialFilters.price.$gte"
           :max="store.initialFilters.price.$lte"
+          :store="store"
         />
       </div>
     </div>
@@ -38,9 +39,10 @@ const props = defineProps({
   },
 });
 const isExpanded = ref(true);
-const filters = props.store.filters;
+
+const store = props.store;
 watch(
-  () => [filters.price?.$gte, filters.price?.$lte],
+  () => [store.filters.price?.$gte, store.filters.price?.$lte],
   () => {
     props.store.fetchItems();
     props.store.updateURL();
