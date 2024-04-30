@@ -26,7 +26,13 @@
             <div class="chat-user__name">
               {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
             </div>
-            <div class="chat-user__status">
+            <div
+              v-if="
+                messagesStore.getRespondent(messagesStore.activeChat)
+                  ?.online_status === 'online'
+              "
+              class="chat-user__status"
+            >
               <span>онлайн</span>
             </div>
           </div>

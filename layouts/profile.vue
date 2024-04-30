@@ -55,8 +55,9 @@ socket.on('delete_chat', (deletedChat) => {
   messagesStore.chats.filter((item) => item._id !== deletedChat.id);
 });
 
-socket.on('update_user', (id) => {
-  console.log('data = ', id);
+socket.on('update_user', (data) => {
+  const respondent = messagesStore.getRespondent(messagesStore.activeChat);
+  if (respondent?._id === data.id) respondent.online = data.online_status;
 });
 
 socket.on('update_message', (updatedMessage) => {
