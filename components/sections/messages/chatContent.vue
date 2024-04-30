@@ -26,7 +26,13 @@
             <div class="chat-user__name">
               {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
             </div>
-            <div class="chat-user__status">
+            <div
+              v-if="
+                messagesStore.getRespondent(messagesStore.activeChat)
+                  ?.online_status === 'online'
+              "
+              class="chat-user__status"
+            >
               <span>онлайн</span>
             </div>
           </div>
@@ -164,12 +170,17 @@ function sendMessage() {
   message.value.recipient = activeChat ? activeChat._id : null;
   if (message.value.recipient && message.value.text) {
     if (files.value?.length) {
+      const fileSizeMB = files.value?.item(0)?.size;
+      if (fileSizeMB && fileSizeMB >= 5 * 1024 * 1024) {
+        useToast({ message: 'Файл не может превышать 5 мб' });
+        reset();
+      }
       const formData = new FormData();
       formData.append('file', files.value?.item(0) as Blob);
-      commonStore.uploadFile(formData).then((filename?: string) => {
-        if (filename) {
-          console.log('filename ', filename);
-          message.value.files.push(filename);
+      commonStore.uploadFile(formData).then((file?: any) => {
+        if (file) {
+          file.url = file?.url?.replace('/files', 'files') as string;
+          message.value.files.push(file);
           messagesStore.createMessage(message.value);
           message.value = { recipient: '', text: '', files: [] };
           reset();
