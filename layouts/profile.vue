@@ -55,6 +55,10 @@ socket.on('delete_chat', (deletedChat) => {
   messagesStore.chats.filter((item) => item._id !== deletedChat.id);
 });
 
+socket.on('update_user', (id) => {
+  console.log('data = ', id);
+});
+
 socket.on('update_message', (updatedMessage) => {
   messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {

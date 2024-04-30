@@ -156,9 +156,9 @@ onChange((files) => {
   if (files) {
     const formData = new FormData();
     formData.append('file', files[0]);
-    commonStore.uploadFile(formData).then((filename?: string) => {
-      if (filename) {
-        form.value.avatar = filename.replace('/files', 'files');
+    commonStore.uploadFile(formData).then((file?: any) => {
+      if (file) {
+        form.value.avatar = file?.url?.replace('/files', 'files') as string;
         formData.delete('file');
         formData.append('avatar', form.value.avatar);
         profileStore.updateAvatar(form.value.avatar).then(() => {

@@ -148,7 +148,7 @@ const commonStore = useCommonStore();
 type Message = {
   recipient: string;
   text: string;
-  files: string[];
+  files: any[];
 };
 const message = ref<Message>({ recipient: '', text: '', files: [] });
 const { files, reset, onChange, open } = useFileDialog({
@@ -168,6 +168,7 @@ function sendMessage() {
       formData.append('file', files.value?.item(0) as Blob);
       commonStore.uploadFile(formData).then((filename?: string) => {
         if (filename) {
+          console.log('filename ', filename);
           message.value.files.push(filename);
           messagesStore.createMessage(message.value);
           message.value = { recipient: '', text: '', files: [] };
