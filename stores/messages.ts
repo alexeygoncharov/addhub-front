@@ -4,7 +4,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const activeChat = ref();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
-  const limit = 5; // Вы можете выбрать любое значение для limit
+  const limit = 10;
   const messagesListOffset = ref(1);
   const searchQuery = ref('');
   const chatListOffset = ref(1);

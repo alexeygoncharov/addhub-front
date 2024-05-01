@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounceFn } from '@vueuse/core';
 const messagesStore = useMessagesStore();
 const debouncedFn = () => {
   messagesStore.resetСhats();
@@ -38,7 +37,7 @@ definePageMeta({
 
 onBeforeUnmount(() => {
   messagesStore.resetСhats();
-  messagesStore.resetMessages();
+  messagesStore.activeChat = null;
   messagesStore.searchQuery = '';
 });
 </script>

@@ -4,8 +4,7 @@
       loadMessages,
       {
         direction: 'top',
-        interval: 200,
-        distance: 10,
+        distance: 1000,
         canLoadMore: () => {
           return (
             messagesStore.totalCountMessages > messagesStore.messages.length

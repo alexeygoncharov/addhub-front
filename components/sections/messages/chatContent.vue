@@ -157,12 +157,8 @@ type Message = {
   files: any[];
 };
 const message = ref<Message>({ recipient: '', text: '', files: [] });
-const { files, reset, onChange, open } = useFileDialog({
+const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
-});
-
-onChange((files) => {
-  if (files) console.log(files[0]);
 });
 
 function sendMessage() {

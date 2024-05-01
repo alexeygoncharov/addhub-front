@@ -4,7 +4,6 @@
       loadChats,
       {
         distance: 10,
-        interval: 1000,
         canLoadMore: () => {
           return messagesStore.totalCountChats > messagesStore.chats.length;
         },
@@ -64,7 +63,7 @@ function selectChat(respondent: any) {
 }
 messagesStore.fetchChats({
   limit: messagesStore.limit,
-  offset: messagesStore.chatListOffset,
+  offset: 1,
 });
 
 async function loadChats() {
