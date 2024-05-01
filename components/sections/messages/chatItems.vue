@@ -72,6 +72,7 @@ async function loadChats() {
   await messagesStore.fetchChats({
     limit: messagesStore.limit,
     offset: messagesStore.chatListOffset,
+    search: messagesStore.searchQuery,
   });
 }
 </script>

@@ -5,7 +5,12 @@
     </button>
     <div class="chat__sidebar">
       <div class="chat-search fg">
-        <input type="text" placeholder="Поиск" />
+        <input
+          v-model="messagesStore.searchQuery"
+          type="text"
+          placeholder="Поиск"
+          @input="debouncedFn"
+        />
         <img src="/img/search2.svg" alt="" class="chat-search__icon" />
       </div>
       <SectionsMessagesChatItems></SectionsMessagesChatItems>
@@ -16,16 +21,24 @@
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core';
+const messagesStore = useMessagesStore();
+const debouncedFn = () => {
+  messagesStore.resetСhats();
+  messagesStore.fetchChats({
+    limit: messagesStore.limit,
+    offset: messagesStore.chatListOffset,
+    search: messagesStore.searchQuery,
+  });
+};
 
-const debouncedFn = useDebounceFn(
-  () => {
-    // do something
-  },
-  1000,
-  { maxWait: 5000 },
-);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
+});
+
+onBeforeUnmount(() => {
+  messagesStore.resetСhats();
+  messagesStore.resetMessages();
+  messagesStore.searchQuery = '';
 });
 </script>

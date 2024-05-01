@@ -4,8 +4,9 @@ export const useMessagesStore = defineStore('messages', () => {
   const activeChat = ref();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
-  const limit = 10; // Вы можете выбрать любое значение для limit
+  const limit = 5; // Вы можете выбрать любое значение для limit
   const messagesListOffset = ref(1);
+  const searchQuery = ref('');
   const chatListOffset = ref(1);
   const totalUnseenMessages = ref<number>(0);
   const chats = ref<Array<any>>([]);
@@ -24,6 +25,7 @@ export const useMessagesStore = defineStore('messages', () => {
   interface ChatList {
     limit?: number;
     offset?: number;
+    search?: string;
   }
   async function fetchChatMessagesList(payload: MessagesList) {
     const { data } = await apiFetch<ApiResponse<any>>(
@@ -71,6 +73,11 @@ export const useMessagesStore = defineStore('messages', () => {
   function resetMessages() {
     messages.value = [];
     messagesListOffset.value = 1;
+  }
+
+  function resetСhats() {
+    chats.value = [];
+    chatListOffset.value = 1;
   }
 
   async function fetchChats(payload: ChatList) {
@@ -156,6 +163,8 @@ export const useMessagesStore = defineStore('messages', () => {
     getRespondent,
     deleteChat,
     readMessage,
+    resetСhats,
+    searchQuery,
     messagesListOffset,
     chatListOffset,
     limit,
