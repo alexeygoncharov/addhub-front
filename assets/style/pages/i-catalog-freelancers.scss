@@ -287,6 +287,25 @@
     }
   }
 
+  &__chip {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    color: white;
+    background-color: $blue;
+    border-radius: 1em;
+
+    &-close {
+      cursor: pointer;
+
+      img {
+        width: 1em;
+        height: 1em;
+        filter: invert(1);
+      }
+    }
+  }
+
   &__top {
     display: flex;
     align-items: center;

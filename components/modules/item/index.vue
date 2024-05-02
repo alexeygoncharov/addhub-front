@@ -50,12 +50,12 @@
     <div class="freelancer-top _pb85">
       <div class="container">
         <div class="freelancer-top__nav">
-          <button class="icon-btn">
+          <!-- <button class="icon-btn">
             <span class="icon-btn__round">
               <img src="/img/share.svg" alt="" />
             </span>
             <span class="icon-btn__text"> Поделиться </span>
-          </button>
+          </button> -->
           <button
             class="icon-btn favorite-btn2"
             :class="{

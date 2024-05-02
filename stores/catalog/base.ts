@@ -20,6 +20,7 @@ export function createCatalogStore<T>(
       price?: { $gte: number; $lte: number };
       'address.city'?: string[];
       category?: string;
+      createdBy?: string;
     }>({});
     const initialSorting = ref<
       {
@@ -99,6 +100,10 @@ export function createCatalogStore<T>(
       const query = route.query;
       if (query.search && !Array.isArray(query.search)) {
         searchQuery.value = query.search;
+      }
+
+      if (query.createdBy && !Array.isArray(query.createdBy)) {
+        filters.value.createdBy = query.createdBy;
       }
       if (
         query.minPrice &&
@@ -224,6 +229,9 @@ export function createCatalogStore<T>(
           cities: filters.value['address.city'],
         }),
         ...(searchQuery.value && { search: searchQuery.value }),
+        ...(filters.value.createdBy && {
+          createdBy: filters.value.createdBy,
+        }),
       };
       router.push({ query });
     };

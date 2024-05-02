@@ -37,6 +37,11 @@ declare global {
     services_count: number;
   }
 
+  export interface uploadFileResponse {
+    url: string;
+    name: string;
+    mimetype: string;
+  }
   export interface Profile {
     _id: string;
     user_name: string;

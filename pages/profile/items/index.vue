@@ -57,7 +57,12 @@
               <div class="reply-row__info">
                 <div class="reply-row__content">
                   <div class="reply-row__title text17 medium-text">
-                    <a href="">{{ item.title }}</a>
+                    <nuxtLink
+                      v-if="item?.status === 'published'"
+                      :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((el) => el._id === item?.category)?.slug}/${item._id}`"
+                      href=""
+                      >{{ item.title }}</nuxtLink
+                    >
                   </div>
                   <div class="reply-row__props">
                     <div class="reply-row__prop">
@@ -221,7 +226,7 @@ const updateItems = async () => {
     items.value = value.result;
   }
 };
-// updateItems();
+updateItems();
 watch(() => user.value?.active_role, updateItems);
 </script>
 

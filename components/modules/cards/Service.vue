@@ -157,7 +157,7 @@
       </div>
 
       <div v-if="data" class="service-card__bottom _flex">
-        <NuxtLink to="/services/all" class="service-card__user _flex">
+        <NuxtLink @click="redirectTo()" class="service-card__user _flex">
           <div class="avatar">
             <img
               v-if="data.createdBy.avatar"
@@ -203,6 +203,15 @@ const { toggleFavorite } = useUserStore();
 const prevBtn = ref<HTMLDivElement | null>(null);
 const nextBtn = ref<HTMLDivElement | null>(null);
 const pagination = ref<HTMLDivElement | null>(null);
+const route = useRoute();
+const redirectTo = () => {
+  if (!props.store) return;
+  navigateTo({
+    path: route.path,
+    query: { ...route.query, createdBy: data.value?.createdBy._id || '' },
+  });
+  props.store.initializeFromURL();
+};
 const props = defineProps({
   data: {
     type: Object as PropType<servicesItem | serviceItem | undefined>,
@@ -210,6 +219,10 @@ const props = defineProps({
   },
   id: {
     type: String,
+    default: undefined,
+  },
+  store: {
+    type: Object as PropType<CatalogStores>,
     default: undefined,
   },
 });
