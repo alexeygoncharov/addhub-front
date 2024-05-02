@@ -71,13 +71,16 @@ export const useCommonStore = defineStore('common', () => {
   }
 
   async function uploadFile(file: FormData) {
-    const { data } = await apiFetch<ApiResponse<string>>('/api/files/single', {
-      needToken: true,
-      options: {
-        method: 'POST',
-        body: file,
+    const { data } = await apiFetch<ApiResponse<uploadFileResponse>>(
+      '/api/files/single',
+      {
+        needToken: true,
+        options: {
+          method: 'POST',
+          body: file,
+        },
       },
-    });
+    );
     const value = data.value;
     if (value) {
       return value.result;

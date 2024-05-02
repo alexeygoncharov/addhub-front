@@ -264,7 +264,6 @@
       v-if="editableItem?.status === 'published'"
       :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((item) => item._id === editableItem?.category)?.slug}/${editableItem._id}`"
       class="m-btn m-btn-shadow"
-      @click="switchPublish"
     >
       <span>Посмотреть на сайте</span>
     </NuxtLink>
@@ -350,7 +349,7 @@ const uploadFile = async (event: Event) => {
   }
   const formData = new FormData();
   formData.append('file', file);
-  const { data, error } = await apiFetch<ApiResponse<string>>(
+  const { data, error } = await apiFetch<ApiResponse<uploadFileResponse>>(
     '/api/files/single',
     {
       options: { method: 'POST', body: formData },
@@ -363,7 +362,7 @@ const uploadFile = async (event: Event) => {
     'files' in editableItem.value &&
     data.value
   ) {
-    editableItem.value?.files.push(data.value?.result);
+    editableItem.value?.files.push(data.value?.result.url);
     editItem('file');
   }
 };

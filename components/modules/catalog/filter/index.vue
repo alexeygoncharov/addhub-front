@@ -21,6 +21,24 @@
           :index="index"
         />
       </template>
+      <div v-if="store.filters.createdBy" class="filter-group spoiler">
+        <div class="filter-group__top text20 medium-text">
+          Выбранный пользователь
+        </div>
+        <div class="filter-group__bottom filter-group__chip">
+          {{ store.filters.createdBy }}
+          <button
+            class="filter-group__chip-close"
+            @click="store.resetFilters()"
+          >
+            <img
+              src="/img/cross.svg"
+              alt="close"
+              @click="delete store.filters.createdBy"
+            />
+          </button>
+        </div>
+      </div>
       <button class="m-btn m-btn-blue-outline" @click="store.resetFilters()">
         Сбросить фильтры
       </button>
@@ -31,7 +49,6 @@
 <script setup lang="ts">
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
 const show = defineModel<boolean>('show', { required: true });
-
 watch(show, (value) => {
   if (value) {
     document.body.classList.add('open-filter');
@@ -47,4 +64,6 @@ const props = defineProps({
     required: true,
   },
 });
+const store = props.store;
+const chooseUser = apiFetch(`/api/users/${props.store.filters.createdBy}`);
 </script>

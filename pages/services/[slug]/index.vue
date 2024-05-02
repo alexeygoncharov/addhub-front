@@ -24,6 +24,7 @@
             v-for="item of catalogStore.items"
             :key="item._id"
             :data="item"
+            :store="catalogStore"
           />
         </div>
         <div
