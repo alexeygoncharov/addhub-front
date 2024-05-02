@@ -4,7 +4,6 @@
       loadChats,
       {
         distance: 10,
-        interval: 1000,
         canLoadMore: () => {
           return messagesStore.totalCountChats > messagesStore.chats.length;
         },
@@ -40,7 +39,7 @@
         <div
           v-if="
             item.unseen_messages > 0 &&
-            item.members[1]?._id === userStore.user?._id
+            item.members[0]?._id === userStore.user?._id
           "
           class="chat-item__count"
         >
@@ -64,7 +63,7 @@ function selectChat(respondent: any) {
 }
 messagesStore.fetchChats({
   limit: messagesStore.limit,
-  offset: messagesStore.chatListOffset,
+  offset: 1,
 });
 
 async function loadChats() {
@@ -72,6 +71,7 @@ async function loadChats() {
   await messagesStore.fetchChats({
     limit: messagesStore.limit,
     offset: messagesStore.chatListOffset,
+    search: messagesStore.searchQuery,
   });
 }
 </script>

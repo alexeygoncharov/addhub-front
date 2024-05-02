@@ -26,17 +26,23 @@
             <div class="chat-user__name">
               {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
             </div>
-            <div class="chat-user__status">
+            <div
+              v-if="
+                messagesStore.getRespondent(messagesStore.activeChat)
+                  ?.online_status === 'online'
+              "
+              class="chat-user__status"
+            >
               <span>онлайн</span>
             </div>
           </div>
         </div>
         <div
-          v-if="messagesStore.activeChat?._id"
+          v-if="messagesStore.activeChat?.service?.id"
           class="chat-content__order _flex"
         >
           <img src="/img/folder.svg" alt="" />
-          <span>Чат по заказу "Расклеить объявления"</span>
+          <span>{{ messagesStore.activeChat?.service?.title }}</span>
         </div>
         <div class="chat-content__right _flex">
           <!--<div v-if="messagesStore.activeChat?._id" class="chat-status">
@@ -71,12 +77,18 @@
           <textarea
             v-model="message.text"
             placeholder="Напишите сообщение"
+            @keydown.enter="sendMessage"
           ></textarea>
         </div>
         <div class="chat-nav__action _flex">
-          <div class="chat-nav__file">
-            <input type="file" />
-            <button class="chat-nav__file-btn">
+          <div v-if="files">{{ files.item(0)?.name }}</div>
+          <form class="chat-nav__file">
+            <button
+              v-if="!files"
+              type="button"
+              class="chat-nav__file-btn"
+              @click.prevent="open()"
+            >
               <svg
                 width="25"
                 height="25"
@@ -90,8 +102,41 @@
                 />
               </svg>
             </button>
-          </div>
+            <button
+              v-else
+              type="button"
+              class="chat-nav__file-btn"
+              @click.prevent="reset()"
+            >
+              <svg
+                width="9"
+                height="9"
+                viewBox="0 0 9 9"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  x="9.0011"
+                  y="8.30872"
+                  width="0.979191"
+                  height="11.7503"
+                  rx="0.489596"
+                  transform="rotate(135 9.0011 8.30872)"
+                  fill="#D0D0D0"
+                />
+                <rect
+                  x="8.30872"
+                  width="0.979191"
+                  height="11.7503"
+                  rx="0.489596"
+                  transform="rotate(45 8.30872 0)"
+                  fill="#D0D0D0"
+                />
+              </svg>
+            </button>
+          </form>
           <button
+            :disabled="!!!message?.text?.length"
             class="chat-nav__btn m-btn m-btn-blue m-btn-shadow"
             @click="sendMessage"
           >
@@ -103,15 +148,45 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useFileDialog } from '@vueuse/core';
 const messagesStore = useMessagesStore();
-const message = ref({ recipient: '', text: '' });
+const commonStore = useCommonStore();
+type Message = {
+  recipient: string;
+  text: string;
+  files: any[];
+};
+const message = ref<Message>({ recipient: '', text: '', files: [] });
+const { files, reset, open } = useFileDialog({
+  accept: '*', // Set to accept only image files
+});
 
 function sendMessage() {
   const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
   message.value.recipient = activeChat ? activeChat._id : null;
   if (message.value.recipient && message.value.text) {
-    messagesStore.createMessage(message.value);
-    message.value = { recipient: '', text: '' };
+    if (files.value?.length) {
+      const fileSizeMB = files.value?.item(0)?.size;
+      if (fileSizeMB && fileSizeMB >= 5 * 1024 * 1024) {
+        useToast({ message: 'Файл не может превышать 5 мб' });
+        reset();
+      }
+      const formData = new FormData();
+      formData.append('file', files.value?.item(0) as Blob);
+      commonStore.uploadFile(formData).then((file?: any) => {
+        if (file) {
+          file.url = file?.url?.replace('/files', 'files') as string;
+          message.value.files.push(file);
+          messagesStore.createMessage(message.value);
+          message.value = { recipient: '', text: '', files: [] };
+          reset();
+        }
+      });
+    } else {
+      messagesStore.createMessage(message.value);
+      message.value = { recipient: '', text: '', files: [] };
+      reset();
+    }
   }
 }
 </script>

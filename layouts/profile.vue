@@ -29,7 +29,6 @@ const socket = nuxtApp.$socket as Socket;
 const full = computed(() => {
   return useRoute().path.includes('/messages');
 });
-
 socket.on('new_message', (data) => {
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
@@ -56,8 +55,12 @@ socket.on('delete_chat', (deletedChat) => {
   messagesStore.chats.filter((item) => item._id !== deletedChat.id);
 });
 
+socket.on('update_user', (data) => {
+  const respondent = messagesStore.getRespondent(messagesStore.activeChat);
+  if (respondent?._id === data.id) respondent.online = data.online_status;
+});
+
 socket.on('update_message', (updatedMessage) => {
-  // console.log('updated message ', updatedMessage);
   messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       return (item.seen = true);
@@ -65,10 +68,15 @@ socket.on('update_message', (updatedMessage) => {
     return item;
   });
   messagesStore.chats.map((item) => {
-    if (item._id === updatedMessage.id) {
-      return (item.unseen_messages -= 1);
+    if (item._id === updatedMessage.chat_id) {
+      messagesStore.totalUnseenMessages--;
+      return item.unseen_messages--;
     }
     return item;
   });
+});
+
+onUnmounted(() => {
+  socket.off();
 });
 </script>

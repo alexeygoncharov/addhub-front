@@ -1,16 +1,17 @@
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
   const socket = io('https://hub.rdcd.ru', {
     extraHeaders: {
-      Authorization: `Bearer ${authToken}`,
+      Authorization: `Bearer ${authToken?.value}`,
     },
     transports: ['polling'],
   });
   const isConnected = ref(false);
   const transport = ref('N/A');
   function onConnect() {
+    console.log('socket start ');
     isConnected.value = true;
     transport.value = socket.io.engine.transport.name;
     socket.io.engine.on('upgrade', (rawTransport) => {
@@ -23,7 +24,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     transport.value = 'N/A';
   }
 
-  socket.once('connect', onConnect);
+  socket.on('connect', onConnect);
   socket.on('disconnect', onDisconnect);
   socket.on('connect_error', (err) => {
     // the reason of the error, for example "xhr poll error"

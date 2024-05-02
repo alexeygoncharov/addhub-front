@@ -60,7 +60,7 @@ const uploadData = (file: File) => {
   dropzoneEventsQueue = dropzoneEventsQueue.then(async () => {
     const formData = new FormData();
     formData.append('file', file);
-    const { data, error } = await apiFetch<ApiResponse<string>>(
+    const { data, error } = await apiFetch<ApiResponse<uploadFileResponse>>(
       props.uploadPath,
       {
         options: { method: 'POST', body: formData },
@@ -73,7 +73,7 @@ const uploadData = (file: File) => {
       );
       if (bannerIndex === undefined || bannerIndex < 0 || !bufBanners.value)
         return;
-      bufBanners.value[bannerIndex] = { path: data.value.result };
+      bufBanners.value[bannerIndex] = { path: data.value.result.url };
       banners.value = bufBanners.value.map((b) => b.path);
       emit('changed');
     } else {

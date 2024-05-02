@@ -5,7 +5,12 @@
     </button>
     <div class="chat__sidebar">
       <div class="chat-search fg">
-        <input type="text" placeholder="Поиск" />
+        <input
+          v-model="messagesStore.searchQuery"
+          type="text"
+          placeholder="Поиск"
+          @input="debouncedFn"
+        />
         <img src="/img/search2.svg" alt="" class="chat-search__icon" />
       </div>
       <SectionsMessagesChatItems></SectionsMessagesChatItems>
@@ -15,8 +20,24 @@
 </template>
 
 <script setup lang="ts">
+const messagesStore = useMessagesStore();
+const debouncedFn = () => {
+  messagesStore.resetСhats();
+  messagesStore.fetchChats({
+    limit: messagesStore.limit,
+    offset: messagesStore.chatListOffset,
+    search: messagesStore.searchQuery,
+  });
+};
+
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
+});
+
+onBeforeUnmount(() => {
+  messagesStore.resetСhats();
+  messagesStore.activeChat = null;
+  messagesStore.searchQuery = '';
 });
 </script>
