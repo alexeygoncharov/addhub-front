@@ -40,8 +40,8 @@ jobs:
             [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 
             nvm install 21
-             nvm use 21
-             nvm alias default 21
+            nvm use 21
+            nvm alias default 21
             cd ../opt/applications/add_hub_client
             git stash
             git pull
