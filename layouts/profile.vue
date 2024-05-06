@@ -23,7 +23,6 @@ definePageMeta({
 const userStore = useUserStore();
 const commonStore = useCommonStore();
 const messagesStore = useMessagesStore();
-const message = ref({ recipient: '', text: '' });
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 const full = computed(() => {
@@ -42,6 +41,7 @@ socket.on('new_message', (data) => {
       array[index] = data.newMessage;
     }
   });
+  messagesStore.totalUnseenMessages++;
   ///
   function isFromExistingChat(chatId: string) {
     return messagesStore.chats.some((chat) => chat._id === chatId);
@@ -61,6 +61,7 @@ socket.on('delete_chat', (deletedChat) => {
 });
 
 socket.on('update_user', (data) => {
+  console.log('update_user ', data);
   const respondent = messagesStore.getRespondent(messagesStore.activeChat);
   if (respondent?._id === data.id) respondent.online = data.online_status;
 });

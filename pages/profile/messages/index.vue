@@ -39,5 +39,6 @@ onBeforeUnmount(() => {
   messagesStore.resetСhats();
   messagesStore.activeChat = null;
   messagesStore.searchQuery = '';
+  messagesStore.lastMessages = [];
 });
 </script>
