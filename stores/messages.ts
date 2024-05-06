@@ -5,6 +5,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 10;
+  const lastMessages = ref<Array<any>>([]);
   const messagesListOffset = ref(1);
   const searchQuery = ref('');
   const chatListOffset = ref(1);
@@ -132,6 +133,25 @@ export const useMessagesStore = defineStore('messages', () => {
     }
   }
 
+  async function fetchLastMessage(chatId: string) {
+    try {
+      const { data } = await apiFetch<ApiResponse<any>>(
+        `/api/messages/last_message/${chatId}`,
+        {
+          needToken: true,
+          options: {},
+        },
+      );
+      const value = data.value;
+      if (value) {
+        lastMessages.value.push(value?.result);
+        return value?.result;
+      }
+    } catch (error) {
+      // console.error('Ошибка при загрузке категорий', error);
+    }
+  }
+
   async function readMessage(msg: any) {
     try {
       const { data } = await apiFetch<ApiResponse<any>>(
@@ -164,7 +184,9 @@ export const useMessagesStore = defineStore('messages', () => {
     deleteChat,
     readMessage,
     resetСhats,
+    fetchLastMessage,
     searchQuery,
+    lastMessages,
     messagesListOffset,
     chatListOffset,
     limit,

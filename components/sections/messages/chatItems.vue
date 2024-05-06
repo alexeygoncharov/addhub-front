@@ -11,42 +11,15 @@
     ]"
     class="chat-items"
   >
-    <div
+    <SectionsMessagesChatItem
       v-for="item in messagesStore.chats.filter((chat) =>
         chat.members.some((member: any) => member._id === userStore?.user?._id),
       )"
       :key="item._id"
       class="chat-item"
+      :chat="item"
       @click="selectChat(item)"
-    >
-      <div v-if="messagesStore.getRespondent(item)" class="avatar">
-        <img
-          crossorigin="anonymous"
-          :src="getAvatarUrl(messagesStore.getRespondent(item)?.avatar)"
-          alt=""
-        />
-      </div>
-      <div class="chat-item__info">
-        <div class="chat-item__name">
-          {{ messagesStore.getRespondent(item)?.name }}
-        </div>
-      </div>
-
-      <div class="chat-item__nums">
-        <!-- <div class="chat-item__time">
-          {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
-        </div>-->
-        <div
-          v-if="
-            item.unseen_messages > 0 &&
-            item.members[0]?._id === userStore.user?._id
-          "
-          class="chat-item__count"
-        >
-          <span>{{ item.unseen_messages }}</span>
-        </div>
-      </div>
-    </div>
+    ></SectionsMessagesChatItem>
   </div>
 </template>
 <script setup lang="ts">
