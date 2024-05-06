@@ -1,5 +1,5 @@
 <template>
-  <ModulesItem :item="item" type="service">
+  <ModulesItem :item="item" @submit="createOrder()" type="service">
     <template #item-content>
       <div class="stat">
         <UIStatCard
@@ -379,10 +379,24 @@ const userRating = ref(0);
 const commonStore = useCommonStore();
 const route = useRoute();
 const enabledViewer = ref(false);
-
+const userStore = useUserStore();
 let thisSwiper: Swiper;
 const onSwiper = (swiper: Swiper) => {
   thisSwiper = swiper;
+};
+const createOrder = async () => {
+  const { data, error } = await apiFetch<ApiResponse<undefined>>(
+    '/api/orders',
+    {
+      options: { method: 'POST', body: { service: itemId } },
+      needToken: true,
+    },
+  );
+  if (!error.value) {
+    useToast({ message: 'Заявка успешно отправлена', type: 'success' });
+  } else {
+    useToast({ message: error.value.data.message, type: 'error' });
+  }
 };
 const category = commonStore.categories?.find(
   (item) => item.slug === route.params.slug,

@@ -507,8 +507,19 @@
   justify-content: center;
   width: 1.875em;
   height: 1.875em;
-  overflow: hidden;
   border-radius: 50%;
+
+  > div {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
 
   a:hover {
     span {

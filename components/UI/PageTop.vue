@@ -16,7 +16,9 @@
                   alt=""
                   crossorigin="anonymous"
                 />
-                <Avatar v-else :size="80" :name="items.createdBy.name" />
+                <div v-else>
+                  <Avatar :size="80" :name="items.createdBy.name" />
+                </div>
                 <span
                   v-if="items.createdBy.online_status === 'online'"
                   class="service-card__user-online"

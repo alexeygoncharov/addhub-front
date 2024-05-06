@@ -86,7 +86,7 @@
           :src="baseUrl() + user?.avatar"
           alt="user avatar"
         />
-        <Avatar v-else :size="80" :name="user?.name" />
+        <div v-else><Avatar :size="80" :name="user?.name" /></div>
       </nuxtLink>
       <ul class="master-nav__submenu">
         <li>

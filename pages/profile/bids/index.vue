@@ -21,7 +21,7 @@
                   crossorigin="anonymous"
                   alt=""
                 />
-                <Avatar v-else :size="40" :name="bid.user.name" />
+                <div v-else><Avatar :size="40" :name="bid.user.name" /></div>
               </a>
               <div class="reply-row__content">
                 <div class="reply-row__title text17 medium-text">
@@ -128,6 +128,8 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'profile', middleware: 'authenticated' });
 const commonStore = useCommonStore();
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const currentPage = ref(1);
 const totalItems = ref(0);
 const openBidEdit = ref(false);
@@ -146,7 +148,7 @@ const deleteBid = async (bid: Bid, index: number) => {
 };
 const updateBids = async () => {
   const { data } = await apiFetch<ApiListResponse<Bid[]>>(
-    '/api/projects/bids/my',
+    `/api/bids/${user.value?.active_role}/my`,
     {
       needToken: true,
       options: {
@@ -164,6 +166,7 @@ const updateBids = async () => {
   }
 };
 updateBids();
+watch(() => user.value?.active_role, updateBids);
 </script>
 
 <style scoped></style>

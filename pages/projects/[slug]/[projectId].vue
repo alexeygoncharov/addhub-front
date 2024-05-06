@@ -58,7 +58,8 @@
                   :src="baseUrl() + bid.user.avatar"
                   alt=""
                 />
-                <Avatar v-else :size="80" :name="bid.user.name" />
+
+                <div v-else><Avatar :size="80" :name="bid.user.name" /></div>
                 <span class="service-card__user-online"></span>
               </div>
               <div class="offer-card__info">
