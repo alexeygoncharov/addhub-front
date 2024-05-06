@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chat-item">
     <div v-if="messagesStore.getRespondent(props.chat)" class="avatar">
       <img
         crossorigin="anonymous"
