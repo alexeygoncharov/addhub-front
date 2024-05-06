@@ -35,9 +35,14 @@ socket.on('new_message', (data) => {
   } else {
     updateExistingChat(data.chat);
   }
-
+  /// отрефакторить на push
   messagesStore.messages.unshift(data.newMessage);
-
+  messagesStore.lastMessages.forEach((item, index, array) => {
+    if (item.chat_id === data.chat._id) {
+      array[index] = data.newMessage;
+    }
+  });
+  ///
   function isFromExistingChat(chatId: string) {
     return messagesStore.chats.some((chat) => chat._id === chatId);
   }
