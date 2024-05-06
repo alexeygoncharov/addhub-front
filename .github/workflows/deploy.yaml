@@ -2,9 +2,9 @@ name: Nuxt CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   web-deploy:
@@ -13,11 +13,11 @@ jobs:
     environment: production
     steps:
       - name: 🚚 Get latest code
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
       - name: Use Node.js 21
         uses: actions/setup-node@v1
         with:
-          node-version: "21.x"
+          node-version: '21.x'
       - run: npm i
       - run: npm run build --if-present
       - name: Deploy to Server
@@ -27,7 +27,22 @@ jobs:
           username: root
           password: 2sAKjNrLWJzG
           script: |
-            cd /opt/applications/add_hub_client
-            git stash
-            git pull
-            pm2 restart 6
+            # if ! command -v nvm &> /dev/null
+            # then
+            #    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            #    export NVM_DIR="$HOME/.nvm"
+            #    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            #    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+            #  fi
+
+            # export NVM_DIR="$HOME/.nvm"
+            # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            # [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+
+            # nvm install 21
+            # nvm use 21
+            # nvm alias default 21
+             cd ../opt/applications/add_hub_client
+             git stash
+             git pull
+             pm2 restart 6
