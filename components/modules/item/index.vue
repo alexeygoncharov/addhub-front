@@ -134,7 +134,11 @@
                     :src="baseUrl() + item?.createdBy.avatar"
                     alt=""
                   />
-                  <Avatar v-else :size="80" :name="item?.createdBy.name" />
+                  <ClientOnly v-else>
+                    <div>
+                      <Avatar :size="80" :name="item?.createdBy.name" />
+                    </div>
+                  </ClientOnly>
                   <span
                     v-if="item?.createdBy.online_status === 'online'"
                     class="service-card__user-online"
@@ -197,8 +201,11 @@ const createOrder = () => {
     if (
       props.type === 'project' &&
       !props.item?.bids.find((bid) => bid.user._id === user.value?._id)
-    )
+    ) {
       emits('submit');
+    } else if (props.type === 'service') {
+      emits('submit');
+    }
   } else {
     navigateTo('/login');
   }

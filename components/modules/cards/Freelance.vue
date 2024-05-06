@@ -8,7 +8,9 @@
           alt=""
           crossorigin="anonymous"
         />
-        <Avatar v-else :size="80" :name="data.name" />
+        <div v-else>
+          <Avatar :size="80" :name="data.name" />
+        </div>
         <span
           v-if="data.online_status === 'online'"
           class="service-card__user-online"

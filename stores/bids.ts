@@ -3,9 +3,7 @@ export const useBidsStore = defineStore('bids', () => {
   // const categories = ref<Category[]>()
   async function fetchBidsList(id: string) {
     try {
-      const { data } = await apiFetch<ApiResponse<Bid[]>>(
-        `/api/projects/${id}/bids`,
-      );
+      const { data } = await apiFetch<ApiResponse<Bid[]>>(`/api/bids`);
       const value = data.value;
       bids.value = value?.result;
     } catch (error) {
@@ -15,9 +13,7 @@ export const useBidsStore = defineStore('bids', () => {
 
   async function fetchBid(id: string, bidId: string) {
     try {
-      const { data } = await apiFetch<ApiResponse<Bid>>(
-        `/api/projects/${id}/bids/${bidId}`,
-      );
+      const { data } = await apiFetch<ApiResponse<Bid>>(`/api/bids/${bidId}`);
       const value = data.value;
       return value?.result;
     } catch (error) {
@@ -32,13 +28,13 @@ export const useBidsStore = defineStore('bids', () => {
     description: string,
   ) {
     try {
-      const { data } = await apiFetch<ApiResponse<BidList>>(
-        `/api/projects/${id}/bids`,
-        {
-          options: { method: 'POST', body: { price, term, description } },
-          needToken: true,
+      const { data } = await apiFetch<ApiResponse<BidList>>(`/api/bids`, {
+        options: {
+          method: 'POST',
+          body: { project_id: id, price, term, description },
         },
-      );
+        needToken: true,
+      });
       const value = data.value;
       if (value) {
         return value?.result;
@@ -58,7 +54,7 @@ export const useBidsStore = defineStore('bids', () => {
     },
   ) {
     const { data, error } = await apiFetch<ApiResponse<Bid>>(
-      `/api/projects/${id}/bids/${bidId}`,
+      `/api/bids/${bidId}`,
       {
         options: {
           method: 'PUT',
@@ -77,7 +73,7 @@ export const useBidsStore = defineStore('bids', () => {
   }
   async function deleteBid(id: string, bidId: string) {
     const { data, error } = await apiFetch<ApiResponse<Bid>>(
-      `/api/projects/${id}/bids/${bidId}`,
+      `/api/bids/${bidId}`,
       {
         needToken: true,
         options: {

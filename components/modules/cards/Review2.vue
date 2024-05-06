@@ -8,7 +8,7 @@
           alt=""
           crossorigin="anonymous"
         />
-        <Avatar v-else :size="80" :name="data.recipient.name" />
+        <div v-else><Avatar :size="80" :name="data.recipient.name" /></div>
       </div>
       <div class="review-card2__content">
         <div class="review-card2__name text15 medium-text">
