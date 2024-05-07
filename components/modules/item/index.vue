@@ -35,13 +35,13 @@
             <textarea v-model="message.text"></textarea>
           </div>
           <div class="modal-wrapper__under">
-            <button @click="cancel">Cancel</button>
+            <button @click="cancel">Отменить</button>
             <button
               @click="
                 confirm({ userId: item?.createdBy._id, serviceId: item?._id })
               "
             >
-              Send
+              Отправить
             </button>
           </div>
         </div>
