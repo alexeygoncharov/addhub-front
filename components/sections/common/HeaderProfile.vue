@@ -43,8 +43,7 @@
             <div
               v-if="
                 item?.key === 'messages' &&
-                messagesStore?.totalUnseenMessages > 0 &&
-                isMyUnreadMessages
+                messagesStore?.totalUnseenMessages > 0
               "
               class="mob-menu__num"
             >
@@ -110,20 +109,11 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from '~/stores/catalog/catalog.type';
 import { useAuthStore } from '#imports';
 const authStore = useAuthStore();
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const user = defineModel<Profile>('user');
-const isMyUnreadMessages = computed(() => {
-  return messagesStore.lastMessages.find((item) => {
-    return (
-      (item?.recipient === userStore.user?._id && !item.seen) ||
-      (item?.recipient?._id === userStore.user?._id && !item.seen)
-    );
-  });
-});
 const mobMenu = ref(false);
 const links = computed(() => [
   // {
@@ -386,6 +376,8 @@ const links = computed(() => [
             </svg>`,
   },
 ]);
+
+messagesStore.fetchTotalUnseenCount();
 </script>
 
 <style scoped></style>
