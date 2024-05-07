@@ -8,24 +8,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
     transports: ['polling'],
   });
-  const isConnected = ref(false);
-  const transport = ref('N/A');
-  function onConnect() {
-    console.log('socket start ');
-    isConnected.value = true;
-    transport.value = socket.io.engine.transport.name;
-    socket.io.engine.on('upgrade', (rawTransport) => {
-      transport.value = rawTransport.name;
-    });
-  }
-
-  function onDisconnect() {
-    isConnected.value = false;
-    transport.value = 'N/A';
-  }
-
-  socket.on('connect', onConnect);
-  socket.on('disconnect', onDisconnect);
   socket.on('connect_error', (err) => {
     // the reason of the error, for example "xhr poll error"
     console.log(err.message);

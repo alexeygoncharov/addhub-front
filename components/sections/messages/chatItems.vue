@@ -34,10 +34,6 @@ function selectChat(respondent: any) {
     offset: messagesStore.messagesListOffset,
   });
 }
-messagesStore.fetchChats({
-  limit: messagesStore.limit,
-  offset: 1,
-});
 
 async function loadChats() {
   messagesStore.chatListOffset += 1;
@@ -47,4 +43,11 @@ async function loadChats() {
     search: messagesStore.searchQuery,
   });
 }
+
+onMounted(() => {
+  messagesStore.fetchChats({
+    limit: messagesStore.limit,
+    offset: 1,
+  });
+});
 </script>
