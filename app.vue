@@ -6,22 +6,123 @@
 </template>
 
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
+const messagesStore = useMessagesStore();
+
+// Инициализация данных приложения
 getFavorites();
 commonStore.fetchCategories();
 commonStore.fetchCountries();
 commonStore.fetchCities();
 authStore.loadToken();
+
+const isConnected = ref(false);
+const transport = ref('N/A');
+
+function onConnect() {
+  isConnected.value = true;
+  transport.value = socket.io.engine.transport.name;
+  socket.io.engine.on('upgrade', (rawTransport) => {
+    transport.value = rawTransport.name;
+  });
+  setupSocketListeners();
+}
+
+function onDisconnect() {
+  isConnected.value = false;
+  transport.value = 'N/A';
+  teardownSocketListeners();
+}
+
+function setupSocketListeners() {
+  socket.on('new_message', handleNewMessage);
+  socket.on('delete_chat', handleDeleteChat);
+  socket.on('update_user', handleUpdateUser);
+  socket.on('update_message', handleUpdateMessage);
+}
+
+function teardownSocketListeners() {
+  // socket.off('new_message', handleNewMessage);
+  // socket.off('delete_chat', handleDeleteChat);
+  // socket.off('update_user', handleUpdateUser);
+  // socket.off('update_message', handleUpdateMessage);
+  socket.off();
+}
+
+// Обработчики событий сокета
+function handleNewMessage(data: any) {
+  if (!isFromExistingChat(data.chat._id)) {
+    messagesStore.chats.unshift(data.chat);
+  } else {
+    updateExistingChat(data.chat);
+  }
+  messagesStore.messages.unshift(data.newMessage);
+  messagesStore.lastMessages.forEach((item, index, array) => {
+    if (item.chat_id === data.chat._id) {
+      array[index] = data.newMessage;
+    }
+  });
+  messagesStore.totalUnseenMessages++;
+}
+
+function isFromExistingChat(chatId: string) {
+  return messagesStore.chats.some((chat) => chat._id === chatId);
+}
+
+function updateExistingChat(newChatData: any) {
+  messagesStore.chats = messagesStore.chats.filter(
+    (chat) => chat._id !== newChatData._id,
+  );
+  messagesStore.chats.unshift(newChatData);
+}
+
+function handleDeleteChat(deletedChat: any) {
+  messagesStore.chats = messagesStore.chats.filter(
+    (item) => item._id !== deletedChat.id,
+  );
+}
+
+function handleUpdateUser(data: any) {
+  const respondent = messagesStore.getRespondent(messagesStore.activeChat);
+  if (respondent?._id === data.id) respondent.online = data.online_status;
+}
+
+function handleUpdateMessage(updatedMessage: any) {
+  messagesStore.messages = messagesStore.messages.map((item) => {
+    if (item._id === updatedMessage.id) {
+      item.seen = true;
+    }
+    return item;
+  });
+  messagesStore.chats = messagesStore.chats.map((item) => {
+    if (item._id === updatedMessage.chat_id) {
+      messagesStore.totalUnseenMessages--;
+      item.unseen_messages--;
+    }
+    return item;
+  });
+}
+
 if (authStore.token) {
   await userStore.getMyUser();
+  socket.on('connect', onConnect);
+  socket.on('disconnect', onDisconnect);
 }
+
 useHead({
   titleTemplate: (titleChunk) => {
     return titleChunk ? `${titleChunk} - AddHub.io` : 'AddHub.io';
   },
   meta: [{ name: 'description', content: 'Addhub - Биржа услуг' }],
+});
+
+onBeforeUnmount(() => {
+  teardownSocketListeners();
 });
 </script>

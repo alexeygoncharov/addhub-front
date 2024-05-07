@@ -11,7 +11,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const chatListOffset = ref(1);
   const totalUnseenMessages = ref<number>(0);
   const chats = ref<Array<any>>([]);
-  const { user } = useUserStore();
+  const userStore = useUserStore();
   interface Message {
     text: string;
     recipient: string;
@@ -55,7 +55,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function getRespondent(chat: any) {
-    return chat?.members.find((member) => member._id !== user?._id);
+    return chat?.members.find((member) => member._id !== userStore.user?._id);
   }
 
   function addChats(payload: any) {
@@ -90,6 +90,7 @@ export const useMessagesStore = defineStore('messages', () => {
     });
     const value = data.value;
     if (value) {
+      console.log('value ', value);
       // chats.value = value.result.list;
       addChats(value.result);
     }
