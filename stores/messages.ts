@@ -90,9 +90,24 @@ export const useMessagesStore = defineStore('messages', () => {
     });
     const value = data.value;
     if (value) {
-      console.log('value ', value);
       // chats.value = value.result.list;
       addChats(value.result);
+    }
+    return data.value?.result;
+  }
+
+  async function fetchTotalUnseenCount() {
+    const { data } = await apiFetch<ApiResponse<any>>(
+      `/api/messages/unseen/count`,
+      {
+        needToken: true,
+        options: {},
+      },
+    );
+    const value = data.value;
+    if (value) {
+      console.log('total unseen = ', value);
+      totalUnseenMessages.value = value.result;
     }
     return data.value?.result;
   }
@@ -186,6 +201,7 @@ export const useMessagesStore = defineStore('messages', () => {
     readMessage,
     resetСhats,
     fetchLastMessage,
+    fetchTotalUnseenCount,
     searchQuery,
     lastMessages,
     messagesListOffset,
