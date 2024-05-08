@@ -14,12 +14,12 @@ jobs:
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
-      - name: Use Node.js 21
-        uses: actions/setup-node@v1
+      - name: Use Node.js [12.x, 14.x, 21.x]
+        uses: actions/setup-node@v4
         with:
           node-version: '21.x'
       - run: npm i
-      - run: npm run build --if-present
+      - run: npm run build
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.3
         with:
