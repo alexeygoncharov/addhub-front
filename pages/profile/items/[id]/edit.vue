@@ -76,7 +76,7 @@
 
         <fieldset class="fg">
           <label>Цена</label>
-          <input v-model="form.price" required type="text" placeholder="₽" />
+          <input v-model="form.price" required type="text" placeholder="руб." />
         </fieldset>
         <fieldset class="fg">
           <label>Страна</label>
@@ -186,11 +186,13 @@
             :to="baseUrl() + file"
             class="file-item"
           >
-            <div class="file-item__title">{{ getFileName(file) }}</div>
-            <div class="file-item__format">{{ getFileExtension(file) }}</div>
+            <div class="file-item__title">{{ getFileName(file.url) }}</div>
+            <div class="file-item__format">
+              {{ getFileExtension(file.url) }}
+            </div>
             <div
               class="file-item__delete"
-              @click.prevent="deleteFile(file, index)"
+              @click.prevent="deleteFile(file.url, index)"
             >
               <svg
                 width="9"
@@ -362,7 +364,7 @@ const uploadFile = async (event: Event) => {
     'files' in editableItem.value &&
     data.value
   ) {
-    editableItem.value?.files.push(data.value?.result.url);
+    editableItem.value?.files.push(data.value?.result);
     editItem('file');
   }
 };

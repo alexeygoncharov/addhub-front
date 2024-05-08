@@ -3,8 +3,8 @@
     <div class="service-card2__img">
       <div v-if="data" class="avatar">
         <img
-          v-if="data.createdBy.avatar"
-          :src="baseUrl() + data.createdBy.avatar"
+          v-if="data.createdBy.avatar.url"
+          :src="baseUrl() + data.createdBy.avatar.url"
           alt=""
           crossorigin="anonymous"
         />
@@ -69,9 +69,12 @@
         <UISkeleton> </UISkeleton>
       </div>
     </div>
-    <div class="service-card2__action">
+    <div
+      v-if="userStore.user?.active_role === 'seller'"
+      class="service-card2__action"
+    >
       <div class="service-card2__price">
-        <div v-if="data" class="text20 medium-text">{{ data.price }} ₽</div>
+        <div v-if="data" class="text20 medium-text">{{ data.price }} руб.</div>
         <UISkeleton v-else class="service-card2__price--skeleton"></UISkeleton>
       </div>
       <div

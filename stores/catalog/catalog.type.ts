@@ -34,7 +34,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  avatar: string;
+  avatar: uploadFileResponse;
 }
 
 interface Country {
@@ -52,7 +52,7 @@ export interface catalogItem {
   title: string;
   description: string;
   price: number;
-  photos: string[];
+  photos: uploadFileResponse[];
   delivery_time: number;
   status: string;
   createdBy: User;
@@ -93,7 +93,7 @@ export interface projectsItem extends catalogItem {
   category: string;
   constructor: null; // TODO
   bids: BidList[];
-  files: string[];
+  files: uploadFileResponse[];
   address: {
     country: Country;
     city: ItemCity;
@@ -105,7 +105,7 @@ export interface baseProject extends catalogItem {
   bids: Bid[];
   category: string;
   constructor: null; // TODO
-  files: string[];
+  files: uploadFileResponse[];
 }
 export interface projectItem extends baseProject {
   address: {
@@ -126,7 +126,7 @@ export interface freelancersItem {
   surname: string;
   user_name: string;
   email: string;
-  avatar: string;
+  avatar: uploadFileResponse;
   online_status: string;
   status: string;
   rate: number;

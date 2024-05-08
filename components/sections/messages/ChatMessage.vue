@@ -10,7 +10,7 @@
       <div class="avatar">
         <img
           crossorigin="anonymous"
-          :src="getAvatarUrl(message.sender?.avatar)"
+          :src="getAvatarUrl(message.sender?.avatar.url)"
           alt=""
         />
       </div>
@@ -105,7 +105,7 @@
       <div class="avatar">
         <img
           crossorigin="anonymous"
-          :src="getAvatarUrl(message.sender?.avatar)"
+          :src="getAvatarUrl(message.sender?.avatar.url)"
           alt=""
         />
       </div>

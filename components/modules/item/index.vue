@@ -24,7 +24,7 @@
           <div class="header">
             <div class="avatar">
               <img
-                :src="`${baseUrl()}/${item?.createdBy.avatar}`"
+                :src="`${baseUrl()}/${item?.createdBy.avatar.url}`"
                 alt=""
                 crossorigin="anonymous"
               />
@@ -103,16 +103,20 @@
           <div class="freelancer__col2">
             <div class="offer-req offer-req2">
               <div class="offer-req__price text28 medium-text">
-                <b>₽ </b> {{ item?.price }}
+                {{ item?.price }} руб.
               </div>
               <slot name="item-volume"></slot>
               <button
+                v-if="
+                  (type === 'service' && user?.active_role === 'buyer') ||
+                  (type === 'project' && user?.active_role === 'seller')
+                "
                 class="offer-req__btn m-btn m-btn-blue m-btn-shadow"
                 @click="createOrder()"
               >
                 <span>{{
                   type === 'service'
-                    ? `Заказать за ${item?.price} ₽`
+                    ? `Заказать за ${item?.price} руб.`
                     : item &&
                         'bids' in item &&
                         item.bids.find((bid) => bid.user._id === user?._id)
@@ -129,9 +133,9 @@
               <div class="about-client__info">
                 <div class="avatar">
                   <NuxtImg
-                    v-if="item?.createdBy.avatar"
+                    v-if="item?.createdBy.avatar.url"
                     crossorigin="anonymous"
-                    :src="baseUrl() + item?.createdBy.avatar"
+                    :src="baseUrl() + item?.createdBy.avatar.url"
                     alt=""
                   />
                   <ClientOnly v-else>

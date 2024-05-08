@@ -99,7 +99,7 @@
             </td>
             <td>
               <div class="reply-row__price">
-                <span class="text15 light-text"> ₽{{ item.price }} </span>
+                <span class="text15 light-text"> {{ item.price }} руб. </span>
               </div>
             </td>
             <td>

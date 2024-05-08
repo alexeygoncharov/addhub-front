@@ -20,6 +20,44 @@
           />
         </div>
 
+        <div class="modal-wrapper__list">
+          <OnClickOutside @trigger="activeChoice = false">
+            <label class="bid-label">Предложенная услуга</label>
+            <div
+              class="modal-wrapper__choose"
+              @click="activeChoice = !activeChoice"
+            >
+              {{ chosenService ? chosenService.title : 'Выберите услугу' }}
+            </div>
+            <div v-if="activeChoice" class="header-action__search-list">
+              <div
+                v-for="service in items"
+                :key="service._id"
+                class="header-action__search-item"
+                @click="
+                  () => {
+                    chosenService = service;
+                    activeChoice = false;
+                  }
+                "
+              >
+                <div class="header-action__search-item-img">
+                  <NuxtImg
+                    :src="baseUrl() + service.photos[0].url"
+                    crossorigin="anonymous"
+                    alt="preview"
+                  />
+                  <p>{{ service.title }}</p>
+                </div>
+                <p>{{ service.price }} руб.</p>
+              </div>
+              <p v-if="!items?.length" class="header-action__search-item">
+                У вас нет услуг
+              </p>
+            </div>
+          </OnClickOutside>
+        </div>
+
         <div class="modal-wrapper__mainInput">
           <label class="bid-label">Текст отклика</label>
           <textarea v-if="!editableData" v-model="description" />
@@ -73,11 +111,26 @@ const showBid = defineModel<boolean>({ required: true });
 const bidsStore = useBidsStore();
 const item = defineModel<projectsItem>('item', { default: undefined });
 const price = ref<number>();
+const chosenService = ref<servicesItem>();
 const term = ref<number>();
 const description = ref<string>();
 const emit = defineEmits(['newBid', 'updateBid']);
 const editableData = defineModel<Bid>('editable', { default: undefined });
 const props = defineProps<{ id: string }>();
+const activeChoice = ref(false);
+const items = ref<servicesItem[]>();
+const updateServices = async () => {
+  const { data, error } = await apiFetch<ApiResponse<servicesItem[]>>(
+    '/api/services/my_select',
+    {
+      needToken: true,
+    },
+  );
+  if (data.value) {
+    items.value = data.value.result;
+  }
+};
+updateServices();
 async function updateBid() {
   if (
     !editableData.value.price ||
@@ -91,6 +144,7 @@ async function updateBid() {
     price: data.price,
     term: data.term,
     description: data.description || '',
+    ...(chosenService.value && { service: chosenService.value._id }),
   });
   if (result) {
     emit('updateBid');

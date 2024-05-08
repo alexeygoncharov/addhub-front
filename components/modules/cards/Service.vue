@@ -45,7 +45,7 @@
         <SwiperSlide v-for="(path, index) in data.photos" :key="index">
           <div class="service-card__img">
             <img
-              :src="`${$config.public.apiBase}/${path}`"
+              :src="`${$config.public.apiBase}/${path.url}`"
               alt=""
               crossorigin="anonymous"
             />
@@ -157,11 +157,11 @@
       </div>
 
       <div v-if="data" class="service-card__bottom _flex">
-        <NuxtLink @click="redirectTo()" class="service-card__user _flex">
+        <NuxtLink class="service-card__user _flex" @click="redirectTo()">
           <div class="avatar">
             <img
-              v-if="data.createdBy.avatar"
-              :src="baseUrl() + data.createdBy.avatar"
+              v-if="data.createdBy.avatar.url"
+              :src="baseUrl() + data.createdBy.avatar.url"
               alt=""
               crossorigin="anonymous"
             />
@@ -179,7 +179,7 @@
 
         <div class="service-card__price">
           <span class="text14 gray-text">от </span>
-          <span class="text17 medium-text"> {{ data.price }} ₽</span>
+          <span class="text17 medium-text"> {{ data.price }} руб.</span>
         </div>
       </div>
       <div v-else class="service-card__bottom _flex">
@@ -204,14 +204,6 @@ const prevBtn = ref<HTMLDivElement | null>(null);
 const nextBtn = ref<HTMLDivElement | null>(null);
 const pagination = ref<HTMLDivElement | null>(null);
 const route = useRoute();
-const redirectTo = () => {
-  if (!props.store) return;
-  navigateTo({
-    path: route.path,
-    query: { ...route.query, createdBy: data.value?.createdBy._id || '' },
-  });
-  props.store.initializeFromURL();
-};
 const props = defineProps({
   data: {
     type: Object as PropType<servicesItem | serviceItem | undefined>,
@@ -226,6 +218,15 @@ const props = defineProps({
     default: undefined,
   },
 });
+const store = props.store;
+const redirectTo = () => {
+  if (!props.store || !store) return;
+  navigateTo({
+    path: route.path,
+    query: { ...route.query, createdBy: data.value?.createdBy._id || '' },
+  });
+  store.filters.createdBy = data.value?.createdBy._id || '';
+};
 const data = ref(props.data);
 if (props.id) {
   const { data: res } = await apiFetch<ApiResponse<servicesItem>>(

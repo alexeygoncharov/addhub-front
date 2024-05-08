@@ -28,18 +28,20 @@
         </div>
       </div>
 
-      <div class="attached-files article-item">
+      <div v-if="item?.files.length" class="attached-files article-item">
         <div class="text20 medium-text">Прикрепленные файлы</div>
         <div class="project-files__items">
           <nuxtLink
             v-for="(file, index) of item?.files"
             :key="index"
             target="_blank"
-            :to="baseUrl() + file"
+            :to="baseUrl() + file.url"
             class="file-item"
           >
-            <div class="file-item__title">{{ getFileName(file) }}</div>
-            <div class="file-item__format">{{ getFileExtension(file) }}</div>
+            <div class="file-item__title">{{ getFileName(file.url) }}</div>
+            <div class="file-item__format">
+              {{ getFileExtension(file.url) }}
+            </div>
           </nuxtLink>
         </div>
       </div>
@@ -53,9 +55,9 @@
             <div class="offer-card__content">
               <div class="avatar">
                 <img
-                  v-if="bid.user.avatar"
+                  v-if="bid.user.avatar.url"
                   crossorigin="anonymous"
-                  :src="baseUrl() + bid.user.avatar"
+                  :src="baseUrl() + bid.user.avatar.url"
                   alt=""
                 />
 
@@ -86,7 +88,7 @@
               </div>
             </div>
             <div class="offer-card__nums">
-              <div class="offer-card__price">{{ bid.price }} ₽</div>
+              <div class="offer-card__price">{{ bid.price }} руб.</div>
               <!-- <div class="offer-card__period">за 100 часов</div> -->
             </div>
             <div class="offer-card__text">
@@ -103,14 +105,13 @@
         <div class="freelancer-req__grid">
           <fieldset class="fg">
             <label>Цена</label>
-            <p>{{ userBid?.price }}</p>
+            <p>{{ userBid?.price }} руб.</p>
           </fieldset>
           <fieldset class="fg">
             <label>Срок</label>
-            <p>{{ userBid?.term }}</p>
+            <p>{{ pluralize(userBid?.term, 'день', 'дня', 'дней') }}</p>
           </fieldset>
           <fieldset v-if="userBid?.description" class="fg _full">
-            <label>Сопроводительное письмо</label>
             <p>
               {{ userBid?.description }}
             </p>

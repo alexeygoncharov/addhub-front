@@ -13,7 +13,7 @@
           <img
             v-if="form.avatar"
             crossorigin="anonymous"
-            :src="getAvatarUrl(form.avatar)"
+            :src="getAvatarUrl(form.avatar.url)"
             alt=""
           />
           <div v-else><Avatar :size="80" :name="form.name" /></div>
@@ -156,11 +156,10 @@ onChange((files) => {
   if (files) {
     const formData = new FormData();
     formData.append('file', files[0]);
-    commonStore.uploadFile(formData).then((file?: any) => {
+    commonStore.uploadFile(formData).then((file?: uploadFileResponse) => {
       if (file) {
-        form.value.avatar = file?.url?.replace('/files', 'files') as string;
+        form.value.avatar = file;
         formData.delete('file');
-        formData.append('avatar', form.value.avatar);
         profileStore.updateAvatar(form.value.avatar).then(() => {
           if (userStore.user?.avatar !== undefined)
             userStore.user.avatar = form.value.avatar;

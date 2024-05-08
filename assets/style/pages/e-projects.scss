@@ -49,6 +49,21 @@
   background-color: #fff;
   border-radius: 12px;
 
+  &__list {
+    position: relative;
+    margin: 20px 0 0;
+  }
+
+  &__choose {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 0;
+    resize: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
   &__close {
     width: 40px;
     height: 40px;

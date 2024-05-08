@@ -10,7 +10,7 @@ export const useProfileStore = defineStore('profile', () => {
   }
 
   interface EditProfile {
-    avatar?: string;
+    avatar?: uploadFileResponse;
     name?: string;
     email?: string;
     user_name?: string;
@@ -50,13 +50,13 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
-  async function updateAvatar(filename: string) {
+  async function updateAvatar(file: uploadFileResponse) {
     const { data, error } = await apiFetch<ApiResponse<Profile>>(
       `/api/users/me/`,
       {
         options: {
           method: 'PUT',
-          body: { avatar: filename },
+          body: { avatar: file },
         },
         needToken: true,
       },

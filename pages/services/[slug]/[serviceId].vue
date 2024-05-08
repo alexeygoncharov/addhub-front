@@ -1,5 +1,5 @@
 <template>
-  <ModulesItem :item="item" @submit="createOrder()" type="service">
+  <ModulesItem :item="item" type="service" @submit="createOrder()">
     <template #item-content>
       <div class="stat">
         <UIStatCard
@@ -22,7 +22,7 @@
           :value="item?.address.city.title"
         />
       </div>
-      <div class="gallery">
+      <div v-if="item?.photos.length" class="gallery">
         <div class="gallery__big">
           <div class="swiper mySwiper2">
             <Swiper
@@ -47,7 +47,7 @@
                 <a class="gallery__img">
                   <NuxtImg
                     crossorigin="anonymous"
-                    :src="baseUrl() + image"
+                    :src="baseUrl() + image.url"
                     alt="Галерея"
                     @click="() => (enabledViewer = true)"
                   />
@@ -97,7 +97,7 @@
                 <div class="gallery__img">
                   <NuxtImg
                     crossorigin="anonymous"
-                    :src="baseUrl() + image"
+                    :src="baseUrl() + image.url"
                     alt="Галерея"
                   />
                 </div>
@@ -108,7 +108,7 @@
         <UIImageViewer
           v-if="item && enabledViewer"
           v-model="enabledViewer"
-          :images="item.photos"
+          :images="item.photos.map((file) => file.url)"
           :active="activeSlide"
         />
       </div>
