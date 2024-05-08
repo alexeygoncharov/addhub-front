@@ -88,9 +88,15 @@ function handleDeleteChat(deletedChat: any) {
   );
 }
 
-function handleUpdateUser(data: any) {
+interface UpdateStatusUser {
+  id: string;
+  online_status: 'online' | 'offline';
+}
+
+function handleUpdateUser(data: UpdateStatusUser) {
   const respondent = messagesStore.getRespondent(messagesStore.activeChat);
-  if (respondent?._id === data.id) respondent.online = data.online_status;
+  if (respondent && respondent?._id === data?.id)
+    respondent.online_status = data.online_status;
 }
 
 function handleUpdateMessage(updatedMessage: any) {

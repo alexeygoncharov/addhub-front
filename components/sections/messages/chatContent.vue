@@ -164,7 +164,7 @@ const { files, reset, open } = useFileDialog({
 
 function sendMessage() {
   const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
-  message.value.recipient = activeChat ? activeChat._id : null;
+  if (activeChat) message.value.recipient = activeChat._id;
   if (message.value.recipient && message.value.text) {
     if (files.value?.length) {
       const fileSizeMB = files.value?.item(0)?.size;

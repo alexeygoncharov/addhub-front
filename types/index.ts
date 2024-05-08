@@ -88,4 +88,62 @@ declare global {
     updatedAt: string;
     __v: number;
   }
+
+  interface ChatMember {
+    _id: string;
+    user_name: string;
+    name: string;
+    surname: string;
+    online_status: 'online' | 'offline'; // Assuming only these two statuses for simplicity
+    avatar: {
+      url: string;
+    };
+  }
+
+  interface ChatItem {
+    _id: string;
+    members: ChatMember[];
+    unseen_messages: number;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }
+
+  interface ChatList {
+    list: ChatItem[];
+    totalUnSeen: number;
+    total: number;
+  }
+
+  interface ChatMessage {
+    _id: string;
+    chat_id: string;
+    message: string;
+    files: any[]; // Define further if you have file structure details.
+    recipient?: User;
+    sender?: User;
+    seen: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }
+
+  interface LastChatMessage {
+    _id: string;
+    chat_id: string;
+    message: string;
+    files: any[]; // Define further if you have file structure details.
+    recipient?: User;
+    sender?: User;
+    seen: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  }
+
+  interface ChatMessagesList {
+    list: ChatMessage[];
+    total: number;
+    totalUnSeen: number;
+  }
 }

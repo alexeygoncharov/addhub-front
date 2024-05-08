@@ -13,7 +13,7 @@
   >
     <SectionsMessagesChatItem
       v-for="item in messagesStore.chats.filter((chat) =>
-        chat.members.some((member: any) => member._id === userStore?.user?._id),
+        chat.members.some((member) => member._id === userStore?.user?._id),
       )"
       :key="item._id"
       class="chat-item"
@@ -26,7 +26,7 @@
 import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
-function selectChat(respondent: any) {
+function selectChat(respondent: ChatItem) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
   messagesStore.fetchChatMessagesList({
