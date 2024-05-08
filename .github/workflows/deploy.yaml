@@ -46,7 +46,7 @@ jobs:
             # nvm install 21
             # nvm use 21
             # nvm alias default 21
-             cd ../opt/applications/add_hub_client
+             cd /opt/applications/add_hub_client
              git stash
              git pull
              pm2 restart 6
