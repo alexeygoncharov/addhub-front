@@ -1,35 +1,20 @@
 export const useMessagesStore = defineStore('messages', () => {
-  const messages = ref<Array<any>>([]);
+  const messages = ref<Array<ChatMessage>>([]);
   const newMessage = ref();
   const activeChat = ref();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 10;
-  const lastMessages = ref<Array<any>>([]);
+  const lastMessages = ref<Array<ChatMessage>>([]);
   const messagesListOffset = ref(1);
   const searchQuery = ref('');
   const chatListOffset = ref(1);
   const totalUnseenMessages = ref<number>(0);
-  const chats = ref<Array<any>>([]);
+  const chats = ref<Array<ChatItem>>([]);
   const userStore = useUserStore();
-  interface Message {
-    text: string;
-    recipient: string;
-    service_id?: string;
-    files?: Array<string>;
-  }
-  interface MessagesList {
-    chat_id: string;
-    limit?: number;
-    offset?: number;
-  }
-  interface ChatList {
-    limit?: number;
-    offset?: number;
-    search?: string;
-  }
-  async function fetchChatMessagesList(payload: MessagesList) {
-    const { data } = await apiFetch<ApiResponse<any>>(
+
+  async function fetchChatMessagesList(payload: MessagesPayload) {
+    const { data } = await apiFetch<ApiResponse<ChatMessagesList>>(
       `/api/messages/chat/${payload.chat_id}`,
       {
         needToken: true,
@@ -42,10 +27,9 @@ export const useMessagesStore = defineStore('messages', () => {
     if (value) {
       addMessages(value.result);
     }
-    return data.value?.result;
   }
 
-  function addMessages(payload: any) {
+  function addMessages(payload: ChatMessagesList) {
     totalCountMessages.value = payload.total;
     if (totalCountMessages.value > messages.value.length) {
       payload.list.forEach((element) => {
@@ -54,12 +38,11 @@ export const useMessagesStore = defineStore('messages', () => {
     }
   }
 
-  function getRespondent(chat: any) {
+  function getRespondent(chat: ChatItem): ChatMember | undefined {
     return chat?.members.find((member) => member._id !== userStore.user?._id);
   }
 
-  function addChats(payload: any) {
-    totalUnseenMessages.value = payload.totalUnSeen;
+  function addChats(payload: ChatList) {
     totalCountChats.value = payload.total;
     if (totalCountChats.value > chats.value.length) {
       payload.list.forEach((element) => {
@@ -81,8 +64,8 @@ export const useMessagesStore = defineStore('messages', () => {
     chatListOffset.value = 1;
   }
 
-  async function fetchChats(payload: ChatList) {
-    const { data } = await apiFetch<ApiResponse<any>>(`/api/chat/my`, {
+  async function fetchChats(payload: ChatPayload) {
+    const { data } = await apiFetch<ApiResponse<ChatList>>(`/api/chat/my`, {
       needToken: true,
       options: {
         query: payload,
@@ -93,11 +76,10 @@ export const useMessagesStore = defineStore('messages', () => {
       // chats.value = value.result.list;
       addChats(value.result);
     }
-    return data.value?.result;
   }
 
   async function fetchTotalUnseenCount() {
-    const { data } = await apiFetch<ApiResponse<any>>(
+    const { data } = await apiFetch<ApiResponse<number>>(
       `/api/messages/unseen/count`,
       {
         needToken: true,
@@ -106,7 +88,6 @@ export const useMessagesStore = defineStore('messages', () => {
     );
     const value = data.value;
     if (value) {
-      console.log('total unseen = ', value);
       totalUnseenMessages.value = value.result;
     }
     return data.value?.result;
@@ -114,32 +95,38 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function deleteChat() {
     if (!activeChat.value?._id) return;
-    await apiFetch<ApiResponse<any>>(`/api/chat/${activeChat.value?._id}`, {
-      needToken: true,
-      options: {
-        method: 'DELETE',
+    await apiFetch<ApiResponse<ChatItem>>(
+      `/api/chat/${activeChat.value?._id}`,
+      {
+        needToken: true,
+        options: {
+          method: 'DELETE',
+        },
       },
-    });
+    );
     chats.value = chats.value.filter(
       (item) => item._id !== activeChat.value._id,
     );
     activeChat.value = null;
   }
 
-  async function createMessage(msg: Message) {
+  async function createMessage(msg: MessagePayload) {
     try {
-      const { data } = await apiFetch<ApiResponse<any>>(`/api/messages/`, {
-        needToken: true,
-        options: {
-          method: 'POST',
-          body: {
-            message: msg.text,
-            recipient: msg.recipient,
-            service_id: msg.service_id,
-            files: msg.files,
+      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
+        `/api/messages/`,
+        {
+          needToken: true,
+          options: {
+            method: 'POST',
+            body: {
+              message: msg.text,
+              recipient: msg.recipient,
+              service_id: msg.service_id,
+              files: msg.files,
+            },
           },
         },
-      });
+      );
       const value = data.value;
       if (value) {
         return value?.result;
@@ -151,7 +138,7 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function fetchLastMessage(chatId: string) {
     try {
-      const { data } = await apiFetch<ApiResponse<any>>(
+      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
         `/api/messages/last_message/${chatId}`,
         {
           needToken: true,
@@ -168,9 +155,9 @@ export const useMessagesStore = defineStore('messages', () => {
     }
   }
 
-  async function readMessage(msg: any) {
+  async function readMessage(msg: ReadMessagePayload) {
     try {
-      const { data } = await apiFetch<ApiResponse<any>>(
+      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
         `/api/messages/${msg.id}`,
         {
           needToken: true,
