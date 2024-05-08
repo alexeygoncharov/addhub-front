@@ -22,6 +22,8 @@ jobs:
       - run: npm run build
       - name: Move Build Files
         run: ls
+      - name: Check build
+        run: node .output/server/index.mjs
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.3
         with:
