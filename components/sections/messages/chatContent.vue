@@ -16,7 +16,8 @@
               crossorigin="anonymous"
               :src="
                 getAvatarUrl(
-                  messagesStore.getRespondent(messagesStore.activeChat)?.avatar,
+                  messagesStore.getRespondent(messagesStore.activeChat)?.avatar
+                    .url,
                 )
               "
               alt=""
@@ -173,7 +174,7 @@ function sendMessage() {
       }
       const formData = new FormData();
       formData.append('file', files.value?.item(0) as Blob);
-      commonStore.uploadFile(formData).then((file?: any) => {
+      commonStore.uploadFile(formData).then((file) => {
         if (file) {
           file.url = file?.url?.replace('/files', 'files') as string;
           message.value.files.push(file);

@@ -6,7 +6,7 @@
       :class="{ wrapper__full: full }"
     >
       <SectionsCommonHeaderProfile :user="userStore.user" />
-      <main class="content">
+      <main class="content" :class="{ content__chat: full }">
         <slot></slot>
       </main>
       <SectionsCommonFooterProfile />

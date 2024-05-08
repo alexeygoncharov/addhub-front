@@ -3,7 +3,7 @@
     <div v-if="messagesStore.getRespondent(props.chat)" class="avatar">
       <img
         crossorigin="anonymous"
-        :src="getAvatarUrl(messagesStore.getRespondent(props.chat)?.avatar)"
+        :src="getAvatarUrl(messagesStore.getRespondent(props.chat)?.avatar.url)"
         alt=""
       />
     </div>

@@ -65,5 +65,10 @@ const props = defineProps({
   },
 });
 const store = props.store;
-const chooseUser = apiFetch(`/api/users/${props.store.filters.createdBy}`);
+const chooseUser = ref();
+if (props.store.filters.createdBy) {
+  chooseUser.value = await apiFetch(
+    `/api/users/${props.store.filters.createdBy}`,
+  );
+}
 </script>

@@ -16,8 +16,8 @@
             <div class="reply-row__info">
               <a href="" class="avatar">
                 <img
-                  v-if="bid.user.avatar"
-                  :src="baseUrl() + bid.user.avatar"
+                  v-if="bid.user.avatar.url"
+                  :src="baseUrl() + bid.user.avatar.url"
                   crossorigin="anonymous"
                   alt=""
                 />
@@ -50,7 +50,7 @@
           </td>
           <td>
             <div class="reply-row__price">
-              <span class="text17 medium-text">₽ {{ bid.price }}</span>
+              <span class="text17 medium-text">{{ bid.price }} руб.</span>
             </div>
           </td>
           <td>

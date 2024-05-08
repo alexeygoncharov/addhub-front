@@ -1,4 +1,8 @@
-import type { User, bidProject } from '~/stores/catalog/catalog.type';
+import type {
+  User,
+  bidProject,
+  catalogItem,
+} from '~/stores/catalog/catalog.type';
 export type { ApiResponse, ApiListResponse };
 
 declare global {
@@ -51,7 +55,7 @@ declare global {
     roles: string[];
     active_role: 'buyer' | 'seller';
     __v: number;
-    avatar?: string;
+    avatar?: uploadFileResponse;
     phone_number: string;
     profession: string;
     slogan: string;
@@ -62,5 +66,26 @@ declare global {
       city: ItemCity;
     };
     languages: string;
+  }
+  interface orderService extends catalogItem {
+    tools: [];
+    category: string;
+    rate: number;
+    service_volume: string;
+    service_volume_desc: string;
+    address: {
+      country: string;
+      city: string;
+    };
+  }
+  export interface Order {
+    _id: string;
+    buyer: User;
+    service: orderService;
+    currency: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
   }
 }

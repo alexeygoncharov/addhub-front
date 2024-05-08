@@ -1,20 +1,15 @@
 <script lang="ts" setup>
-interface banner {
+interface banner extends uploadFileResponse {
   loading?: number;
-  path: string;
 }
 const props = defineProps<{
   uploadPath: string;
 }>();
 const emit = defineEmits<{ (e: 'changed'): void }>();
-const banners = defineModel<string[]>({
+const banners = defineModel<uploadFileResponse[]>({
   default: [],
 });
-const bufBanners = ref<banner[]>(
-  banners.value.map((banner) => ({
-    path: banner,
-  })),
-);
+const bufBanners = ref<banner[]>(banners.value);
 
 const isDragActive = ref(false);
 
@@ -55,7 +50,9 @@ const uploadData = (file: File) => {
   file.originId = originId;
   bufBanners.value.push({
     loading: originId,
-    path: '',
+    url: '',
+    mimetype: '',
+    name: '',
   });
   dropzoneEventsQueue = dropzoneEventsQueue.then(async () => {
     const formData = new FormData();
@@ -73,8 +70,8 @@ const uploadData = (file: File) => {
       );
       if (bannerIndex === undefined || bannerIndex < 0 || !bufBanners.value)
         return;
-      bufBanners.value[bannerIndex] = { path: data.value.result.url };
-      banners.value = bufBanners.value.map((b) => b.path);
+      bufBanners.value[bannerIndex] = data.value.result;
+      banners.value = bufBanners.value;
       emit('changed');
     } else {
       bufBanners.value = bufBanners.value?.filter(
@@ -107,7 +104,7 @@ async function deleteBanner(bannerIndex: number) {
   const { data, error } = await apiFetch<ApiResponse<string>>(
     props.uploadPath,
     {
-      options: { method: 'DELETE', body: { filePath: bufBanner.path } },
+      options: { method: 'DELETE', body: { filePath: bufBanner.url } },
       needToken: true,
     },
   );
@@ -115,7 +112,7 @@ async function deleteBanner(bannerIndex: number) {
     bufBanners.value?.splice(bannerIndex, 0, bufBanner);
     useToast({ message: 'Произошла ошибка при удалении', type: 'error' });
   } else {
-    banners.value = bufBanners.value.map((b) => b.path);
+    banners.value = bufBanners.value;
     emit('changed');
   }
 }
@@ -175,13 +172,13 @@ onMounted(() => {
           class="banners-settings__image"
           :class="{
             'banners-settings__image--upload': bufBanners?.length + 1 === i,
-            'banners-settings__image--hasImage': bufBanners?.[i - 1]?.path,
+            'banners-settings__image--hasImage': bufBanners?.[i - 1]?.url,
             'banners-settings__image--loading': bufBanners?.[i - 1]?.loading,
           }"
         >
           <nuxtImg
-            v-if="bufBanners?.[i - 1]?.path"
-            :src="baseUrl() + bufBanners[i - 1].path"
+            v-if="bufBanners?.[i - 1]?.url"
+            :src="baseUrl() + bufBanners[i - 1].url"
             crossorigin="anonymous"
             alt="product banner"
           />

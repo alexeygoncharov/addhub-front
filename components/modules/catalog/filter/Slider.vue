@@ -9,7 +9,7 @@
           type="number"
           @input="updateStartValue(0, $event)"
         />
-        <div class="filter-slider__currency"><span>₽</span></div>
+        <div class="filter-slider__currency"><span>руб.</span></div>
       </div>
       <div class="fg">
         <label>До</label>
@@ -18,14 +18,14 @@
           type="number"
           @input="updateStartValue(1, $event)"
         />
-        <div class="filter-slider__currency"><span>₽</span></div>
+        <div class="filter-slider__currency"><span>руб.</span></div>
       </div>
     </div>
     <div class="filter-slider__item">
       <div ref="sliderElement" class="range-slider"></div>
     </div>
     <div class="filter-slider__output">
-      <span>{{ priceMinBuffer }}</span> - <span>{{ priceMaxBuffer }}</span> ₽
+      <span>{{ priceMinBuffer }}</span> - <span>{{ priceMaxBuffer }}</span> руб.
     </div>
   </div>
 </template>

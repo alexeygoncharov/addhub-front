@@ -3,8 +3,8 @@
     <div class="freelance-card__top">
       <div class="avatar">
         <img
-          v-if="data.avatar"
-          :src="baseUrl() + data.avatar"
+          v-if="data.avatar.url"
+          :src="baseUrl() + data.avatar.url"
           alt=""
           crossorigin="anonymous"
         />

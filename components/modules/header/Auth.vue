@@ -22,7 +22,7 @@
         >
           <div class="header-action__search-item-img">
             <NuxtImg
-              :src="baseUrl() + item.photos[0]"
+              :src="baseUrl() + item.photos[0].url"
               crossorigin="anonymous"
               alt="preview"
             />
@@ -79,11 +79,10 @@
     <div class="header-action2__user">
       <nuxtLink to="/profile" class="avatar">
         <NuxtImg
-          v-if="user?.avatar"
-          :key="user?.avatar"
+          v-if="user?.avatar?.url"
           preload
           crossorigin="anonymous"
-          :src="baseUrl() + user?.avatar"
+          :src="baseUrl() + user?.avatar.url"
           alt="user avatar"
         />
         <div v-else><Avatar :size="80" :name="user?.name" /></div>
