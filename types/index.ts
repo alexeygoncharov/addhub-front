@@ -128,19 +128,6 @@ declare global {
     __v: number;
   }
 
-  interface LastChatMessage {
-    _id: string;
-    chat_id: string;
-    message: string;
-    files: any[]; // Define further if you have file structure details.
-    recipient?: User;
-    sender?: User;
-    seen: boolean;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-  }
-
   interface ChatMessagesList {
     list: ChatMessage[];
     total: number;

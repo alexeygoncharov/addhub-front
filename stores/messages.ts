@@ -79,7 +79,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   async function fetchTotalUnseenCount() {
-    const { data } = await apiFetch<ApiResponse<any>>(
+    const { data } = await apiFetch<ApiResponse<number>>(
       `/api/messages/unseen/count`,
       {
         needToken: true,
@@ -88,7 +88,6 @@ export const useMessagesStore = defineStore('messages', () => {
     );
     const value = data.value;
     if (value) {
-      console.log('count value.result ', value.result);
       totalUnseenMessages.value = value.result;
     }
     return data.value?.result;
@@ -96,12 +95,15 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function deleteChat() {
     if (!activeChat.value?._id) return;
-    await apiFetch<ApiResponse<any>>(`/api/chat/${activeChat.value?._id}`, {
-      needToken: true,
-      options: {
-        method: 'DELETE',
+    await apiFetch<ApiResponse<ChatItem>>(
+      `/api/chat/${activeChat.value?._id}`,
+      {
+        needToken: true,
+        options: {
+          method: 'DELETE',
+        },
       },
-    });
+    );
     chats.value = chats.value.filter(
       (item) => item._id !== activeChat.value._id,
     );
@@ -110,18 +112,21 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function createMessage(msg: MessagePayload) {
     try {
-      const { data } = await apiFetch<ApiResponse<number>>(`/api/messages/`, {
-        needToken: true,
-        options: {
-          method: 'POST',
-          body: {
-            message: msg.text,
-            recipient: msg.recipient,
-            service_id: msg.service_id,
-            files: msg.files,
+      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
+        `/api/messages/`,
+        {
+          needToken: true,
+          options: {
+            method: 'POST',
+            body: {
+              message: msg.text,
+              recipient: msg.recipient,
+              service_id: msg.service_id,
+              files: msg.files,
+            },
           },
         },
-      });
+      );
       const value = data.value;
       if (value) {
         return value?.result;
@@ -133,7 +138,7 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function fetchLastMessage(chatId: string) {
     try {
-      const { data } = await apiFetch<ApiResponse<LastChatMessage>>(
+      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
         `/api/messages/last_message/${chatId}`,
         {
           needToken: true,
@@ -152,7 +157,7 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function readMessage(msg: ReadMessagePayload) {
     try {
-      const { data } = await apiFetch<ApiResponse<any>>(
+      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
         `/api/messages/${msg.id}`,
         {
           needToken: true,
