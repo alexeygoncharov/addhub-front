@@ -20,6 +20,7 @@ jobs:
           node-version: '21.x'
       - run: npm i
       - run: npm run build
+      - name: Move Build Files
         run: |
           mkdir -p ../opt/applications/add_hub_client
           cp -R .nuxt/* ../opt/applications/add_hub_client
