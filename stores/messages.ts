@@ -5,7 +5,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 10;
-  const lastMessages = ref<Array<any>>([]);
+  const lastMessages = ref<Array<ChatMessage>>([]);
   const messagesListOffset = ref(1);
   const searchQuery = ref('');
   const chatListOffset = ref(1);
