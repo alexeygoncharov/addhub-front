@@ -43,7 +43,6 @@ const binarySearch = (items, query) => {
   let low = 0;
   let high = items.length - 1;
   const results = [];
-  console.log('items ', items);
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
     const midVal = items[mid].title.toLowerCase();
@@ -74,8 +73,6 @@ const binarySearch = (items, query) => {
       high = mid - 1;
     }
   }
-
-  console.log('results ', results);
   return results;
 };
 
