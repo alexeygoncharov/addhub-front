@@ -87,30 +87,18 @@
 
         <fieldset class="fg">
           <label>Страна</label>
-          <UIVSelect
-            :initial-current-text="{
-              value: form.address?.country,
-              text: countries?.find((item) => {
-                if (item.value === form.address.country) return item;
-              })?.text,
-            }"
-            :options="countries"
-            :placeholder="'Выберите страну'"
+          <UIVSelectSearch
+            :items="commonStore.countries"
+            :model-value="form.address.country?.title"
             @input="(country) => (form.address.country = country)"
           />
         </fieldset>
 
         <fieldset class="fg">
           <label>Город</label>
-          <UIVSelect
-            :initial-current-text="{
-              value: form.address?.city,
-              text: cities?.find((item) => {
-                if (item.value === form.address.city) return item;
-              })?.text,
-            }"
-            :options="cities"
-            :placeholder="'Выберите город'"
+          <UIVSelectSearch
+            :items="commonStore.cities"
+            :model-value="form.address.city?.title"
             @input="(city) => (form.address.city = city)"
           />
         </fieldset>
@@ -146,6 +134,7 @@ import { useCommonStore } from '../../../stores/common';
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();
 const userStore = useUserStore();
+const search = ref('');
 const { open, onChange } = useFileDialog({
   accept: 'image/*', // Set to accept only image files
   // directory: true, // Select directories instead of files if set true
@@ -192,8 +181,8 @@ const form = ref({
   slogan: userStore.user?.slogan,
   gender: userStore.user?.gender,
   address: {
-    city: userStore.user?.address?.city?._id,
-    country: userStore.user?.address?.country?._id,
+    city: userStore.user?.address?.city,
+    country: userStore.user?.address?.country,
   },
   about_me: userStore.user?.about_me,
 });
