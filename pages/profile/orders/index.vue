@@ -143,7 +143,7 @@
                   </button>
                   <div class="tooltip">
                     <div class="tooltip__inner">
-                      <div class="text14">Отменить</div>
+                      <div class="text14">Отмена</div>
                     </div>
                   </div>
                 </div>
