@@ -48,5 +48,4 @@ jobs:
              git log -p -2
              npm i
              npm run build
-             npm run deploy
              pm2 restart 2
