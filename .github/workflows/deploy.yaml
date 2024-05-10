@@ -46,5 +46,6 @@ jobs:
              git pull
              git branch
              git log -p -2
+             yarn install
              yarn build
              pm2 restart 6
