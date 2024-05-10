@@ -45,4 +45,5 @@ jobs:
              git pull
              npm i
              npm run build
+             npm run deploy
              pm2 restart 2
