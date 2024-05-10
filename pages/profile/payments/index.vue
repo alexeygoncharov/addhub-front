@@ -83,7 +83,7 @@
             <div class="pay-row__title">Статус</div>
             <div class="pay-row__badges">
               <div class="m-badge _red">
-                <span>Отмена</span>
+                <span>Отменааааа</span>
               </div>
             </div>
           </td>
