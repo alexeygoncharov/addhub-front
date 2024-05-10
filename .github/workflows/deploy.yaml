@@ -41,8 +41,10 @@ jobs:
              nvm use 21
              nvm alias default 21
              cd /opt/applications/add_hub_client
+             git branch
              git stash
              git pull
+             git log
              npm i
              npm run build
              npm run deploy
