@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: '21.x'
       - run: npm i
+      - run: npm run build
       - name: Move Build Files
         run: ls
       - name: Deploy to Server
@@ -46,5 +47,4 @@ jobs:
              cd /opt/applications/add_hub_client
              git stash
              git pull
-             npm run build
              pm2 restart 6
