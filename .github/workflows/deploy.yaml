@@ -44,7 +44,7 @@ jobs:
              git branch
              git stash
              git pull
-             git log
+             git branch
              npm i
              npm run build
              npm run deploy
