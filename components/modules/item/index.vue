@@ -23,11 +23,36 @@
         <div class="modal-wrapper-message">
           <div class="header">
             <div class="avatar">
-              <img
-                :src="`${baseUrl()}/${item?.createdBy.avatar.url}`"
-                alt=""
+              <NuxtImg
+                v-if="item?.createdBy.avatar.url"
                 crossorigin="anonymous"
+                :src="baseUrl() + item?.createdBy.avatar.url"
+                alt=""
               />
+              <ClientOnly v-else>
+                <div>
+                  <Avatar :size="80" :name="item?.createdBy.name" />
+                </div>
+              </ClientOnly>
+              <span
+                v-if="item?.createdBy.online_status === 'online'"
+                class="service-card__user-online"
+              ></span>
+            </div>
+            <div class="about-client__content">
+              <div class="about-client__name text17 medium-text">
+                {{ item?.createdBy.name }}
+              </div>
+              <div class="about-client__category">
+                {{ item?.createdBy.active_role }}
+              </div>
+              <div class="about-client__rating">
+                <img src="/img/star.svg" alt="" />
+                <div class="about-client__rating-text">
+                  <span>{{ item?.createdBy.rate }}</span>
+                  <!-- (595 отзывов) -->
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-wrapper__mainInput">
@@ -37,6 +62,8 @@
           <div class="modal-wrapper__under">
             <button @click="cancel">Отменить</button>
             <button
+              :disabled="!!!message?.text?.length"
+              class="m-btn m-btn-gray"
               @click="
                 confirm({ userId: item?.createdBy._id, serviceId: item?._id })
               "
