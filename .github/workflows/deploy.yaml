@@ -18,10 +18,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '21.x'
-      - run: npm i
-      - run: npm run build
-      - name: Move Build Files
-        run: ls
+      - run: |
+          node -v
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -29,22 +27,25 @@ jobs:
           username: root
           password: 2sAKjNrLWJzG
           script: |
-            # if ! command -v nvm &> /dev/null
-            # then
-            #    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            #    export NVM_DIR="$HOME/.nvm"
-            #    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            #    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-            #  fi
+             if ! command -v nvm &> /dev/null
+             then
+                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+                export NVM_DIR="$HOME/.nvm"
+                [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+                [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+              fi
 
-            # export NVM_DIR="$HOME/.nvm"
-            # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            # [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+             export NVM_DIR="$HOME/.nvm"
+             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+             [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 
-            # nvm install 21
-            # nvm use 21
-            # nvm alias default 21
+             nvm install 21
+             nvm use 21
+             nvm alias default 21
              cd /opt/applications/add_hub_client
              git stash
              git pull
-             pm2 restart 6
+             npm i
+             npm run swagger-prod
+             npm run build
+             pm2 restart 2
