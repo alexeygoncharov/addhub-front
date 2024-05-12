@@ -59,7 +59,7 @@
                   <div class="reply-row__title text17 medium-text">
                     <nuxtLink
                       v-if="item?.status === 'published'"
-                      :to="`/${type === 'service' ? 'services' : 'projects'}/${typeof item._id === 'string' ? commonStore.categories?.find((el) => el._id === item?.category)?.slug : typeof item.category !== 'string' && item?.category.slug}/${item._id}`"
+                      :to="`/${type === 'service' ? 'services' : 'projects'}/${typeof item.category === 'string' ? commonStore.categories?.find((el) => el._id === item?.category)?.slug : typeof item.category !== 'string' && item?.category.slug}/${item._id}`"
                       href=""
                       >{{ item.title }}</nuxtLink
                     >
