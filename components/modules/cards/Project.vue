@@ -77,16 +77,19 @@
         <div v-if="data" class="text20 medium-text">{{ data.price }} руб.</div>
         <UISkeleton v-else class="service-card2__price--skeleton"></UISkeleton>
       </div>
-      <div
+      <button
         v-if="data && !userBid"
         class="service-card2__btn m-btn m-btn-blue3"
         @click="openBidModal()"
       >
-        Оставить отклик
-      </div>
-      <div v-else-if="data" class="service-card2__btn m-btn m-btn-blue3">
-        Уже откликнулись
-      </div>
+        <span>Оставить отклик</span>
+      </button>
+      <button
+        v-else-if="data"
+        class="service-card2__btn m-btn m-btn-blue-outline"
+      >
+        <span>Уже откликнулись</span>
+      </button>
       <UISkeleton
         v-else
         class="service-card2__btn service-card2__btn--skeleton"

@@ -67,10 +67,12 @@
                         }}</span
                       >
                     </div>
-                    <div class="reply-row__prop">
-                      <img src="/img/calendar2.svg" alt="" />
-                      <span>{{ $dayjs(item.createdAt).fromNow() }}</span>
-                    </div>
+                    <ClientOnly>
+                      <div class="reply-row__prop">
+                        <img src="/img/calendar2.svg" alt="" />
+                        <span>{{ $dayjs(item.createdAt).fromNow() }}</span>
+                      </div>
+                    </ClientOnly>
                     <!-- <div v-if="'reviews' in item" class="reply-row__prop">
                       <img src="/img/reply.svg" alt="" />
                        <span>{{ item.reviews.length }}</span> 

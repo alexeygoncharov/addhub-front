@@ -359,11 +359,6 @@
     <template #service-recommended>
       <div class="services services2 m-section">
         <div class="container">
-          <UISectionTop
-            title="Вас также заинтересует"
-            desc="Обеспечьте посетителю удобство работы в Интернете с помощью надежного UX-дизайна."
-          />
-
           <ModulesProductSlider />
         </div>
       </div>
@@ -404,6 +399,10 @@ const category = commonStore.categories?.find(
 const activeSlide = ref<number>(0);
 const item = ref<serviceItem>();
 const itemId = route.params.serviceId;
+if (!category || !itemId) {
+  throw showError({ statusCode: 404 });
+}
+
 const { data } = await apiFetch<ApiResponse<serviceItem>>(
   `/api/services/${itemId}`,
 );

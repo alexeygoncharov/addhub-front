@@ -35,9 +35,9 @@ export default defineNuxtConfig({
     // '@nuxtjs/robots',
   ],
   dayjs: {
+    defaultLocale: 'ru',
     locales: ['ru'],
     plugins: ['relativeTime'],
-    defaultLocale: 'ru',
   },
   css: ['~/assets/style/style.scss'],
   runtimeConfig: {

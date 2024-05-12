@@ -25,7 +25,10 @@
               </a>
               <div class="reply-row__content">
                 <div class="reply-row__title text17 medium-text">
-                  <a href="">{{ bid.project_id.title }}</a>
+                  <nuxtLink
+                    :to="`/projects/${commonStore.categories?.find((el) => el._id === bid.project_id.category)?.slug}/${bid.project_id._id}`"
+                    >{{ bid.project_id.title }}</nuxtLink
+                  >
                 </div>
                 <div class="reply-row__props">
                   <div class="reply-row__prop">
@@ -36,10 +39,12 @@
                       )?.title
                     }}</span>
                   </div>
-                  <div class="reply-row__prop">
-                    <img src="/img/calendar2.svg" alt="" />
-                    <span>{{ $dayjs(bid.createdAt).fromNow() }}</span>
-                  </div>
+                  <ClientOnly>
+                    <div class="reply-row__prop">
+                      <img src="/img/calendar2.svg" alt="" />
+                      <span>{{ $dayjs(bid.createdAt).fromNow() }}</span>
+                    </div>
+                  </ClientOnly>
                   <!-- <div class="reply-row__prop">
                     <img src="/img/reply.svg" alt="" />
                     <span>1 предложение</span>

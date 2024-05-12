@@ -183,6 +183,13 @@ const route = useRoute();
 const itemId = Array.isArray(route.params.projectId)
   ? route.params.projectId[1]
   : route.params.projectId;
+const category = useCommonStore().categories?.find(
+  (item) => item.slug === route.params.slug,
+);
+if (!category || !itemId) {
+  throw showError({ statusCode: 404 });
+}
+
 const title = ref('');
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);

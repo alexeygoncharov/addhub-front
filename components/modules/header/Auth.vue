@@ -45,7 +45,7 @@
         user?.active_role === 'seller' ? 'Создать услугу' : 'Создать проект'
       }}</span>
     </NuxtLink>
-    <div v-if="profile" class="admin-header__type">
+    <!-- <div v-if="profile" class="admin-header__type">
       <div class="m-switch">
         <input
           v-if="user"
@@ -62,7 +62,7 @@
           <span class="_view2">Я заказчик</span>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <nuxtLink to="/profile/notifications" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
