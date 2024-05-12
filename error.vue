@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout name="default">
     <UIVBreadcrumbs
       :items="[{ name: 'Главная', to: '/' }, { name: 'Страница не найдена' }]"
     />
@@ -30,7 +30,23 @@
 </template>
 
 <script setup lang="ts">
-// definePageMeta({ layout: 'default' });
+const nuxtApp = useNuxtApp();
+
+const authStore = useAuthStore();
+const userStore = useUserStore();
+const commonStore = useCommonStore();
+const { getFavorites } = useUserStore();
+
+if (authStore.token) {
+  await userStore.getMyUser();
+}
+
+// Инициализация данных приложения
+getFavorites();
+commonStore.fetchCategories();
+commonStore.fetchCountries();
+commonStore.fetchCities();
+authStore.loadToken();
 </script>
 
 <style scoped></style>

@@ -98,7 +98,8 @@ const handleFileUpload = (event: Event) => {
 };
 
 async function deleteBanner(bannerIndex: number) {
-  if (!bufBanners.value?.[bannerIndex]) return;
+  if (!bufBanners.value?.[bannerIndex] || bufBanners.value?.length === 1)
+    return;
   const bufBanner = bufBanners.value?.[bannerIndex];
   bufBanners.value?.splice(bannerIndex, 1);
   const { data, error } = await apiFetch<ApiResponse<string>>(

@@ -19,7 +19,7 @@
       ]"
     />
     <div v-if="isRevealed" class="modal-screen">
-      <div class="modal-message">
+      <OnClickOutside class="modal-message" @trigger="cancel()">
         <div class="modal-wrapper-message">
           <div class="header">
             <div class="avatar">
@@ -54,6 +54,21 @@
                 </div>
               </div>
             </div>
+            <div class="about-client__content">
+              <div class="about-client__name text17 medium-text">
+                {{ item?.createdBy.name }}
+              </div>
+              <div class="about-client__category">
+                {{ item?.createdBy.active_role }}
+              </div>
+              <div class="about-client__rating">
+                <img src="/img/star.svg" alt="" />
+                <div class="about-client__rating-text">
+                  <span>{{ item?.createdBy.rate }}</span>
+                  <!-- (595 отзывов) -->
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-wrapper__mainInput">
             <label class="bid-label">Текст сообщения</label>
@@ -72,7 +87,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </OnClickOutside>
     </div>
     <div class="freelancer-top _pb85">
       <div class="container">
@@ -225,6 +240,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { OnClickOutside } from '@vueuse/components';
 import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
 const emits = defineEmits(['submit']);
 const createOrder = () => {

@@ -42,7 +42,6 @@
 .admin-header {
   .container {
     width: 100%;
-    max-width: 1480px;
     padding: 0 2.5em;
     margin: 0 auto;
     font-size: calc(1480px * (16 / 1480));
@@ -170,8 +169,6 @@
 }
 
 .admin-menu {
-  font-size: 0.833vw;
-
   @media screen and (min-width: 993px) {
     position: absolute;
     top: 0;

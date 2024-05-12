@@ -242,7 +242,12 @@
   />
   <div class="profile-item__nav">
     <button
-      v-if="editableItem?.status === 'approved'"
+      v-if="
+        (editableItem?.status === 'approved' &&
+          type === 'service' &&
+          editableItem?.photos.length) ||
+        (type === 'project' && editableItem?.status === 'approved')
+      "
       class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
       @click="switchPublish"
     >

@@ -5,8 +5,8 @@
     </div>
     <div class="stat-card__content">
       <div class="stat-card__title text17 medium-text">{{ title }}</div>
-      <div class="stat-card__desc text15 light-text">
-        <a href="">{{ value }}</a>
+      <div class="stat-card__desc">
+        <p class="text15 light-text">{{ value }}</p>
       </div>
     </div>
   </div>
