@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="
-      message.sender._id === userStore.user?._id ||
+      message.sender?._id === userStore.user?._id ||
       message.sender === userStore.user?._id
     "
     class="message-item _own"
@@ -10,7 +10,7 @@
       <div class="avatar">
         <img
           crossorigin="anonymous"
-          :src="getAvatarUrl(message.sender?.avatar.url)"
+          :src="getAvatarUrl(message.sender?.avatar?.url)"
           alt=""
         />
       </div>
@@ -105,7 +105,7 @@
       <div class="avatar">
         <img
           crossorigin="anonymous"
-          :src="getAvatarUrl(message.sender?.avatar.url)"
+          :src="getAvatarUrl(message.sender?.avatar?.url)"
           alt=""
         />
       </div>
@@ -131,13 +131,13 @@ const userStore = useUserStore();
 const messagesStore = useMessagesStore();
 const props = defineProps({
   message: {
-    type: Object,
+    type: Object as PropType<ChatMessage>,
     required: true,
   },
 });
 
 onMounted(() => {
-  if (props.message.sender._id !== userStore.user?._id && !props.message.seen)
+  if (props.message.sender?._id !== userStore.user?._id && !props.message.seen)
     messagesStore.readMessage({ id: props.message._id, seen: true });
 });
 </script>

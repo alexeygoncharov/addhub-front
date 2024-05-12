@@ -15,6 +15,26 @@ const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 const messagesStore = useMessagesStore();
 
+interface UpdatedMessage {
+  id: string;
+  chat_id: string;
+  seen: boolean;
+}
+
+interface DeletedChat {
+  id: string;
+}
+
+interface UpdateStatusUser {
+  id: string;
+  online_status: 'online' | 'offline';
+}
+
+interface ChatData {
+  chat: ChatItem;
+  newMessage: ChatMessage;
+  totalUnseen?: number;
+}
 // Инициализация данных приложения
 getFavorites();
 commonStore.fetchCategories();
@@ -56,7 +76,7 @@ function teardownSocketListeners() {
 }
 
 // Обработчики событий сокета
-function handleNewMessage(data: any) {
+function handleNewMessage(data: ChatData) {
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
   } else {
@@ -68,32 +88,34 @@ function handleNewMessage(data: any) {
       array[index] = data.newMessage;
     }
   });
-  messagesStore.totalUnseenMessages++;
+  if (data.newMessage.recipient?._id === userStore.user?._id)
+    messagesStore.totalUnseenMessages++;
 }
 
 function isFromExistingChat(chatId: string) {
   return messagesStore.chats.some((chat) => chat._id === chatId);
 }
 
-function updateExistingChat(newChatData: any) {
+function updateExistingChat(newChatData: ChatItem) {
   messagesStore.chats = messagesStore.chats.filter(
     (chat) => chat._id !== newChatData._id,
   );
   messagesStore.chats.unshift(newChatData);
 }
 
-function handleDeleteChat(deletedChat: any) {
+function handleDeleteChat(deletedChat: DeletedChat) {
   messagesStore.chats = messagesStore.chats.filter(
     (item) => item._id !== deletedChat.id,
   );
 }
 
-function handleUpdateUser(data: any) {
+function handleUpdateUser(data: UpdateStatusUser) {
   const respondent = messagesStore.getRespondent(messagesStore.activeChat);
-  if (respondent?._id === data.id) respondent.online = data.online_status;
+  if (respondent && respondent?._id === data?.id)
+    respondent.online_status = data.online_status;
 }
 
-function handleUpdateMessage(updatedMessage: any) {
+function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       item.seen = true;

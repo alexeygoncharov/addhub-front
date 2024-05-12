@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 const props = defineProps({
   chat: {
-    type: Object,
+    type: Object as PropType<ChatItem>,
     required: true,
   },
 });
