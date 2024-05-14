@@ -54,21 +54,6 @@
                 </div>
               </div>
             </div>
-            <div class="about-client__content">
-              <div class="about-client__name text17 medium-text">
-                {{ item?.createdBy.name }}
-              </div>
-              <div class="about-client__category">
-                {{ item?.createdBy.active_role }}
-              </div>
-              <div class="about-client__rating">
-                <img src="/img/star.svg" alt="" />
-                <div class="about-client__rating-text">
-                  <span>{{ item?.createdBy.rate }}</span>
-                  <!-- (595 отзывов) -->
-                </div>
-              </div>
-            </div>
           </div>
           <div class="modal-wrapper__mainInput">
             <label class="bid-label">Текст сообщения</label>
