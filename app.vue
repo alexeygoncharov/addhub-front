@@ -11,6 +11,7 @@ const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const paymentsStore = usePaymentsStore();
 const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 const messagesStore = useMessagesStore();
@@ -133,6 +134,7 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
 
 if (authStore.token) {
   await userStore.getMyUser();
+  await paymentsStore.fetchRates();
   socket.on('connect', onConnect);
   socket.on('disconnect', onDisconnect);
 }
