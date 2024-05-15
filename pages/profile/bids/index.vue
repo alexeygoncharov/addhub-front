@@ -16,7 +16,7 @@
             <div class="reply-row__info">
               <a href="" class="avatar">
                 <img
-                  v-if="bid.user.avatar.url"
+                  v-if="bid.user.avatar"
                   :src="baseUrl() + bid.user.avatar.url"
                   crossorigin="anonymous"
                   alt=""

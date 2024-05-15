@@ -55,7 +55,7 @@
             <div class="offer-card__content">
               <div class="avatar">
                 <img
-                  v-if="bid.user.avatar.url"
+                  v-if="bid.user.avatar"
                   crossorigin="anonymous"
                   :src="baseUrl() + bid.user.avatar.url"
                   alt=""

@@ -21,6 +21,12 @@ export const useCatalogProjectsStore = createCatalogStore<projectsItem>(
       list: [],
       hasSearch: true,
     },
+    'address.country': {
+      title: 'Страны',
+      type: 'check',
+      list: [],
+      hasSearch: true,
+    },
   },
 );
 

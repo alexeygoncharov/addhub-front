@@ -24,7 +24,7 @@
           <div class="header">
             <div class="avatar">
               <NuxtImg
-                v-if="item?.createdBy.avatar.url"
+                v-if="item?.createdBy.avatar"
                 crossorigin="anonymous"
                 :src="baseUrl() + item?.createdBy.avatar.url"
                 alt=""
@@ -160,7 +160,7 @@
               <div class="about-client__info">
                 <div class="avatar">
                   <NuxtImg
-                    v-if="item?.createdBy.avatar.url"
+                    v-if="item?.createdBy.avatar"
                     crossorigin="anonymous"
                     :src="baseUrl() + item?.createdBy.avatar.url"
                     alt=""
@@ -207,7 +207,12 @@
               </div> -->
 
               <button
-                v-if="isAuthenticated"
+                v-if="
+                  isAuthenticated &&
+                  item?.createdBy._id !== user?._id &&
+                  ((type === 'project' && user?.active_role === 'seller') ||
+                    (type === 'service' && user?.active_role === 'buyer'))
+                "
                 class="about-client__btn m-btn m-btn-blue-outline"
                 @click="reveal"
               >

@@ -15,9 +15,11 @@
         />
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
-      <div class="message-user__time">
-        <span>{{ $dayjs(message.createdAt).fromNow() }}</span>
-      </div>
+      <ClientOnly>
+        <div class="message-user__time">
+          <span>{{ $dayjs(message.createdAt).fromNow() }}</span>
+        </div>
+      </ClientOnly>
     </div>
 
     <div class="message-item__content">
@@ -110,9 +112,11 @@
         />
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
-      <div class="message-user__time">
-        <span>{{ $dayjs(message.createdAt).fromNow() }}</span>
-      </div>
+      <ClientOnly
+        ><div class="message-user__time">
+          <span>{{ $dayjs(message.createdAt).fromNow() }}</span>
+        </div></ClientOnly
+      >
     </div>
 
     <div class="message-item__content">

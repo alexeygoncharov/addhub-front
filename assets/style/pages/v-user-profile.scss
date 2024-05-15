@@ -3,9 +3,9 @@
   background-color: #fff;
   border-radius: 0.4375em;
 
-  @include last-m(0 0 1.6875em);
-
   &__top {
+    display: flex;
+    gap: 0.4em;
     padding: 0 0 1.25em;
     border-bottom: $border;
   }
@@ -45,6 +45,7 @@
   &__nav {
     display: flex;
     gap: 0.625em;
+    margin-top: 1.875em;
   }
 
   &__btn {

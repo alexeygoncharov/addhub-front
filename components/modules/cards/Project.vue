@@ -3,7 +3,7 @@
     <div class="service-card2__img">
       <div v-if="data" class="avatar">
         <img
-          v-if="data.createdBy.avatar.url"
+          v-if="data.createdBy.avatar"
           :src="baseUrl() + data.createdBy.avatar.url"
           alt=""
           crossorigin="anonymous"
@@ -20,7 +20,7 @@
     </div>
     <NuxtLink
       v-if="data"
-      :to="`/projects/${commonStore.categories?.find((el) => el._id === data?.category)?.slug}/${data?._id}`"
+      :to="`/projects/${data.category.slug}/${data?._id}`"
       class="service-card2__content"
     >
       <div class="service-card2__title text20 medium-text">
@@ -39,7 +39,9 @@
         </div>
         <div class="service-card2__prop">
           <NuxtImg src="/img/prop-icon3.svg" alt="" />
-          <span>{{ data.bids.length }} отклик</span>
+          <span
+            >{{ pluralize(data.bids.length, 'отклик', 'отклика', 'откликов') }}
+          </span>
         </div>
       </div>
       <div class="service-card2__text">

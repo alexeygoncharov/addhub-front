@@ -195,7 +195,7 @@
   max-width: 500px;
   margin: 50px auto;
   background-color: #fff;
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
 }
 
 input {
@@ -224,7 +224,6 @@ input {
   padding: 20px;
   margin: auto;
   overflow: auto;
-  border-radius: 0 0 12px 12px;
 
   &__status {
     position: relative;

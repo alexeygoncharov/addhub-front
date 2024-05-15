@@ -11,7 +11,7 @@
             <div class="page-top__user">
               <div class="avatar">
                 <img
-                  v-if="items.createdBy.avatar.url"
+                  v-if="items.createdBy.avatar"
                   :src="baseUrl() + items.createdBy.avatar.url"
                   alt=""
                   crossorigin="anonymous"
