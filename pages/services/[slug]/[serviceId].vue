@@ -113,6 +113,46 @@
         />
       </div>
 
+      <div v-if="isRevealed" class="modal-screen">
+        <OnClickOutside @trigger="cancel()">
+          <div class="modal-container">
+            <div class="modal-wrapper-payment">
+              <div class="left">
+                <div class="left__input">
+                  <label>Имя</label>
+                  <input
+                    v-model="payment.buyer_name"
+                    placeholder="Введите имя"
+                  />
+                  <label>Email</label>
+                  <input
+                    v-model="payment.buyer_email"
+                    placeholder="Введите email"
+                  />
+                </div>
+              </div>
+              <div class="right">
+                <div class="right__input">
+                  <label>Валюта</label>
+                  <UIVSelectRatesSearch
+                    :items="paymentsStore.rates"
+                    :model-value="payment.currency"
+                    :placeholder="'Выберите валюту'"
+                    @input="(currency) => (payment.currency = currency.key)"
+                  />
+                </div>
+                <div class="right__price medium-text">
+                  {{ `Итого к оплате: ${item?.price} руб.` }}
+                </div>
+              </div>
+            </div>
+            <div class="send-button">
+              <button @click="confirm">Перейти к оплате</button>
+              <button @click="cancel">Отменить</button>
+            </div>
+          </div>
+        </OnClickOutside>
+      </div>
       <div class="about-freelancer">
         <div class="text20 medium-text">Об услуге</div>
         <div class="text">
@@ -369,30 +409,55 @@
 <script setup lang="ts">
 import type { Swiper } from 'swiper/types';
 import type { serviceItem } from '~/stores/catalog/catalog.type';
+import { usePaymentsStore } from '~/stores/payments';
 const title = ref('');
 const userRating = ref(0);
 const commonStore = useCommonStore();
+const paymentsStore = usePaymentsStore();
 const route = useRoute();
 const enabledViewer = ref(false);
+const payment = ref({
+  orderId: '',
+  currency: '',
+  buyer_email: '',
+  buyer_name: '',
+});
 const userStore = useUserStore();
+const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
 let thisSwiper: Swiper;
 const onSwiper = (swiper: Swiper) => {
   thisSwiper = swiper;
 };
 const createOrder = async () => {
-  const { data, error } = await apiFetch<ApiResponse<undefined>>(
-    '/api/orders',
-    {
-      options: { method: 'POST', body: { service: itemId } },
-      needToken: true,
+  const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
+    options: {
+      method: 'POST',
+      body: { service: itemId, price: item.value?.price },
     },
-  );
+    needToken: true,
+  });
+  if (data?.value?.result) {
+    const value = data?.value?.result;
+    payment.value.orderId = value?._id;
+    reveal();
+  }
   if (!error.value) {
-    useToast({ message: 'Заявка успешно отправлена', type: 'success' });
+    return useToast({ message: 'Заявка успешно отправлена', type: 'success' });
   } else {
-    useToast({ message: error.value.data.message, type: 'error' });
+    return useToast({ message: error.value.data.message, type: 'error' });
   }
 };
+
+onConfirm(() => {
+  paymentsStore.createPayment(payment).then((data) => {
+    if (data) return window.open(data?.checkout_url, '_blank');
+  });
+  payment.value.orderId = '';
+  payment.value.currency = '';
+  payment.value.buyer_name = '';
+  payment.value.buyer_email = '';
+});
+
 const category = commonStore.categories?.find(
   (item) => item.slug === route.params.slug,
 );
