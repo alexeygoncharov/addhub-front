@@ -32,7 +32,7 @@
         <thead>
           <tr>
             <th><span>Название</span></th>
-            <th><span>Срок</span></th>
+            <th><span>Категория</span></th>
             <th><span>Стоимость</span></th>
             <th v-if="activeTab !== 'canceled' && activeTab !== 'completed'">
               <span>Действия</span>
@@ -166,7 +166,6 @@
 </template>
 
 <script setup lang="ts">
-import type { servicesItem, projectsItem } from '#imports';
 const commonStore = useCommonStore();
 const titles = [
   { title: 'Создано', value: 'created' },

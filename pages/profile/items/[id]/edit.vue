@@ -222,7 +222,7 @@
             </div>
           </nuxtLink>
           <div class="file-input">
-            <input type="file" @change="uploadFile" />
+            <input type="file" multiple @change="uploadFile" />
             <div class="file-input__wrap">
               <div class="file-input__title">Загрузить файлы</div>
             </div>
@@ -340,37 +340,44 @@ function checkFile(file: File) {
   return true;
 }
 const uploadFile = async (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0];
   if (
     !editableItem.value ||
     !('files' in editableItem.value) ||
-    !file ||
-    editableItem.value.files.length >= 10
+    !event.target ||
+    editableItem.value.files.length === 10
   )
     return;
-  if (!checkFile) {
-    return useToast({
-      message: 'Размер файла не должен превышать 5 мб',
-      type: 'error',
-    });
+  let files = (event.target as HTMLInputElement).files as unknown as File[];
+  if (!files?.length) return;
+  if (files.length + editableItem.value.files.length > 10) {
+    files = Array.from(files).slice(0, 10 - editableItem.value.files.length);
   }
-  const formData = new FormData();
-  formData.append('file', file);
-  const { data, error } = await apiFetch<ApiResponse<uploadFileResponse>>(
-    '/api/files/single',
-    {
-      options: { method: 'POST', body: formData },
-      needToken: true,
-    },
-  );
-  if (
-    !error.value &&
-    editableItem.value &&
-    'files' in editableItem.value &&
-    data.value
-  ) {
-    editableItem.value?.files.push(data.value?.result);
-    editItem('file');
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (!checkFile) {
+      return useToast({
+        message: 'Размер файла не должен превышать 5 мб',
+        type: 'error',
+      });
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+    const { data, error } = await apiFetch<ApiResponse<uploadFileResponse>>(
+      '/api/files/single',
+      {
+        options: { method: 'POST', body: formData },
+        needToken: true,
+      },
+    );
+    if (
+      !error.value &&
+      editableItem.value &&
+      'files' in editableItem.value &&
+      data.value
+    ) {
+      editableItem.value?.files.push(data.value?.result);
+      editItem('file');
+    }
   }
 };
 function getFileExtension(filename: string) {

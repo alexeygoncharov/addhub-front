@@ -160,7 +160,7 @@
         <NuxtLink class="service-card__user _flex" @click="redirectTo()">
           <div class="avatar">
             <img
-              v-if="data.createdBy.avatar.url"
+              v-if="data.createdBy.avatar"
               :src="baseUrl() + data.createdBy.avatar.url"
               alt=""
               crossorigin="anonymous"
@@ -226,6 +226,8 @@ const redirectTo = () => {
     query: { ...route.query, createdBy: data.value?.createdBy._id || '' },
   });
   store.filters.createdBy = data.value?.createdBy._id || '';
+  props.store.fetchItems();
+  props.store.updateURL();
 };
 const data = ref(props.data);
 if (props.id) {

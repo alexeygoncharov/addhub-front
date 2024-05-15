@@ -59,7 +59,7 @@
                   <div class="reply-row__title text17 medium-text">
                     <nuxtLink
                       v-if="item?.status === 'published'"
-                      :to="`/${type === 'service' ? 'services' : 'projects'}/${typeof item.category === 'string' ? commonStore.categories?.find((el) => el._id === item?.category)?.slug : typeof item.category !== 'string' && item?.category.slug}/${item._id}`"
+                      :to="`/${type === 'service' ? 'services' : 'projects'}/${item?.category.slug}/${item._id}`"
                       href=""
                       >{{ item.title }}</nuxtLink
                     >
@@ -73,10 +73,12 @@
                         {{ item.address.country.title }}</span
                       >
                     </div>
-                    <div class="reply-row__prop">
-                      <img src="/img/calendar2.svg" alt="" />
-                      <span>Декабрь 2, 2024</span>
-                    </div>
+                    <ClientOnly
+                      ><div class="reply-row__prop">
+                        <img src="/img/calendar2.svg" alt="" />
+                        <span>{{ $dayjs(item.createdAt).fromNow() }}</span>
+                      </div></ClientOnly
+                    >
                     <div v-if="'reviews' in item" class="reply-row__prop">
                       <img src="/img/reply.svg" alt="" />
                       <span>{{ item.reviews.length }}</span>
@@ -88,13 +90,7 @@
             <td>
               <div class="reply-row__price">
                 <span class="text15 light-text">
-                  {{
-                    typeof item.category !== 'string'
-                      ? item.category.title
-                      : commonStore.categories?.find(
-                          (el) => el._id === item.category,
-                        )?.title
-                  }}
+                  {{ item.category.title }}
                 </span>
               </div>
             </td>

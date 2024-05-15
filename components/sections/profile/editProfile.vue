@@ -6,6 +6,11 @@
   <div class="profile-item">
     <div class="profile-item__top">
       <div class="text17 medium-text">Настройки профиля</div>
+      <div class="text17">
+        {{
+          ` - (Вы ${userStore.user?.active_role == 'buyer' ? 'заказчик' : 'фрилансер'})`
+        }}
+      </div>
     </div>
     <div id="form" class="profile-item__bottom">
       <form class="photo-field">
@@ -196,8 +201,8 @@ async function submitProfile() {
     slogan: form.value?.slogan,
     gender: form.value?.gender,
     address: {
-      city: form.value?.address.city,
-      country: form.value?.address.country,
+      city: form.value?.address.city?._id,
+      country: form.value?.address.country?._id,
     },
     about_me: form.value?.about_me,
   };

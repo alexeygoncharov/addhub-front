@@ -1,18 +1,23 @@
-import type { Category, City } from '../common';
+import type { Category, City, Country } from '../common';
 import type { FreelancersStore } from './freelancers';
 import type { ProjectsStore } from './projects';
 import type { ServicesStore } from './services';
+interface baseCheck {
+  title: string;
+  type: 'check';
+  hasSearch: boolean;
+}
 export interface initialFilters {
   price?: {
     $gte: number;
     $lte: number;
     type: 'range';
   };
-  'address.city'?: {
-    title: string;
-    type: 'check';
+  'address.city'?: baseCheck & {
     list: City[];
-    hasSearch: boolean;
+  };
+  'address.country'?: baseCheck & {
+    list: Country[];
   };
   category?: { title: string; type: 'radio'; list: Category[] | [] };
 }
@@ -34,17 +39,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  avatar: uploadFileResponse;
-}
-
-interface Country {
-  _id: string;
-  title: string;
-}
-interface ItemCity extends Country {
-  country: string;
-  projects_count: number;
-  services_count: number;
+  avatar?: uploadFileResponse;
 }
 
 export interface catalogItem {
@@ -72,7 +67,7 @@ export interface serviceItem extends catalogItem {
   service_volume_desc: string;
   address: {
     country: Country;
-    city: ItemCity;
+    city: City;
   };
 }
 
@@ -85,18 +80,18 @@ export interface servicesItem extends catalogItem {
   service_volume_desc: string;
   address: {
     country: Country;
-    city: ItemCity;
+    city: City;
   };
 }
 
 export interface projectsItem extends catalogItem {
-  category: string;
+  category: Category;
   constructor: null; // TODO
   bids: BidList[];
   files: uploadFileResponse[];
   address: {
     country: Country;
-    city: ItemCity;
+    city: City;
   };
 }
 
@@ -110,7 +105,7 @@ export interface baseProject extends catalogItem {
 export interface projectItem extends baseProject {
   address: {
     country: Country;
-    city: ItemCity;
+    city: City;
   };
 }
 export interface bidProject extends baseProject {

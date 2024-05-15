@@ -1,13 +1,11 @@
 <template>
   <div
     v-if="
-      filter.list[0].projects_count === undefined ||
-      filter.list[0].services_count === undefined ||
-      filter.list.find(
-        (item) =>
-          (item.services_count && item.services_count > 0) ||
-          (item.projects_count && item.projects_count > 0),
-      )
+      (filtersCount === 'projects_count' &&
+        filter.list[0]?.projects_count === undefined) ||
+      (filtersCount === 'services_count' &&
+        filter.list[0]?.services_count === undefined) ||
+      shownItems.length
     "
     class="filter-group spoiler"
     :class="{ _active: isExpanded }"
@@ -55,12 +53,7 @@
             :key="item._id"
           >
             <ModulesCatalogFilterCheck
-              v-if="
-                filter.type === 'check' &&
-                (Array.isArray(filters[filterKey]) || !filters[filterKey]) &&
-                filtersCount &&
-                (item[filtersCount] === undefined || item[filtersCount])
-              "
+              v-if="filter.type === 'check' && filtersCount"
               v-model="filters[filterKey] as string[] | undefined"
               :title="item.title"
               :num="item[filtersCount]"
@@ -68,12 +61,7 @@
               @change="setFilters(item.slug)"
             />
             <ModulesCatalogFilterRadio
-              v-else-if="
-                filter.type === 'radio' &&
-                !Array.isArray(filters[filterKey]) &&
-                filtersCount &&
-                (item[filtersCount] === undefined || item[filtersCount])
-              "
+              v-else-if="filter.type === 'radio' && filtersCount"
               v-model="filters[filterKey] as string | undefined"
               :title="item.title"
               :num="item[filtersCount]"
@@ -147,7 +135,14 @@ const { toggleShowAll } = props.store;
 const isExpanded = ref(true); // Управляет сворачиванием/разворачиванием всего блока
 
 const shownItems = computed(() => {
-  let bufFilers = props.filter.list;
+  let bufFilers = props.filter.list.filter(
+    (el) =>
+      filtersCount.value &&
+      (Array.isArray(filters.value[props.filterKey]) ||
+        !filters.value[props.filterKey]) &&
+      filtersCount &&
+      (el?.[filtersCount.value] === undefined || el?.[filtersCount.value]),
+  );
   if (props.filter.hasSearch && search.value) {
     const regex = new RegExp(search.value, 'gi');
     bufFilers = bufFilers.filter((filter) => regex.test(filter.title));

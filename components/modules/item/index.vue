@@ -24,7 +24,7 @@
           <div class="header">
             <div class="avatar">
               <NuxtImg
-                v-if="item?.createdBy.avatar.url"
+                v-if="item?.createdBy.avatar"
                 crossorigin="anonymous"
                 :src="baseUrl() + item?.createdBy.avatar.url"
                 alt=""
@@ -38,21 +38,6 @@
                 v-if="item?.createdBy.online_status === 'online'"
                 class="service-card__user-online"
               ></span>
-            </div>
-            <div class="about-client__content">
-              <div class="about-client__name text17 medium-text">
-                {{ item?.createdBy.name }}
-              </div>
-              <div class="about-client__category">
-                {{ item?.createdBy.active_role }}
-              </div>
-              <div class="about-client__rating">
-                <img src="/img/star.svg" alt="" />
-                <div class="about-client__rating-text">
-                  <span>{{ item?.createdBy.rate }}</span>
-                  <!-- (595 отзывов) -->
-                </div>
-              </div>
             </div>
             <div class="about-client__content">
               <div class="about-client__name text17 medium-text">
@@ -175,7 +160,7 @@
               <div class="about-client__info">
                 <div class="avatar">
                   <NuxtImg
-                    v-if="item?.createdBy.avatar.url"
+                    v-if="item?.createdBy.avatar"
                     crossorigin="anonymous"
                     :src="baseUrl() + item?.createdBy.avatar.url"
                     alt=""
@@ -222,7 +207,12 @@
               </div> -->
 
               <button
-                v-if="isAuthenticated"
+                v-if="
+                  isAuthenticated &&
+                  item?.createdBy._id !== user?._id &&
+                  ((type === 'project' && user?.active_role === 'seller') ||
+                    (type === 'service' && user?.active_role === 'buyer'))
+                "
                 class="about-client__btn m-btn m-btn-blue-outline"
                 @click="reveal"
               >

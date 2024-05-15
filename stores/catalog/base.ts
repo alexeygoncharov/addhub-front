@@ -14,11 +14,15 @@ export function createCatalogStore<T>(
     if (commonStore.cities && initialFiltersArg['address.city']) {
       initialFiltersArg['address.city'].list = commonStore.cities;
     }
+    if (commonStore.countries && initialFiltersArg['address.country']) {
+      initialFiltersArg['address.country'].list = commonStore.countries;
+    }
     const catalogPath = ref(catalogPathArg);
     const initialFilters = ref(initialFiltersArg);
     const filters = ref<{
       price?: { $gte: number; $lte: number };
       'address.city'?: string[];
+      'address.country'?: string[];
       category?: string;
       createdBy?: string;
     }>({});
@@ -131,6 +135,17 @@ export function createCatalogStore<T>(
       ) {
         filters.value['address.city'] = [];
       }
+      if (query.countries) {
+        filters.value['address.country'] = Array.isArray(query.countries)
+          ? (query.countries as string[])
+          : [query.countries];
+      } else if (
+        !filters.value['address.country'] &&
+        initialFilters.value['address.country']
+      ) {
+        filters.value['address.country'] = [];
+      }
+
       if (query.sort && !Array.isArray(query.sort)) {
         const [field, order] = query.sort.split(':');
         const sortOrder = parseInt(order);
@@ -148,6 +163,13 @@ export function createCatalogStore<T>(
           ? Number(query.page[0])
           : Number(query.page)) || 1;
 
+      watch(
+        [searchQuery],
+        () => {
+          currentPage.value = 1;
+        },
+        { deep: true, immediate: true },
+      );
       watch(
         [searchQuery, sorting, currentPage],
         () => {
@@ -231,6 +253,9 @@ export function createCatalogStore<T>(
         ...(searchQuery.value && { search: searchQuery.value }),
         ...(filters.value.createdBy && {
           createdBy: filters.value.createdBy,
+        }),
+        ...(filters.value?.['address.country']?.length && {
+          countries: filters.value['address.country'],
         }),
       };
       router.push({ query });

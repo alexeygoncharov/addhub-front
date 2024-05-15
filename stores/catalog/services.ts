@@ -21,6 +21,12 @@ export const useCatalogServicesStore = createCatalogStore<servicesItem>(
       list: [],
       hasSearch: true,
     },
+    'address.country': {
+      title: 'Страны',
+      type: 'check',
+      list: [],
+      hasSearch: true,
+    },
   },
 );
 export type ServicesStore = ReturnType<typeof useCatalogServicesStore>;

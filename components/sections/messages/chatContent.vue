@@ -27,6 +27,11 @@
             <div class="chat-user__name">
               {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
             </div>
+            <div class="chat-user__name">
+              {{
+                messagesStore.getRespondent(messagesStore.activeChat)?.user_name
+              }}
+            </div>
             <div
               v-if="
                 messagesStore.getRespondent(messagesStore.activeChat)

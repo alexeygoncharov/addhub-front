@@ -3,7 +3,7 @@
     <div class="review-card2__top">
       <div class="avatar">
         <img
-          v-if="data.recipient.avatar.url"
+          v-if="data.recipient.avatar"
           :src="baseUrl() + data.recipient.avatar.url"
           alt=""
           crossorigin="anonymous"

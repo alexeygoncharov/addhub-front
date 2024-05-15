@@ -83,6 +83,25 @@
           <label>Цена</label>
           <input v-model="form.price" required type="text" placeholder="₽" />
         </fieldset>
+
+        <fieldset v-if="user?.active_role === 'seller'" class="fg">
+          <label>Объём проекта(заголовок)</label>
+          <input
+            v-model="form.service_volume"
+            type="text"
+            required
+            placeholder="Заголовок"
+          />
+        </fieldset>
+        <fieldset v-if="user?.active_role === 'seller'" class="fg">
+          <label>Объём проекта(описание)</label>
+          <input
+            v-model="form.service_volume_desc"
+            type="text"
+            required
+            placeholder="Описание"
+          />
+        </fieldset>
         <fieldset class="fg">
           <label>Страна</label>
           <UIVSelect
@@ -109,25 +128,6 @@
           <p v-if="errors.includes('country')" class="fg__error">
             Обязательное поле
           </p>
-        </fieldset>
-
-        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
-          <label>Объём проекта(заголовок)</label>
-          <input
-            v-model="form.service_volume"
-            type="text"
-            required
-            placeholder="Заголовок"
-          />
-        </fieldset>
-        <fieldset v-if="user?.active_role === 'seller'" class="fg _full">
-          <label>Объём проекта(описание)</label>
-          <input
-            v-model="form.service_volume_desc"
-            type="text"
-            required
-            placeholder="Описание"
-          />
         </fieldset>
         <fieldset class="fg">
           <label>Город</label>

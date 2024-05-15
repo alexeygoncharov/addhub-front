@@ -11,6 +11,9 @@
       <div class="chat-item__name">
         {{ messagesStore.getRespondent(props.chat)?.name }}
       </div>
+      <div class="chat-item__name">
+        {{ messagesStore.getRespondent(props.chat)?.user_name }}
+      </div>
     </div>
 
     <div class="chat-item__nums">
