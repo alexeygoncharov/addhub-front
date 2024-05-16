@@ -1,5 +1,5 @@
 <template>
-  <ModulesItem :item="item" type="service" @submit="createOrder()">
+  <ModulesItem :item="item" type="service" @submit="reveal">
     <template #item-content>
       <div class="stat">
         <UIStatCard
@@ -114,44 +114,66 @@
       </div>
 
       <div v-if="isRevealed" class="modal-screen">
-        <OnClickOutside @trigger="cancel()">
-          <div class="modal-container">
-            <div class="modal-wrapper-payment">
-              <div class="left">
-                <div class="left__input">
-                  <label>Имя</label>
-                  <input
-                    v-model="payment.buyer_name"
-                    placeholder="Введите имя"
-                  />
-                  <label>Email</label>
-                  <input
-                    v-model="payment.buyer_email"
-                    placeholder="Введите email"
-                  />
+        <div class="modal-container">
+          <div class="payment__inner">
+            <div class="pay-info2">
+              <div class="pay-info__group">
+                <div class="text20 text18-tablet medium-text">
+                  Провайдер услуг
                 </div>
-              </div>
-              <div class="right">
-                <div class="right__input">
-                  <label>Валюта</label>
-                  <UIVSelectRatesSearch
-                    :items="paymentsStore.rates"
-                    :model-value="payment.currency"
-                    :placeholder="'Выберите валюту'"
-                    @input="(currency) => (payment.currency = currency.key)"
-                  />
-                </div>
-                <div class="right__price medium-text">
-                  {{ `Итого к оплате: ${item?.price} руб.` }}
+                <div class="pay-info__info">
+                  <div class="pay-info__title">Addhub.io</div>
+                  <div class="pay-info__desc">
+                    г.Москва, ул. Ленина, 100 <br />
+                    644040
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="send-button">
-              <button @click="confirm">Перейти к оплате</button>
-              <button @click="cancel">Отменить</button>
+
+            <div class="pay-table">
+              <div class="pay-table__head">
+                <div class="pay-table__col">
+                  <div class="pay-table__th">Название</div>
+                </div>
+                <div class="pay-table__col">
+                  <div class="pay-table__th">Стоимость</div>
+                </div>
+              </div>
+              <div class="pay-table__rows">
+                <div class="pay-table__row">
+                  <div class="pay-table__td">Стандарт</div>
+                  <div class="pay-table__td medium-text">
+                    {{ item?.price }} ₽
+                  </div>
+                </div>
+                <div class="pay-table__row">
+                  <div class="pay-table__td">Экстра</div>
+                  <div class="pay-table__td medium-text">
+                    {{ item?.price }} ₽
+                  </div>
+                </div>
+                <div class="pay-table__row">
+                  <div class="pay-table__td2">Итого</div>
+                  <div class="pay-table__td3">{{ item?.price }} ₽</div>
+                </div>
+              </div>
+              <div class="pay-table__nav">
+                <button class="m-btn m-btn-blue-outline" @click="cancel()">
+                  Отменить
+                </button>
+                <NuxtLink
+                  v-if="data"
+                  :to="data && `/payments/${itemId}?price=${item?.price}`"
+                >
+                  <button class="m-btn m-btn-blue m-btn-shadow">
+                    Перейти к оплате
+                  </button>
+                </NuxtLink>
+              </div>
             </div>
           </div>
-        </OnClickOutside>
+        </div>
       </div>
       <div class="about-freelancer">
         <div class="text20 medium-text">Об услуге</div>
@@ -409,54 +431,16 @@
 <script setup lang="ts">
 import type { Swiper } from 'swiper/types';
 import type { serviceItem } from '~/stores/catalog/catalog.type';
-import { usePaymentsStore } from '~/stores/payments';
 const title = ref('');
 const userRating = ref(0);
 const commonStore = useCommonStore();
-const paymentsStore = usePaymentsStore();
 const route = useRoute();
 const enabledViewer = ref(false);
-const payment = ref({
-  orderId: '',
-  currency: '',
-  buyer_email: '',
-  buyer_name: '',
-});
-const userStore = useUserStore();
-const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
+const { isRevealed, reveal, cancel } = useConfirmDialog();
 let thisSwiper: Swiper;
 const onSwiper = (swiper: Swiper) => {
   thisSwiper = swiper;
 };
-const createOrder = async () => {
-  const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
-    options: {
-      method: 'POST',
-      body: { service: itemId, price: item.value?.price },
-    },
-    needToken: true,
-  });
-  if (data?.value?.result) {
-    const value = data?.value?.result;
-    payment.value.orderId = value?._id;
-    reveal();
-  }
-  if (!error.value) {
-    return useToast({ message: 'Заявка успешно отправлена', type: 'success' });
-  } else {
-    return useToast({ message: error.value.data.message, type: 'error' });
-  }
-};
-
-onConfirm(() => {
-  paymentsStore.createPayment(payment).then((data) => {
-    if (data) return window.open(data?.checkout_url, '_blank');
-  });
-  payment.value.orderId = '';
-  payment.value.currency = '';
-  payment.value.buyer_name = '';
-  payment.value.buyer_email = '';
-});
 
 const category = commonStore.categories?.find(
   (item) => item.slug === route.params.slug,
