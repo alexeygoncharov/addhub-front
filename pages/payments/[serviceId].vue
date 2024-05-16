@@ -41,7 +41,7 @@
           <div class="pay-table__rows">
             <div class="pay-table__row">
               <div class="pay-table__td2">Итого</div>
-              <div class="pay-table__td3">{{ price }}</div>
+              <div class="pay-table__td3">{{ price }} р</div>
             </div>
           </div>
           <div class="pay-table__nav">
