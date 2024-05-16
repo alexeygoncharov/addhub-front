@@ -7,6 +7,7 @@
         </h1>
         <fieldset class="fg">
           <UIVSelect
+            :rules="'required'"
             :initial-current-text="{
               value: payment.currency,
               text: paymentsStore.rates?.find((item) => {
@@ -91,22 +92,23 @@ const createOrder = async () => {
 };
 
 const pay = async () => {
-  await createOrder();
+  if (payment.value.currency.length) {
+    await createOrder();
 
-  if (!payment.value.orderId) {
-    return;
+    if (!payment.value.orderId) {
+      return;
+    }
+
+    const data = await paymentsStore.createPayment(payment.value);
+
+    if (data) {
+      useToast({ message: 'Заявка успешно отправлена', type: 'success' });
+      window.location.href = data.checkout_url;
+    }
+
+    payment.value.orderId = '';
+    payment.value.currency = '';
   }
-
-  const data = await paymentsStore.createPayment(payment.value);
-
-  useToast({ message: 'Заявка успешно отправлена', type: 'success' });
-
-  if (data) {
-    window.open(data.checkout_url, '_blank');
-  }
-
-  payment.value.orderId = '';
-  payment.value.currency = '';
 };
 </script>
 
