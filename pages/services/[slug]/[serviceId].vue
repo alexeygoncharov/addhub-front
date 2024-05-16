@@ -114,68 +114,66 @@
       </div>
 
       <div v-if="isRevealed" class="modal-screen">
-        <OnClickOutside @trigger="cancel()">
-          <div class="modal-container">
-            <div class="payment__inner">
-              <div class="pay-info2">
-                <div class="pay-info__group">
-                  <div class="text20 text18-tablet medium-text">
-                    Провайдер услуг
-                  </div>
-                  <div class="pay-info__info">
-                    <div class="pay-info__title">Addhub.io</div>
-                    <div class="pay-info__desc">
-                      г.Москва, ул. Ленина, 100 <br />
-                      644040
-                    </div>
-                  </div>
+        <div class="modal-container">
+          <div class="payment__inner">
+            <div class="pay-info2">
+              <div class="pay-info__group">
+                <div class="text20 text18-tablet medium-text">
+                  Провайдер услуг
                 </div>
-              </div>
-
-              <div class="pay-table">
-                <div class="pay-table__head">
-                  <div class="pay-table__col">
-                    <div class="pay-table__th">Название</div>
+                <div class="pay-info__info">
+                  <div class="pay-info__title">Addhub.io</div>
+                  <div class="pay-info__desc">
+                    г.Москва, ул. Ленина, 100 <br />
+                    644040
                   </div>
-                  <div class="pay-table__col">
-                    <div class="pay-table__th">Стоимость</div>
-                  </div>
-                </div>
-                <div class="pay-table__rows">
-                  <div class="pay-table__row">
-                    <div class="pay-table__td">Стандарт</div>
-                    <div class="pay-table__td medium-text">
-                      {{ item?.price }} ₽
-                    </div>
-                  </div>
-                  <div class="pay-table__row">
-                    <div class="pay-table__td">Экстра</div>
-                    <div class="pay-table__td medium-text">
-                      {{ item?.price }} ₽
-                    </div>
-                  </div>
-                  <div class="pay-table__row">
-                    <div class="pay-table__td2">Итого</div>
-                    <div class="pay-table__td3">{{ item?.price }} ₽</div>
-                  </div>
-                </div>
-                <div class="pay-table__nav">
-                  <button class="m-btn m-btn-blue-outline" @click="cancel()">
-                    Отменить
-                  </button>
-                  <NuxtLink
-                    v-if="data"
-                    :to="data && `/payments/${itemId}?price=${item?.price}`"
-                  >
-                    <button class="m-btn m-btn-blue m-btn-shadow">
-                      Перейти к оплате
-                    </button>
-                  </NuxtLink>
                 </div>
               </div>
             </div>
+
+            <div class="pay-table">
+              <div class="pay-table__head">
+                <div class="pay-table__col">
+                  <div class="pay-table__th">Название</div>
+                </div>
+                <div class="pay-table__col">
+                  <div class="pay-table__th">Стоимость</div>
+                </div>
+              </div>
+              <div class="pay-table__rows">
+                <div class="pay-table__row">
+                  <div class="pay-table__td">Стандарт</div>
+                  <div class="pay-table__td medium-text">
+                    {{ item?.price }} ₽
+                  </div>
+                </div>
+                <div class="pay-table__row">
+                  <div class="pay-table__td">Экстра</div>
+                  <div class="pay-table__td medium-text">
+                    {{ item?.price }} ₽
+                  </div>
+                </div>
+                <div class="pay-table__row">
+                  <div class="pay-table__td2">Итого</div>
+                  <div class="pay-table__td3">{{ item?.price }} ₽</div>
+                </div>
+              </div>
+              <div class="pay-table__nav">
+                <button class="m-btn m-btn-blue-outline" @click="cancel()">
+                  Отменить
+                </button>
+                <NuxtLink
+                  v-if="data"
+                  :to="data && `/payments/${itemId}?price=${item?.price}`"
+                >
+                  <button class="m-btn m-btn-blue m-btn-shadow">
+                    Перейти к оплате
+                  </button>
+                </NuxtLink>
+              </div>
+            </div>
           </div>
-        </OnClickOutside>
+        </div>
       </div>
       <div class="about-freelancer">
         <div class="text20 medium-text">Об услуге</div>

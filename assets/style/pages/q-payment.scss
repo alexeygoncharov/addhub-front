@@ -22,14 +22,15 @@
 .pay-info {
   margin-top: 2.75em;
 
-  &__title,
-  &__desc {
+  &__title {
+    margin-bottom: 20px;
     font-size: 0.9375em;
     line-height: 170%;
   }
 
   &__desc {
-    font-weight: 700;
+    font-size: 0.9375em;
+    line-height: 170%;
   }
 
   &__info {

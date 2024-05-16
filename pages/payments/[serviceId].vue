@@ -34,12 +34,18 @@
                 <div class="pay-table__th">Итого</div>
               </div>
               <div class="pay-table__col">
-                <div class="pay-table__th">{{ price }}₽</div>
+                <div class="pay-table__th">Cтоимость</div>
               </div>
             </div>
           </div>
+          <div class="pay-table__rows">
+            <div class="pay-table__row">
+              <div class="pay-table__td2">Итого</div>
+              <div class="pay-table__td3">{{ price }}</div>
+            </div>
+          </div>
           <div class="pay-table__nav">
-            <NuxtLink :to="`/services/${serviceId}`">
+            <NuxtLink :to="`/services/`">
               <button class="m-btn m-btn-blue-outline">
                 <span>Отменить</span>
               </button>
