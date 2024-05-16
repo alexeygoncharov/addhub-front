@@ -52,7 +52,6 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
-
 const selectRef = ref<HTMLDivElement>();
 const props = defineProps({
   options: {
@@ -64,6 +63,10 @@ const props = defineProps({
       | undefined
     >,
     required: true,
+  },
+  rules: {
+    type: String,
+    default: null,
   },
   placeholder: {
     type: String,
