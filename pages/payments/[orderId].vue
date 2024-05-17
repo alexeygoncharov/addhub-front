@@ -46,11 +46,9 @@
             </div>
           </div>
           <div class="pay-table__nav">
-            <NuxtLink :to="`/services/`">
-              <button class="m-btn m-btn-blue-outline">
-                <span>Отменить</span>
-              </button>
-            </NuxtLink>
+            <button class="m-btn m-btn-blue-outline" @click="cancelOrder()">
+              <span>Отменить</span>
+            </button>
             <button class="m-btn m-btn-blue m-btn-shadow" @click="pay">
               <span>Оплатить</span>
             </button>
@@ -69,8 +67,28 @@ const payment = ref({
   orderId: '',
   currency: '',
 });
+const router = useRouter();
 payment.value.orderId = route.params?.orderId as string;
 const price = route.query?.price;
+
+const cancelOrder = async () => {
+  const { data, error } = await apiFetch<ApiResponse<any>>(
+    `/api/orders/${payment.value.orderId}`,
+    {
+      options: {
+        method: 'DELETE',
+      },
+      needToken: true,
+    },
+  );
+  if (data?.value?.status) {
+    router.back();
+  }
+  if (error.value) {
+    router.back();
+    return useToast({ message: error.value.data.message, type: 'error' });
+  }
+};
 
 const pay = async () => {
   if (payment.value.currency.length) {
