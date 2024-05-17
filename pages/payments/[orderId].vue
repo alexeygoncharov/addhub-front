@@ -2,7 +2,10 @@
   <div class="payment">
     <div class="container">
       <div class="payment__inner">
-        <h1 class="payment__title text28 medium-text">
+        <h1
+          class="payment__title text28 medium-text"
+          style="margin-bottom: 20px"
+        >
           Выберите способ оплаты
         </h1>
         <fieldset class="fg">
