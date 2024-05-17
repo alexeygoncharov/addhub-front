@@ -69,32 +69,11 @@ const payment = ref({
   orderId: '',
   currency: '',
 });
+payment.value.orderId = route.params?.orderId as string;
 const price = route.query?.price;
-const serviceId = route.params?.serviceId;
-const orderDetails = ref();
-
-const createOrder = async () => {
-  const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
-    options: {
-      method: 'POST',
-      body: { service: serviceId, price },
-    },
-    needToken: true,
-  });
-  if (data?.value?.result) {
-    const value = data?.value?.result;
-    payment.value.orderId = value?._id;
-    orderDetails.value = value;
-  }
-  if (error.value) {
-    return useToast({ message: error.value.data.message, type: 'error' });
-  }
-};
 
 const pay = async () => {
   if (payment.value.currency.length) {
-    await createOrder();
-
     if (!payment.value.orderId) {
       return;
     }
