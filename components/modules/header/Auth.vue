@@ -64,10 +64,10 @@
       </div>
     </div> -->
 
-    <nuxtLink to="/profile/notifications" class="header-action2__btn">
+    <!--<nuxtLink to="/profile/notifications" class="header-action2__btn">
       <NuxtImg src="/img/notification.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
-    </nuxtLink>
+    </nuxtLink>-->
     <nuxtLink to="/profile/messages" class="header-action2__btn _mess">
       <NuxtImg src="/img/message.svg" alt="" />
       <span class="header-action2__btn-pin"></span>
