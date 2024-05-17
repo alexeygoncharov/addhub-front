@@ -2,7 +2,10 @@
   <div class="payment">
     <div class="container">
       <div class="payment__inner">
-        <h1 class="payment__title text28 medium-text">
+        <h1
+          class="payment__title text28 medium-text"
+          style="margin-bottom: 20px"
+        >
           Выберите способ оплаты
         </h1>
         <fieldset class="fg">
@@ -46,11 +49,9 @@
             </div>
           </div>
           <div class="pay-table__nav">
-            <NuxtLink :to="`/services/`">
-              <button class="m-btn m-btn-blue-outline">
-                <span>Отменить</span>
-              </button>
-            </NuxtLink>
+            <button class="m-btn m-btn-blue-outline" @click="cancelOrder()">
+              <span>Отменить</span>
+            </button>
             <button class="m-btn m-btn-blue m-btn-shadow" @click="pay">
               <span>Оплатить</span>
             </button>
@@ -69,32 +70,31 @@ const payment = ref({
   orderId: '',
   currency: '',
 });
+const router = useRouter();
+payment.value.orderId = route.params?.orderId as string;
 const price = route.query?.price;
-const serviceId = route.params?.serviceId;
-const orderDetails = ref();
 
-const createOrder = async () => {
-  const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
-    options: {
-      method: 'POST',
-      body: { service: serviceId, price },
+const cancelOrder = async () => {
+  const { data, error } = await apiFetch<ApiResponse<any>>(
+    `/api/orders/${payment.value.orderId}`,
+    {
+      options: {
+        method: 'DELETE',
+      },
+      needToken: true,
     },
-    needToken: true,
-  });
-  if (data?.value?.result) {
-    const value = data?.value?.result;
-    payment.value.orderId = value?._id;
-    orderDetails.value = value;
+  );
+  if (data?.value?.status) {
+    router.back();
   }
   if (error.value) {
+    router.back();
     return useToast({ message: error.value.data.message, type: 'error' });
   }
 };
 
 const pay = async () => {
   if (payment.value.currency.length) {
-    await createOrder();
-
     if (!payment.value.orderId) {
       return;
     }
