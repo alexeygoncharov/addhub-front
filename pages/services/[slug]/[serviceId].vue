@@ -116,19 +116,45 @@
       <div v-if="isRevealed" class="modal-screen">
         <div class="modal-container">
           <div class="payment__inner">
+            <div class="pay-info">
+              <div class="pay-info__group">
+                <div class="pay-info__title">Время исполнения:</div>
+                <div class="pay-info__desc">
+                  {{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}
+                </div>
+              </div>
+              <!--<div class="pay-info__group">
+                <div class="pay-info__title">Оплатить до:</div>
+                <div class="pay-info__desc">03/10/2022</div>
+              </div>-->
+            </div>
             <div class="pay-info2">
               <div class="pay-info__group">
                 <div class="text20 text18-tablet medium-text">
                   Провайдер услуг
                 </div>
                 <div class="pay-info__info">
-                  <div class="pay-info__title">Addhub.io</div>
+                  <div class="pay-info__title">
+                    {{ `${item?.createdBy.name} ${item?.createdBy.surname}` }}
+                  </div>
                   <div class="pay-info__desc">
-                    г.Москва, ул. Ленина, 100 <br />
-                    644040
+                    {{
+                      `${item?.address.country.title}, ${item?.address.city.title}`
+                    }}
+                    <br />
                   </div>
                 </div>
               </div>
+              <!--<div class="pay-info__group">
+                <div class="text20 text18-tablet medium-text">Покупатель</div>
+                <div class="pay-info__info">
+                  <div class="pay-info__title">Иванов Игорь</div>
+                  <div class="pay-info__desc">
+                    г.Москва, ул. Краснопресненская, 1А <br />
+                    644020
+                  </div>
+                </div>
+              </div>-->
             </div>
 
             <div class="pay-table">
@@ -148,12 +174,6 @@
                   </div>
                 </div>
                 <div class="pay-table__row">
-                  <div class="pay-table__td">Экстра</div>
-                  <div class="pay-table__td medium-text">
-                    {{ item?.price }} ₽
-                  </div>
-                </div>
-                <div class="pay-table__row">
                   <div class="pay-table__td2">Итого</div>
                   <div class="pay-table__td3">{{ item?.price }} ₽</div>
                 </div>
@@ -162,14 +182,12 @@
                 <button class="m-btn m-btn-blue-outline" @click="cancel()">
                   Отменить
                 </button>
-                <NuxtLink
-                  v-if="data"
-                  :to="data && `/payments/${itemId}?price=${item?.price}`"
+                <button
+                  class="m-btn m-btn-blue m-btn-shadow"
+                  @click="createOrder()"
                 >
-                  <button class="m-btn m-btn-blue m-btn-shadow">
-                    Перейти к оплате
-                  </button>
-                </NuxtLink>
+                  Перейти к оплате
+                </button>
               </div>
             </div>
           </div>
@@ -437,7 +455,9 @@ import type { serviceItem } from '~/stores/catalog/catalog.type';
 const title = ref('');
 const userRating = ref(0);
 const commonStore = useCommonStore();
+const orderId = ref('');
 const route = useRoute();
+const router = useRouter();
 const enabledViewer = ref(false);
 const { isRevealed, reveal, cancel } = useConfirmDialog();
 let thisSwiper: Swiper;
