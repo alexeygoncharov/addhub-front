@@ -85,6 +85,7 @@ declare global {
     currency: string;
     status: string;
     createdAt: string;
+    order_number: number;
     updatedAt: string;
     __v: number;
   }
@@ -95,6 +96,7 @@ declare global {
     name: string;
     surname: string;
     online_status: 'online' | 'offline'; // Assuming only these two statuses for simplicity
+    rate: number;
     avatar: {
       url: string;
     };

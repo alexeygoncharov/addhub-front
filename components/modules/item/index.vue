@@ -127,7 +127,15 @@
               <slot name="item-content"></slot>
             </div>
           </div>
-          <div class="freelancer__col2">
+          <div
+            class="freelancer__col2"
+            :class="{
+              'freelancer__col2-mini': !(
+                (type === 'service' && user?.active_role === 'buyer') ||
+                (type === 'project' && user?.active_role === 'seller')
+              ),
+            }"
+          >
             <div class="offer-req offer-req2">
               <div class="offer-req__price text28 medium-text">
                 {{ item?.price }} руб.

@@ -75,20 +75,6 @@
             placeholder="Продавала песок на пляже — покупали"
           />
         </fieldset>
-        <fieldset class="fg">
-          <label>Пол</label>
-          <UIVSelect
-            :initial-current-text="{
-              value: form.gender,
-              text: genders.options.find((item) => {
-                if (item.value === form.gender) return item;
-              })?.text,
-            }"
-            :options="genders.options"
-            :placeholder="genders.placeholder"
-            @input="(gender) => (form.gender = gender)"
-          />
-        </fieldset>
 
         <fieldset class="fg">
           <label>Страна</label>
@@ -170,21 +156,12 @@ const countries = commonStore.countries?.map((item) => {
   return { text: item.title, value: item._id };
 });
 
-const genders = ref({
-  placeholder: 'Выберите пол',
-  options: [
-    { value: 'male', text: 'Мужской' },
-    { value: 'female', text: 'Женский' },
-  ],
-});
-
 const form = ref({
   avatar: userStore.user?.avatar,
   name: userStore.user?.name,
   email: userStore.user?.email,
   phone_number: userStore.user?.phone_number,
   slogan: userStore.user?.slogan,
-  gender: userStore.user?.gender,
   address: {
     city: userStore.user?.address?.city,
     country: userStore.user?.address?.country,
@@ -199,7 +176,6 @@ async function submitProfile() {
     email: form.value?.email,
     phone_number: form.value?.phone_number,
     slogan: form.value?.slogan,
-    gender: form.value?.gender,
     address: {
       city: form.value?.address.city?._id,
       country: form.value?.address.country?._id,

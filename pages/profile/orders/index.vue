@@ -44,12 +44,14 @@
             <td>
               <div class="reply-row__info">
                 <div class="reply-row__content">
-                  <div class="reply-row__title text17 medium-text">
+                  <div class="reply-row__title text17">
                     <nuxtLink
+                      class="medium-text"
                       :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((el) => el._id === item.service.category)?.slug}/${item._id}`"
                       href=""
                       >{{ item.service.title }}</nuxtLink
                     >
+                    <p>- (Заказ №{{ item.order_number }})</p>
                   </div>
                   <div class="reply-row__props">
                     <div class="reply-row__prop">

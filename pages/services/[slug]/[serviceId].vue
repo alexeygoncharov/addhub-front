@@ -18,8 +18,8 @@
         <UIStatCard
           v-if="item"
           :icon="'/img/stat-icon14.svg'"
-          :title="'Город'"
-          :value="item?.address.city.title"
+          :title="'Страна, Город'"
+          :value="`${item?.address.country.title}, ${item?.address.city.title}`"
         />
       </div>
       <div v-if="item?.photos.length" class="gallery">
@@ -113,7 +113,7 @@
         />
       </div>
 
-      <div v-if="isRevealed" class="modal-screen">
+      <div v-if="isRevealed && item" class="modal-screen">
         <div class="modal-container">
           <div class="payment__inner">
             <div class="pay-info">
@@ -333,13 +333,16 @@
                 </div> -->
       </div>
 
-      <form class="article-item review-form">
+      <form
+        v-if="userReview.isPurchased && !userReview.review"
+        class="article-item review-form"
+      >
         <div class="review-form__top">
           <div class="text20 medium-text">Добавить отзыв</div>
-          <div class="text15 text14-tablet light-text gray-text">
+          <!-- <div class="text15 text14-tablet light-text gray-text">
             Ваш электронный адрес не будет опубликован. Необходимые поля
             отмечены *
-          </div>
+          </div> -->
         </div>
 
         <div class="review-form__rating">
@@ -395,7 +398,7 @@
             <label>Email</label>
             <input type="email" placeholder="creative-layers088" />
           </fieldset>
-          <div class="m-check _full">
+          <!-- <div class="m-check _full">
             <input type="checkbox" />
             <label
               ><span
@@ -403,7 +406,7 @@
                 комментариев</span
               ></label
             >
-          </div>
+          </div> -->
         </div>
 
         <div class="review-form__nav">
@@ -461,6 +464,7 @@ let thisSwiper: Swiper;
 const onSwiper = (swiper: Swiper) => {
   thisSwiper = swiper;
 };
+const userReview = ref({ isPurchased: false, review: null });
 
 const category = commonStore.categories?.find(
   (item) => item.slug === route.params.slug,
@@ -472,26 +476,6 @@ if (!category || !itemId) {
   throw showError({ statusCode: 404 });
 }
 
-const createOrder = async () => {
-  const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
-    options: {
-      method: 'POST',
-      body: { service: itemId, price: item.value?.price },
-    },
-    needToken: true,
-  });
-  if (data?.value?.result) {
-    orderId.value = data?.value?.result?._id;
-    router.push(`/payments/${orderId.value}?price=${item.value?.price}`);
-  }
-  if (error.value) {
-    return useToast({ message: error.value.data.message, type: 'error' });
-  }
-};
-
-const { data } = await apiFetch<ApiResponse<serviceItem>>(
-  `/api/services/${itemId}`,
-);
 if (process.client) {
   setTimeout(
     () =>
@@ -499,11 +483,33 @@ if (process.client) {
     2000,
   );
 }
-const value = data.value;
-if (value) {
-  item.value = value.result;
-  title.value = item.value?.title;
-}
+
+const updateReview = async () => {
+  const { data } = await apiFetch<
+    ApiResponse<{ isPurchased: boolean; review: any }>
+  >(`/api/services/is_purchased_by_user/${itemId}`, {
+    needToken: true,
+  });
+  const value = data.value;
+  if (value) {
+    userReview.value = value.result;
+  }
+};
+
+const updateItem = async () => {
+  const { data } = await apiFetch<ApiResponse<serviceItem>>(
+    `/api/services/${itemId}`,
+  );
+  const value = data.value;
+  if (value) {
+    item.value = value.result;
+    title.value = item.value?.title;
+  }
+};
+
+updateItem();
+updateReview();
+
 useHead({
   title,
 });

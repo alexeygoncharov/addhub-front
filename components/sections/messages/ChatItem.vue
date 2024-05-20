@@ -11,8 +11,15 @@
       <div class="chat-item__name">
         {{ messagesStore.getRespondent(props.chat)?.name }}
       </div>
-      <div class="chat-item__name">
+      <div class="chat-item__about">
         {{ messagesStore.getRespondent(props.chat)?.user_name }}
+        <div class="about-client__rating">
+          <img src="/img/star.svg" alt="" />
+          <div class="about-client__rating-text">
+            <span>{{ messagesStore.getRespondent(props.chat)?.rate }}</span>
+            <!-- (595 отзывов) -->
+          </div>
+        </div>
       </div>
     </div>
 

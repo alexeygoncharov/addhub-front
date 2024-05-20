@@ -168,7 +168,7 @@ export function createCatalogStore<T>(
         () => {
           currentPage.value = 1;
         },
-        { deep: true, immediate: true },
+        { deep: true },
       );
       watch(
         [searchQuery, sorting, currentPage],
@@ -178,6 +178,12 @@ export function createCatalogStore<T>(
         },
         { deep: true, immediate: true },
       );
+    };
+
+    const filterChange = () => {
+      currentPage.value = 1;
+      fetchItems();
+      updateURL();
     };
 
     const fetchItems = async () => {
@@ -273,6 +279,7 @@ export function createCatalogStore<T>(
       totalPages,
       initializeFromURL,
       fetchItems,
+      filterChange,
       updateURL,
       fetchPopular,
       empty,
