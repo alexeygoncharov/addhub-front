@@ -50,7 +50,12 @@
             <div class="page-top__item">
               <img src="/img/calendar.svg" alt="" />
               <span class="_view1">{{
-                new Date(currentItem.createdAt).toISOString().split('T')[0]
+                new Date(currentItem.createdAt)
+                  .toISOString()
+                  .slice(0, 16)
+                  .replace('T', ' в ')
+                  .replace(/-/g, '.')
+                  .replace(/(\d{4})\.(\d{2})\.(\d{2})/, '$3.$2.$1')
               }}</span>
               <!-- <span class="_view2">Декабрь 2, 2024</span> -->
             </div>

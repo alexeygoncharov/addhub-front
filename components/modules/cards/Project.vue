@@ -34,7 +34,12 @@
         <div class="service-card2__prop">
           <NuxtImg src="/img/prop-icon2.svg" alt="" />
           <span>{{
-            new Date(data.createdAt).toISOString().split('T')[0]
+            new Date(data.createdAt)
+              .toISOString()
+              .slice(0, 16)
+              .replace('T', ' в ')
+              .replace(/-/g, '.')
+              .replace(/(\d{4})\.(\d{2})\.(\d{2})/, '$3.$2.$1')
           }}</span>
         </div>
         <div class="service-card2__prop">

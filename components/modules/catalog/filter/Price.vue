@@ -44,8 +44,7 @@ const store = props.store;
 watch(
   () => [store.filters.price?.$gte, store.filters.price?.$lte],
   () => {
-    props.store.fetchItems();
-    props.store.updateURL();
+    store.filterChange();
   },
 );
 const toggleSpoiler = () => {

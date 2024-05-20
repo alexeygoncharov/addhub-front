@@ -26,7 +26,7 @@
           Выбранный пользователь
         </div>
         <div class="filter-group__bottom filter-group__chip">
-          {{ store.filters.createdBy }}
+          {{ chooseUser }}
           <button
             class="filter-group__chip-close"
             @click="store.resetFilters()"
@@ -65,10 +65,23 @@ const props = defineProps({
   },
 });
 const store = props.store;
-const chooseUser = ref();
-if (props.store.filters.createdBy) {
-  chooseUser.value = await apiFetch(
-    `/api/users/${props.store.filters.createdBy}`,
+const chooseUser = ref<string>();
+const updateUser = async () => {
+  const { data } = await apiFetch<ApiResponse<string>>(
+    `/api/users/username/${props.store.filters.createdBy}`,
   );
-}
+  if (data.value) {
+    chooseUser.value = data.value.result;
+  }
+};
+
+watch(
+  () => props.store.filters.createdBy,
+  () => {
+    if (props.store.filters.createdBy) {
+      updateUser();
+    }
+  },
+  { immediate: true },
+);
 </script>

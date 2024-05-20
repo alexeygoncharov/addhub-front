@@ -54,6 +54,12 @@
     align-items: center;
   }
 
+  &__title {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
+  }
+
   .avatar {
     width: 3.75em;
     height: 3.75em;

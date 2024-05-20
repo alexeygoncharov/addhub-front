@@ -27,10 +27,19 @@
             <div class="chat-user__name">
               {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
             </div>
-            <div class="chat-user__name">
+            <div class="chat-item__about">
               {{
                 messagesStore.getRespondent(messagesStore.activeChat)?.user_name
               }}
+              <div class="about-client__rating">
+                <img src="/img/star.svg" alt="" />
+                <div class="about-client__rating-text">
+                  <span>{{
+                    messagesStore.getRespondent(messagesStore.activeChat)?.rate
+                  }}</span>
+                  <!-- (595 отзывов) -->
+                </div>
+              </div>
             </div>
             <div
               v-if="

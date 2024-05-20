@@ -5,7 +5,8 @@
         filter.list[0]?.projects_count === undefined) ||
       (filtersCount === 'services_count' &&
         filter.list[0]?.services_count === undefined) ||
-      shownItems.length
+      shownItems.length ||
+      search
     "
     class="filter-group spoiler"
     :class="{ _active: isExpanded }"
@@ -45,7 +46,11 @@
           </button>
         </div>
 
-        <div class="filter-group__checks" :class="{ '_show-all': showAll }">
+        <div
+          v-if="shownItems.length"
+          class="filter-group__checks"
+          :class="{ '_show-all': showAll }"
+        >
           <template
             v-for="item in showAll.includes(index)
               ? shownItems
@@ -85,6 +90,9 @@
             <span v-else>Скрыть</span>
           </button>
         </div>
+        <div v-else-if="search">
+          <p class="fg__error">По вашему запросу ничего не найдено</p>
+        </div>
       </div>
     </div>
   </div>
@@ -92,7 +100,7 @@
 
 <script setup lang="ts">
 import type { CatalogStores } from '~/stores/catalog/catalog.type';
-import type { Category } from '~/stores/common';
+import type { Category, City } from '~/stores/common';
 const route = useRoute();
 const search = ref('');
 const categorySlug = Array.isArray(route.params.slug)
@@ -115,7 +123,9 @@ const props = defineProps({
     type: Object as PropType<{
       title: string;
       type: string;
-      list: ({ title: string } & Partial<Category>)[];
+      list: ({ title: string } & Partial<Category> &
+        Partial<City> &
+        Partial<Country>)[];
       hasSearch?: boolean;
     }>,
     required: true,
@@ -147,6 +157,15 @@ const shownItems = computed(() => {
     const regex = new RegExp(search.value, 'gi');
     bufFilers = bufFilers.filter((filter) => regex.test(filter.title));
   }
+  if (props.filterKey === 'address.city') {
+    if (filters.value['address.country']?.length) {
+      bufFilers = bufFilers.filter(
+        (city) =>
+          city.country &&
+          filters.value['address.country']?.includes(city.country),
+      );
+    }
+  }
   if (props.filterKey === 'category') {
     bufFilers = [{ title: 'Все' }, ...bufFilers];
   }
@@ -166,8 +185,7 @@ const setFilters = (slug: string | undefined) => {
       query: route.query,
     });
   } else {
-    props.store.fetchItems();
-    props.store.updateURL();
+    props.store.filterChange();
   }
 };
 </script>

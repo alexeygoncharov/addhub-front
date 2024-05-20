@@ -226,8 +226,7 @@ const redirectTo = () => {
     query: { ...route.query, createdBy: data.value?.createdBy._id || '' },
   });
   store.filters.createdBy = data.value?.createdBy._id || '';
-  props.store.fetchItems();
-  props.store.updateURL();
+  store.filterChange();
 };
 const data = ref(props.data);
 if (props.id) {
