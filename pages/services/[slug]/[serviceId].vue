@@ -113,7 +113,7 @@
         />
       </div>
 
-      <div v-if="isRevealed" class="modal-screen">
+      <div v-if="isRevealed && item" class="modal-screen">
         <div class="modal-container">
           <div class="payment__inner">
             <div class="pay-info">

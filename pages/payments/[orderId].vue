@@ -18,7 +18,7 @@
               })?.name,
             }"
             :options="
-              paymentates?.map((item) => {
+              paymentsStore.rates?.map((item) => {
                 return { text: item.name, value: item.key };
               })
             "
