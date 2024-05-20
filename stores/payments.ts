@@ -13,7 +13,6 @@ export const usePaymentsStore = defineStore('payments', () => {
         key,
         ...value,
       }));
-      console.log('rates ', rates.value);
     }
   }
 

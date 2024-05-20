@@ -28,8 +28,8 @@ const props = withDefaults(
     modelValue: string;
   }>(),
   {
-    items: () => [],
     modelValue: '',
+    items: () => [],
   },
 );
 
@@ -102,7 +102,9 @@ function handleClickOutside(event: MouseEvent) {
   dropdownVisible.value = false;
 }
 
-onMounted(() => document.addEventListener('click', handleClickOutside));
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
 onBeforeUnmount(() =>
   document.removeEventListener('click', handleClickOutside),
 );

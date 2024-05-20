@@ -80,26 +80,11 @@
         </fieldset>
         <fieldset class="fg">
           <label>Страна</label>
-          <UIVSelect
-            :initial-current-text="{
-              value: form.country,
-              text: commonStore.countries?.find((item) => {
-                if (item._id === form.country) return item;
-              })?.title,
-            }"
-            :options="
-              commonStore.countries?.map((item) => {
-                return { text: item.title, value: item._id };
-              })
-            "
-            :placeholder="'Выберите страну'"
-            @input="
-              (country) => {
-                errors.splice(errors.indexOf('country'), 1);
-                form.country !== country && (form.city = '');
-                form.country = country;
-              }
-            "
+          <UIVSelectSearch
+            :key="form.city?._id"
+            :items="commonStore.countries"
+            :model-value="form.country?.title"
+            @input="(country) => (form.country = country)"
           />
           <p v-if="errors.includes('country')" class="fg__error">
             Обязательное поле
@@ -126,31 +111,11 @@
         </fieldset>
         <fieldset class="fg">
           <label>Город</label>
-
-          <UIVSelect
-            :initial-current-text="{
-              value: form.city,
-              text: commonStore.cities?.find((item) => {
-                if (item._id === form.city) return item;
-              })?.title,
-            }"
-            :disabled="!form.country"
-            :options="
-              commonStore.cities
-                ?.filter((el) =>
-                  form.country ? el.country === form.country : true,
-                )
-                .map((item) => {
-                  return { text: item.title, value: item._id };
-                })
-            "
-            :placeholder="'Выберите город'"
-            @input="
-              (city) => {
-                form.city = city;
-                errors.splice(errors.indexOf('city'), 1);
-              }
-            "
+          <UIVSelectSearch
+            :key="form.city?._id"
+            :items="commonStore.cities"
+            :model-value="form.city.title"
+            @input="(city) => (form.city = city)"
           />
           <p v-if="errors.includes('city')" class="fg__error">
             Обязательное поле
@@ -286,8 +251,14 @@ const form = ref({
   title: '',
   description: '',
   price: '',
-  city: '',
-  country: '',
+  city: {
+    _id: '',
+    title: '',
+  },
+  country: {
+    _id: '',
+    title: '',
+  },
   category: '',
   service_volume_desc: '',
   service_volume: '',
@@ -412,8 +383,8 @@ const fetchItem = async () => {
     editableItem.value = value.result;
     form.value = {
       ...form.value,
-      city: value.result.address.city._id,
-      country: value.result.address.city.country,
+      city: value.result.address.city,
+      country: value.result.address.country,
       category: value.result.category,
       title: value.result.title,
       description: value.result.description,
@@ -427,14 +398,28 @@ const fetchItem = async () => {
     };
   }
 };
+
 fetchItem();
+
 const editItem = async (fileType?: 'file' | 'image') => {
   if (!editableItem.value) return;
   validateItem(form.value, errors);
 
+  const payload = {
+    title: form.value.title,
+    description: form.value.description,
+    price: form.value.price,
+    city: form.value.city?._id,
+    country: form.value.country?._id,
+    category: form.value.category,
+    service_volume_desc: form.value.service_volume_desc,
+    service_volume: form.value.service_volume,
+    delivery_time: form.value.delivery_time,
+  };
+
   if (errors.value.length) return;
   const body = !fileType
-    ? { ...form.value }
+    ? { ...payload }
     : fileType === 'file' && 'files' in editableItem.value
       ? { files: editableItem.value?.files }
       : { photos: editableItem.value?.photos };

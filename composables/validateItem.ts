@@ -2,8 +2,14 @@ interface itemForm {
   title: string;
   description: string;
   price: string;
-  city: string;
-  country: string;
+  city: {
+    _id: string;
+    title: string;
+  };
+  country: {
+    _id: string;
+    title: string;
+  };
   category: string;
   service_volume_desc: string;
   service_volume: string;

@@ -104,27 +104,6 @@
         </fieldset>
         <fieldset class="fg">
           <label>Страна</label>
-          <UIVSelect
-            :initial-current-text="{
-              value: form.country,
-              text: commonStore.countries?.find((item) => {
-                if (item._id === form.country) return item;
-              })?.title,
-            }"
-            :options="
-              commonStore.countries?.map((item) => {
-                return { text: item.title, value: item._id };
-              })
-            "
-            :placeholder="'Выберите страну'"
-            @input="
-              (country) => {
-                form.country !== country && (form.city = '');
-                form.country = country;
-                errors.splice(errors.indexOf('country'), 1);
-              }
-            "
-          />
           <p v-if="errors.includes('country')" class="fg__error">
             Обязательное поле
           </p>
@@ -132,30 +111,10 @@
         <fieldset class="fg">
           <label>Город</label>
 
-          <UIVSelect
-            :initial-current-text="{
-              value: form.city,
-              text: commonStore.cities?.find((item) => {
-                if (item._id === form.city) return item;
-              })?.title,
-            }"
-            :disabled="!form.country"
-            :options="
-              commonStore.cities
-                ?.filter((el) =>
-                  form.country ? el.country === form.country : true,
-                )
-                .map((item) => {
-                  return { text: item.title, value: item._id };
-                })
-            "
-            :placeholder="'Выберите город'"
-            @input="
-              (city) => {
-                form.city = city;
-                errors.splice(errors.indexOf('city'), 1);
-              }
-            "
+          <UIVSelectSearch
+            :items="commonStore.cities"
+            :model-value="form.city"
+            @input="(city) => (form.city = city._id)"
           />
           <p v-if="errors.includes('city')" class="fg__error">
             Обязательное поле
