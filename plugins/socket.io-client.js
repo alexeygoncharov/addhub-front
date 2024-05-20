@@ -2,12 +2,18 @@ import { io } from 'socket.io-client';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
-  const socket = io('https://hub.rdcd.ru', {
-    extraHeaders: {
-      Authorization: `Bearer ${authToken?.value}`,
-    },
+  const socketOptions = {
     transports: ['polling'],
-  });
+  };
+
+  if (authToken?.value) {
+    socketOptions.extraHeaders = {
+      Authorization: `Bearer ${authToken.value}`,
+    };
+  }
+
+  const socket = io('https://hub.rdcd.ru', socketOptions);
+
   socket.on('connect_error', (err) => {
     // the reason of the error, for example "xhr poll error"
     console.log(err.message);
