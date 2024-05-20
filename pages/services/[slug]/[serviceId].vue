@@ -458,6 +458,7 @@ const commonStore = useCommonStore();
 const orderId = ref('');
 const route = useRoute();
 const router = useRouter();
+
 const enabledViewer = ref(false);
 const { isRevealed, reveal, cancel } = useConfirmDialog();
 let thisSwiper: Swiper;
@@ -475,6 +476,23 @@ const itemId = route.params.serviceId;
 if (!category || !itemId) {
   throw showError({ statusCode: 404 });
 }
+
+const createOrder = async () => {
+  const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
+    options: {
+      method: 'POST',
+      body: { service: itemId, price: item.value?.price },
+    },
+    needToken: true,
+  });
+  if (data?.value?.result) {
+    orderId.value = data?.value?.result?._id;
+    router.push(`/payments/${orderId.value}?price=${item.value?.price}`);
+  }
+  if (error.value) {
+    return useToast({ message: error.value.data.message, type: 'error' });
+  }
+};
 
 if (process.client) {
   setTimeout(
