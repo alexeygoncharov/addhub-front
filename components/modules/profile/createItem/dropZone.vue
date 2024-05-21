@@ -4,6 +4,7 @@ interface banner extends uploadFileResponse {
 }
 const props = defineProps<{
   uploadPath: string;
+  canZero: boolean;
 }>();
 const emit = defineEmits<{ (e: 'changed'): void }>();
 const banners = defineModel<uploadFileResponse[]>({
@@ -98,7 +99,10 @@ const handleFileUpload = (event: Event) => {
 };
 
 async function deleteBanner(bannerIndex: number) {
-  if (!bufBanners.value?.[bannerIndex] || bufBanners.value?.length === 1)
+  if (
+    !bufBanners.value?.[bannerIndex] ||
+    (bufBanners.value?.length === 1 && !props.canZero)
+  )
     return;
   const bufBanner = bufBanners.value?.[bannerIndex];
   bufBanners.value?.splice(bannerIndex, 1);
@@ -159,7 +163,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <fieldset class="fg">
+  <fieldset class="fg dropzone">
     <label>Загрузите изображения</label>
     <div
       class="banners-settings__body"
@@ -273,6 +277,10 @@ onMounted(() => {
   </fieldset>
 </template>
 <style scoped lang="scss">
+.dropzone {
+  margin-top: 1em;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

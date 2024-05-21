@@ -28,7 +28,7 @@
             />
             <p>{{ item.title }}</p>
           </div>
-          <p>{{ item.price }}</p>
+          <p>{{ item.price }} руб.</p>
         </NuxtLink>
         <p v-if="!items.length" class="header-action__search-item">
           Ничего не найдено

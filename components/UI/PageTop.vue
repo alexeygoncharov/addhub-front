@@ -85,7 +85,11 @@
         <div v-if="hasSearch" class="page-search page-search2">
           <NuxtImg src="/img/search.svg" alt="" class="page-search__icon" />
           <div class="page-search__field fg">
-            <input v-model="search" type="text" placeholder="Найти услугу" />
+            <input
+              v-model="search"
+              type="text"
+              :placeholder="`Найти ${useRoute().path.includes('projects') ? 'проект' : 'услугу'}`"
+            />
           </div>
           <div v-if="hasSelect" class="category-select">
             <!-- <UIVSelect

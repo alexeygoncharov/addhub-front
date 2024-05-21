@@ -76,21 +76,28 @@
           />
         </fieldset>
 
-        <fieldset class="fg">
+        <fieldset v-if="commonStore.countries" class="fg">
           <label>Страна</label>
           <UIVSelectSearch
-            :items="commonStore.countries"
-            :model-value="form.address.country?.title"
-            @input="(country) => (form.address.country = country)"
+            v-model="form.address.country"
+            :items="
+              commonStore.countries.map((item) => {
+                return { title: item.title, value: item._id };
+              })
+            "
           />
         </fieldset>
 
-        <fieldset class="fg">
+        <fieldset v-if="commonStore.cities" class="fg">
           <label>Город</label>
           <UIVSelectSearch
-            :items="commonStore.cities"
-            :model-value="form.address.city?.title"
-            @input="(city) => (form.address.city = city)"
+            v-model="form.address.city"
+            :items="
+              commonStore.cities.map((item) => ({
+                title: item.title,
+                value: item._id,
+              }))
+            "
           />
         </fieldset>
 
@@ -125,6 +132,9 @@ import { useCommonStore } from '../../../stores/common';
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();
 const userStore = useUserStore();
+if (!userStore.user) {
+  throw navigateTo('/login');
+}
 const search = ref('');
 const { open, onChange } = useFileDialog({
   accept: 'image/*', // Set to accept only image files
@@ -163,8 +173,8 @@ const form = ref({
   phone_number: userStore.user?.phone_number,
   slogan: userStore.user?.slogan,
   address: {
-    city: userStore.user?.address?.city,
-    country: userStore.user?.address?.country,
+    city: userStore.user?.address?.city._id,
+    country: userStore.user?.address?.country._id,
   },
   about_me: userStore.user?.about_me,
 });
@@ -177,8 +187,8 @@ async function submitProfile() {
     phone_number: form.value?.phone_number,
     slogan: form.value?.slogan,
     address: {
-      city: form.value?.address.city?._id,
-      country: form.value?.address.country?._id,
+      city: form.value?.address.city,
+      country: form.value?.address.country,
     },
     about_me: form.value?.about_me,
   };

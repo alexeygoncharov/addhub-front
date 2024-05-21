@@ -15,14 +15,14 @@ export const useCatalogProjectsStore = createCatalogStore<projectsItem>(
       type: 'radio',
       list: [],
     },
-    'address.city': {
-      title: 'Города',
+    'address.country': {
+      title: 'Страны',
       type: 'check',
       list: [],
       hasSearch: true,
     },
-    'address.country': {
-      title: 'Страны',
+    'address.city': {
+      title: 'Города',
       type: 'check',
       list: [],
       hasSearch: true,

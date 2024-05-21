@@ -154,7 +154,11 @@
                     ? `Заказать за ${item?.price} руб.`
                     : item &&
                         'bids' in item &&
-                        item.bids.find((bid) => bid.user._id === user?._id)
+                        item.bids.find(
+                          (bid) =>
+                            typeof bid.user !== 'string' &&
+                            bid.user._id === user?._id,
+                        )
                       ? 'Отклик оставлен'
                       : 'Откликнуться'
                 }}</span>
@@ -245,7 +249,10 @@ const createOrder = () => {
   if (user.value) {
     if (
       props.type === 'project' &&
-      !props.item?.bids.find((bid) => bid.user._id === user.value?._id)
+      !props.item?.bids.find(
+        (bid) =>
+          typeof bid.user !== 'string' && bid.user._id === user.value?._id,
+      )
     ) {
       emits('submit');
     } else if (props.type === 'service') {
