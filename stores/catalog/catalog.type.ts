@@ -97,7 +97,7 @@ export interface projectsItem extends catalogItem {
 
 export interface baseProject extends catalogItem {
   views: number;
-  bids: Bid[];
+  bids: Bid[] | BidList[];
   category: string;
   constructor: null; // TODO
   files: uploadFileResponse[];

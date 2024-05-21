@@ -3,8 +3,9 @@
     type === 'project' ? `Редактирование проекта` : `Редактирование услуги`
   }}</ModulesProfileTop>
 
-  <div v-if="!fromCreate" class="profile-item">
+  <div class="profile-item">
     <form
+      v-if="form"
       id="create-item-form"
       name="create-item-form"
       class="profile-item__bottom _pt0"
@@ -43,7 +44,7 @@
             :initial-current-text="{
               value: form.category,
               text: commonStore.categories?.find((item) => {
-                if (item._id === form.category) return item;
+                if (form && item._id === form.category) return item;
               })?.title,
             }"
             :options="
@@ -54,6 +55,7 @@
             :placeholder="'Выберите категорию'"
             @input="
               (category) => {
+                if (!form) return;
                 form.category = category;
                 errors.splice(errors.indexOf('category'), 1);
               }
@@ -78,21 +80,9 @@
           <label>Цена</label>
           <input v-model="form.price" required type="text" placeholder="руб." />
         </fieldset>
-        <fieldset class="fg">
-          <label>Страна</label>
-          <UIVSelectSearch
-            :key="form.city?._id"
-            :items="commonStore.countries"
-            :model-value="form.country?.title"
-            @input="(country) => (form.country = country)"
-          />
-          <p v-if="errors.includes('country')" class="fg__error">
-            Обязательное поле
-          </p>
-        </fieldset>
 
-        <fieldset v-if="type === 'service'" class="fg _full">
-          <label>Объём проекта(заголовок)</label>
+        <fieldset v-if="type === 'service'" class="fg">
+          <label>Объём услуги(заголовок)</label>
           <input
             v-model="form.service_volume"
             type="text"
@@ -100,8 +90,8 @@
             placeholder="Заголовок"
           />
         </fieldset>
-        <fieldset v-if="type === 'service'" class="fg _full">
-          <label>Объём проекта(описание)</label>
+        <fieldset v-if="type === 'service'" class="fg">
+          <label>Объём услуги(описание)</label>
           <input
             v-model="form.service_volume_desc"
             type="text"
@@ -109,13 +99,32 @@
             placeholder="Описание"
           />
         </fieldset>
-        <fieldset class="fg">
+        <fieldset v-if="commonStore.countries" class="fg">
+          <label>Страна</label>
+          <UIVSelectSearch
+            v-model="form.country"
+            :items="
+              commonStore.countries.map((item) => {
+                return {
+                  title: item.title,
+                  value: item._id,
+                };
+              })
+            "
+          />
+          <p v-if="errors.includes('country')" class="fg__error">
+            Обязательное поле
+          </p>
+        </fieldset>
+        <fieldset v-if="commonStore.cities" class="fg">
           <label>Город</label>
           <UIVSelectSearch
-            :key="form.city?._id"
-            :items="commonStore.cities"
-            :model-value="form.city.title"
-            @input="(city) => (form.city = city)"
+            v-model="form.city"
+            :items="
+              commonStore.cities.map((item) => {
+                return { title: item.title, value: item._id };
+              })
+            "
           />
           <p v-if="errors.includes('city')" class="fg__error">
             Обязательное поле
@@ -133,7 +142,6 @@
       </button>
     </div>
   </div>
-
   <div
     v-if="type === 'project' && editableItem && 'files' in editableItem"
     class="profile-item"
@@ -148,7 +156,7 @@
             v-for="(file, index) of editableItem?.files"
             :key="index"
             target="_blank"
-            :to="baseUrl() + file"
+            :to="baseUrl() + file.url"
             class="file-item"
           >
             <div class="file-item__title">{{ getFileName(file.url) }}</div>
@@ -205,6 +213,7 @@
     :upload-path="'/api/files/single'"
     @changed="editItem('image')"
   />
+
   <div class="profile-item__nav">
     <button
       v-if="
@@ -247,34 +256,16 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
-const form = ref({
-  title: '',
-  description: '',
-  price: '',
-  city: {
-    _id: '',
-    title: '',
-  },
-  country: {
-    _id: '',
-    title: '',
-  },
-  category: '',
-  service_volume_desc: '',
-  service_volume: '',
-  delivery_time: '',
-});
-const commonStore = useCommonStore();
 const route = useRoute();
-const id = route.params.id;
 const type = route.query.type as 'project' | 'service';
+const form = ref<ItemForm>();
+const commonStore = useCommonStore();
+const id = route.params.id;
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const editableItem = ref<projectItem | serviceItem>();
 const errors = ref<string[]>([]);
-const fromCreate = Array.isArray(route.query.fromCreate)
-  ? false
-  : !!route.query.fromCreate;
+
 const switchPublish = async () => {
   if (!editableItem.value) return;
   const { data, error } = await apiFetch(
@@ -382,9 +373,8 @@ const fetchItem = async () => {
   if (value) {
     editableItem.value = value.result;
     form.value = {
-      ...form.value,
-      city: value.result.address.city,
-      country: value.result.address.country,
+      city: value.result.address.city._id,
+      country: value.result.address.country._id,
       category: value.result.category,
       title: value.result.title,
       description: value.result.description,
@@ -395,22 +385,24 @@ const fetchItem = async () => {
           service_volume_desc: value.result.service_volume_desc,
           service_volume: value.result.service_volume,
         }),
-    };
+      ...(('photos' in value.result && { photos: value.result.photos }) ||
+        ('files' in value.result && { files: value.result.files })),
+    } as ItemForm;
   }
 };
 
 fetchItem();
 
 const editItem = async (fileType?: 'file' | 'image') => {
-  if (!editableItem.value) return;
+  if (!editableItem.value || !form.value) return;
   validateItem(form.value, errors);
 
   const payload = {
     title: form.value.title,
     description: form.value.description,
     price: form.value.price,
-    city: form.value.city?._id,
-    country: form.value.country?._id,
+    city: form.value.city,
+    country: form.value.country,
     category: form.value.category,
     service_volume_desc: form.value.service_volume_desc,
     service_volume: form.value.service_volume,

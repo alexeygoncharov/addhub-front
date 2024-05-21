@@ -170,13 +170,13 @@
               </div>
               <div class="pay-table__nav">
                 <button class="m-btn m-btn-blue-outline" @click="cancel()">
-                  Отменить
+                  <span>Отменить</span>
                 </button>
                 <button
                   class="m-btn m-btn-blue m-btn-shadow"
                   @click="createOrder()"
                 >
-                  Перейти к оплате
+                  <span>Перейти к оплате</span>
                 </button>
               </div>
             </div>
@@ -512,6 +512,8 @@ const updateItem = async () => {
   if (value) {
     item.value = value.result;
     title.value = item.value?.title;
+  } else {
+    throw showError({ statusCode: 404 });
   }
 };
 

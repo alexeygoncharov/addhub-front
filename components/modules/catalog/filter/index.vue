@@ -40,7 +40,7 @@
         </div>
       </div>
       <button class="m-btn m-btn-blue-outline" @click="store.resetFilters()">
-        Сбросить фильтры
+        <span>Сбросить фильтры</span>
       </button>
     </div>
   </div>

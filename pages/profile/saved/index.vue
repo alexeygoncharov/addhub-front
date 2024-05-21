@@ -3,13 +3,25 @@
 
   <div class="saves _tabs-parent">
     <div class="tabs">
-      <div class="m-tab _tab _active" data-tab="_tab1">
+      <div
+        class="m-tab _tab"
+        :class="{ _active: active === 'services' }"
+        data-tab="_tab1"
+        @click="active = 'services'"
+      >
         <span>Услуги</span>
       </div>
-      <div class="m-tab _tab" data-tab="_tab2">
-        <span v-if="user">{{
+      <div
+        class="m-tab _tab"
+        data-tab="_tab2"
+        :class="{ _active: active === 'projects' }"
+      >
+        <span v-if="user" @click="active = 'projects'">
+          Проекты
+          <!-- {{
           user.active_role === 'buyer' ? 'Фрилансеры' : 'Проекты'
-        }}</span>
+        }} -->
+        </span>
       </div>
     </div>
 
@@ -21,7 +33,13 @@
           :key="item.id"
         />
       </div>
-      <div v-else class="saves__grid grid-col4"></div>
+      <div v-else class="saves__grid">
+        <ModulesCardsProject
+          v-for="item of projects"
+          :id="item.id"
+          :key="item.id"
+        />
+      </div>
 
       <UIVPagination
         v-if="services.length > 8"

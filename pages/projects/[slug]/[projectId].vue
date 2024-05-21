@@ -52,7 +52,10 @@
         </div>
         <div class="freelancer-offers__items">
           <div v-for="bid of item?.bids" :key="bid._id" class="offer-card">
-            <div class="offer-card__content">
+            <div
+              v-if="typeof bid.user === 'object'"
+              class="offer-card__content"
+            >
               <div class="avatar">
                 <img
                   v-if="bid.user.avatar"
@@ -174,7 +177,7 @@ const showBid = ref(false);
 // TODO доработать запрос на бке
 const userBid = computed(() => {
   return item.value?.bids.find((bid) => {
-    return bid.user._id === userStore.user?._id;
+    return typeof bid.user !== 'string' && bid.user._id === userStore.user?._id;
   });
 });
 
@@ -220,6 +223,8 @@ const updateProject = async () => {
   if (value) {
     item.value = value.result;
     title.value = item.value?.title;
+  } else {
+    throw showError({ statusCode: 404 });
   }
 };
 updateProject();

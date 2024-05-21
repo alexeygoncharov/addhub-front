@@ -195,7 +195,7 @@ const changeStatus = (value: 'canceled' | 'completed', id: string) => {
     }
   });
 };
-const type = user.value?.active_role === 'buyer' ? 'project' : 'service';
+const type = user.value?.active_role === 'seller' ? 'project' : 'service';
 
 const items = ref<Order[]>();
 const total = ref(0);

@@ -1,45 +1,55 @@
 <template>
-  <div ref="selectRef" class="m-select" :class="{ _open: dropdownVisible }">
+  <OnClickOutside
+    ref="selectRef"
+    class="m-select"
+    :class="{ _open: dropdownVisible }"
+    @trigger="handleFocusOut"
+  >
     <input v-model="searchQuery" type="text" @input="handleInput" />
     <div v-if="dropdownVisible" class="m-select__dropdown">
       <div
         v-for="item in filteredItems"
-        :key="item._id"
+        :key="item.value"
         :class="['m-select__option', { _active: item.title === searchQuery }]"
-        @click="selectOption(item)"
+        @click="selectOption(item.value, item.title)"
       >
         {{ item.title }}
       </div>
     </div>
-  </div>
+  </OnClickOutside>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
+const checkedItem = defineModel<string>({ required: true });
+const props = defineProps<{
+  items: { title: string; value: string }[];
+}>();
 
-interface Item {
-  _id: string;
-  title: string;
-}
-
-const props = withDefaults(
-  defineProps<{
-    items: Item[];
-    modelValue: string;
-  }>(),
-  {
-    modelValue: '',
-    items: () => [],
+const searchQuery = ref('');
+watch(
+  () => props.items.length,
+  () => {
+    searchQuery.value =
+      props.items.find((item) => item.value === checkedItem.value)?.title || '';
   },
+  { immediate: true },
 );
-
-const selectRef = ref<HTMLDivElement | null>(null);
-const emits = defineEmits(['input']);
-
-const searchQuery = ref(props.modelValue);
 const dropdownVisible = ref(false);
 
-const binarySearch = (items, query) => {
+const selectRef = ref<HTMLDivElement | null>(null);
+const handleFocusOut = () => {
+  dropdownVisible.value = false;
+  if (!props.items.find((item) => item.title === searchQuery.value)) {
+    searchQuery.value =
+      props.items.find((item) => item.value === checkedItem.value)?.title || '';
+  }
+};
+
+const binarySearch = (
+  items: { title: string; value: string }[],
+  query: string,
+) => {
   let low = 0;
   let high = items.length - 1;
   const results = [];
@@ -84,28 +94,9 @@ function handleInput() {
   dropdownVisible.value = !!searchQuery.value;
 }
 
-function selectOption(item: any) {
-  searchQuery.value = item.title;
-  emits('input', item);
+function selectOption(value: string, title: string) {
+  searchQuery.value = title;
+  checkedItem.value = value;
   dropdownVisible.value = false;
 }
-
-function hideDropdown() {
-  setTimeout(() => {
-    dropdownVisible.value = false;
-  }, 100);
-}
-
-function handleClickOutside(event: MouseEvent) {
-  if (!selectRef.value || selectRef.value.contains(event.target as Node))
-    return;
-  dropdownVisible.value = false;
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-});
-onBeforeUnmount(() =>
-  document.removeEventListener('click', handleClickOutside),
-);
 </script>

@@ -109,7 +109,9 @@ import { OnClickOutside } from '@vueuse/components';
 import type { projectsItem } from '~/stores/catalog/catalog.type';
 const showBid = defineModel<boolean>({ required: true });
 const bidsStore = useBidsStore();
-const item = defineModel<projectsItem>('item', { default: undefined });
+const item = defineModel<projectsItem | projectItem>('item', {
+  default: undefined,
+});
 const price = ref<number>();
 const chosenService = ref<servicesItem>();
 const term = ref<number>();

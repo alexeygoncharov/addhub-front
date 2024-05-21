@@ -20,7 +20,7 @@
     </div>
     <NuxtLink
       v-if="data"
-      :to="`/projects/${data.category.slug}/${data?._id}`"
+      :to="`/projects/${typeof data.category === 'string' ? commonStore.categories?.find((el) => el._id === data?.category)?.slug : data.category.slug}/${data?._id}`"
       class="service-card2__content"
     >
       <div class="service-card2__title text20 medium-text">
@@ -116,7 +116,36 @@ import type { projectsItem } from '~/stores/catalog/catalog.type';
 const showBid = ref(false);
 const commonStore = useCommonStore();
 const userStore = useUserStore();
-const data = defineModel<projectsItem>();
+const props = defineProps({
+  id: {
+    type: String,
+    default: undefined,
+  },
+});
+const data = defineModel<projectsItem | projectItem>();
+
+if (props.id) {
+  const { data: res } = await apiFetch<ApiResponse<projectItem>>(
+    `/api/projects/${props.id}`,
+  );
+
+  if (res.value) {
+    data.value = {
+      ...res.value.result,
+      bids: res.value.result.bids.map((bid) => {
+        return {
+          ...bid,
+          user: typeof bid.user !== 'string' ? bid.user._id : bid.user,
+          project_id:
+            typeof bid.project_id !== 'string'
+              ? bid.project_id._id
+              : bid.project_id,
+        };
+      }),
+    };
+  }
+}
+
 const openBidModal = () => {
   if (!userStore.user) {
     return navigateTo('/login');

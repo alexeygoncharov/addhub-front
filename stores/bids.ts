@@ -28,7 +28,7 @@ export const useBidsStore = defineStore('bids', () => {
     description: string,
   ) {
     try {
-      const { data } = await apiFetch<ApiResponse<BidList>>(`/api/bids`, {
+      const { data } = await apiFetch<ApiResponse<BidList & Bid>>(`/api/bids`, {
         options: {
           method: 'POST',
           body: { project_id: id, price, term, description },
