@@ -47,6 +47,7 @@ const isConnected = ref(false);
 const transport = ref('N/A');
 
 function onConnect() {
+  console.log('connect');
   isConnected.value = true;
   transport.value = socket.io.engine.transport.name;
   socket.io.engine.on('upgrade', (rawTransport) => {
@@ -56,6 +57,7 @@ function onConnect() {
 }
 
 function onDisconnect() {
+  console.log('disconnect ', socket.id);
   isConnected.value = false;
   transport.value = 'N/A';
   teardownSocketListeners();
@@ -111,6 +113,7 @@ function handleDeleteChat(deletedChat: DeletedChat) {
 }
 
 function handleUpdateUser(data: UpdateStatusUser) {
+  console.log('data ', data);
   const respondent = messagesStore.getRespondent(messagesStore.activeChat);
   if (respondent && respondent?._id === data?.id)
     respondent.online_status = data.online_status;
