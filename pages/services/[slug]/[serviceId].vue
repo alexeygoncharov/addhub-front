@@ -116,44 +116,34 @@
       <div v-if="isRevealed && item" class="modal-screen">
         <div class="modal-container">
           <div class="payment__inner">
-            <div class="pay-info">
-              <div class="pay-info__group">
-                <div class="pay-info__title">Время исполнения:</div>
-                <div class="pay-info__desc">
-                  {{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}
-                </div>
-              </div>
-              <!--<div class="pay-info__group">
-                <div class="pay-info__title">Оплатить до:</div>
-                <div class="pay-info__desc">03/10/2022</div>
-              </div>-->
-            </div>
+            <h1 class="payment__title text28 medium-text">
+              {{ item?.title }}
+            </h1>
             <div class="pay-info2">
               <div class="pay-info__group">
                 <div class="text20 text18-tablet medium-text">
                   Провайдер услуг
                 </div>
-                <div class="pay-info__info">
-                  <div class="pay-info__title">
-                    {{ `${item?.createdBy.name} ${item?.createdBy.surname}` }}
-                  </div>
-                  <div class="pay-info__desc">
-                    {{
-                      `${item?.address.country.title}, ${item?.address.city.title}`
-                    }}
-                    <br />
-                  </div>
+                <div class="pay-info__title">Addhub.io</div>
+                <br />
+                <div class="pay-info__title">Исполнитель:</div>
+                <div class="pay-info__desc">
+                  {{ `${item?.createdBy.name} ${item?.createdBy.surname}` }}
+                </div>
+                <div class="pay-info__title">Время исполнения:</div>
+                <div class="pay-info__desc">
+                  {{ pluralize(item.delivery_time, 'день', 'дня', 'дней') }}
+                </div>
+                <div class="pay-info__title">Город:</div>
+                <div class="pay-info__desc">
+                  {{
+                    `${item?.address.country.title}, ${item?.address.city.title}`
+                  }}
                 </div>
               </div>
               <!--<div class="pay-info__group">
-                <div class="text20 text18-tablet medium-text">Покупатель</div>
-                <div class="pay-info__info">
-                  <div class="pay-info__title">Иванов Игорь</div>
-                  <div class="pay-info__desc">
-                    г.Москва, ул. Краснопресненская, 1А <br />
-                    644020
-                  </div>
-                </div>
+                <div class="pay-info__title">Оплатить до:</div>
+                <div class="pay-info__desc">03/10/2022</div>
               </div>-->
             </div>
 
