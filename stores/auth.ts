@@ -18,6 +18,8 @@ interface regResponse {
 }
 
 export const useAuthStore = defineStore('auth', () => {
+  // const nuxtApp = useNuxtApp();
+  // const socket = nuxtApp.$socket as Socket;
   const token = ref(null) as Ref<string | null>;
   const isLoading = ref(false);
   const isAuthenticated = computed(() => !!useCookie('authToken').value);
