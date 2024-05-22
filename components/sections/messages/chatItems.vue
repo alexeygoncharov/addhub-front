@@ -24,6 +24,7 @@
 </template>
 <script setup lang="ts">
 import { vInfiniteScroll } from '@vueuse/components';
+const props = defineProps<{ chosen: 'orders' | 'chats' }>();
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 function selectChat(respondent: ChatItem) {
@@ -37,17 +38,24 @@ function selectChat(respondent: ChatItem) {
 
 async function loadChats() {
   messagesStore.chatListOffset += 1;
-  await messagesStore.fetchChats({
+  const queryParams = {
     limit: messagesStore.limit,
     offset: messagesStore.chatListOffset,
     search: messagesStore.searchQuery,
-  });
+  };
+  if (props.chosen === 'chats') await messagesStore.fetchChats(queryParams);
+  else if (props.chosen === 'orders')
+    await messagesStore.fetchOrdersChats(queryParams);
 }
 
-onMounted(() => {
-  messagesStore.fetchChats({
+if (props.chosen === 'chats')
+  await messagesStore.fetchChats({
     limit: messagesStore.limit,
     offset: 1,
   });
-});
+else if (props.chosen === 'orders')
+  await messagesStore.fetchOrdersChats({
+    limit: messagesStore.limit,
+    offset: 1,
+  });
 </script>
