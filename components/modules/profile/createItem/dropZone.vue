@@ -4,7 +4,7 @@ interface banner extends uploadFileResponse {
 }
 const props = defineProps<{
   uploadPath: string;
-  canZero: boolean;
+  canZero?: boolean;
 }>();
 const emit = defineEmits<{ (e: 'changed'): void }>();
 const banners = defineModel<uploadFileResponse[]>({
