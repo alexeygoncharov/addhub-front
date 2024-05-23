@@ -57,9 +57,7 @@ const isMyUnreadMessages = computed(() => {
   });
 });
 
-onMounted(() => {
-  messagesStore.fetchLastMessage(props.chat?._id);
-});
+messagesStore.fetchLastMessage(props.chat?._id);
 </script>
 
 <style></style>

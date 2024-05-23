@@ -1,7 +1,7 @@
 export const useMessagesStore = defineStore('messages', () => {
   const messages = ref<Array<ChatMessage>>([]);
   const newMessage = ref();
-  const activeChat = ref();
+  const activeChat = ref<ChatItem>();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 10;
@@ -59,7 +59,7 @@ export const useMessagesStore = defineStore('messages', () => {
     messagesListOffset.value = 1;
   }
 
-  function resetСhats() {
+  function resetChats() {
     chats.value = [];
     chatListOffset.value = 1;
   }
@@ -71,6 +71,22 @@ export const useMessagesStore = defineStore('messages', () => {
         query: payload,
       },
     });
+    const value = data.value;
+    if (value) {
+      // chats.value = value.result.list;
+      addChats(value.result);
+    }
+  }
+  async function fetchOrdersChats(payload: ChatPayload) {
+    const { data } = await apiFetch<ApiResponse<ChatList>>(
+      `/api/chat/my_by_order`,
+      {
+        needToken: true,
+        options: {
+          query: payload,
+        },
+      },
+    );
     const value = data.value;
     if (value) {
       // chats.value = value.result.list;
@@ -105,9 +121,9 @@ export const useMessagesStore = defineStore('messages', () => {
       },
     );
     chats.value = chats.value.filter(
-      (item) => item._id !== activeChat.value._id,
+      (item) => activeChat.value && item._id !== activeChat.value._id,
     );
-    activeChat.value = null;
+    activeChat.value = undefined;
   }
 
   async function createMessage(msg: MessagePayload) {
@@ -182,11 +198,12 @@ export const useMessagesStore = defineStore('messages', () => {
     fetchChatMessagesList,
     createMessage,
     fetchChats,
+    fetchOrdersChats,
     resetMessages,
     getRespondent,
     deleteChat,
     readMessage,
-    resetСhats,
+    resetChats,
     fetchLastMessage,
     fetchTotalUnseenCount,
     searchQuery,

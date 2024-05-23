@@ -140,8 +140,6 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  if (props.message.sender?._id !== userStore.user?._id && !props.message.seen)
-    messagesStore.readMessage({ id: props.message._id, seen: true });
-});
+if (props.message.sender?._id !== userStore.user?._id && !props.message.seen)
+  messagesStore.readMessage({ id: props.message._id, seen: true });
 </script>

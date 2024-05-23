@@ -38,7 +38,7 @@
                 <div class="pay-table__th">Итого</div>
               </div>
               <div class="pay-table__col">
-                <div class="pay-table__th">Cтоимость</div>
+                <div class="pay-table__th">Стоимость</div>
               </div>
             </div>
           </div>

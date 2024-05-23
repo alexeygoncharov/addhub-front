@@ -18,6 +18,10 @@
     // height: calc(100 * var(--vh) - 22em); убрано --vh
     background: #fff;
     border-radius: 0.4375em;
+
+    .tabs-select {
+      padding: 1em 1em 0;
+    }
   }
 
   &__content {
