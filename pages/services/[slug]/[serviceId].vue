@@ -293,7 +293,10 @@
         </div>
       </div>
 
-      <form class="article-item review-form">
+      <form
+        v-if="userReview.isPurchased && !userReview.review"
+        class="article-item review-form"
+      >
         <div class="review-form__top">
           <div class="text20 medium-text">Добавить отзыв</div>
           <!-- <div class="text15 text14-tablet light-text gray-text">
