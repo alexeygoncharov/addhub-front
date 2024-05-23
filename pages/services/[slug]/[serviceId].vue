@@ -213,7 +213,6 @@
       </div>
 
       <div class="article-item article-reviews">
-        hudhasiuhdiouas
         <div class="text20 medium-text">{{ `${item?.reviews} отзывов` }}</div>
 
         <div class="review-rating">
