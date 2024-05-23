@@ -10,7 +10,7 @@
       data-id="1"
     >
       <div class="chat-content__top">
-        <div class="chat-user">
+        <div v-if="messagesStore.activeChat" class="chat-user">
           <div class="avatar">
             <img
               crossorigin="anonymous"
@@ -52,13 +52,13 @@
             </div>
           </div>
         </div>
-        <div
+        <!-- <div
           v-if="messagesStore.activeChat?.service?.id"
           class="chat-content__order _flex"
         >
           <img src="/img/folder.svg" alt="" />
           <span>{{ messagesStore.activeChat?.service?.title }}</span>
-        </div>
+        </div> -->
         <div class="chat-content__right _flex">
           <!--<div v-if="messagesStore.activeChat?._id" class="chat-status">
             <img src="/img/thunder.svg" alt="" />
@@ -175,8 +175,26 @@ const message = ref<Message>({ recipient: '', text: '', files: [] });
 const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
 });
+const id: string = useRoute().query.id?.toString() || '';
+watch(
+  messagesStore.chats,
+  () => {
+    if (!messagesStore.activeChat && id) {
+      messagesStore.resetMessages();
+      messagesStore.fetchChatMessagesList({
+        chat_id: id,
+        offset: messagesStore.messagesListOffset,
+      });
 
+      messagesStore.activeChat = messagesStore.chats.find(
+        (chat) => chat._id === id,
+      );
+    }
+  },
+  { immediate: true },
+);
 function sendMessage() {
+  if (!messagesStore.activeChat) return;
   const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
   if (activeChat) message.value.recipient = activeChat._id;
   if (message.value.recipient && message.value.text) {

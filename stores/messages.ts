@@ -1,7 +1,7 @@
 export const useMessagesStore = defineStore('messages', () => {
   const messages = ref<Array<ChatMessage>>([]);
   const newMessage = ref();
-  const activeChat = ref();
+  const activeChat = ref<ChatItem>();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 10;
@@ -121,9 +121,9 @@ export const useMessagesStore = defineStore('messages', () => {
       },
     );
     chats.value = chats.value.filter(
-      (item) => item._id !== activeChat.value._id,
+      (item) => activeChat.value && item._id !== activeChat.value._id,
     );
-    activeChat.value = null;
+    activeChat.value = undefined;
   }
 
   async function createMessage(msg: MessagePayload) {

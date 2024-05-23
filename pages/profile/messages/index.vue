@@ -79,7 +79,7 @@ definePageMeta({
 
 onBeforeUnmount(() => {
   messagesStore.resetChats();
-  messagesStore.activeChat = null;
+  messagesStore.activeChat = undefined;
   messagesStore.searchQuery = '';
   messagesStore.lastMessages = [];
 });

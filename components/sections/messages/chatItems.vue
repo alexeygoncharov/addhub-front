@@ -30,6 +30,8 @@ const userStore = useUserStore();
 function selectChat(respondent: ChatItem) {
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
+  const router = useRouter();
+  router.push({ query: { id: respondent._id } });
   messagesStore.fetchChatMessagesList({
     chat_id: messagesStore.activeChat?._id,
     offset: messagesStore.messagesListOffset,
