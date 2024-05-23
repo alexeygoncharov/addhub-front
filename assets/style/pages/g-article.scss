@@ -450,15 +450,15 @@
   }
 }
 
-.rating-input[data-total-rating='1']:not(:hover)
+.rating-input[data-rating-code='1']:not(:hover)
   .rating-input__item:nth-child(n + 5),
-.rating-input[data-total-rating='2']:not(:hover)
+.rating-input[data-rating-code='2']:not(:hover)
   .rating-input__item:nth-child(n + 4),
-.rating-input[data-total-rating='3']:not(:hover)
+.rating-input[data-rating-code='3']:not(:hover)
   .rating-input__item:nth-child(n + 3),
-.rating-input[data-total-rating='4']:not(:hover)
+.rating-input[data-rating-code='4']:not(:hover)
   .rating-input__item:nth-child(n + 2),
-.rating-input[data-total-rating='5']:not(:hover)
+.rating-input[data-rating-code='5']:not(:hover)
   .rating-input__item:nth-child(n + 1) {
   path {
     fill: $orange;

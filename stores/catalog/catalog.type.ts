@@ -69,6 +69,7 @@ export interface serviceItem extends catalogItem {
     country: Country;
     city: City;
   };
+  rateCounts: Object;
 }
 
 export interface servicesItem extends catalogItem {
