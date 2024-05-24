@@ -248,29 +248,31 @@
         </div>
 
         <div
-          v-for="data in reviews"
-          :key="data._id"
+          v-for="review in reviews"
+          :key="review._id"
           class="article-reviews__items"
         >
           <div class="review-card2">
             <div class="review-card2__top">
               <div class="avatar">
-                {{ baseUrl() + data?.sender?.avatar?.url }}
+                {{ baseUrl() + review?.sender?.avatar?.url }}
               </div>
               <div class="review-card2__content">
                 <div class="review-card2__name text15 medium-text">
-                  {{ `${data?.sender?.name} ${data?.sender?.surname}` }}
+                  {{ `${review?.sender?.name} ${review?.sender?.surname}` }}
                 </div>
                 <div class="review-card2__info _flex">
                   <div class="service-card__reviews _flex">
                     <img src="/img/star.svg" alt="" />
                     <div class="service-card__reviews-text">
-                      <span class="text15 medium-text">{{ data.rate }} </span>
+                      <span class="text15 medium-text">{{ review.rate }} </span>
                     </div>
                   </div>
                   <div class="review-card2__time">
                     <span class="_view1 text14 light-text gray-text">
-                      {{ `Опубликовано ${$dayjs(data?.createdAt).fromNow()}` }}
+                      {{
+                        `Опубликовано ${$dayjs(review?.createdAt).fromNow()}`
+                      }}
                     </span>
                     <span class="_view2 text14 light-text gray-text">
                       {{ $dayjs(item?.createdAt).fromNow() }}
@@ -281,7 +283,7 @@
             </div>
             <div class="review-card2__text">
               <div class="text15 light-text">
-                {{ data?.message }}
+                {{ review?.message }}
               </div>
             </div>
           </div>
@@ -348,7 +350,7 @@
         <div class="review-form__fields">
           <fieldset class="fg _full">
             <label>Комментарий</label>
-            <textarea v-model="review.message"></textarea>
+            <textarea v-model="comment"></textarea>
           </fieldset>
           <!-- <fieldset class="fg">
             <label>Ваше имя</label>
@@ -419,9 +421,7 @@ const orderId = ref('');
 const route = useRoute();
 const router = useRouter();
 const pageReviews = ref(1);
-const review = ref({
-  message: '',
-});
+const comment = ref('');
 interface reviewItem {
   _id: string;
   message: string;
@@ -461,7 +461,7 @@ const createReview = async () => {
         method: 'POST',
         body: {
           rate: userRating.value,
-          message: review.value.message,
+          message: comment.value,
           service_id: itemId,
           recipient: item.value?.createdBy._id,
           // parent_id: 'any',
@@ -473,7 +473,7 @@ const createReview = async () => {
   const value = data.value;
   if (value) {
     reviews.value.push(value.result);
-    review.value.message = '';
+    comment.value = '';
     userRating.value = 0;
   }
 
