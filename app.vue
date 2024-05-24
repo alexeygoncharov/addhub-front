@@ -52,13 +52,15 @@ function onConnect() {
   socket.io.engine.on('upgrade', (rawTransport) => {
     transport.value = rawTransport.name;
   });
-  setupSocketListeners();
 }
 
+setupSocketListeners();
+
 function onDisconnect() {
+  console.log('disconnect');
   isConnected.value = false;
   transport.value = 'N/A';
-  teardownSocketListeners();
+  // teardownSocketListeners();
 }
 
 function setupSocketListeners() {
@@ -68,13 +70,13 @@ function setupSocketListeners() {
   socket.on('update_message', handleUpdateMessage);
 }
 
-function teardownSocketListeners() {
-  // socket.off('new_message', handleNewMessage);
-  // socket.off('delete_chat', handleDeleteChat);
-  // socket.off('update_user', handleUpdateUser);
-  // socket.off('update_message', handleUpdateMessage);
-  socket.off();
-}
+// function teardownSocketListeners() {
+//   // socket.off('new_message', handleNewMessage);
+//   // socket.off('delete_chat', handleDeleteChat);
+//   // socket.off('update_user', handleUpdateUser);
+//   // socket.off('update_message', handleUpdateMessage);
+//   // socket.off();
+// }
 
 // Обработчики событий сокета
 function handleNewMessage(data: ChatData) {
@@ -147,6 +149,6 @@ useHead({
 });
 
 onBeforeUnmount(() => {
-  teardownSocketListeners();
+  // teardownSocketListeners();
 });
 </script>
