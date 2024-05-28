@@ -100,10 +100,11 @@
   </div>
 
   <form action="" class="pay-form">
-    <div class="pay-form__top">
+    <!--<div class="pay-form__top">
       <div class="text17 medium-text">Платежные способы</div>
-    </div>
+    </div>-->
     <div class="pay-form__items">
+      <!--
       <fieldset class="fg">
         <label>Выберите способ оплаты</label>
         <div class="m-select">
@@ -135,8 +136,8 @@
             </div>
           </div>
         </div>
-      </fieldset>
-      <div class="pay-way">
+      </fieldset>-->
+      <!--<div class="pay-way">
         <div class="pay-way__title text17 medium-text">Способ платежа</div>
         <div class="pay-way__wrap">
           <div class="pay-way__items">
@@ -154,7 +155,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <fieldset class="pay-form__address fg">
         <label>Адрес для выплат (USDT TRC-20)</label>
         <input type="text" />

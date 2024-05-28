@@ -401,3 +401,36 @@ input {
   background-color: #fff;
   border-radius: 12px;
 }
+
+.el-dialog {
+  box-sizing: border-box;
+  width: 50%;
+  margin: 0 auto 50px;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+
+  &__header {
+    padding: 20px;
+    padding-bottom: 10px;
+  }
+
+  &__body {
+    padding: 30px 20px;
+    font-size: 14px;
+    line-height: 129%;
+    word-break: break-all;
+
+    .title {
+      margin-top: 10px;
+      color: #646464;
+    }
+
+    .dialog-footer {
+      display: flex;
+      margin-top: 1rem;
+    }
+  }
+
+}
+

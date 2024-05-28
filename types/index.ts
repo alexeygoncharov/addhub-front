@@ -53,7 +53,7 @@ declare global {
     surname: string;
     email: string;
     roles: string[];
-    active_role: 'buyer' | 'seller';
+    active_role: 'buyer' | 'seller' | 'admin' | 'moderator';
     __v: number;
     avatar?: uploadFileResponse;
     phone_number: string;
