@@ -1,0 +1,1532 @@
+<template>
+  <section>
+    <ModulesProfileTop>Пользователи </ModulesProfileTop>
+    <div class="users">
+      <div class="users__category-mobile">
+        <div class="users__category-mobile-info">
+          <div
+            class="users__category-mobile-item"
+            @click="showFilter = !showFilter"
+          >
+            <a class="users__category-mobile-item-link mobile-search">
+              Поиск
+              <svg
+                width="45"
+                height="45"
+                viewBox="0 0 45 45"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M23.5826 10.8857C27.0888 14.3919 27.0888 20.0766 23.5826 23.5828C20.0764 27.089 14.3917 27.089 10.8855 23.5828C7.37925 20.0766 7.37925 14.3919 10.8855 10.8857C14.3917 7.37946 20.0764 7.37946 23.5826 10.8857ZM8.26347 26.2048C12.7725 30.7138 19.8311 31.1191 24.7985 27.4207L34.1145 36.7367C34.8386 37.4608 36.0125 37.4608 36.7365 36.7367C37.4606 36.0127 37.4606 34.8388 36.7365 34.1147L27.4205 24.7987C31.1189 19.8314 30.7136 12.7727 26.2046 8.26368C21.2503 3.30937 13.2178 3.30937 8.26347 8.26368C3.30916 13.218 3.30916 21.2505 8.26347 26.2048Z"
+                  fill="#484848"
+                  stroke="#484848"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="users__category-mobile-item">
+            <a class="users__category-mobile-item-link" href="#">
+              Все пользователи
+              <div class="users__category-mobile-item-amount">
+                {{ usersSum }}
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <Swiper
+          v-if="showFilter"
+          class="users__category-mobile-form swiper"
+          :space-between="15"
+          slides-per-view="auto"
+        >
+          <SwiperSlide class="users__category-mobile-form-item swiper-slide">
+            <label class="users__category-mobile-form-item-label"
+              >Поиск по ID</label
+            >
+            <input
+              class="users__category-mobile-form-item-input"
+              type="text"
+              placeholder="Введите ID"
+            />
+          </SwiperSlide>
+          <SwiperSlide class="users__category-mobile-form-item swiper-slide">
+            <label class="users__category-mobile-form-item-label"
+              >Поиск ФИО</label
+            >
+            <input
+              class="users__category-mobile-form-item-input"
+              type="text"
+              placeholder="Введите ФИО"
+            />
+          </SwiperSlide>
+          <SwiperSlide class="users__category-mobile-form-item swiper-slide">
+            <label class="users__category-mobile-form-item-label"
+              >Поиск по Email</label
+            >
+            <input
+              class="users__category-mobile-form-item-input"
+              type="text"
+              placeholder="Введите email"
+            />
+          </SwiperSlide>
+          <SwiperSlide class="users__category-mobile-form-item swiper-slide">
+            <label class="users__category-mobile-form-item-label"
+              >Поиск по Дате</label
+            >
+            <div class="users__category-mobile-form-item-box">
+              <input
+                class="users__category-mobile-form-item-input"
+                type="text"
+                placeholder="От"
+              />
+              <input
+                class="users__category-mobile-form-item-input"
+                type="text"
+                placeholder="До"
+              />
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
+      <div class="users__category users-category" :class="{ hide: showFilter }">
+        <a class="users__search" @click="showFilter = !showFilter">
+          <svg
+            width="45"
+            height="45"
+            viewBox="0 0 45 45"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M23.5826 10.8857C27.0888 14.3919 27.0888 20.0766 23.5826 23.5828C20.0764 27.089 14.3917 27.089 10.8855 23.5828C7.37925 20.0766 7.37925 14.3919 10.8855 10.8857C14.3917 7.37946 20.0764 7.37946 23.5826 10.8857ZM8.26347 26.2048C12.7725 30.7138 19.8311 31.1191 24.7985 27.4207L34.1145 36.7367C34.8386 37.4608 36.0125 37.4608 36.7365 36.7367C37.4606 36.0127 37.4606 34.8388 36.7365 34.1147L27.4205 24.7987C31.1189 19.8314 30.7136 12.7727 26.2046 8.26368C21.2503 3.30937 13.2178 3.30937 8.26347 8.26368C3.30916 13.218 3.30916 21.2505 8.26347 26.2048Z"
+              fill="#484848"
+              stroke="#484848"
+            />
+          </svg>
+          <div class="users__search-text">
+            Нажмите
+            <span>для поиска</span>
+          </div>
+        </a>
+        <a class="users__item">
+          <div class="users__amount">{{ usersSum }}</div>
+          Все пользователи
+        </a>
+      </div>
+      <div class="users-table">
+        <table
+          id="users-table"
+          class="users-table__table nowrap"
+          style="width: 100%"
+        >
+          <thead>
+            <tr class="users-table__row">
+              <th>
+                <div class="users-table__cell">ID</div>
+              </th>
+              <th>
+                <div class="users-table__cell">Имя</div>
+              </th>
+              <th>
+                <div class="users-table__cell">Email</div>
+              </th>
+              <th>
+                <div class="users-table__cell">Товаров</div>
+              </th>
+              <th>
+                <div class="users-table__cell cell-registration">
+                  Дата регистрации
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody v-if="!uploading">
+            <tr
+              v-for="el of users"
+              :key="el.id"
+              class="users-table__row row-info"
+              :class="`users-table__row--${el.status ? 'green' : 'red'}`"
+              data-path="users-7"
+              @click="openUser(el.id)"
+            >
+              <td>
+                <div class="users-table__cell">{{ el.id }}</div>
+              </td>
+              <td>
+                <div class="users-table__cell">{{ el.name }}</div>
+              </td>
+              <td>
+                <div class="users-table__cell">{{ el.email }}</div>
+              </td>
+              <td>
+                <div class="users-table__cell">{{ el.products_count }}</div>
+              </td>
+              <td>
+                <div class="users-table__cell">
+                  {{
+                    new Date(el.created_at).toLocaleDateString() +
+                    ` в ` +
+                    new Date(el.created_at).toLocaleTimeString('ru', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
+                  }}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="uploading">
+          <UiSkeleton
+            v-for="el in 10"
+            :key="el"
+            class="users-table__skeleton"
+          />
+        </div>
+        <TheCustomPagination
+          v-model="currentPage"
+          :disabled="uploading"
+          class="users__pagination"
+          :total-pages="totalPages"
+        />
+      </div>
+      <div
+        class="users__filter"
+        :class="{ 'users__filter--active': showFilter }"
+      >
+        <div class="users__filter-heading">
+          <a class="users__filter-button" @click="showFilter = false"
+            >img close</a
+          >
+          <h3 class="users__filter-title">Фильтрация</h3>
+        </div>
+        <form class="users__form">
+          <div class="users__form-item">
+            <label class="users__item-label">Поиск по ID</label>
+            <input
+              class="users__item-input"
+              type="text"
+              placeholder="Введите ID"
+            />
+          </div>
+          <div class="users__form-item">
+            <label class="users__item-label">Поиск ФИО</label>
+            <input
+              class="users__item-input"
+              type="text"
+              placeholder="Введите ФИО"
+            />
+          </div>
+          <div class="users__form-item">
+            <label class="users__item-label">Поиск по Email</label>
+            <input
+              class="users__item-input"
+              type="text"
+              placeholder="Введите email"
+            />
+          </div>
+          <div class="users__form-item">
+            <label class="users__item-label">Поиск по Дате</label>
+            <div class="users__item-box">
+              <input class="users__item-input" type="text" placeholder="От" />
+              <input class="users__item-input" type="text" placeholder="До" />
+            </div>
+          </div>
+          <div class="users__form-item">
+            <label class="users__item-label">Статус</label>
+            <div class="users__item-checkboxes">
+              <label class="checkbox-active checkbox">
+                <input class="users__item-input-checkbox" type="checkbox" />
+                <p class="checkbox-title checkbox-title--active">Активен</p>
+              </label>
+              <label class="checkbox-disabled checkbox">
+                <input class="users__item-input-checkbox" type="checkbox" />
+                <p class="checkbox-title checkbox-title--disabled">Отключен</p>
+              </label>
+              <label class="checkbox-blocked checkbox">
+                <input class="users__item-input-checkbox" type="checkbox" />
+                <p class="checkbox-title checkbox-title--blocked">
+                  Заблокирован
+                </p>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <UiModalDrawer :show="showModal">
+      <template v-if="currentUser" #drawer-title>{{
+        currentUser.name
+      }}</template>
+      <template #drawer-body>
+        <div v-if="currentUser" class="users-modal__inner">
+          <div class="users-modal__row">
+            <div
+              :class="[
+                'users-modal__status',
+                `users-modal__status${currentUser.status ? '--success' : '--disabled'}`,
+              ]"
+            >
+              {{ currentUser.status ? 'Активный' : 'Заблокирован' }}
+            </div>
+            <div class="users-modal__date">
+              <p class="users-modal__date-text">Зарегистрирован:</p>
+              <p v-if="currentUser" class="users-modal__date-registration">
+                {{
+                  new Date(currentUser.created_at).toLocaleDateString() +
+                  ` ${$t('up.messages.at')} ` +
+                  new Date(currentUser.created_at).toLocaleTimeString('ru', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="users-modal__main">
+            <div class="users-modal__info">
+              <div class="users-modal__info-category">Email:</div>
+              <div class="users-modal__info-value">{{ currentUser.email }}</div>
+              <div v-if="currentUser.phone" class="users-modal__info-category">
+                Телефон:
+              </div>
+              <div v-if="currentUser.phone" class="users-modal__info-value">
+                {{ currentUser.phone }}
+              </div>
+              <div class="users-modal__info-category">Товаров:</div>
+              <div class="users-modal__info-value">
+                {{ currentUser.products_count }}
+              </div>
+              <div class="users-modal__info-category">Заработано:</div>
+              <div class="users-modal__info-value">
+                {{ currentUser.earning }}
+              </div>
+              <div class="users-modal__info-category">Выплачено:</div>
+              <div class="users-modal__info-value">{{ currentUser.paid }}</div>
+              <div class="users-modal__info-category">Удержано:</div>
+              <div class="users-modal__info-value">
+                {{ currentUser.withheld }}
+              </div>
+            </div>
+            <div class="users-modal__links">
+              <nuxt-link
+                :to="`/ap/users/${currentUser.id}/profile`"
+                class="users-modal__link"
+                >Открыть профиль</nuxt-link
+              >
+              <nuxt-link
+                :to="`/u/${currentUser.username}`"
+                class="users-modal__link"
+              >
+                Посмотреть товары
+              </nuxt-link>
+              <a class="users-modal__link" href="#"> Посмотреть выплаты </a>
+              <a class="users-modal__link users-modal__link--blocked" href="#">
+                Заблокировать
+              </a>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="users-modal__row">
+            <UiSkeleton class="users-modal__status--skeleton" />
+
+            <UiSkeleton class="users-modal__date--skeleton" />
+          </div>
+          <div class="users-modal__main">
+            <div class="users-modal__info">
+              <template v-for="el in 6" :key="el">
+                <UiSkeleton
+                  class="users-modal__info-category--skeleton"
+                  :style="{ width: length() + '%' }"
+                />
+                <UiSkeleton
+                  class="users-modal__info-value--skeleton"
+                  :style="{ width: length() + '%' }"
+                />
+              </template>
+            </div>
+            <div class="users-modal__links">
+              <UiSkeleton
+                v-for="el in 4"
+                :key="el"
+                class="users-modal__link--skeleton"
+              />
+            </div>
+          </div>
+        </div>
+      </template>
+    </UiModalDrawer>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { showModal, openModal } from '~/composables/modalDrawer';
+
+const length = () => {
+  return Math.floor(Math.random() * (90 - 50 + 1)) + 50;
+};
+definePageMeta({
+  layout: 'admin',
+});
+const showFilter = ref(false);
+const totalPages = ref(2);
+const currentPage = ref(1);
+const usersSum = ref(0);
+const uploading = ref(false);
+const users = ref([]);
+const currentUser = ref();
+const updateUsers = () => {
+  uploading.value = true;
+  uploading.value = false;
+};
+updateUsers();
+watch(currentPage, () => {
+  updateUsers();
+});
+const openUser = (id: number) => {
+  currentUser.value = undefined;
+  openModal();
+};
+</script>
+
+<style lang="scss" scoped>
+.users {
+  position: relative;
+  width: 80%;
+  margin-left: auto;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    margin: auto;
+  }
+
+  &__header {
+    @media (max-width: 768px) {
+      padding-bottom: 23px;
+    }
+  }
+
+  &__title {
+    font-size: 2.7vw;
+    font-weight: 700;
+    color: #484848;
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+  }
+
+  &__category {
+    position: absolute;
+    top: 1.25vw;
+    right: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw 7px;
+    width: 15vw;
+    font-size: 0.85vw;
+    font-weight: 700;
+    transition:
+      opacity 0.3s,
+      opacity 0.3s,
+      transform 0.3s;
+    transform: translateX(0);
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
+
+    &-mobile {
+      display: none;
+      margin-bottom: 20px;
+
+      @media (max-width: 1000px) {
+        display: block;
+      }
+
+      &-info {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      &-item {
+        width: 50%;
+        padding: 9px 14px 8px;
+        cursor: pointer;
+        background: #fff;
+        border-radius: 13px;
+        box-shadow: 0 1px 12px -5.6px rgb(159 200 223 / 58%);
+
+        @media (max-width: 500px) {
+          max-width: 114px;
+        }
+
+        &-link {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          font-size: 16px;
+          font-weight: 400;
+          color: #000;
+
+          svg {
+            width: 25px;
+            height: 25px;
+          }
+
+          @media (max-width: 500px) {
+            font-size: 10px;
+          }
+        }
+
+        &-amount {
+          font-size: 16px;
+          font-weight: 700;
+          color: #484848;
+        }
+      }
+
+      &-search {
+        display: none;
+        margin-bottom: 20px;
+
+        &--active {
+          display: block;
+        }
+      }
+
+      &-form {
+        display: flex;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        &-item {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          width: 171px !important;
+          padding: 13px 20px 19px;
+          background: #fff;
+          border-radius: 16px;
+          box-shadow: 0 2px 26px -12px rgb(159 200 223 / 58%);
+
+          &-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #070f25;
+          }
+
+          &-input {
+            padding: 8px 12px;
+            background: #f6f6f6;
+            border-radius: 5px;
+
+            &::placeholder {
+              font-size: 14px;
+              font-weight: 400;
+              color: #c1c1c1;
+            }
+          }
+
+          &-box {
+            display: flex;
+            gap: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  &__search {
+    display: flex;
+    gap: 0 0.52vw;
+    padding: 0.88vw 0.78vw 0.88vw 2.6vw;
+    line-height: normal;
+    color: #c6c6c6;
+    cursor: pointer;
+    border-radius: 0.78vw 0 0 0.78vw;
+    transition: all 0.3s;
+
+    svg {
+      width: 2.7em;
+      height: 2.7em;
+    }
+  }
+
+  &__search-text {
+    font-weight: 700;
+
+    span {
+      display: block;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+  }
+
+  &__pagination.thePagination {
+    display: flex;
+    gap: 0.52vw;
+    justify-content: center;
+    margin: 0 auto;
+
+    .thePagination-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.85vw;
+      height: 2.85vw;
+      font-size: 0.88vw;
+      cursor: pointer;
+      border-radius: 50%;
+
+      &--active {
+        box-shadow: 0 0 17.599px -4.39px #eee;
+      }
+    }
+
+    @media screen and (max-width: 1000px) {
+      gap: 10px;
+
+      .thePagination-button {
+        width: 55px;
+        height: 55px;
+        font-size: 17px;
+      }
+    }
+
+    @media screen and (max-width: 576px) {
+      gap: 5px;
+
+      .thePagination-button {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__item {
+    display: block;
+    padding: 1.2vw 0.78vw 1.8vw 2.6vw;
+    font-weight: 700;
+    background: #fff;
+    border-radius: 0.78vw 0 0 0.78vw;
+    box-shadow: -1.3vw 0.02vw 1.5vw -0.75vw #8fb6e240;
+
+    &-label {
+      font-size: 0.72vw;
+      font-weight: 700;
+      color: #c1c1c1;
+    }
+
+    &-input {
+      padding: 0.46vw 0.57vw;
+      background: #f6f6f6;
+      border: 1px solid #c1c1c1;
+      border-radius: 5px;
+
+      &::placeholder {
+        font-size: 0.72vw;
+        font-weight: 400;
+        color: #c1c1c1;
+      }
+    }
+
+    &-box {
+      display: flex;
+      gap: 0.83vw;
+    }
+
+    &-checkboxes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.52vw;
+    }
+  }
+
+  &__amount {
+    font-size: 2.5vw;
+    font-weight: 700;
+
+    .users-categories__item--successful & {
+      color: #73c17b;
+    }
+  }
+
+  &__filter {
+    position: absolute;
+    top: 3.25vw;
+    right: 100%;
+    width: 15.2vw;
+    padding: 29px 32px 47px;
+    padding: 1.5vw 1.6vw 2.44vw;
+    visibility: hidden;
+    background: #fff;
+    border-radius: 15px 0 0 15px;
+    box-shadow: -25px 0.5px 28.5px -14px rgb(143 182 226 / 25%);
+    opacity: 0;
+    transition:
+      opacity 0.3s,
+      visibility 0.3s,
+      transform 0.3s;
+    transform: translateX(100%);
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
+
+    &-heading {
+      display: flex;
+      gap: 0.83vw;
+      align-items: center;
+      margin-bottom: 21px;
+    }
+
+    &-title {
+      font-size: 1.25vw;
+      font-weight: 700;
+      color: #484848;
+    }
+
+    &-button {
+      width: 1.3vw;
+      cursor: pointer;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  &__filter--active {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+
+    &-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+    }
+  }
+}
+
+.users-button {
+  margin: 0;
+  font-weight: 500;
+  color: #7c7c7c;
+  cursor: pointer;
+
+  &__default {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+
+    &:checked + .users-button__body {
+      .users-button__custom {
+        &::after {
+          left: calc(100% - 1.5em + 1px);
+          background: #8ac554;
+        }
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    gap: 0.8em;
+    align-items: center;
+  }
+
+  &__custom {
+    position: relative;
+    flex-shrink: 0;
+    width: 2.5em;
+    height: 1.5em;
+    border: 1px solid #7c7c7c;
+    border-radius: 50px;
+
+    &::after {
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      display: block;
+      width: 1.5em;
+      height: 1.5em;
+      content: '';
+      background: #eee;
+      border: 1px solid #7c7c7c;
+      border-radius: 50px;
+      transition: all 0.3s;
+    }
+  }
+}
+
+.checkbox-active,
+.checkbox-disabled,
+.checkbox-blocked {
+  position: relative;
+  width: 1.2em;
+  height: 1.2em;
+  cursor: pointer;
+  background-color: #ebebeb;
+  border-radius: 3px;
+}
+
+.checkbox-active::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6em;
+  height: 0.6em;
+  content: '';
+  background-color: #c4db9d;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-disabled::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6em;
+  height: 0.6em;
+  content: '';
+  background-color: #bebfba;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-blocked::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6em;
+  height: 0.6em;
+  content: '';
+  background-color: #bebfba;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-active input[type='checkbox'],
+.checkbox-disabled input[type='checkbox'],
+.checkbox-blocked input[type='checkbox'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.checkbox:has(input[type='checkbox']:not(:checked))::before {
+  display: none;
+}
+
+.checkbox-title {
+  padding-left: 2em;
+  font-size: 0.8em;
+  font-weight: 400;
+}
+
+.checkbox-title--active {
+  color: #c1c1c1;
+}
+
+.checkbox-title--disabled {
+  color: #f9c258;
+}
+
+.checkbox-title--blocked {
+  color: #f18f8f;
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hide {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.users-category {
+  transition:
+    opacity 0.3s,
+    visibility 0.3s,
+    transform 0.3s;
+}
+
+.users-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  padding: 0 0.25rem;
+  overflow: hidden auto;
+  text-align: center;
+  cursor: pointer;
+  visibility: hidden;
+  background: rgb(74 90 104 / 33%);
+  backdrop-filter: blur(5.77px);
+  opacity: 0;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+
+  &-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 52vw;
+    font-size: 0.83vw;
+    color: #484848;
+    visibility: visible;
+    background-color: #fff;
+    opacity: 1;
+    transition:
+      opacity var(--transition-time),
+      visibility var(--transition-time),
+      transform var(--transition-time);
+    transform: translateX(100%);
+
+    @media (max-width: 768px) {
+      max-width: 768px;
+    }
+  }
+
+  &__body {
+    height: 100%;
+    margin-right: 1vw;
+    overflow: hidden auto;
+    cursor: default;
+
+    &::-webkit-scrollbar {
+      width: 1vw;
+    }
+
+    &::-webkit-scrollbar-track {
+      margin: 1.7vw 0 1.4vw;
+      background: #f5f8fb;
+      border-radius: 8px;
+      box-shadow: 0 0.1vw 0.52vw -5px #9fc8df94;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #282828;
+      border: 0.15vw solid #fff;
+      border-radius: 18px;
+    }
+  }
+
+  &__date {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    &-text {
+      font-size: 0.94vw;
+      font-weight: 400;
+      color: #000;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+      }
+    }
+
+    &-registration {
+      font-size: 0.94vw;
+      font-weight: 700;
+      color: #484848;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+      }
+    }
+
+    &--skeleton {
+      width: 100%;
+      max-width: 17.45vw;
+      height: 1.3vw;
+      border-radius: 0.41vw;
+
+      @media (max-width: 768px) {
+        max-width: 50%;
+        height: 15px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6em;
+    font-size: 1.87vw;
+    font-weight: 700;
+
+    @media (max-width: 768px) {
+      margin-bottom: 34;
+      font-size: 24px;
+    }
+  }
+
+  &__button-close {
+    display: flex;
+    align-items: center;
+  }
+
+  &__row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1vw;
+    margin-bottom: 1.45vw;
+    font-size: 0.94vw;
+    font-weight: 700;
+
+    @media (max-width: 768px) {
+      font-size: 13px;
+      border-bottom: 1px solid #bdc4cb;
+    }
+  }
+
+  &__status {
+    &--success {
+      color: #73c17b;
+    }
+
+    &--disabled {
+      color: #f5a5a9;
+    }
+
+    &--err {
+      color: #f9c258;
+    }
+
+    &--skeleton {
+      width: 6.8vw;
+      height: 1.3vw;
+      border-radius: 0.41vw;
+
+      @media screen and (max-width: 768px) {
+        width: 20%;
+        height: 15px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  &__main {
+    display: flex;
+    gap: 33px 0.78vw;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &__info {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 0.52vw;
+    width: 100%;
+    max-width: 18.2vw;
+    line-height: 0.7vw;
+    text-align: left;
+
+    &-value {
+      font-weight: 700;
+    }
+
+    &-category--skeleton,
+    &-value--skeleton {
+      max-width: 17.4vw;
+      height: 1.3vw;
+      margin-bottom: 4px;
+      border-radius: 0.41vw;
+    }
+
+    @media (max-width: 768px) {
+      max-width: 100%;
+      font-size: 12px;
+
+      &-category--skeleton,
+      &-value--skeleton {
+        max-width: 100%;
+        height: 20px;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-end;
+    width: 26vw;
+
+    @media (max-width: 768px) {
+      align-items: center;
+      width: 100%;
+      padding-top: 20px;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 17.4vw;
+    height: 2.6vw;
+    font-weight: 700;
+    color: #fff;
+    background: #819bf6;
+    border-radius: 0.41vw;
+    transition: all 0.3s;
+
+    &--skeleton {
+      width: 100%;
+      max-width: 17.4vw;
+      height: 3.4vw;
+      border-radius: 0.41vw;
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        color: #fff;
+        background: #6b8cff;
+      }
+    }
+
+    @media (max-width: 768px) {
+      max-width: 50%;
+      padding: 18px 28px;
+      font-size: 12px;
+      border-radius: 6px;
+
+      &--skeleton {
+        max-width: none;
+        height: 45px;
+        border-radius: 6px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      max-width: 100%;
+
+      &--skeleton {
+        max-width: 100%;
+      }
+    }
+
+    &--blocked {
+      background: #f5a5a9;
+
+      @media (any-hover: hover) {
+        &:hover {
+          color: #fff;
+          background: #f5a5a9;
+        }
+      }
+    }
+  }
+}
+
+.modal-open-overlay {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+
+.modal-open {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+  transform: translateX(0);
+}
+
+.users-table {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 39.5vw;
+  padding: 2.6vw 1.56vw 1vw;
+  background: #fff;
+  border-radius: 1.4vw;
+  box-shadow: 0 0.1vw 1.35vw -0.62vw #9fc8df94;
+
+  .users-table__table {
+    border-spacing: 0 0.78vw;
+    border-collapse: separate;
+  }
+
+  &__table {
+    border: none !important;
+
+    tbody {
+      filter: drop-shadow(0 0.167vw 1.06vw rgb(0 0 0 / 5%));
+      transform: translateZ(0);
+    }
+
+    tr {
+      &::before {
+        content: '';
+      }
+    }
+
+    tbody tr {
+      cursor: pointer;
+      transition: transform 0.3s;
+
+      @media (any-hover: hover) {
+        &:hover {
+          transform: scale(1.01);
+        }
+      }
+    }
+
+    th,
+    td {
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    th {
+      font-size: 0.83vw;
+      font-weight: 700 !important;
+      color: #c1c1c1;
+
+      &::before,
+      &::after {
+        content: none !important;
+      }
+    }
+
+    td {
+      font-size: 0.72vw;
+
+      &:first-child {
+        font-weight: 700;
+        color: #c1c1c1;
+      }
+
+      &:nth-child(2) {
+        font-weight: 700;
+      }
+    }
+
+    tbody tr:last-child th,
+    tbody tr:last-child td {
+      padding: 0 !important;
+    }
+  }
+
+  .paging_numbers {
+    float: none;
+    padding-top: 1.25vw;
+    text-align: center;
+  }
+
+  .dataTables_paginate .paginate_button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.85vw;
+    height: 2.85vw;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    transition: all 0.3s;
+
+    &:not(:last-child) {
+      margin-right: 0.52vw;
+    }
+
+    &:hover {
+      color: inherit !important;
+      background: transparent;
+      border: none;
+      box-shadow: 0 0.1vw 1.3vw -4vw #00000040;
+    }
+
+    &.current {
+      background: transparent;
+      border: none;
+      box-shadow: 0 0 1.3vw -4vw #00000040;
+
+      &:hover {
+        background: transparent;
+        border: none;
+      }
+    }
+  }
+
+  &__skeleton {
+    width: 100%;
+    height: 4.3em;
+    margin-bottom: 10px;
+    border-radius: 0.41vw;
+  }
+
+  &__cell {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
+    justify-content: center;
+    height: 4.2em;
+    padding: 0 0.35em;
+    text-align: center;
+    background: #fff;
+
+    td:first-child &,
+    th:first-child & {
+      border-radius: 0.5em 0 0 0.5em;
+    }
+
+    td:last-child &,
+    th:last-child & {
+      border-radius: 0 0.5em 0.5em 0;
+    }
+
+    td:first-child & {
+      border-left: 0.5em solid #73c17b;
+
+      .users-table__row--green & {
+        border-left-color: #73c17b;
+      }
+
+      .users-table__row--red & {
+        border-left-color: #f5a5a9;
+      }
+    }
+
+    td:last-child & {
+      .users-table__row--yellow & {
+        border-right: 1px solid #f9c258;
+      }
+    }
+
+    td & {
+      .users-table__row--yellow & {
+        border-top: 1px solid #f9c258;
+        border-bottom: 1px solid #f9c258;
+      }
+    }
+
+    th &::after {
+      flex-shrink: 0;
+      width: 0.35em;
+      height: 0.8em;
+      background: url('/img/user-panel/history/arrow-down.svg') 0 0 / 100%
+        no-repeat;
+    }
+
+    .sorting_desc &::after {
+      content: '';
+    }
+
+    .sorting_asc &::after {
+      content: '';
+      transform: rotate(180deg);
+    }
+
+    svg {
+      width: 0.83vw;
+    }
+  }
+
+  &__link {
+    display: block;
+
+    path {
+      transition: all 0.3s;
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        path {
+          stroke: #000;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .users-modal {
+    font-size: 14px;
+
+    &__title {
+      margin-bottom: 13px;
+      font-size: 24px;
+    }
+
+    &__row {
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    &__info {
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4px;
+      max-width: none;
+    }
+
+    &__link {
+      max-width: none;
+      height: 36px;
+      border-radius: 5.8px;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .users-history {
+    grid-template: none;
+    gap: 15px;
+    width: auto;
+    margin: 0;
+
+    &__categories,
+    &__filtration {
+      display: none;
+    }
+
+    &__categories-mobile {
+      display: block;
+    }
+
+    &__filtration-mobile {
+      display: none;
+
+      &--show {
+        display: block;
+      }
+    }
+  }
+
+  .users-table {
+    min-height: auto;
+    padding: 5px 13px 25px;
+    border-radius: 27.5px;
+    box-shadow: 0 2.1936px 26.3664px -12.0773px rgb(159 200 223 / 58%);
+
+    .users-table__table {
+      border-spacing: 0 10px;
+    }
+
+    &__table {
+      tbody {
+        filter: drop-shadow(0 2px 10px rgb(0 0 0 / 5%));
+      }
+
+      th {
+        font-size: 14px;
+      }
+
+      td {
+        font-size: 14px;
+      }
+
+      .users-table &.nowrap td {
+        white-space: normal;
+      }
+    }
+
+    .paging_numbers {
+      padding-top: 25px;
+    }
+
+    .dataTables_paginate .paginate_button {
+      width: 55px;
+      height: 55px;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+
+      &:hover {
+        box-shadow: 0 2px 25px -8px #00000040;
+      }
+
+      &.current {
+        box-shadow: 0 2px 25px -8px #00000040;
+      }
+    }
+
+    &__skeleton {
+      border-radius: 8px;
+    }
+
+    &__cell {
+      svg {
+        width: 16px;
+      }
+
+      @media (max-width: 420px) {
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .users-table {
+    &__table {
+      th,
+      td {
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .users-table {
+    &__table {
+      th,
+      td {
+        &:nth-child(4) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+</style>
