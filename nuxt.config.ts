@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     '/profile/messages': { ssr: false },
     '/services': { redirect: '/services/all' },
     '/profile': { redirect: '/profile/bids' },
+    '/admin': { redirect: '/admin/orders' },
   },
   app: {
     head: {
