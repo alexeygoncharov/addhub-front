@@ -48,14 +48,16 @@
             placeholder="Александра"
           />
         </fieldset>
-        <fieldset class="fg">
+        <fieldset class="fg small">
           <label>Email</label>
-          <input
-            id="email"
+          <Field
             v-model="form.email"
+            rules="required|email"
+            name="email"
             type="email"
-            placeholder="mail@mail"
+            placeholder="hello@mail.com"
           />
+          <ErrorMessage name="email" class="error-message" />
         </fieldset>
         <fieldset class="fg">
           <label>Телефон</label>
@@ -129,6 +131,9 @@ import { useFileDialog } from '@vueuse/core';
 import { useUserStore } from '../../../stores/user';
 import { useProfileStore } from '../../../stores/profile';
 import { useCommonStore } from '../../../stores/common';
+import { useValidation } from '~/composables/useValidation';
+
+useValidation();
 const commonStore = useCommonStore();
 const profileStore = useProfileStore();
 const userStore = useUserStore();

@@ -2,6 +2,7 @@ import { defineRule, configure } from 'vee-validate';
 import {
   required,
   min,
+  max,
   email,
   alpha,
   // eslint-disable-next-line camelcase
@@ -45,6 +46,7 @@ export function useValidation() {
   // Регистрация правил
   defineRule('required', required);
   defineRule('min', min);
+  defineRule('max', max);
   defineRule('alpha', alpha);
   defineRule('alpha_dash', alpha_dash);
   defineRule('confirmed', confirmed);

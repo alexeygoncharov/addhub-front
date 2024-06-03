@@ -255,7 +255,11 @@
           <div class="review-card2">
             <div class="review-card2__top">
               <div class="avatar">
-                {{ baseUrl() + data?.sender?.avatar?.url }}
+                <NuxtImg
+                  crossorigin="anonymous"
+                  :src="baseUrl() + data?.sender?.avatar?.url"
+                  alt="Галерея"
+                />
               </div>
               <div class="review-card2__content">
                 <div class="review-card2__name text15 medium-text">
@@ -287,7 +291,11 @@
           </div>
         </div>
         <div class="article-reviews__nav">
-          <button class="m-btn m-btn-blue2" @click="getMoreReviews()">
+          <button
+            :disabled="totalReviews <= reviews.length"
+            class="m-btn m-btn-blue2"
+            @click="getMoreReviews()"
+          >
             <span>Показать еще</span>
           </button>
         </div>
@@ -419,6 +427,7 @@ const orderId = ref('');
 const route = useRoute();
 const router = useRouter();
 const pageReviews = ref(1);
+const totalReviews = ref<number>(0);
 const review = ref({
   message: '',
 });
@@ -472,7 +481,7 @@ const createReview = async () => {
   );
   const value = data.value;
   if (value) {
-    reviews.value.push(value.result);
+    getListReviews();
     review.value.message = '';
     userRating.value = 0;
   }
@@ -513,7 +522,7 @@ const getMoreReviews = () => {
 };
 
 const getListReviews = async () => {
-  const { data, error } = await apiFetch<ApiResponse<any>>(
+  const { data, error } = await apiFetch<ApiListResponse<any>>(
     `/api/reviews/service/${itemId}`,
     {
       needToken: true,
@@ -529,6 +538,7 @@ const getListReviews = async () => {
   const value = data.value;
   if (value) {
     reviews.value.push(...value.result);
+    if (value?.total) totalReviews.value = value?.total;
   }
   if (error.value) {
     return useToast({ message: error.value.data.message, type: 'error' });
