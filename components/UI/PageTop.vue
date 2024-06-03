@@ -30,7 +30,7 @@
               <img src="/img/star.svg" alt="" />
               <span>
                 <b>{{ items.createdBy.rate }} </b>&nbsp;
-                {{ pluralize(0, 'отзыв', 'отзыва', 'отзывов') }}
+                {{ pluralize(items.reviews, 'отзыв', 'отзыва', 'отзывов') }}
               </span>
             </div>
             <div class="page-top__item">
