@@ -6,6 +6,7 @@ import {
   email,
   alpha,
   regex,
+  numeric,
   // eslint-disable-next-line camelcase
   alpha_dash,
   confirmed,
@@ -30,7 +31,6 @@ async function validateEmail(value: string) {
 }
 
 function validatePhone(value: string) {
-  console.log(value);
   return regex(value, [
     /\+7\s*\(\d{3}\)\s*###-##-##|\+7\s*\(\d{4}\)\s*##-##-##/,
   ]);
@@ -57,6 +57,7 @@ export function useValidation() {
   defineRule('min', min);
   defineRule('max', max);
   defineRule('alpha', alpha);
+  defineRule('numeric', numeric);
   defineRule('phone', validatePhone);
   defineRule('alpha_dash', alpha_dash);
   defineRule('confirmed', confirmed);

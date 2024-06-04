@@ -82,7 +82,7 @@
             <Field
               v-if="!editableData"
               v-model="price"
-              rules="required"
+              rules="required|numeric"
               name="price"
             />
             <Field
@@ -90,7 +90,7 @@
               v-model="editableData.price"
               required
               name="price"
-              rules="required"
+              rules="required|numeric"
             />
             <ErrorMessage name="price" class="error-message" />
           </div>
@@ -99,7 +99,7 @@
             <Field
               v-if="!editableData"
               v-model="term"
-              rules="required"
+              rules="required|numeric"
               name="term"
             />
             <Field
@@ -107,7 +107,7 @@
               v-model="editableData.term"
               required
               name="term"
-              rules="required"
+              rules="required|numeric"
             />
             <ErrorMessage name="term" class="error-message" />
           </div>
