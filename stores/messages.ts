@@ -1,7 +1,7 @@
 export const useMessagesStore = defineStore('messages', () => {
   const messages = ref<Array<ChatMessage>>([]);
   const newMessage = ref();
-  const activeChat = ref<ChatItem>();
+  const activeChat = ref<ChatItem | OrderChatItem>();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 10;
@@ -11,6 +11,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const chatListOffset = ref(1);
   const totalUnseenMessages = ref<number>(0);
   const chats = ref<Array<ChatItem>>([]);
+  const activeTab = ref<'chats' | 'orders'>('chats');
   const userStore = useUserStore();
 
   async function fetchChatMessagesList(payload: MessagesPayload) {
@@ -28,7 +29,6 @@ export const useMessagesStore = defineStore('messages', () => {
       addMessages(value.result);
     }
   }
-
   function addMessages(payload: ChatMessagesList) {
     totalCountMessages.value = payload.total;
     if (totalCountMessages.value > messages.value.length) {
@@ -209,6 +209,7 @@ export const useMessagesStore = defineStore('messages', () => {
     searchQuery,
     lastMessages,
     messagesListOffset,
+    activeTab,
     chatListOffset,
     limit,
     messages,

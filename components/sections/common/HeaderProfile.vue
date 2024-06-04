@@ -80,11 +80,7 @@
             </nuxtLink>
           </li>
           <li>
-            <nuxtLink
-              to="/"
-              :active-class="'_active'"
-              @click="authStore.logout"
-            >
+            <button :active-class="'_active'" @click="openConfirmLogout">
               <a class="mob-menu__link">
                 <svg
                   width="18"
@@ -100,7 +96,7 @@
                 </svg>
                 <span class="mob-menu__title">Выйти</span>
               </a>
-            </nuxtLink>
+            </button>
           </li>
         </ul>
       </div>

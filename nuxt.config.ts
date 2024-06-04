@@ -50,7 +50,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/projects': { redirect: '/projects/all' },
-    '/profile/messages': { ssr: false },
+    // '/profile/messages': { ssr: false },
     '/services': { redirect: '/services/all' },
     '/profile': { redirect: '/profile/bids' },
     '/admin': { redirect: '/admin/orders' },

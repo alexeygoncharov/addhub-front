@@ -118,7 +118,7 @@ const term = ref<number>();
 const description = ref<string>();
 const emit = defineEmits(['newBid', 'updateBid']);
 const editableData = defineModel<Bid>('editable', { default: undefined });
-const props = defineProps<{ id: string }>();
+const props = defineProps<{ id: string; viewOnly?: boolean }>();
 const activeChoice = ref(false);
 const items = ref<servicesItem[]>();
 const updateServices = async () => {

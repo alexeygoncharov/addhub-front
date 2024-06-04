@@ -51,9 +51,8 @@
 </template>
 
 <script setup lang="ts">
-const activeTab = ref<'chats' | 'orders'>('chats');
-
 const messagesStore = useMessagesStore();
+const { activeTab } = storeToRefs(messagesStore);
 const debouncedFn = () => {
   messagesStore.resetChats();
   const queryParams = {
@@ -82,5 +81,6 @@ onBeforeUnmount(() => {
   messagesStore.activeChat = undefined;
   messagesStore.searchQuery = '';
   messagesStore.lastMessages = [];
+  messagesStore.activeTab = 'chats';
 });
 </script>

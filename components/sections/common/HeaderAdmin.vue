@@ -38,15 +38,11 @@
         </div>
         <ul class="mob-menu__links">
           <li>
-            <nuxtLink
-              to="/"
-              :active-class="'_active'"
-              @click="authStore.logout"
-            >
+            <button :active-class="'_active'" @click="openConfirmLogout">
               <a class="mob-menu__link">
                 <span class="mob-menu__title">Выйти</span>
               </a>
-            </nuxtLink>
+            </button>
           </li>
         </ul>
       </div>

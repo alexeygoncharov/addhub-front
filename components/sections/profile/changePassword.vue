@@ -1,5 +1,5 @@
 <template>
-  <form class="profile-item">
+  <Form class="profile-item" v-slot="{ meta }" @submit="submitPassword">
     <div class="profile-item__top">
       <div class="text17 medium-text">Сменить пароль</div>
     </div>
@@ -15,18 +15,26 @@
         </fieldset>
         <fieldset class="fg">
           <label>Новый пароль</label>
-          <input
+
+          <Field
             v-model="passwordForm.new_password"
+            rules="required|min:8"
+            name="password"
             type="password"
-            placeholder="********"
+            autocomplete="new-password"
+            placeholder="•••••••"
           />
+          <ErrorMessage name="password" class="error-message" />
         </fieldset>
         <fieldset class="fg">
           <label>Повторить пароль</label>
-          <input
+          <Field
             v-model="passwordForm.repeat_new_password"
+            rules="required|min:8"
+            name="password"
             type="password"
-            placeholder="********"
+            autocomplete="new-password"
+            placeholder="•••••••"
           />
         </fieldset>
       </div>
@@ -35,13 +43,13 @@
         <button
           type="submit"
           class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
-          @click.prevent="submitPassword"
+          :disabled="!meta.valid"
         >
           <span>Сохранить</span>
         </button>
       </div>
     </div>
-  </form>
+  </Form>
 </template>
 
 <script setup lang="ts">

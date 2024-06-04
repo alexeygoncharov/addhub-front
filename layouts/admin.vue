@@ -21,6 +21,7 @@ definePageMeta({
 // const messagesStore = useMessagesStore();
 // переместить в другое место потом
 const userStore = useUserStore();
+if (userStore.user?.active_role !== 'admin') await navigateTo('/');
 const commonStore = useCommonStore();
 const full = computed(() => {
   return useRoute().path.includes('/messages');

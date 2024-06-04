@@ -1,26 +1,22 @@
 <template>
-  <ModulesProfileTop>{{
-    user?.active_role === 'buyer' ? `Новый проект` : `Новая услуга`
-  }}</ModulesProfileTop>
+  <ModulesProfileTop> Редактирование проекта </ModulesProfileTop>
 
   <div class="profile-item">
     <form
+      v-if="form"
       id="create-item-form"
       name="create-item-form"
       class="profile-item__bottom _pt0"
       @submit="
         (e) => {
           e.preventDefault();
-          createItem();
+          editItem();
         }
       "
     >
       <div class="profile-item__grid">
         <fieldset class="fg _full">
-          <label
-            >Заголовок
-            {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
-          >
+          <label>Заголовок проекта</label>
           <input
             v-model="form.title"
             required
@@ -44,7 +40,7 @@
             :initial-current-text="{
               value: form.category,
               text: commonStore.categories?.find((item) => {
-                if (item._id === form.category) return item;
+                if (form && item._id === form.category) return item;
               })?.title,
             }"
             :options="
@@ -55,6 +51,7 @@
             :placeholder="'Выберите категорию'"
             @input="
               (category) => {
+                if (!form) return;
                 form.category = category;
                 errors.splice(errors.indexOf('category'), 1);
               }
@@ -64,10 +61,6 @@
             Обязательное поле
           </p>
         </fieldset>
-
-        <!-- <fieldset class="fg">
-          <label>Подкатегория</label>
-        </fieldset> -->
 
         <fieldset class="fg">
           <label>Срок</label>
@@ -81,40 +74,19 @@
 
         <fieldset class="fg">
           <label>Цена</label>
-          <input v-model="form.price" required type="text" placeholder="₽" />
+          <input v-model="form.price" required type="text" placeholder="руб." />
         </fieldset>
 
-        <fieldset
-          v-if="user?.active_role === 'seller' || user?.active_role === 'admin'"
-          class="fg"
-        >
-          <label>Объём услуги(заголовок)</label>
-          <input
-            v-model="form.service_volume"
-            type="text"
-            required
-            placeholder="Заголовок"
-          />
-        </fieldset>
-        <fieldset
-          v-if="user?.active_role === 'seller' || user?.active_role === 'admin'"
-          class="fg"
-        >
-          <label>Объём услуги(описание)</label>
-          <input
-            v-model="form.service_volume_desc"
-            type="text"
-            required
-            placeholder="Описание"
-          />
-        </fieldset>
         <fieldset v-if="commonStore.countries" class="fg">
           <label>Страна</label>
           <UIVSelectSearch
             v-model="form.country"
             :items="
               commonStore.countries.map((item) => {
-                return { title: item.title, value: item._id };
+                return {
+                  title: item.title,
+                  value: item._id,
+                };
               })
             "
           />
@@ -124,7 +96,6 @@
         </fieldset>
         <fieldset v-if="commonStore.cities" class="fg">
           <label>Город</label>
-
           <UIVSelectSearch
             v-model="form.city"
             :items="
@@ -139,8 +110,17 @@
         </fieldset>
       </div>
     </form>
+    <div class="profile-item__nav">
+      <button
+        type="submit"
+        form="create-item-form"
+        class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      >
+        <span>Сохранить</span>
+      </button>
+    </div>
   </div>
-  <div v-if="type === 'project'" class="profile-item">
+  <div v-if="editableItem && 'files' in editableItem" class="profile-item">
     <div class="profile-item__top">
       <div class="text17 medium-text">Загрузить файлы</div>
     </div>
@@ -148,9 +128,7 @@
       <div class="project-files">
         <div class="project-files__items">
           <nuxtLink
-            v-for="(file, index) of 'files' in form
-              ? form?.files
-              : form?.photos"
+            v-for="(file, index) of editableItem?.files"
             :key="index"
             target="_blank"
             :to="baseUrl() + file.url"
@@ -160,7 +138,10 @@
             <div class="file-item__format">
               {{ getFileExtension(file.url) }}
             </div>
-            <div class="file-item__delete">
+            <div
+              class="file-item__delete"
+              @click.prevent="deleteFile(file.url, index)"
+            >
               <svg
                 width="9"
                 height="9"
@@ -202,71 +183,106 @@
     </div>
   </div>
   <ModulesProfileCreateItemDropZone
-    v-else-if="'photos' in form && form.photos"
-    v-model="form.photos"
+    v-else-if="editableItem"
+    v-model="editableItem.photos"
     :upload-path="'/api/files/single'"
-    can-zero
+    @changed="editItem('image')"
   />
-  <p v-if="errors.includes('photos')" class="fg__error">
-    Изображение обязательно
-  </p>
+
   <div class="profile-item__nav">
     <button
-      type="submit"
-      form="create-item-form"
+      v-if="editableItem?.status === 'approved'"
       class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      @click="switchPublish"
     >
-      <span>Создать</span>
+      <span>Опубликовать</span>
     </button>
+    <button
+      v-else-if="editableItem?.status === 'pending'"
+      class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      disabled
+    >
+      <span>На проверке</span>
+    </button>
+    <button
+      v-else-if="editableItem?.status === 'published'"
+      class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+      @click="switchPublish"
+    >
+      <span>Снять с публикации</span>
+    </button>
+    <NuxtLink
+      v-if="editableItem?.status === 'published'"
+      :to="`/projects/${commonStore.categories?.find((item) => item._id === editableItem?.category)?.slug}/${editableItem._id}`"
+      class="m-btn m-btn-shadow"
+    >
+      <span>Посмотреть на сайте</span>
+    </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'profile',
-  middleware: 'authenticated',
+  layout: 'admin',
 });
+const route = useRoute();
+const form = ref<ItemForm>();
+const commonStore = useCommonStore();
+const id = route.params.id;
 
-const userStore = useUserStore();
-const { user } = storeToRefs(userStore);
-const type = (user.value?.active_role === 'buyer' ? 'project' : 'service') as
-  | 'project'
-  | 'service';
-const form = ref<ItemForm>({
-  title: '',
-  description: '',
-  price: '',
-  city: '',
-  country: '',
-  category: '',
-  service_volume_desc: '',
-  service_volume: '',
-  delivery_time: '',
-  ...(type === 'project'
-    ? { files: [] as uploadFileResponse[] }
-    : { photos: [] as uploadFileResponse[] }),
-});
+const editableItem = ref<projectItem | serviceItem>();
+const errors = ref<string[]>([]);
+
+const switchPublish = async () => {
+  if (!editableItem.value) return;
+  const { data, error } = await apiFetch(
+    `/api/projects/${editableItem.value.status === 'published' ? 'stop' : 'publish'}/${editableItem.value._id}`,
+    { needToken: true, options: { method: 'PUT' } },
+  );
+  if (!error.value) {
+    editableItem.value.status =
+      editableItem.value.status === 'approved' ? 'published' : 'approved';
+    useToast({
+      message:
+        editableItem.value.status === 'published'
+          ? 'Успешно опубликовано'
+          : 'Успешно снято с публикации',
+      type: 'success',
+    });
+  }
+};
+
+const deleteFile = async (file: string, index: number) => {
+  const { data, error } = await apiFetch<{ status: number }>(
+    '/api/files/single',
+    {
+      options: { method: 'DELETE', body: { filePath: file } },
+      needToken: true,
+    },
+  );
+  if (!error.value && editableItem.value && 'files' in editableItem.value) {
+    editableItem.value?.files.splice(index, 1);
+    editItem('file');
+  }
+};
 function checkFile(file: File) {
   if (file.size > 5 * 1024 * 1024) {
     return false;
   }
   return true;
 }
-if ('photos' in form.value)
-  watch(form.value.photos, () => {
-    errors.value.splice(errors.value.indexOf('category'), 1);
-  });
 const uploadFile = async (event: Event) => {
   if (
-    !('files' in form.value) ||
+    !editableItem.value ||
+    !('files' in editableItem.value) ||
     !event.target ||
-    form.value.files.length === 10
+    editableItem.value.files.length === 10
   )
     return;
   let files = (event.target as HTMLInputElement).files as unknown as File[];
   if (!files?.length) return;
-  if (files.length + form.value.files.length > 10) {
-    files = Array.from(files).slice(0, 10 - form.value.files.length);
+  if (files.length + editableItem.value.files.length > 10) {
+    files = Array.from(files).slice(0, 10 - editableItem.value.files.length);
   }
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -285,8 +301,14 @@ const uploadFile = async (event: Event) => {
         needToken: true,
       },
     );
-    if (!error.value && form.value && 'files' in form.value && data.value) {
-      form.value?.files.push(data.value?.result);
+    if (
+      !error.value &&
+      editableItem.value &&
+      'files' in editableItem.value &&
+      data.value
+    ) {
+      editableItem.value?.files.push(data.value?.result);
+      editItem('file');
     }
   }
 };
@@ -303,26 +325,65 @@ function getFileName(filename: string) {
   // Возвращаем предпоследний элемент массива (называние файла)
   return ext[ext.length - 1];
 }
-
-const commonStore = useCommonStore();
-const errors = ref<string[]>([]);
-const createItem = async () => {
-  validateItem(form.value, errors);
-  if (errors.value.length) return;
-  const body = form.value;
+if (!route.params.id) {
+  throw createError({ statusCode: 404 });
+}
+const fetchItem = async () => {
   const { data, error } = await apiFetch<
     ApiResponse<projectItem | serviceItem>
-  >(`/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}`, {
-    options: { method: 'POST', body },
+  >(`/api/projects/${id}`, {
     needToken: true,
   });
   const value = data.value;
   if (value) {
-    navigateTo(
-      `/profile/items/${value.result._id}/edit?type=${user.value?.active_role === 'buyer' ? 'project' : 'service'}`,
-    );
-  } else {
-    useToast({ message: 'Произошла ошибка', type: 'error' });
+    editableItem.value = value.result;
+    form.value = {
+      city: value.result.address.city._id,
+      country: value.result.address.country._id,
+      category: value.result.category,
+      title: value.result.title,
+      description: value.result.description,
+      price: value.result.price.toString(),
+      delivery_time: value.result.delivery_time.toString(),
+      files: 'files' in value.result && value.result.files,
+    } as ItemForm;
+  }
+};
+
+fetchItem();
+
+const editItem = async (fileType?: 'file' | 'image') => {
+  if (!editableItem.value || !form.value) return;
+  validateItem(form.value, errors);
+
+  const payload = {
+    title: form.value.title,
+    description: form.value.description,
+    price: form.value.price,
+    city: form.value.city,
+    country: form.value.country,
+    category: form.value.category,
+    service_volume_desc: form.value.service_volume_desc,
+    service_volume: form.value.service_volume,
+    delivery_time: form.value.delivery_time,
+  };
+
+  if (errors.value.length) return;
+  const body = !fileType
+    ? { ...payload }
+    : fileType === 'file' && 'files' in editableItem.value
+      ? { files: editableItem.value?.files }
+      : { photos: editableItem.value?.photos };
+  const { data, error } = await apiFetch<
+    ApiResponse<projectItem | serviceItem>
+  >(`/api/projects/${id}`, {
+    options: { method: 'PUT', body },
+    needToken: true,
+  });
+  const value = data.value;
+  if (value && !fileType) {
+    editableItem.value = value.result;
+    useToast({ message: 'Изменения сохранены', type: 'success' });
   }
 };
 </script>

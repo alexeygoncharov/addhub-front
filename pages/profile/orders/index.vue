@@ -218,6 +218,7 @@ const updateItems = async () => {
 };
 updateItems();
 watch(() => user.value?.active_role, updateItems);
+watch(currentPage, updateItems);
 </script>
 
 <style scoped></style>

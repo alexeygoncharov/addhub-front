@@ -66,15 +66,6 @@
             placeholder="+ 7"
           />
         </fieldset>
-        <fieldset class="fg">
-          <label>Слоган</label>
-          <input
-            id="slogan"
-            v-model="form.slogan"
-            type="text"
-            placeholder="Продавала песок на пляже — покупали"
-          />
-        </fieldset>
 
         <fieldset v-if="commonStore.countries" class="fg">
           <label>Страна</label>
@@ -171,9 +162,8 @@ const form = ref({
   name: userStore.user?.name,
   email: userStore.user?.email,
   phone_number: userStore.user?.phone_number,
-  slogan: userStore.user?.slogan,
   address: {
-    city: userStore.user?.address?.city._id,
+    city: userStore.user?.address?.city?._id || '',
     country: userStore.user?.address?.country._id,
   },
   about_me: userStore.user?.about_me,
@@ -185,7 +175,6 @@ async function submitProfile() {
     name: form.value?.name,
     email: form.value?.email,
     phone_number: form.value?.phone_number,
-    slogan: form.value?.slogan,
     address: {
       city: form.value?.address.city,
       country: form.value?.address.country,
