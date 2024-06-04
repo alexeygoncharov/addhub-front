@@ -56,6 +56,15 @@ export interface catalogItem {
   updatedAt: string;
   __v: number;
 }
+export interface ProjectDeleteResponse {
+  files: uploadFileResponse[];
+  skills: undefined[];
+}
+export interface ServiceDeleteResponse {
+  service_volume: string;
+  service_volume_desc: string;
+  tools: undefined[];
+}
 export interface serviceItem extends catalogItem {
   tools: [];
   category: string;

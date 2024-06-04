@@ -91,6 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (route.name?.toString().startsWith('profile')) navigateTo('/');
     const userStore = useUserStore();
     userStore.user = undefined;
+    navigateTo('/');
   }
 
   async function saveToken(tokenArg: string, rememberMe: boolean) {

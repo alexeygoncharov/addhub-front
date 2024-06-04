@@ -1,5 +1,5 @@
 <template>
-  <ModulesProfileTop>Мои отклики</ModulesProfileTop>
+  <ModulesProfileTop>Отклики</ModulesProfileTop>
 
   <div class="replies m-table">
     <table>

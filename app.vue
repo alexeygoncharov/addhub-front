@@ -3,6 +3,7 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+  <SectionsCommonConfirmLogout v-if="authStore.token" />
 </template>
 
 <script setup lang="ts">

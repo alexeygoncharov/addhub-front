@@ -7,6 +7,7 @@
         alt=""
       />
     </div>
+
     <div class="chat-item__info">
       <div class="chat-item__name">
         {{ messagesStore.getRespondent(props.chat)?.name }}
@@ -15,9 +16,18 @@
         {{ messagesStore.getRespondent(props.chat)?.user_name }}
         <div class="about-client__rating">
           <img src="/img/star.svg" alt="" />
-          <div class="about-client__rating-text">
+          <div
+            v-if="messagesStore.activeTab == 'chats'"
+            class="about-client__rating-text"
+          >
             <span>{{ messagesStore.getRespondent(props.chat)?.rate }}</span>
             <!-- (595 отзывов) -->
+          </div>
+          <div
+            v-else-if="'order' in props.chat"
+            class="about-client__rating-text"
+          >
+            <span>Заказ ({{ props.chat.order.service.title }})</span>
           </div>
         </div>
       </div>
@@ -40,7 +50,7 @@
 <script lang="ts" setup>
 const props = defineProps({
   chat: {
-    type: Object as PropType<ChatItem>,
+    type: Object as PropType<ChatItem | OrderChatItem>,
     required: true,
   },
 });

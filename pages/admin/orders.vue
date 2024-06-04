@@ -47,7 +47,7 @@
                   <div class="reply-row__title text17">
                     <nuxtLink
                       class="medium-text"
-                      :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((el) => el._id === item.service.category)?.slug}/${item._id}`"
+                      :to="`/${commonStore.categories?.find((el) => el._id === item.service.category)?.slug}/${item._id}`"
                       href=""
                       >{{ item.service.title }}</nuxtLink
                     >
@@ -129,7 +129,10 @@
                 <div
                   v-if="item.status === 'created'"
                   class="reply-row__btn"
-                  @click="changeStatus('canceled', item._id)"
+                  @click="
+                    {
+                    }
+                  "
                 >
                   <button class="m-btn m-btn-blue3">
                     <svg

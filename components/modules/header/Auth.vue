@@ -91,7 +91,7 @@
         <li>
           <nuxt-link :to="`/profile`"> Личный кабинет </nuxt-link>
           <nuxt-link :to="`/profile/settings`"> Мой профиль </nuxt-link>
-          <nuxt-link @click="logout"> Выход </nuxt-link>
+          <nuxt-link @click="openConfirmLogout"> Выйти </nuxt-link>
         </li>
       </ul>
     </div>

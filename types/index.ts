@@ -57,15 +57,13 @@ declare global {
     __v: number;
     avatar?: uploadFileResponse;
     phone_number: string;
-    profession: string;
-    slogan: string;
-    gender: string;
-    about_me: string;
+    status: string;
+    about_me?: string;
     address: {
       country: Country;
-      city: ItemCity;
+      city?: ItemCity;
     };
-    languages: string;
+    languages?: string;
   }
   interface orderService extends catalogItem {
     tools: [];
@@ -109,6 +107,18 @@ declare global {
     createdAt: string;
     updatedAt: string;
     __v: number;
+  }
+
+  interface OrderChatService {
+    photos: uploadFileResponse[];
+    service_volume: string;
+    status: string;
+    title: string;
+    _id: string;
+  }
+
+  interface OrderChatItem extends ChatItem {
+    order: { service: OrderChatService };
   }
 
   interface ChatList {

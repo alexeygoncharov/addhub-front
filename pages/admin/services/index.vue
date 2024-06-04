@@ -1,5 +1,5 @@
 <template>
-  <ModulesProfileTop>Проекты </ModulesProfileTop>
+  <ModulesProfileTop>Услуги </ModulesProfileTop>
 
   <div class="payments projects-table m-table _tabs-parent _mob-select">
     <div class="tabs-select">
@@ -89,7 +89,7 @@
               <div class="reply-row__action">
                 <div class="reply-row__btn">
                   <nuxtLink
-                    :to="`/profile/items/${item._id}/edit?type=${type}`"
+                    :to="`/admin/services/${item._id}/edit`"
                     class="m-btn m-btn-blue3"
                   >
                     <svg
@@ -117,7 +117,7 @@
                 </div>
                 <div
                   class="reply-row__btn"
-                  @click="deleteItem(item._id, index)"
+                  @click="deleteService(item._id, index)"
                 >
                   <button class="m-btn m-btn-blue3">
                     <svg
@@ -156,6 +156,8 @@
 </template>
 
 <script setup lang="ts">
+import type { servicesItem, projectsItem } from '#imports';
+import { getServices, deleteItem } from '~/modules/admin/composables/items';
 const commonStore = useCommonStore();
 const titles = [
   { title: 'Опубликовано', value: 'published' },
@@ -172,40 +174,20 @@ definePageMeta({
   layout: 'admin',
 });
 const type = user.value?.active_role === 'buyer' ? 'project' : 'service';
-const deleteItem = async (id: string, index: number) => {
-  //   const { data, error } = await apiFetch<undefined>(
-  //     `/api/${type === 'project' ? 'projects' : 'services'}/${id}`,
-  //     { options: { method: 'DELETE' }, needToken: true },
-  //   );
-  //   if (error.value) {
-  //     useToast({ message: 'Произошла ошибка при удалении', type: 'error' });
-  //   } else {
-  //     items.value?.splice(index, 1);
-  //   }
+const deleteService = (id: string, index: number) => {
+  deleteItem(id, 'project').then((res) => {
+    if (!res?.value) return;
+    items.value?.splice(index, 1);
+  });
 };
-const items = ref<projectsItem[]>();
+const items = ref<servicesItem[] | projectsItem[]>();
 const total = ref(0);
-const updateItems = async () => {
-  //   const { data } = await apiFetch<
-  //     ApiListResponse<servicesItem[] | projectsItem[]>
-  //   >(
-  //     `/api/${user.value?.active_role === 'seller' ? 'services' : 'projects'}/my`,
-  //     {
-  //       needToken: true,
-  //       options: {
-  //         query: {
-  //           filter: { status: activeTab.value },
-  //           offset: currentPage.value,
-  //           limit: 8,
-  //         },
-  //       },
-  //     },
-  //   );
-  //   const value = data.value;
-  //   if (value) {
-  //     total.value = value.total;
-  //     items.value = value.result;
-  //   }
+const updateItems = () => {
+  getServices(currentPage.value, activeTab.value).then((res) => {
+    if (!res?.value) return;
+    total.value = res.value.total;
+    items.value = res.value.result;
+  });
 };
 updateItems();
 watch(() => user.value?.active_role, updateItems);

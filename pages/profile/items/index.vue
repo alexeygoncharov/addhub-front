@@ -171,6 +171,10 @@
 
 <script setup lang="ts">
 import type { servicesItem, projectsItem } from '#imports';
+import type {
+  ProjectDeleteResponse,
+  ServiceDeleteResponse,
+} from '~/stores/catalog/catalog.type';
 const commonStore = useCommonStore();
 const titles = [
   { title: 'Опубликовано', value: 'published' },
@@ -189,10 +193,12 @@ definePageMeta({
 });
 const type = user.value?.active_role === 'buyer' ? 'project' : 'service';
 const deleteItem = async (id: string, index: number) => {
-  const { data, error } = await apiFetch<undefined>(
-    `/api/${type === 'project' ? 'projects' : 'services'}/${id}`,
-    { options: { method: 'DELETE' }, needToken: true },
-  );
+  const { data, error } = await apiFetch<
+    ApiResponse<ServiceDeleteResponse | ProjectDeleteResponse>
+  >(`/api/${type === 'project' ? 'projects' : 'services'}/${id}`, {
+    options: { method: 'DELETE' },
+    needToken: true,
+  });
   if (error.value) {
     useToast({ message: 'Произошла ошибка при удалении', type: 'error' });
   } else {
@@ -205,7 +211,7 @@ const updateItems = async () => {
   const { data } = await apiFetch<
     ApiListResponse<servicesItem[] | projectsItem[]>
   >(
-    `/api/${user.value?.active_role === 'seller' ? 'services' : 'projects'}/my`,
+    `/api/${user.value?.active_role === 'buyer' ? 'projects' : 'services'}/my`,
     {
       needToken: true,
       options: {

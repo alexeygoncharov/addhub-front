@@ -229,7 +229,11 @@
           </a>
         </li>
         <li>
-          <button type="button" class="mob-menu__link" @click="logout">
+          <button
+            type="button"
+            class="mob-menu__link"
+            @click="openConfirmLogout"
+          >
             <svg
               width="18"
               height="18"
