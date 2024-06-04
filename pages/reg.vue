@@ -40,7 +40,7 @@
         <label>Имя</label>
         <Field
           v-model.trim="regDetails.name"
-          rules="required|alpha"
+          rules="required|alpha|required|max:14"
           name="name"
           type="text"
           autocomplete="first-name"

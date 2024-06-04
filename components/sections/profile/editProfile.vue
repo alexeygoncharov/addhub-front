@@ -38,15 +38,17 @@
         </div>
       </form>
 
-      <div class="profile-item__grid">
+      <Form class="profile-item__grid">
         <fieldset class="fg">
           <label>Имя пользователя</label>
-          <input
+          <Field
             id="name"
             v-model="form.name"
-            type="text"
-            placeholder="Александра"
+            rules="required|max:14"
+            name="name"
+            type="name"
           />
+          <ErrorMessage name="name" class="error-message" />
         </fieldset>
         <fieldset class="fg small">
           <label>Email</label>
@@ -111,7 +113,7 @@
             placeholder="Описание"
           ></textarea>
         </fieldset>
-      </div>
+      </Form>
 
       <div class="profile-item__nav">
         <button
@@ -128,6 +130,7 @@
 
 <script setup lang="ts">
 import { useFileDialog } from '@vueuse/core';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import { useUserStore } from '../../../stores/user';
 import { useProfileStore } from '../../../stores/profile';
 import { useCommonStore } from '../../../stores/common';
