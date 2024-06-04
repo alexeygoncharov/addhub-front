@@ -1,7 +1,7 @@
 <template>
   <div class="modal-bid__bg">
     <OnClickOutside @trigger="showBid = false">
-      <form
+      <Form
         class="modal-wrapper"
         @submit="
           (e) => {
@@ -60,31 +60,56 @@
 
         <div class="modal-wrapper__mainInput">
           <label class="bid-label">Текст отклика</label>
-          <textarea v-if="!editableData" v-model="description" />
-          <textarea v-else v-model="editableData.description" />
+          <Field
+            v-if="!editableData"
+            v-model="description"
+            as="textarea"
+            name="description"
+            rules="required"
+          />
+          <Field
+            v-else
+            v-model="editableData.description"
+            as="textarea"
+            name="description"
+            rules="required"
+          />
+          <ErrorMessage name="description" class="error-message" />
         </div>
         <div class="modal-wrapper__inputs">
           <div class="modal-wrapper__input">
             <label class="bid-label">Стоимость (руб)</label>
-            <input v-if="!editableData" v-model="price" required type="text" />
-            <input v-else v-model="editableData.price" required type="text" />
+            <Field
+              v-if="!editableData"
+              v-model="price"
+              rules="required"
+              name="price"
+            />
+            <Field
+              v-else
+              v-model="editableData.price"
+              required
+              name="price"
+              rules="required"
+            />
+            <ErrorMessage name="price" class="error-message" />
           </div>
           <div class="modal-wrapper__input">
             <label class="bid-label">Срок (в днях)</label>
-            <input
+            <Field
               v-if="!editableData"
               v-model="term"
-              required
+              rules="required"
               name="term"
-              type="text"
             />
-            <input
+            <Field
               v-else
               v-model="editableData.term"
               required
               name="term"
-              type="text"
+              rules="required"
             />
+            <ErrorMessage name="term" class="error-message" />
           </div>
         </div>
         <div class="modal-wrapper__under">
@@ -99,14 +124,16 @@
             </button>
           </div>
         </div>
-      </form></OnClickOutside
+      </Form></OnClickOutside
     >
   </div>
 </template>
 
 <script setup lang="ts">
 import { OnClickOutside } from '@vueuse/components';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import type { projectsItem } from '~/stores/catalog/catalog.type';
+useValidation();
 const showBid = defineModel<boolean>({ required: true });
 const bidsStore = useBidsStore();
 const item = defineModel<projectsItem | projectItem>('item', {
