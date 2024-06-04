@@ -44,7 +44,7 @@
           <Field
             id="name"
             v-model="form.name"
-            rules="required|max:14"
+            rules="required|alpha|max:14"
             name="name"
             type="name"
           />

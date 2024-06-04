@@ -52,7 +52,7 @@
         <label>Фамилия</label>
         <Field
           v-model.trim="regDetails.surname"
-          rules="required|alpha"
+          rules="required|alpha|max:14"
           name="surname"
           type="text"
           autocomplete="last-name"
