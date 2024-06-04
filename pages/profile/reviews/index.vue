@@ -71,7 +71,7 @@ const updateMyReviews = async () => {
 };
 const updateReviews = async () => {
   const { data } = await apiFetch<ApiListResponse<Review[]>>(
-    `/api/reviews/${user.value?._id}`,
+    `/api/reviews/me`,
     {
       needToken: true,
     },

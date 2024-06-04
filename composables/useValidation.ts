@@ -5,6 +5,8 @@ import {
   max,
   email,
   alpha,
+  regex,
+  numeric,
   // eslint-disable-next-line camelcase
   alpha_dash,
   confirmed,
@@ -27,6 +29,13 @@ async function validateEmail(value: string) {
   }
   return false;
 }
+
+function validatePhone(value: string) {
+  return regex(value, [
+    /\+7\s*\(\d{3}\)\s*###-##-##|\+7\s*\(\d{4}\)\s*##-##-##/,
+  ]);
+}
+
 async function validateUsername(value: string) {
   if (alpha_dash(value, ['']) || !value) {
     const { data, error } = await apiFetch<ApiResponse<null>>(
@@ -48,6 +57,8 @@ export function useValidation() {
   defineRule('min', min);
   defineRule('max', max);
   defineRule('alpha', alpha);
+  defineRule('numeric', numeric);
+  defineRule('phone', validatePhone);
   defineRule('alpha_dash', alpha_dash);
   defineRule('confirmed', confirmed);
   defineRule('emailFetch', validateEmail);
