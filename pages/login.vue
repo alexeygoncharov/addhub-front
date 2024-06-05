@@ -31,7 +31,38 @@
           <input v-model="rememberMe" type="checkbox" />
           <label><span>Запомнить меня</span></label>
         </div>
-        <a href="" class="auth-form__link">Забыли пароль?</a>
+        <a class="auth-form__link" @click="reveal">Забыли пароль?</a>
+      </div>
+      <div v-if="isRevealed" class="modal-screen">
+        <div class="modal-wrapper">
+          <OnClickOutside @trigger="cancel">
+            <div class="header">
+              <div class="title text20 medium-text">Восстановление пароля</div>
+              <img
+                src="/img/cross.svg"
+                alt="close"
+                class="modal-wrapper__close"
+                @click="cancel"
+              />
+            </div>
+            <div class="modal-wrapper__mainInput">
+              <label class="bid-label">Введите email:</label>
+              <Field v-model="email" name="description" rules="required" />
+              <ErrorMessage name="email" class="error-message" />
+            </div>
+            <div class="modal-wrapper__under">
+              <UIVButton
+                :disabled="!email.length"
+                color="blue"
+                :is-shadow="true"
+                type="submit"
+                @click="confirm"
+              >
+                Восстановить пароль
+              </UIVButton>
+            </div>
+          </OnClickOutside>
+        </div>
       </div>
       <UIVButton
         :disabled="!meta.valid"
@@ -46,7 +77,11 @@
 </template>
 
 <script setup lang="ts">
+import { useConfirmDialog } from '@vueuse/core';
 import { useValidation } from '~/composables/useValidation.js';
+
+const { isRevealed, reveal, confirm, cancel, onReveal, onConfirm, onCancel } =
+  useConfirmDialog();
 definePageMeta({
   middleware: 'redirect-if-authenticated',
 });
