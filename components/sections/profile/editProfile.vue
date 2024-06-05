@@ -21,7 +21,9 @@
             :src="getAvatarUrl(form.avatar.url)"
             alt=""
           />
-          <div v-else><Avatar :size="80" :name="form.name" /></div>
+          <div v-else>
+            <Avatar :size="80" :name="form.name" />
+          </div>
         </div>
         <div class="photo-field__content">
           <div class="photo-field__action">
@@ -136,13 +138,27 @@ if (!userStore.user) {
 }
 const search = ref('');
 const { open, onChange } = useFileDialog({
-  accept: 'image/*', // Set to accept only image files
+  accept: '.jpg, .png', // Set to accept only image files
   // directory: true, // Select directories instead of files if set true
   multiple: false,
 });
 
+const validateFiles = (files: any) => {
+  const file = files[0];
+  const fileExtension = file.name.split('.').pop().toLowerCase().trim();
+  if (fileExtension !== 'jpg' && fileExtension !== 'png') {
+    return false;
+  }
+  return true;
+};
+
 onChange((files) => {
-  if (files) {
+  if (files && files.length > 0) {
+    if (!validateFiles(files))
+      return useToast({
+        message: 'Файл должен быть в формате .jpg или .png',
+        type: 'error',
+      });
     const formData = new FormData();
     formData.append('file', files[0]);
     commonStore.uploadFile(formData).then((file?: uploadFileResponse) => {

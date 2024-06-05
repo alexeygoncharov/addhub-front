@@ -217,7 +217,9 @@
 
         <div class="review-rating">
           <div class="review-stat">
-            <div class="review-stat__num">{{ `${item?.rate}` }}</div>
+            <div class="review-stat__num">
+              {{ `${!item?.rate ? 0 : item?.rate}` }}
+            </div>
             <div class="review-stat__info">
               <div
                 v-if="!item?.reviews"
