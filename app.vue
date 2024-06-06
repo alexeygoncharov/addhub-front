@@ -138,6 +138,7 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
 if (authStore.token) {
   await userStore.getMyUser();
   await paymentsStore.fetchRates();
+  socket.connect();
   socket.on('connect', onConnect);
   socket.on('disconnect', onDisconnect);
 }
