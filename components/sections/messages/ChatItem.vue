@@ -1,13 +1,22 @@
 <template>
   <div class="chat-item">
-    <div v-if="messagesStore.getRespondent(props.chat)" class="avatar">
+    <div class="avatar">
       <img
+        v-if="messagesStore.getRespondent(props.chat)?.avatar"
         crossorigin="anonymous"
-        :src="getAvatarUrl(messagesStore.getRespondent(props.chat)?.avatar.url)"
+        :src="
+          getAvatarUrl(messagesStore.getRespondent(props.chat)?.avatar?.url)
+        "
         alt=""
       />
-    </div>
 
+      <div v-else>
+        <Avatar
+          :size="80"
+          :name="messagesStore.getRespondent(props.chat)?.name"
+        />
+      </div>
+    </div>
     <div class="chat-item__info">
       <div class="chat-item__name">
         {{ messagesStore.getRespondent(props.chat)?.name }}
@@ -27,7 +36,7 @@
             v-else-if="'order' in props.chat"
             class="about-client__rating-text"
           >
-            <span>Заказ ({{ props.chat.order.service.title }})</span>
+            <span>(Заказ №{{ props.chat.order.order_number }})</span>
           </div>
         </div>
       </div>
