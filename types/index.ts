@@ -65,6 +65,11 @@ declare global {
     };
     languages?: string;
   }
+
+  interface AdminProfile extends Profile {
+    createdAt: string;
+  }
+
   interface orderService extends catalogItem {
     tools: [];
     category: string;
@@ -95,7 +100,7 @@ declare global {
     surname: string;
     online_status: 'online' | 'offline'; // Assuming only these two statuses for simplicity
     rate: number;
-    avatar: {
+    avatar?: {
       url: string;
     };
   }
@@ -118,7 +123,7 @@ declare global {
   }
 
   interface OrderChatItem extends ChatItem {
-    order: { service: OrderChatService };
+    order: { service: OrderChatService; order_number: number };
   }
 
   interface ChatList {

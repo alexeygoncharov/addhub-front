@@ -144,8 +144,9 @@
   transition: all 0.3s;
 
   &__inner {
-    width: 5.3125em;
-    height: 1.6471em;
+    width: auto;
+    height: auto;
+    padding: 0.5em;
     clip-path: polygon(
       4.706% 0%,
       4.706% 0%,
@@ -233,6 +234,7 @@
       95.294% 0%,
       4.706% 0%
     );
+    text-wrap: nowrap;
     background-color: $primary;
 
     @include center;
