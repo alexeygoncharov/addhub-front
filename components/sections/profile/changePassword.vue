@@ -31,9 +31,9 @@
           <Field
             v-model="passwordForm.repeat_new_password"
             rules="required|min:8"
-            name="password"
-            type="password"
-            autocomplete="new-password"
+            name="repeat_new_password"
+            type="repeat_new_password"
+            autocomplete="repeat_new_password"
             placeholder="•••••••"
           />
         </fieldset>
