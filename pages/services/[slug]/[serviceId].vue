@@ -497,7 +497,11 @@ const createOrder = async () => {
   const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
     options: {
       method: 'POST',
-      body: { service: itemId, price: item.value?.price },
+      body: {
+        service: itemId,
+        price: item.value?.price,
+        seller: item.value?.createdBy._id,
+      },
     },
     needToken: true,
   });

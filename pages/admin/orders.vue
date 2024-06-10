@@ -129,10 +129,7 @@
                 <div
                   v-if="item.status === 'created'"
                   class="reply-row__btn"
-                  @click="
-                    {
-                    }
-                  "
+                  @click="changeStatus('canceled', item._id)"
                 >
                   <button class="m-btn m-btn-blue3">
                     <svg
@@ -171,6 +168,7 @@
 </template>
 
 <script setup lang="ts">
+import { getOrders } from '~/modules/admin/composables/orders';
 const commonStore = useCommonStore();
 const titles = [
   { title: 'Создано', value: 'created' },
@@ -186,39 +184,28 @@ definePageMeta({
   layout: 'admin',
 });
 let dropzoneEventsQueue = Promise.resolve();
-// const changeStatus = (value: 'canceled' | 'completed', id: string) => {
-//   dropzoneEventsQueue = dropzoneEventsQueue.then(async () => {
-//     const { data, error } = await apiFetch(`/api/orders/status/${id}`, {
-//       needToken: true,
-//       options: { method: 'PUT', body: { status: value } },
-//     });
-//     if (!error.value) {
-//       items.value = items.value?.filter((item) => item._id !== id);
-//     }
-//   });
-// };
+const changeStatus = (value: 'canceled' | 'completed', id: string) => {
+  dropzoneEventsQueue = dropzoneEventsQueue.then(async () => {
+    const { data, error } = await apiFetch(`/api/orders/status/${id}`, {
+      needToken: true,
+      options: { method: 'PUT', body: { status: value } },
+    });
+    if (!error.value) {
+      items.value = items.value?.filter((item) => item._id !== id);
+    }
+  });
+};
 
 const items = ref<Order[]>();
 const total = ref(0);
-const updateItems = async () => {
-  //   const { data } = await apiFetch<ApiListResponse<Order[]>>(`/api/orders/my`, {
-  //     needToken: true,
-  //     options: {
-  //       query: {
-  //         filter: { status: activeTab.value },
-  //         offset: currentPage.value,
-  //         limit: 8,
-  //       },
-  //     },
-  //   });
-  //   const value = data.value;
-  //   if (value) {
-  //     total.value = value.total;
-  //     items.value = value.result;
-  //   }
+const updateItems = () => {
+  getOrders(currentPage.value, activeTab.value).then((data) => {
+    if (!data?.value) return;
+    items.value = data?.value.result;
+    total.value = data?.value.total;
+  });
 };
 updateItems();
-watch(() => user.value?.active_role, updateItems);
 </script>
 
 <style scoped></style>

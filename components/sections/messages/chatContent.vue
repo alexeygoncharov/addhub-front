@@ -13,15 +13,27 @@
         <div v-if="messagesStore.activeChat" class="chat-user">
           <div class="avatar">
             <img
+              v-if="
+                messagesStore.getRespondent(messagesStore.activeChat)?.avatar
+              "
               crossorigin="anonymous"
               :src="
                 getAvatarUrl(
                   messagesStore.getRespondent(messagesStore.activeChat)?.avatar
-                    .url,
+                    ?.url,
                 )
               "
               alt=""
             />
+
+            <div v-else>
+              <Avatar
+                :size="80"
+                :name="
+                  messagesStore.getRespondent(messagesStore.activeChat)?.name
+                "
+              />
+            </div>
           </div>
           <div class="chat-user__info">
             <div class="chat-user__name">
