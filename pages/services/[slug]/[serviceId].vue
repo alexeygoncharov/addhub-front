@@ -420,6 +420,7 @@
 </template>
 
 <script setup lang="ts">
+import { now } from '@vueuse/core';
 import type { Swiper } from 'swiper/types';
 import type { serviceItem } from '~/stores/catalog/catalog.type';
 const title = ref('');
@@ -494,10 +495,17 @@ const createReview = async () => {
 };
 
 const createOrder = async () => {
+  const payload = {
+    start_date: new Date(now()),
+    service: itemId,
+    price: item.value?.price,
+    seller: item.value?.createdBy._id,
+    delivery_time: item.value?.delivery_time,
+  };
   const { data, error } = await apiFetch<ApiResponse<any>>('/api/orders', {
     options: {
       method: 'POST',
-      body: { service: itemId, price: item.value?.price },
+      body: payload,
     },
     needToken: true,
   });

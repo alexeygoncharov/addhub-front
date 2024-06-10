@@ -3,10 +3,8 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 export const useProfileStore = defineStore('profile', () => {
   const favorites = ref<string[]>([]);
   const profile = ref<Profile>();
-  interface changePassword {
-    old_password: string;
-    new_password: string;
-    repeat_new_password: string;
+  interface UpdateEmail {
+    new_email: string;
   }
 
   interface EditProfile {
@@ -67,6 +65,32 @@ export const useProfileStore = defineStore('profile', () => {
     }
   }
 
+  async function updateEmail(form: UpdateEmail) {
+    const { data, error } = await apiFetch<ApiResponse<any>>(
+      `/api/users/update_email`,
+      {
+        options: {
+          method: 'PUT',
+          body: form,
+        },
+        needToken: true,
+      },
+    );
+    if (data.value && !error.value) {
+      const value = data.value;
+      useToast({
+        message: 'Новый пароль успешно сохранен',
+        type: 'success',
+      });
+      return value;
+    } else {
+      useToast({
+        message: 'Ошибка при сохранении',
+        type: 'error',
+      });
+    }
+  }
+
   async function changePassword(form: changePassword) {
     const { data, error } = await apiFetch<ApiResponse<any>>(
       `/api/users/change_password`,
@@ -99,6 +123,7 @@ export const useProfileStore = defineStore('profile', () => {
     changePassword,
     editProfile,
     updateAvatar,
+    updateEmail,
     profile,
   };
 });

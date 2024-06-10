@@ -52,17 +52,6 @@
           />
           <ErrorMessage name="name" class="error-message" />
         </fieldset>
-        <fieldset class="fg small">
-          <label>Email</label>
-          <Field
-            v-model="form.email"
-            rules="required|email"
-            name="email"
-            type="email"
-            placeholder="hello@mail.com"
-          />
-          <ErrorMessage name="email" class="error-message" />
-        </fieldset>
         <fieldset class="fg">
           <label>Телефон</label>
           <input
