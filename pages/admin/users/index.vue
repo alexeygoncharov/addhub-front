@@ -133,7 +133,7 @@
                 <div class="users-table__cell">Email</div>
               </th>
               <th>
-                <div class="users-table__cell">Товаров</div>
+                <div class="users-table__cell">Статус</div>
               </th>
               <th>
                 <div class="users-table__cell cell-registration">
@@ -162,20 +162,22 @@
               </td>
               <td>
                 <div class="users-table__cell">
-                  <!-- {{ el.products_count }} -->
+                  {{
+                    listOfStatuses.find((status) => status.value === el.status)
+                      ?.name
+                  }}
                 </div>
               </td>
               <td>
                 <div class="users-table__cell">
-                  <!-- {{
-                    new Date(el.created_at).toLocaleDateString() +
+                  {{
+                    new Date(el.createdAt).toLocaleDateString() +
                     ` в ` +
-                    new Date(el.created_at).toLocaleTimeString('ru', {
+                    new Date(el.createdAt).toLocaleTimeString('ru', {
                       hour: '2-digit',
                       minute: '2-digit',
                     })
-                  }} -->
-                  123
+                  }}
                 </div>
               </td>
             </tr>
@@ -216,11 +218,19 @@
             />
           </div>
           <div class="users__form-item">
-            <label class="users__item-label">Поиск ФИО</label>
+            <label class="users__item-label">Поиск по Имени</label>
             <input
               class="users__item-input"
               type="text"
-              placeholder="Введите ФИО"
+              placeholder="Введите Имя"
+            />
+          </div>
+          <div class="users__form-item">
+            <label class="users__item-label">Поиск по Username</label>
+            <input
+              class="users__item-input"
+              type="text"
+              placeholder="Введите Username"
             />
           </div>
           <div class="users__form-item">
@@ -231,6 +241,40 @@
               placeholder="Введите email"
             />
           </div>
+          <div class="users__form-item">
+            <label class="users__item-label">Поиск по рейтингу</label>
+            <div class="filter-slider">
+              <div class="filter-slider__inputs">
+                <div class="fg">
+                  <label>От</label>
+
+                  <input
+                    v-model="rateMinBuffer"
+                    type="number"
+                    @input="updateValue(0, $event)"
+                  />
+                  <div class="filter-slider__currency"></div>
+                </div>
+                <div class="fg">
+                  <label>До</label>
+                  <input
+                    v-model="rateMaxBuffer"
+                    type="number"
+                    @input="updateValue(1, $event)"
+                  />
+                  <div class="filter-slider__currency"></div>
+                </div>
+              </div>
+              <div class="filter-slider__item">
+                <div ref="sliderElement" class="range-slider"></div>
+              </div>
+              <div class="filter-slider__output">
+                <span>{{ rateMinBuffer }}</span> -
+                <span>{{ rateMaxBuffer }}</span>
+              </div>
+            </div>
+          </div>
+
           <div class="users__form-item">
             <label class="users__item-label">Поиск по Дате</label>
             <div class="users__item-box">
@@ -245,10 +289,10 @@
                 <input class="users__item-input-checkbox" type="checkbox" />
                 <p class="checkbox-title checkbox-title--active">Активен</p>
               </label>
-              <label class="checkbox-disabled checkbox">
+              <!-- <label class="checkbox-disabled checkbox">
                 <input class="users__item-input-checkbox" type="checkbox" />
                 <p class="checkbox-title checkbox-title--disabled">Отключен</p>
-              </label>
+              </label> -->
               <label class="checkbox-blocked checkbox">
                 <input class="users__item-input-checkbox" type="checkbox" />
                 <p class="checkbox-title checkbox-title--blocked">
@@ -279,9 +323,9 @@
               <p class="users-modal__date-text">Зарегистрирован:</p>
               <p v-if="currentUser" class="users-modal__date-registration">
                 {{
-                  new Date(currentUser.created_at).toLocaleDateString() +
+                  new Date(currentUser.createdAt).toLocaleDateString() +
                   ` в ` +
-                  new Date(currentUser.created_at).toLocaleTimeString('ru', {
+                  new Date(currentUser.createdAt).toLocaleTimeString('ru', {
                     hour: '2-digit',
                     minute: '2-digit',
                   })
@@ -367,20 +411,79 @@
 </template>
 
 <script setup lang="ts">
+import 'nouislider/dist/nouislider.css';
+import { create } from 'nouislider';
+import type { API, target } from 'nouislider';
 import { showModal, openModal } from '~/composables/modalDrawer';
 import { getUsers } from '~/modules/admin/composables/users';
+const slider = ref<API>();
+const sliderElement = ref<target>();
+const filterTimeoutId = ref<ReturnType<typeof setTimeout>>();
+
+const listOfStatuses = [
+  {
+    name: 'Активный',
+    value: 'active',
+  },
+  { name: 'Заблокированный', value: 'blocked' },
+];
+
+const updateValue = (handle: number, event: Event) => {
+  if (!slider.value || !event.target) return;
+
+  const value = (event.target as HTMLInputElement).valueAsNumber;
+  if (value < 0 || value > 5 || isNaN(value)) return;
+
+  const newValue = [0, 0];
+  newValue[handle] = value;
+  slider.value.set(newValue);
+};
+
+onMounted(() => {
+  if (!sliderElement.value) return;
+  slider.value = create(sliderElement.value, {
+    start: [0, 5],
+    connect: true,
+    step: 1,
+    range: {
+      min: 0,
+      max: 5,
+    },
+  });
+  slider.value.on('update', (values, handle) => {
+    const value = parseInt(String(values[handle]), 10);
+    if (handle === 0) {
+      rateMinBuffer.value = value;
+    } else {
+      rateMaxBuffer.value = value;
+    }
+
+    clearTimeout(filterTimeoutId.value);
+    filterTimeoutId.value = setTimeout(() => {
+      if (handle === 0) {
+        rateMin.value = value;
+      } else {
+        rateMax.value = value;
+      }
+    }, 300);
+  });
+});
+const rateMinBuffer = ref(0);
+const rateMaxBuffer = ref(5);
+const rateMin = ref(0);
+const rateMax = ref(5);
+
 const length = () => {
   return Math.floor(Math.random() * (90 - 50 + 1)) + 50;
 };
 definePageMeta({
   layout: 'admin',
 });
-
 const showFilter = ref(false);
 const currentPage = ref(1);
 const total = ref(0);
 const uploading = ref(false);
-const users = ref<Profile[]>([]);
+const users = ref<AdminProfile[]>([]);
 const currentUser = ref();
 const updateUsers = () => {
   uploading.value = true;

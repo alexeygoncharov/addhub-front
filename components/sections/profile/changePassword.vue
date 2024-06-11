@@ -1,5 +1,5 @@
 <template>
-  <Form class="profile-item" v-slot="{ meta }" @submit="submitPassword">
+  <Form v-slot="{ meta }" class="profile-item" @submit="submitPassword">
     <div class="profile-item__top">
       <div class="text17 medium-text">Сменить пароль</div>
     </div>
