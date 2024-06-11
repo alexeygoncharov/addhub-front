@@ -1,5 +1,6 @@
 <template>
   <SectionsProfileEditProfile></SectionsProfileEditProfile>
+  <SectionsProfileChangeEmail></SectionsProfileChangeEmail>
   <SectionsProfileChangePassword></SectionsProfileChangePassword>
 </template>
 
