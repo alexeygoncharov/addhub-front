@@ -449,7 +449,7 @@ input {
   border-radius: 12px;
 
   .modal-header {
-    padding: auto;
+    margin-bottom: 20px;
   }
 
   .modal-body {
@@ -457,7 +457,9 @@ input {
   }
 
   .modal-footer {
-    padding: auto;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
   }
 
 }

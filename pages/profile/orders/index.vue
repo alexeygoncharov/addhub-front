@@ -30,16 +30,16 @@
       <div class="modal-wrapper-order">
         <div class="modal-header text20 medium">Открытие диспута</div>
         <div class="modal-body">
-          <button type="button" class="m-btn-blue" @click="open()">
+          <button type="button" class="m-btn m-btn-gray" @click="open()">
             Upload
           </button>
         </div>
         <div class="modal-footer">
-          <button type="button" class="m-btn-blue" @click="openDispute()">
-            Отправить
+          <button type="button" class="m-btn m-btn-blue" @click="openDispute()">
+            <span>Отправить</span>
           </button>
-          <button type="button" class="m-btn-blue" @click="cancel">
-            Отмена
+          <button type="button" class="m-btn m-btn-blue" @click="cancel">
+            <span>Отмена</span>
           </button>
         </div>
       </div>
