@@ -93,6 +93,11 @@ declare global {
     __v: number;
   }
 
+  interface CreateDispute {
+    order: string;
+    files: any[];
+  }
+
   interface ChatMember {
     _id: string;
     user_name: string;

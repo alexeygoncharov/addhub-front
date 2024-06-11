@@ -26,7 +26,24 @@
         </div>
       </div>
     </div>
-
+    <div v-if="isRevealed" class="modal-screen">
+      <div class="modal-wrapper-order">
+        <div class="modal-header text20 medium">Открытие диспута</div>
+        <div class="modal-body">
+          <button type="button" class="m-btn-blue" @click="open()">
+            Upload
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="m-btn-blue" @click="openDispute()">
+            Отправить
+          </button>
+          <button type="button" class="m-btn-blue" @click="cancel">
+            Отмена
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="tab-content _active">
       <table>
         <thead>
@@ -261,7 +278,7 @@
                     item.status === 'completed' || item.status === 'refunded'
                   "
                   class="reply-row__btn"
-                  @click="changeStatus('dispute', item._id)"
+                  @click="reveal(item._id)"
                 >
                   <button class="m-btn m-btn-blue3">
                     <svg
@@ -324,6 +341,44 @@
 </template>
 
 <script setup lang="ts">
+const disputeStore = useDisputesStore();
+const { open, files, reset, onChange } = useFileDialog({
+  accept: '.jpg, .png', // Set to accept only image files
+  // directory: true, // Select directories instead of files if set true
+  multiple: false,
+});
+const { isRevealed, reveal, confirm, cancel, onReveal, onConfirm, onCancel } =
+  useConfirmDialog();
+const dispute = ref<CreateDispute>({
+  files: [],
+  order: '',
+});
+
+onReveal((orderId: string) => {
+  dispute.value.order = orderId;
+});
+
+function openDispute() {
+  if (files.value?.length) {
+    const fileSizeMB = files.value?.item(0)?.size;
+    if (fileSizeMB && fileSizeMB >= 5 * 1024 * 1024) {
+      useToast({ message: 'Файл не может превышать 5 мб' });
+      reset();
+    }
+    const formData = new FormData();
+    formData.append('file', files.value?.item(0) as Blob);
+    commonStore.uploadFile(formData).then((file) => {
+      if (file) {
+        file.url = file?.url?.replace('/files', 'files') as string;
+        dispute.value.files.push(file);
+        disputeStore.createDispute(dispute.value);
+        reset();
+      }
+    });
+  }
+  disputeStore.createDispute(dispute.value);
+}
+
 const commonStore = useCommonStore();
 const titles = [
   { title: 'Создано', value: 'created' },

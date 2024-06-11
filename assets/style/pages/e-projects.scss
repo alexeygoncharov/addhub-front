@@ -434,3 +434,31 @@ input {
 
 }
 
+
+
+.modal-wrapper-order {
+  position: absolute;
+  inset: 0;
+  z-index: 1111;
+  max-width: 750px;
+  height: fit-content;
+  padding: 20px;
+  margin: auto;
+  overflow: auto;
+  background-color: #fff;
+  border-radius: 12px;
+
+  .modal-header {
+    padding: auto;
+  }
+
+  .modal-body {
+    padding: auto;
+  }
+
+  .modal-footer {
+    padding: auto;
+  }
+
+}
+

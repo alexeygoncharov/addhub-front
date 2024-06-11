@@ -1,10 +1,6 @@
 import { defineStore } from 'pinia';
 
 export const useDisputesStore = defineStore('disputes', () => {
-  interface CreateDispute {
-    order: string;
-    files?: string;
-  }
   async function createDispute(payload: CreateDispute) {
     const { data } = await apiFetch<ApiResponse<any>>(`/api/disputes/`, {
       needToken: true,
