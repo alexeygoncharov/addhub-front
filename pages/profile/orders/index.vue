@@ -399,14 +399,13 @@ function openDispute() {
         disputeStore.createDispute(dispute.value);
         changeStatus('dispute', dispute.value.order);
         reset();
-        confirm();
       }
     });
   } else {
     disputeStore.createDispute(dispute.value);
     changeStatus('dispute', dispute.value.order);
-    confirm();
   }
+  confirm();
 }
 
 const commonStore = useCommonStore();
