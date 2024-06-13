@@ -397,12 +397,15 @@ function openDispute() {
         file.url = file?.url?.replace('/files', 'files') as string;
         dispute.value.files.push(file);
         disputeStore.createDispute(dispute.value);
+        changeStatus('dispute', dispute.value.order);
         reset();
       }
     });
+  } else {
+    disputeStore.createDispute(dispute.value);
+    changeStatus('dispute', dispute.value.order);
+    confirm();
   }
-  disputeStore.createDispute(dispute.value);
-  confirm();
 }
 
 const commonStore = useCommonStore();
