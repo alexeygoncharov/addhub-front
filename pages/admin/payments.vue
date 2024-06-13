@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(req, index) in requests" :key="req._id" class="reply-row">
+        <tr v-for="req in withdraws" :key="req._id" class="reply-row">
           <td>
             <div class="reply-row__info">
               <a href="" class="avatar">
@@ -40,13 +40,19 @@
           </td>
           <td>
             <div class="reply-row__price">
-              <span class="text17 medium-text">{{ req.price }} руб.</span>
+              <span class="text17 medium-text">{{ req.amount }} руб.</span>
             </div>
           </td>
           <td>
             <div class="reply-row__action">
               <div class="reply-row__btn">
-                <button class="m-btn m-btn-blue3" @click="editBid(req)">
+                <button
+                  class="m-btn m-btn-blue3"
+                  @click="
+                    {
+                    }
+                  "
+                >
                   <svg
                     width="800px"
                     height="800px"
@@ -81,7 +87,13 @@
                 </div>
               </div>
               <div class="reply-row__btn">
-                <button class="m-btn m-btn-blue3" @click="editBid(req)">
+                <button
+                  class="m-btn m-btn-blue3"
+                  @click="
+                    {
+                    }
+                  "
+                >
                   <svg
                     width="20"
                     height="20"
@@ -108,7 +120,10 @@
               <div class="reply-row__btn">
                 <button
                   class="m-btn m-btn-blue3"
-                  @click="deleteBid(req, index)"
+                  @click="
+                    {
+                    }
+                  "
                 >
                   <svg
                     width="20"
@@ -140,17 +155,12 @@
       :total-items="totalItems"
       :total-pages="Math.ceil(totalItems / 8)"
     />
-    <ModulesProductBidModal
-      v-show="openBidEdit"
-      :id="editableData?.project_id._id || ''"
-      v-model="openBidEdit"
-      v-model:editable="editableData"
-      @update-bid="updateBids()"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Withdraw } from '@/modules/profile/types/index';
+import { getWithdrawals } from '@/modules/admin/composables/payments';
 definePageMeta({ layout: 'admin' });
 const commonStore = useCommonStore();
 const userStore = useUserStore();
@@ -159,39 +169,13 @@ const currentPage = ref(1);
 const totalItems = ref(0);
 const openBidEdit = ref(false);
 const editableData = ref<Bid>();
+const withdraws = ref<Withdraw[]>([]);
 
-const requests = ref();
-const editBid = (bid: Bid) => {
-  openBidEdit.value = true;
-  editableData.value = { ...bid };
-};
-const deleteBid = async (bid: Bid, index: number) => {
-  // const result = await bidsStore.deleteBid(bid.project_id._id, bid._id);
-  // if (result) {
-  //   bids.value?.splice(index, 1);
-  // }
-};
-const updateBids = async () => {
-  //   const { data } = await apiFetch<ApiListResponse<Bid[]>>(
-  //     `/api/bids/${user.value?.active_role}/my`,
-  //     {
-  //       needToken: true,
-  //       options: {
-  //         query: {
-  //           offset: currentPage.value,
-  //           limit: 8,
-  //         },
-  //       },
-  //     },
-  //   );
-  //   const value = data.value;
-  //   if (value?.status === 200) {
-  //     totalItems.value = value.total;
-  //     bids.value = value.result;
-  //   }
-};
-updateBids();
-watch(() => user.value?.active_role, updateBids);
+getWithdrawals(currentPage.value).then((res) => {
+  if (!res?.value) return;
+  withdraws.value = res?.value.result;
+  totalItems.value = res?.value.total;
+});
 </script>
 
 <style scoped></style>

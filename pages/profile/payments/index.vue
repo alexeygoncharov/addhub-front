@@ -3,7 +3,10 @@
     >Выплаты
 
     <template #btn>
-      <button class="admin-top__btn m-btn m-btn-blue m-btn-shadow">
+      <button
+        class="admin-top__btn m-btn m-btn-blue m-btn-shadow"
+        @click="showWithdrawModal = true"
+      >
         <span>Запросить выплату</span>
       </button></template
     >
@@ -15,78 +18,45 @@
         <tr>
           <th><span>Сумма</span></th>
           <th><span>Дата</span></th>
-          <th><span>Способ оплаты</span></th>
+          <th><span>Адрес вывода</span></th>
           <th><span>Статус</span></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="i in 5" :key="i" class="pay-row">
+        <tr v-for="el in withdrawals" :key="el._id" class="pay-row">
           <td>
             <div class="pay-row__title">Сумма</div>
-            <div class="pay-row__desc">₽1.800</div>
+            <div class="pay-row__desc">{{ el.amount }} руб.</div>
           </td>
           <td>
             <div class="pay-row__title">Дата</div>
-            <div class="pay-row__desc">Апрель 9, 2022</div>
+            <div class="pay-row__desc">{{ formatDate(el.createdAt) }}</div>
           </td>
           <td>
-            <div class="pay-row__title">Способ оплаты</div>
-            <div class="pay-row__desc">Payoneer</div>
+            <div class="pay-row__title">Адрес вывода</div>
+            <div class="pay-row__desc">{{ el.address_to }}</div>
           </td>
           <td>
             <div class="pay-row__title">Статус</div>
             <div class="pay-row__badges">
-              <div class="m-badge">
-                <span>Успешно</span>
+              <div
+                class="m-badge"
+                :class="{ _yellow: el.status === 'Pending' }"
+              >
+                <span>{{
+                  statuses.find((item) => item.value === el.status)?.title
+                }}</span>
               </div>
             </div>
           </td>
-        </tr>
 
-        <tr class="pay-row">
-          <td>
-            <div class="pay-row__title">Сумма</div>
-            <div class="pay-row__desc">₽1.800</div>
-          </td>
-          <td>
-            <div class="pay-row__title">Дата</div>
-            <div class="pay-row__desc">Апрель 9, 2022</div>
-          </td>
-          <td>
-            <div class="pay-row__title">Способ оплаты</div>
-            <div class="pay-row__desc">Payoneer</div>
-          </td>
-          <td>
-            <div class="pay-row__title">Статус</div>
-            <div class="pay-row__badges">
-              <div class="m-badge _yellow">
-                <span>В процессе</span>
-              </div>
-            </div>
-          </td>
-        </tr>
+          <!-- <div class="m-badge _yellow">
+            <span>В процессе</span>
+          </div>
 
-        <tr class="pay-row">
-          <td>
-            <div class="pay-row__title">Сумма</div>
-            <div class="pay-row__desc">₽1.800</div>
-          </td>
-          <td>
-            <div class="pay-row__title">Дата</div>
-            <div class="pay-row__desc">Апрель 9, 2022</div>
-          </td>
-          <td>
-            <div class="pay-row__title">Способ оплаты</div>
-            <div class="pay-row__desc">Paypal</div>
-          </td>
-          <td>
-            <div class="pay-row__title">Статус</div>
-            <div class="pay-row__badges">
-              <div class="m-badge _red">
-                <span>Отмена</span>
-              </div>
-            </div>
-          </td>
+          <div class="m-badge _red">
+            <span>Отмена</span>
+          </div> -->
         </tr>
       </tbody>
     </table>
@@ -94,17 +64,17 @@
     <UIVPagination
       v-model="currentPage"
       :items-per-page="5"
-      :total-items="25"
-      :total-pages="5"
+      :total-items="total"
+      :total-pages="Math.ceil(total / 5)"
     />
   </div>
 
-  <form action="" class="pay-form">
-    <!--<div class="pay-form__top">
+  <!-- <form action="" class="pay-form">
+    <div class="pay-form__top">
       <div class="text17 medium-text">Платежные способы</div>
-    </div>-->
+    </div>
     <div class="pay-form__items">
-      <!--
+      
       <fieldset class="fg">
         <label>Выберите способ оплаты</label>
         <div class="m-select">
@@ -136,8 +106,8 @@
             </div>
           </div>
         </div>
-      </fieldset>-->
-      <!--<div class="pay-way">
+      </fieldset>
+      <div class="pay-way">
         <div class="pay-way__title text17 medium-text">Способ платежа</div>
         <div class="pay-way__wrap">
           <div class="pay-way__items">
@@ -155,7 +125,7 @@
             </div>
           </div>
         </div>
-      </div>-->
+      </div>
       <fieldset class="pay-form__address fg">
         <label>Адрес для выплат (USDT TRC-20)</label>
         <input type="text" />
@@ -166,11 +136,66 @@
         <span>Сохранить</span>
       </button>
     </div>
-  </form>
+  </form> -->
+  <UIModalWindow
+    v-model:show="showWithdrawModal"
+    @submit="
+      () => {
+        createWithdraw();
+      }
+    "
+  >
+    <template #title>Подтвердите действие</template>
+    <template #data
+      ><div>
+        <input
+          v-model="withdrawalAddress"
+          type="text"
+          placeholder="Адрес для вывода"
+        />
+        <input
+          v-model="withdrawalAmount"
+          type="text"
+          placeholder="Сумма к выводу"
+          style="margin-top: 1em"
+        /></div
+    ></template>
+    <template #button-text>Создать вывод</template>
+  </UIModalWindow>
 </template>
 
 <script setup lang="ts">
+import type { Withdraw } from '@/modules/profile/types/index';
+import {
+  getMyWithdrawal,
+  createWithdrawal,
+} from '@/modules/profile/composables/payments';
+const { user } = storeToRefs(useUserStore());
 const currentPage = ref(1);
+const showWithdrawModal = ref(false);
+const withdrawals = ref<Withdraw[]>();
+const withdrawalAmount = ref();
+const withdrawalAddress = ref();
+const total = ref(0);
+getMyWithdrawal(currentPage.value).then((data) => {
+  if (!data?.value.result) return;
+  withdrawals.value = data?.value.result;
+  total.value = data?.value.total;
+});
+const statuses = [
+  { title: 'В ожидании', value: 'Pending' },
+  { title: 'Выполнено', value: 'Approved' },
+  { title: 'Отменено', value: 'Canceled' },
+];
+const createWithdraw = () => {
+  createWithdrawal(withdrawalAmount.value, withdrawalAddress.value).then(
+    (data) => {
+      if (!data?.value.result) return;
+      showWithdrawModal.value = false;
+      withdrawals.value?.push(data?.value.result);
+    },
+  );
+};
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',

@@ -81,12 +81,8 @@ declare global {
       city: string;
     };
   }
-  export interface Order {
+  interface BaseChatItem {
     _id: string;
-    buyer: User;
-    service: orderService;
-    currency: string;
-    status: string;
     createdAt: string;
     order_number: number;
     disputes: any;
@@ -110,15 +106,10 @@ declare global {
       url: string;
     };
   }
-
-  interface ChatItem {
-    _id: string;
+  interface ChatItem extends BaseChatItem {
     members: ChatMember[];
     order: any;
     unseen_messages: number;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
   }
 
   interface OrderChatService {
@@ -127,6 +118,24 @@ declare global {
     status: string;
     title: string;
     _id: string;
+  }
+  interface OrderChat extends BaseChatItem {
+    members: string[];
+    order: string;
+  }
+  export interface Order {
+    _id: string;
+    buyer: User;
+    seller: User;
+    price: number;
+    service: orderService;
+    currency: string;
+    status: string;
+    createdAt: string;
+    chat: OrderChat;
+    order_number: number;
+    updatedAt: string;
+    __v: number;
   }
 
   interface OrderChatItem extends ChatItem {
