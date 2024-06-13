@@ -16,7 +16,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   title: string;
-  num: string;
+  num: string | number;
   desc: string;
   desc2?: string;
   icon: string;

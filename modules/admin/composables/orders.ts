@@ -11,7 +11,7 @@ export const getOrders = async (
       query: {
         offset: currentPage,
         limit: 8,
-        // filter: { status },
+        filter: { status },
       },
     },
   });
