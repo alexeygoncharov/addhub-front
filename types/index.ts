@@ -89,8 +89,14 @@ declare global {
     status: string;
     createdAt: string;
     order_number: number;
+    disputes: any;
     updatedAt: string;
     __v: number;
+  }
+
+  interface CreateDispute {
+    order: string;
+    files: any[];
   }
 
   interface ChatMember {
@@ -108,6 +114,7 @@ declare global {
   interface ChatItem {
     _id: string;
     members: ChatMember[];
+    order: any;
     unseen_messages: number;
     createdAt: string;
     updatedAt: string;

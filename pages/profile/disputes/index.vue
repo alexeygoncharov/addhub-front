@@ -12,10 +12,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="i in 10" :key="i" class="finance-row">
+        <tr v-for="item in disputes" :key="item._id" class="finance-row">
           <td>
             <div class="finance-row__title">Дата</div>
-            <div class="finance-row__desc light-text">29.11.2024</div>
+            <div class="finance-row__desc light-text">{{ item.createdAt }}</div>
           </td>
           <td>
             <div class="finance-row__title">Сделка</div>
@@ -54,19 +54,32 @@
 </template>
 
 <script setup lang="ts">
+interface Dispute {
+  _id: string;
+  order: string;
+  status: 'pending' | 'completed' | 'cancelled'; // Добавьте другие статусы, если есть
+  files: string[];
+  sides: string[];
+  createdBy: string;
+  updatedBy: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
 const currentPage = ref(1);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
-const disputes = ref([]);
+const disputes = ref<Array<Dispute>>();
 const updateDisputes = async () => {
-  const { data } = await apiFetch<ApiListResponse<{}[]>>('/api/disputes', {
+  const { data } = await apiFetch<ApiListResponse<[]>>('/api/disputes', {
     needToken: true,
   });
   const value = data.value;
   if (value?.status === 200) {
-    // disputes.value = value.result;
+    disputes.value = value.result;
   }
 };
 updateDisputes();

@@ -22,6 +22,16 @@
       class="item"
       :message="message"
     ></SectionsMessagesChatMessage>
+    <div class="messages__split">
+      <div
+        v-if="messagesStore.activeChat?.order?.disputes"
+        class="messages__split-text text14"
+      >
+        {{
+          `${messagesStore.activeChat?.order?.disputes[0].createdBy} открыл диспут`
+        }}
+      </div>
+    </div>
   </div>
 </template>
 

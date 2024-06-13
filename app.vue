@@ -69,6 +69,15 @@ function setupSocketListeners() {
   socket.on('delete_chat', handleDeleteChat);
   socket.on('update_user', handleUpdateUser);
   socket.on('update_message', handleUpdateMessage);
+  socket.on('new_dispute', (data) => {
+    messagesStore.chats.forEach((item) => {
+      if (item._id === data.chat._id) {
+        item = data.chat;
+        if (messagesStore.activeChat?._id === data.chat._id)
+          messagesStore.activeChat = data.chat;
+      }
+    });
+  });
 }
 
 // function teardownSocketListeners() {
