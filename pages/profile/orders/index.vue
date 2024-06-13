@@ -399,6 +399,7 @@ function openDispute() {
         disputeStore.createDispute(dispute.value);
         changeStatus('dispute', dispute.value.order);
         reset();
+        confirm();
       }
     });
   } else {
