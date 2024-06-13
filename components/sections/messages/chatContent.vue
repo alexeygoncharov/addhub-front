@@ -72,10 +72,13 @@
           <span>{{ messagesStore.activeChat?.service?.title }}</span>
         </div> -->
         <div class="chat-content__right _flex">
-          <!--<div v-if="messagesStore.activeChat?._id" class="chat-status">
+          <div
+            v-if="messagesStore.activeChat?.order?.disputes"
+            class="chat-status"
+          >
             <img src="/img/thunder.svg" alt="" />
             <span>Открытый диспут</span>
-          </div>-->
+          </div>
           <button
             class="chat-content__delete _flex"
             @click="messagesStore.deleteChat()"
