@@ -278,6 +278,10 @@
   padding: 1.5em 1.875em 1.9375em;
   margin-top: 1.875em;
 
+  &__content {
+    word-break: break-all;
+  }
+
   &__info {
     display: flex;
     align-items: center;

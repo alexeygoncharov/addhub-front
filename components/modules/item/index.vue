@@ -49,7 +49,9 @@
               <div class="about-client__rating">
                 <img src="/img/star.svg" alt="" />
                 <div class="about-client__rating-text">
-                  <span>{{ item?.createdBy.rate }}</span>
+                  <span>{{
+                    item?.createdBy.rate > 0 ? item?.createdBy.rate : ''
+                  }}</span>
                   <!-- (595 отзывов) -->
                 </div>
               </div>

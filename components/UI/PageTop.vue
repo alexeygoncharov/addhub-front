@@ -29,7 +29,11 @@
             <div class="page-top__item _review">
               <img src="/img/star.svg" alt="" />
               <span>
-                <b>{{ items.createdBy.rate }} </b>&nbsp;
+                <b
+                  >{{
+                    items.createdBy.rate > 0 ? items.createdBy.rate : ''
+                  }} </b
+                >&nbsp;
                 {{ pluralize(items.reviews, 'отзыв', 'отзыва', 'отзывов') }}
               </span>
             </div>
