@@ -16,17 +16,17 @@
         }
       "
     >
-      <div class="profile-item__grid">
+      <Form class="profile-item__grid">
         <fieldset class="fg _full">
           <label
             >Заголовок {{ type === 'project' ? 'проекта' : 'услуги' }}</label
           >
-          <input
+          <Field
             v-model="form.title"
-            required
-            type="text"
-            placeholder="Заголовок"
+            rules="required|alpha|max:100"
+            name="title"
           />
+          <ErrorMessage name="title" class="error-message" />
         </fieldset>
         <fieldset class="fg _full">
           <label>
@@ -130,7 +130,7 @@
             Обязательное поле
           </p>
         </fieldset>
-      </div>
+      </Form>
     </form>
     <div class="profile-item__nav">
       <button
@@ -256,6 +256,8 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+
+useValidation();
 const route = useRoute();
 const type = route.query.type as 'project' | 'service';
 const form = ref<ItemForm>();

@@ -32,11 +32,15 @@
         <div class="modal-body">
           <div class="chat-nav _flex">
             <div class="chat-nav__field">
-              <textarea placeholder="Напишите сообщение"></textarea>
+              <textarea
+                v-model="dispute.message"
+                placeholder="Напишите сообщение"
+              ></textarea>
             </div>
             <div class="chat-nav__action _flex">
               <!--v-if-->
               <form class="chat-nav__file">
+                <div v-if="files">{{ files.item(0)?.name }}</div>
                 <button
                   type="button"
                   class="chat-nav__file-btn"
@@ -377,6 +381,7 @@ const { isRevealed, reveal, confirm, cancel, onReveal, onConfirm, onCancel } =
 const dispute = ref<CreateDispute>({
   files: [],
   order: '',
+  message: '',
 });
 
 onReveal((orderId: string) => {
@@ -398,12 +403,15 @@ function openDispute() {
         dispute.value.files.push(file);
         disputeStore.createDispute(dispute.value);
         changeStatus('dispute', dispute.value.order);
+        dispute.value.files = [];
+        dispute.value.message = '';
         reset();
       }
     });
   } else {
     disputeStore.createDispute(dispute.value);
     changeStatus('dispute', dispute.value.order);
+    dispute.value.message = '';
   }
   confirm();
 }

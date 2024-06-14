@@ -93,6 +93,7 @@ declare global {
   interface CreateDispute {
     order: string;
     files: any[];
+    message: string;
   }
 
   interface ChatMember {

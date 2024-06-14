@@ -15,18 +15,18 @@
         }
       "
     >
-      <div class="profile-item__grid">
+      <Form class="profile-item__grid">
         <fieldset class="fg _full">
           <label
             >Заголовок
             {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
           >
-          <input
+          <Field
             v-model="form.title"
-            required
-            type="text"
-            placeholder="Заголовок"
+            rules="required|alpha|max:100"
+            name="title"
           />
+          <ErrorMessage name="title" class="error-message" />
         </fieldset>
         <fieldset class="fg _full">
           <label>
@@ -137,7 +137,7 @@
             Обязательное поле
           </p>
         </fieldset>
-      </div>
+      </Form>
     </form>
   </div>
   <div v-if="type === 'project'" class="profile-item">
@@ -227,6 +227,7 @@ definePageMeta({
   middleware: 'authenticated',
 });
 
+useValidation();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const type = (user.value?.active_role === 'buyer' ? 'project' : 'service') as

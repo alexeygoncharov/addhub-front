@@ -28,7 +28,7 @@
         class="messages__split-text text14"
       >
         {{
-          `${messagesStore.activeChat?.order?.disputes[0].createdBy} открыл диспут`
+          `${messagesStore.activeChat?.order?.disputes[0]?.createdBy} открыл диспут`
         }}
       </div>
     </div>
