@@ -475,6 +475,10 @@
       border-radius: 50%;
     }
 
+    &-name {
+      word-break: break-all;
+    }
+    
     &-name--skeleton {
       width: 70px;
       height: 0.87em;
