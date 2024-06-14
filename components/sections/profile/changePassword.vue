@@ -17,7 +17,7 @@
           <label>Новый пароль</label>
 
           <Field
-            v-model="passwordForm.new_password"
+            v-model.trim="passwordForm.new_password"
             rules="required|min:8"
             name="password"
             type="password"
@@ -29,7 +29,7 @@
         <fieldset class="fg">
           <label>Повторить пароль</label>
           <Field
-            v-model="passwordForm.repeat_new_password"
+            v-model.trim="passwordForm.repeat_new_password"
             rules="required|min:8"
             name="repeat_new_password"
             type="repeat_new_password"

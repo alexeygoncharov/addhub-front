@@ -418,7 +418,6 @@ function openDispute() {
 
 const commonStore = useCommonStore();
 const titles = [
-  { title: 'Создано', value: 'created' },
   { title: 'В работе', value: 'processing' },
   { title: 'Сдано', value: 'completed' },
   { title: 'На доработке', value: 'refunded' },
@@ -428,7 +427,7 @@ const titles = [
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const currentPage = ref(1);
-const activeTab = ref('created');
+const activeTab = ref('processing');
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',

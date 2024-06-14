@@ -7,7 +7,7 @@
       <fieldset class="fg small">
         <label>Email</label>
         <Field
-          v-model="form.email"
+          v-model.trim="form.email"
           rules="required|email"
           name="email"
           type="email"

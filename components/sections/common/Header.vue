@@ -8,11 +8,11 @@
 
         <ModulesHeaderNavTop />
 
-        <ModulesHeaderAuth v-model="mobMenu" />
+        <ModulesHeaderAuth />
       </div>
 
       <ModulesHeaderNavBottom />
-      <ModulesHeaderMobMenu v-model="mobMenu" />
+      <ModulesHeaderMobMenu />
     </div>
 
     <div class="search-modal">
@@ -31,6 +31,4 @@
     </div>
   </header>
 </template>
-<script setup lang="ts">
-const mobMenu = ref(false);
-</script>
+<script setup lang="ts"></script>
