@@ -5,8 +5,7 @@
         class="modal-wrapper"
         @submit="
           (e) => {
-            e.preventDefault();
-            editableData ? updateBid() : createBid();
+            e.editableData ? updateBid() : createBid();
           }
         "
       >
@@ -27,9 +26,24 @@
               class="modal-wrapper__choose"
               @click="activeChoice = !activeChoice"
             >
-              {{ chosenService ? chosenService.title : 'Выберите услугу' }}
+              {{
+                chosenService ? chosenService.title : 'Можете выбрать услугу'
+              }}
             </div>
             <div v-if="activeChoice" class="header-action__search-list">
+              <div
+                class="header-action__search-item"
+                @click="
+                  () => {
+                    chosenService = undefined;
+                    activeChoice = false;
+                  }
+                "
+              >
+                <div class="header-action__search-item-img">
+                  <p>Без услуги</p>
+                </div>
+              </div>
               <div
                 v-for="service in items"
                 :key="service._id"

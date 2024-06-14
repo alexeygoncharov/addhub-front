@@ -45,7 +45,7 @@
           <label>Имя пользователя</label>
           <Field
             id="name"
-            v-model="form.name"
+            v-model.trim="form.name"
             rules="required|alpha|max:14"
             name="name"
             type="name"
@@ -56,7 +56,7 @@
           <label>Телефон</label>
           <input
             id="phone_number"
-            v-model="form.phone_number"
+            v-model.trim="form.phone_number"
             type="text"
             placeholder="+ 7"
           />
@@ -65,7 +65,7 @@
         <fieldset v-if="commonStore.countries" class="fg">
           <label>Страна</label>
           <UIVSelectSearch
-            v-model="form.address.country"
+            v-model.trim="form.address.country"
             :items="
               commonStore.countries.map((item) => {
                 return { title: item.title, value: item._id };
@@ -77,7 +77,7 @@
         <fieldset v-if="commonStore.cities" class="fg">
           <label>Город</label>
           <UIVSelectSearch
-            v-model="form.address.city"
+            v-model.trim="form.address.city"
             :items="
               commonStore.cities.map((item) => ({
                 title: item.title,
@@ -91,7 +91,7 @@
           <label>Расскажите о себе</label>
           <textarea
             id="about_me"
-            v-model="form.about_me"
+            v-model.trim="form.about_me"
             placeholder="Описание"
           ></textarea>
         </fieldset>

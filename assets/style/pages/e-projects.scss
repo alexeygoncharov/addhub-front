@@ -59,6 +59,7 @@
     width: 100%;
     padding: 12px 20px;
     margin: 0;
+    cursor: pointer;
     resize: none;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -356,7 +357,6 @@ input {
         color: #333;
       }
     }
-
   }
 
   .right {
@@ -385,7 +385,6 @@ input {
         font-size: 14px;
         color: #333;
       }
-
     }
   }
 }
@@ -431,10 +430,7 @@ input {
       margin-top: 1rem;
     }
   }
-
 }
-
-
 
 .modal-wrapper-order {
   position: absolute;
@@ -460,49 +456,49 @@ input {
       height: 7.5em;
       padding: 1.81em 1.875em;
       border-top: $border;
-    
+
       &__btn {
         flex-shrink: 0;
         width: 13.375em;
         height: 3.75em;
         margin-left: 2.06em;
-    
+
         span {
           font-size: 0.875em;
         }
       }
-    
+
       &__file {
         flex-shrink: 0;
         margin-left: 1em;
-    
+
         &:hover {
           .chat-nav__file-btn {
             background-color: $primary;
-    
+
             path {
               fill: #fff;
             }
           }
         }
-    
+
         &-btn {
           width: 2.5em;
           height: 2.5em;
           background-color: $primary-white;
           border-radius: 0.3125em;
-    
+
           @include center;
-    
+
           svg {
             width: 1.5625em;
           }
         }
       }
-    
+
       &__field {
         flex-grow: 1;
-    
+
         textarea {
           width: 100%;
           height: 100%;
@@ -511,7 +507,7 @@ input {
           color: $black;
           resize: none;
           border: none;
-    
+
           &::placeholder {
             color: $gray;
           }
@@ -526,6 +522,4 @@ input {
     gap: 5px;
     margin-top: 20px;
   }
-
 }
-

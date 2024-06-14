@@ -145,10 +145,6 @@
     align-items: center;
     margin-left: auto;
 
-    .burger {
-      display: none;
-    }
-
     @media screen and (min-width: 993px) {
       &__btn {
         margin-right: 0.6875em;

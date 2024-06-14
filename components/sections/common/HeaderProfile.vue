@@ -24,7 +24,7 @@
           </button>
         </form>
 
-        <ModulesHeaderAuth v-model="mobMenu" profile />
+        <ModulesHeaderAuth profile />
       </div>
     </div>
     <div class="admin-menu">
@@ -101,6 +101,7 @@
         </ul>
       </div>
     </div>
+    <ModulesHeaderMobMenu />
   </header>
 </template>
 
@@ -110,7 +111,6 @@ const authStore = useAuthStore();
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 const user = defineModel<Profile>('user');
-const mobMenu = ref(false);
 const links = computed(() => {
   return [
     // {

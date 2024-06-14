@@ -395,6 +395,7 @@
   &__link {
     display: flex;
     align-items: center;
+    width: 100%;
     min-height: 2.375em;
     padding: 0.625em 1.125em;
     font-weight: 500;
@@ -459,7 +460,7 @@
 
 .header-action2 {
   position: relative;
-  z-index: 5;
+  z-index: 21;
   display: flex;
   align-items: center;
 

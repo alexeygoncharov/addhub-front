@@ -91,11 +91,11 @@
         <li>
           <nuxt-link :to="`/profile`"> Личный кабинет </nuxt-link>
           <nuxt-link :to="`/profile/settings`"> Мой профиль </nuxt-link>
-          <nuxt-link @click="openConfirmLogout"> Выйти </nuxt-link>
+          <nuxtLink @click="openConfirmLogout"> Выйти </nuxtLink>
         </li>
       </ul>
     </div>
-    <button class="burger" @click="toggleMenu">
+    <button class="burger" @click="toggleMobMenu">
       <NuxtImg src="/img/burger.svg" alt="" class="_view1" />
       <NuxtImg src="/img/burger2.svg" alt="" class="_view2" />
     </button>
@@ -105,7 +105,7 @@
       <span>Войти</span>
     </NuxtLink>
     <UIVButton path="/reg" color="blue" class="header-action__btn">
-      Зарегистрироваться
+      <span>Зарегистрироваться</span>
     </UIVButton>
   </div>
 </template>
@@ -122,10 +122,7 @@ const searchQuery = ref('');
 // const isBuyer = user.value?.active_role === 'buyer';
 const activeSearch = ref(false);
 const favorites = storeToRefs(userStore).favorites;
-const mobMenu = defineModel<boolean>({ required: true });
-const toggleMenu = () => {
-  mobMenu.value = !mobMenu.value;
-};
+
 const loading = ref(false);
 const roleSwitch = async () => {
   loading.value = true;

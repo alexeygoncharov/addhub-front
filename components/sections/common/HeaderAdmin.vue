@@ -19,15 +19,6 @@
             :active-class="'_active'"
           >
             <span class="mob-menu__title">{{ item.title }}</span>
-            <div
-              v-if="
-                item?.key === 'messages' &&
-                messagesStore?.totalUnseenMessages > 0
-              "
-              class="mob-menu__num"
-            >
-              <span>{{ messagesStore?.totalUnseenMessages }}</span>
-            </div>
           </NuxtLink>
         </li>
       </ul>
@@ -47,6 +38,7 @@
         </ul>
       </div>
     </div>
+    <ModulesHeaderMobMenu />
   </header>
 </template>
 
@@ -55,7 +47,6 @@ import { useAuthStore } from '#imports';
 const authStore = useAuthStore();
 const messagesStore = useMessagesStore();
 const user = defineModel<Profile>('user');
-const mobMenu = ref(false);
 const links = ref([
   {
     path: '/admin/orders',
