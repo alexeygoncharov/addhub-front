@@ -150,12 +150,15 @@ import {
   changeWithdrawStatus,
 } from '@/modules/admin/composables/payments';
 definePageMeta({ layout: 'admin' });
-const titles = [
+type TabValue = 'pending' | 'approved' | 'canceled';
+
+const titles: { title: string; value: TabValue }[] = [
   { title: 'В обработке', value: 'pending' },
   { title: 'Одобрено', value: 'approved' },
   { title: 'Отменено', value: 'canceled' },
 ];
-const activeTab = ref<'pending' | 'approved' | 'canceled'>('pending');
+
+const activeTab = ref<TabValue>('pending');
 const currentPage = ref(1);
 const total = ref(0);
 let dropzoneEventsQueue = Promise.resolve();

@@ -1,6 +1,7 @@
 import type { Withdraw } from '@/modules/profile/types/index';
 export const getWithdrawals = async (
   currentPage: number,
+  status: 'canceled' | 'approved' | 'pending',
 ): Promise<Ref<ApiListResponse<Withdraw[]>> | undefined> => {
   const token = useCookie('authToken');
   if (!token.value) throw new Error('token is lost');
@@ -13,6 +14,7 @@ export const getWithdrawals = async (
         query: {
           offset: currentPage,
           limit: 8,
+          filter: { status },
         },
       },
     },
@@ -21,5 +23,23 @@ export const getWithdrawals = async (
     throw showError;
   } else if (result.data.value) {
     return result.data as Ref<ApiListResponse<Withdraw[]>>;
+  }
+};
+
+export const changeWithdrawStatus = async (
+  value: 'canceled' | 'approved' | 'pending',
+  id: string,
+) => {
+  const token = useCookie('authToken');
+  if (!token.value) throw new Error('token is lost');
+  const result = await apiFetch(`/api/admin/payments/withdraw/status/${id}`, {
+    needToken: true,
+    options: { method: 'PUT', body: { status: value } },
+  });
+  if (result.error.value) {
+    useToast({ message: result.error.value.data.message, type: 'error' });
+    return false;
+  } else {
+    return true;
   }
 };

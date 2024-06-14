@@ -22,7 +22,7 @@
             {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
           >
           <Field
-            v-model="form.title"
+            v-model.trim="form.title"
             rules="required|alpha|max:100"
             name="title"
           />
@@ -33,7 +33,7 @@
             <label>Описание</label>
           </label>
           <textarea
-            v-model="form.description"
+            v-model.trim="form.description"
             required
             placeholder="Текст описания"
           ></textarea>
@@ -72,16 +72,33 @@
         <fieldset class="fg">
           <label>Срок</label>
           <input
-            v-model="form.delivery_time"
+            v-model.trim.number="form.delivery_time"
             required
+            maxlength="3"
             type="number"
             placeholder="Кол-во дней"
+            @keypress="
+              (event: KeyboardEvent) =>
+                isNaN(parseInt(event.key)) ? event.preventDefault() : null
+            "
+            @paste="handleNumPaste"
           />
         </fieldset>
 
         <fieldset class="fg">
           <label>Цена</label>
-          <input v-model="form.price" required type="text" placeholder="₽" />
+          <input
+            v-model.trim.number="form.price"
+            required
+            type="text"
+            :maxlength="7"
+            placeholder="₽"
+            @keypress="
+              (event: KeyboardEvent) =>
+                isNaN(parseInt(event.key)) ? event.preventDefault() : null
+            "
+            @paste="handleNumPaste"
+          />
         </fieldset>
 
         <fieldset
@@ -90,7 +107,7 @@
         >
           <label>Объём услуги(заголовок)</label>
           <input
-            v-model="form.service_volume"
+            v-model.trim="form.service_volume"
             type="text"
             required
             placeholder="Заголовок"
@@ -102,7 +119,7 @@
         >
           <label>Объём услуги(описание)</label>
           <input
-            v-model="form.service_volume_desc"
+            v-model.trim="form.service_volume_desc"
             type="text"
             required
             placeholder="Описание"
