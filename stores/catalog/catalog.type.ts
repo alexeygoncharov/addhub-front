@@ -30,7 +30,7 @@ export interface User {
   surname: string;
   email: string;
   roles: string[];
-  active_role: 'buyer' | 'seller';
+  active_role: 'buyer' | 'seller' | 'admin';
   status: string;
   to_create_disputes: string;
   online_status: string;

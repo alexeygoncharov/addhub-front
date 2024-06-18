@@ -1,6 +1,6 @@
 interface MessagePayload {
   text: string;
-  recipient: string;
+  chat_id: string;
   service_id?: string;
   files?: Array<string>;
 }

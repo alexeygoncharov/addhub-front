@@ -182,11 +182,12 @@ import { useFileDialog } from '@vueuse/core';
 const messagesStore = useMessagesStore();
 const commonStore = useCommonStore();
 type Message = {
-  recipient: string;
+ // recipient: string;
   text: string;
   files: any[];
+  chat_id: string;
 };
-const message = ref<Message>({ recipient: '', text: '', files: [] });
+const message = ref<Message>({ text: '', files: [], chat_id: '' });
 const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
 });
@@ -210,9 +211,10 @@ watch(
 );
 function sendMessage() {
   if (!messagesStore.activeChat) return;
-  const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
-  if (activeChat) message.value.recipient = activeChat._id;
-  if (message.value.recipient && message.value.text) {
+  // const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
+  // if (activeChat) message.value.recipient = activeChat._id;
+  message.value.chat_id = messagesStore.activeChat._id
+  if (message.value.chat_id && message.value.text) {
     if (files.value?.length) {
       const fileSizeMB = files.value?.item(0)?.size;
       if (fileSizeMB && fileSizeMB >= 5 * 1024 * 1024) {
@@ -226,13 +228,13 @@ function sendMessage() {
           file.url = file?.url?.replace('/files', 'files') as string;
           message.value.files.push(file);
           messagesStore.createMessage(message.value);
-          message.value = { recipient: '', text: '', files: [] };
+          message.value = { text: '', files: [], chat_id: '' };
           reset();
         }
       });
     } else {
       messagesStore.createMessage(message.value);
-      message.value = { recipient: '', text: '', files: [] };
+      message.value = { text: '', files: [], chat_id: '' };
       reset();
     }
   }

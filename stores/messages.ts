@@ -39,7 +39,7 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function getRespondent(chat: ChatItem): ChatMember | undefined {
-    return chat?.members.find((member) => member._id !== userStore.user?._id);
+    return chat?.members.find((member) => member._id !== userStore.user?._id && member.active_role !== 'admin');
   }
 
   function addChats(payload: ChatList) {
@@ -136,7 +136,7 @@ export const useMessagesStore = defineStore('messages', () => {
             method: 'POST',
             body: {
               message: msg.text,
-              recipient: msg.recipient,
+              chat_id: msg.chat_id,
               service_id: msg.service_id,
               files: msg.files,
             },
