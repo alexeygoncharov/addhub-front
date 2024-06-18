@@ -28,7 +28,7 @@
     >
       <div class="messages__split-text text14">
         {{
-          `${messagesStore.activeChat?.order?.disputes?.createdBy} открыл диспут`
+          `${messagesStore.activeChat?.order?.disputes?.createdBy?.name} ${messagesStore.activeChat?.order?.disputes?.createdBy?.surname} открыл диспут`
         }}
       </div>
     </div>

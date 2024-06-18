@@ -58,7 +58,7 @@
   <div v-else-if="message.sender?.active_role === 'admin'" class="message-item _judge">
     <div class="message-user">
       <div class="avatar">
-        <img alt="">
+        <img src="/public/img/avatar20.webp" alt="">
       </div>
       <div class="message-user__name">
         Арбитраж
