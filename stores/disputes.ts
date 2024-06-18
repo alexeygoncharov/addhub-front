@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useDisputesStore = defineStore('disputes', () => {
   async function createDispute(payload: CreateDispute) {
-    const { data } = await apiFetch<ApiResponse<any>>(`/api/disputes/`, {
+    const { data, error } = await apiFetch<ApiResponse<any>>(`/api/disputes/`, {
       needToken: true,
       options: {
         method: 'POST',
@@ -12,6 +12,9 @@ export const useDisputesStore = defineStore('disputes', () => {
     const value = data.value;
     if (value) {
       // addMessages(value.result);
+    }
+    if (error){
+      throw error
     }
   }
 

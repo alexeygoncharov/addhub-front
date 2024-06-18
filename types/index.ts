@@ -101,6 +101,7 @@ declare global {
     user_name: string;
     name: string;
     surname: string;
+    active_role: string;
     online_status: 'online' | 'offline'; // Assuming only these two statuses for simplicity
     rate: number;
     avatar?: {

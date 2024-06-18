@@ -90,6 +90,7 @@ function setupSocketListeners() {
 
 // Обработчики событий сокета
 function handleNewMessage(data: ChatData) {
+  console.log('data ', data)
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
   } else {
@@ -101,8 +102,7 @@ function handleNewMessage(data: ChatData) {
       array[index] = data.newMessage;
     }
   });
-  if (data.newMessage.recipient?._id === userStore.user?._id)
-    messagesStore.totalUnseenMessages++;
+  messagesStore.fetchTotalUnseenCount()
 }
 
 function isFromExistingChat(chatId: string) {
