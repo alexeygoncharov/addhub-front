@@ -73,7 +73,7 @@
         </div> -->
         <div class="chat-content__right _flex">
           <div
-            v-if="messagesStore.activeChat?.order?.disputes"
+            v-if="messagesStore.activeChat?.order?.disputes?.createdBy"
             class="chat-status"
           >
             <img src="/img/thunder.svg" alt="" />
@@ -182,7 +182,7 @@ import { useFileDialog } from '@vueuse/core';
 const messagesStore = useMessagesStore();
 const commonStore = useCommonStore();
 type Message = {
- // recipient: string;
+  // recipient: string;
   text: string;
   files: any[];
   chat_id: string;
@@ -213,7 +213,7 @@ function sendMessage() {
   if (!messagesStore.activeChat) return;
   // const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
   // if (activeChat) message.value.recipient = activeChat._id;
-  message.value.chat_id = messagesStore.activeChat._id
+  message.value.chat_id = messagesStore.activeChat._id;
   if (message.value.chat_id && message.value.text) {
     if (files.value?.length) {
       const fileSizeMB = files.value?.item(0)?.size;

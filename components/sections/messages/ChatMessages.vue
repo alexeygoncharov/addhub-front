@@ -23,7 +23,7 @@
       :message="message"
     ></SectionsMessagesChatMessage>
     <div
-      v-if="messagesStore.activeChat?.order?.disputes"
+      v-if="messagesStore.activeChat?.order?.disputes?.createdBy"
       class="messages__split"
     >
       <div class="messages__split-text text14">
