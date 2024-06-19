@@ -77,8 +77,8 @@
                 <div class="reply-row__content">
                   <div class="reply-row__title text17">
                     <nuxtLink class="medium-text"
-                      :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((el) => el._id === item.service.category)?.slug}/${item._id}`"
-                      href="">{{ item.service.title }}</nuxtLink>
+                      :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((el) => el._id === item.service?.category)?.slug}/${item._id}`"
+                      href="">{{ item.service?.title }}</nuxtLink>
                     <p>- (Заказ №{{ item.order_number }})</p>
                   </div>
                   <div class="reply-row__props">
@@ -86,12 +86,12 @@
                       <img src="/img/marker2.svg" alt="" />
                       <span>{{
             commonStore.cities?.find(
-              (c) => c._id === item.service.address.city,
+              (c) => c._id === item.service?.address.city,
             )?.title
           }},
                         {{
               commonStore.countries?.find(
-                (c) => c._id === item.service.address.country,
+                (c) => c._id === item.service?.address.country,
               )?.title
             }}</span>
                     </div>
@@ -114,7 +114,7 @@
                 <span class="text15 light-text">
                   {{
             commonStore.categories?.find(
-              (el) => el._id === item.service.category,
+              (el) => el._id === item.service?.category,
             )?.title
           }}
                 </span>
@@ -123,7 +123,7 @@
             <td>
               <div class="reply-row__price">
                 <span class="text15 light-text">
-                  {{ item.service.price }} руб.
+                  {{ item.service?.price }} руб.
                 </span>
               </div>
             </td>

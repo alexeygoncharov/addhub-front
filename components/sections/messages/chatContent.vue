@@ -73,7 +73,7 @@
         </div> -->
         <div class="chat-content__right _flex">
           <div
-            v-if="messagesStore.activeChat?.order?.disputes"
+            v-if="messagesStore.activeChat?.order?.disputes?.createdBy"
             class="chat-status"
           >
             <img src="/img/thunder.svg" alt="" />
