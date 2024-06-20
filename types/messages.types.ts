@@ -1,7 +1,8 @@
 interface MessagePayload {
   text: string;
-  chat_id: string;
+  chat_id?: string;
   service_id?: string;
+  recepient?: string
   files?: Array<string>;
 }
 interface MessagesPayload {
