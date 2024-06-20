@@ -3,7 +3,6 @@ import { io } from 'socket.io-client';
 export default defineNuxtPlugin((nuxtApp) => {
   const authToken = useCookie('authToken');
   const socketOptions = {
-    autoConnect: false,
     multiplex: false,
     transports: ['polling'],
   };

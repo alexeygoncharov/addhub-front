@@ -60,7 +60,7 @@
 }
 
 .chat-items {
-  height: 500px;
+  height: calc(100% - 6.8125em);
   overflow-y: auto;
 
   @include scroll;
@@ -353,7 +353,7 @@
   display: flex;
   flex: 1;
   flex-direction: column-reverse;
-  height: 50vh;
+  height: calc(100% - 13.125em);
   padding: 2.5em;
   overflow: scroll;
   zoom: 1.2;
