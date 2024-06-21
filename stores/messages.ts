@@ -109,7 +109,6 @@ export const useMessagesStore = defineStore('messages', () => {
     if (value) {
       totalUnseenMessages.value = value.result;
     }
-    console.log('totalunseen ', data.value?.result);
     return data.value?.result;
   }
 
