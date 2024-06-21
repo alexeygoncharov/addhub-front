@@ -101,7 +101,10 @@
     </div>
   </div>
   <div
-    v-else-if="message.sender?.active_role === 'admin'"
+    v-else-if="
+      message.sender?.active_role === 'admin' &&
+      message.sender?._id !== userStore.user?._id
+    "
     class="message-item _judge"
   >
     <div class="message-user">
