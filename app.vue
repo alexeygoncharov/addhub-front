@@ -90,7 +90,6 @@ function setupSocketListeners() {
 
 // Обработчики событий сокета
 function handleNewMessage(data: ChatData) {
-  console.log('data ', data);
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
   } else {
@@ -135,10 +134,11 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
     }
     return item;
   });
+  // find in chat list chat_id
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
-      messagesStore.totalUnseenMessages--;
-      item.unseen_messages--;
+      // messagesStore.totalUnseenMessages--;
+      // item.unseen_messages--;
     }
     return item;
   });

@@ -39,7 +39,10 @@ export const useMessagesStore = defineStore('messages', () => {
   }
 
   function getRespondent(chat: ChatItem): ChatMember | undefined {
-    return chat?.members.find((member) => member._id !== userStore.user?._id && member.active_role !== 'admin');
+    return chat?.members.find(
+      (member) =>
+        member._id !== userStore.user?._id && member.active_role !== 'admin',
+    );
   }
 
   function addChats(payload: ChatList) {
@@ -97,6 +100,22 @@ export const useMessagesStore = defineStore('messages', () => {
   async function fetchTotalUnseenCount() {
     const { data } = await apiFetch<ApiResponse<number>>(
       `/api/messages/unseen/count`,
+      {
+        needToken: true,
+        options: {},
+      },
+    );
+    const value = data.value;
+    if (value) {
+      totalUnseenMessages.value = value.result;
+    }
+    console.log('totalunseen ', data.value?.result);
+    return data.value?.result;
+  }
+
+  async function fetchUnseenCountByUser(chatId: string) {
+    const { data } = await apiFetch<ApiResponse<number>>(
+      `/api/messages/${chatId}/unseen/count`,
       {
         needToken: true,
         options: {},
@@ -206,6 +225,7 @@ export const useMessagesStore = defineStore('messages', () => {
     resetChats,
     fetchLastMessage,
     fetchTotalUnseenCount,
+    fetchUnseenCountByUser,
     searchQuery,
     lastMessages,
     messagesListOffset,

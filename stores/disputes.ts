@@ -13,8 +13,8 @@ export const useDisputesStore = defineStore('disputes', () => {
     if (value) {
       // addMessages(value.result);
     }
-    if (error.value){
-      throw error.value
+    if (error.value) {
+      throw error.value;
     }
   }
 

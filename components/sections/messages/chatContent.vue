@@ -166,7 +166,7 @@
             </button>
           </form>
           <button
-            :disabled="!!!message?.text?.length"
+            :disabled="!!!message?.text.trim().length"
             class="chat-nav__btn m-btn m-btn-blue m-btn-shadow"
             @click="sendMessage"
           >
@@ -214,7 +214,7 @@ function sendMessage() {
   // const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
   // if (activeChat) message.value.recipient = activeChat._id;
   message.value.chat_id = messagesStore.activeChat._id;
-  if (message.value.chat_id && message.value.text) {
+  if (message.value.chat_id && message.value.text.trim().length) {
     if (files.value?.length) {
       const fileSizeMB = files.value?.item(0)?.size;
       if (fileSizeMB && fileSizeMB >= 5 * 1024 * 1024) {
