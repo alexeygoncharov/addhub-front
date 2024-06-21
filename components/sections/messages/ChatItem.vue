@@ -46,36 +46,26 @@
       <!-- <div class="chat-item__time">
           {{ $dayjs(item.latestMessage.createdAt).fromNow() }}
         </div>-->
-      <div
-        v-if="props.chat.unseen_messages > 0 && isMyUnreadMessages"
-        class="chat-item__count"
-      >
-        <span>{{ props.chat.unseen_messages }}</span>
+      <div v-if="messageCounter > 0" class="chat-item__count">
+        <span>{{ messageCounter }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+const messageCounter = ref<number | undefined>(0);
 const props = defineProps({
   chat: {
     type: Object as PropType<ChatItem | OrderChatItem>,
     required: true,
   },
 });
-const userStore = useUserStore();
 const messagesStore = useMessagesStore();
-const isMyUnreadMessages = computed(() => {
-  return messagesStore.lastMessages.find((item) => {
-    return (
-      (item?.recipient === userStore.user?._id &&
-        item.chat_id === props.chat._id) ||
-      (item?.recipient?._id === userStore.user?._id &&
-        item.chat_id === props.chat._id)
-    );
-  });
-});
 
+messageCounter.value = await messagesStore.fetchUnseenCountByUser(
+  props.chat?._id,
+);
 messagesStore.fetchLastMessage(props.chat?._id);
 </script>
 

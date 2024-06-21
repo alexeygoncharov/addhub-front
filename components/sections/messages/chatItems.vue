@@ -1,16 +1,5 @@
 <template>
-  <div
-    v-infinite-scroll="[
-      loadChats,
-      {
-        distance: 10,
-        canLoadMore: () => {
-          return messagesStore.totalCountChats > messagesStore.chats.length;
-        },
-      },
-    ]"
-    class="chat-items"
-  >
+  <div ref="el" class="chat-items">
     <SectionsMessagesChatItem
       v-for="item in messagesStore.chats.filter((chat) =>
         chat.members.some((member) => member._id === userStore?.user?._id),
@@ -23,7 +12,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import { vInfiniteScroll } from '@vueuse/components';
+const el = ref<HTMLElement | null>(null);
+
+useInfiniteScroll(el, loadChats, {
+  distance: 100,
+  interval: 5000,
+  direction: 'bottom',
+  canLoadMore: () => {
+    return (
+      messagesStore.totalCountChats > messagesStore.chats.length &&
+      messagesStore.chats.length >= messagesStore.limit
+    );
+  },
+});
+
 const props = defineProps<{ chosen: 'orders' | 'chats' }>();
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();

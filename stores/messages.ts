@@ -4,7 +4,7 @@ export const useMessagesStore = defineStore('messages', () => {
   const activeChat = ref<ChatItem | OrderChatItem>();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
-  const limit = 10;
+  const limit = 20;
   const lastMessages = ref<Array<ChatMessage>>([]);
   const messagesListOffset = ref(1);
   const searchQuery = ref('');
@@ -112,7 +112,7 @@ export const useMessagesStore = defineStore('messages', () => {
     return data.value?.result;
   }
 
-  async function fetchUnseenCountByUser(chatId: string) {
+  async function fetchUnseenCountByUser(chatId: string): Promise<number> {
     const { data } = await apiFetch<ApiResponse<number>>(
       `/api/messages/${chatId}/unseen/count`,
       {
@@ -122,7 +122,7 @@ export const useMessagesStore = defineStore('messages', () => {
     );
     const value = data.value;
     if (value) {
-      totalUnseenMessages.value = value.result;
+      return value.result;
     }
     return data.value?.result;
   }
