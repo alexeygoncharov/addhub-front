@@ -41,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function register(userData: userData) {
+  async function register(userData: userData, captchaToken: string) {
     const { data, error } = await apiFetch<ApiResponse<regResponse>>(
       '/api/auth/register',
       {
@@ -55,6 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
             password: userData.password,
             repeat_password: userData.repeatPassword,
             role: userData.role,
+            'cf-turnstile-response': captchaToken,
           },
         },
       },

@@ -1,7 +1,7 @@
 import type { Withdraw } from '@/modules/profile/types/index';
 export const getWithdrawals = async (
   currentPage: number,
-  status: 'canceled' | 'approved' | 'pending',
+  status: 'Canceled' | 'Approved' | 'Pending',
 ): Promise<Ref<ApiListResponse<Withdraw[]>> | undefined> => {
   const token = useCookie('authToken');
   if (!token.value) throw new Error('token is lost');
@@ -27,7 +27,7 @@ export const getWithdrawals = async (
 };
 
 export const changeWithdrawStatus = async (
-  value: 'canceled' | 'approved' | 'pending',
+  value: 'Canceled' | 'Approved' | 'Pending',
   id: string,
 ) => {
   const token = useCookie('authToken');

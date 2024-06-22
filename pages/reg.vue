@@ -3,27 +3,32 @@
     :items="[{ name: 'Главная', to: '/' }, { name: 'Вход в личный кабинет' }]"
   />
   <SectionsAuth :type="'reg'" @submit="register">
-    <template #fields="{ meta }">
-      <div class="auth-form__roles">
-        <div class="filter-check m-radio">
-          <input
-            v-model="regDetails.role"
-            type="radio"
-            name="time"
-            :value="'buyer'"
-          />
-          <label class="role-label">Заказчик</label>
+    <template #fields>
+      <fieldset class="fg _small">
+        <div class="auth-form__roles">
+          <div class="filter-check m-radio">
+            <Field
+              v-model="regDetails.role"
+              rules="role"
+              type="radio"
+              name="role"
+              :value="'buyer'"
+            />
+            <label class="role-label">Заказчик</label>
+          </div>
+          <div class="filter-check m-radio">
+            <Field
+              v-model="regDetails.role"
+              rules="role"
+              name="role"
+              type="radio"
+              :value="'seller'"
+            />
+            <label class="role-label">Исполнитель</label>
+          </div>
         </div>
-        <div class="filter-check m-radio">
-          <input
-            v-model="regDetails.role"
-            name="time"
-            type="radio"
-            :value="'seller'"
-          />
-          <label class="role-label">Исполнитель</label>
-        </div>
-      </div>
+        <ErrorMessage name="role" class="error-message" />
+      </fieldset>
       <fieldset class="fg _small">
         <label>Логин</label>
         <Field
@@ -96,25 +101,23 @@
         />
         <ErrorMessage name="repeatPassword" class="error-message" />
       </fieldset>
-      <UIVButton
-        :disabled="!meta.valid || !regDetails.role"
-        color="blue"
-        :is-shadow="true"
-        type="submit"
-      >
+      <UIVButton color="blue" :is-shadow="true" type="submit">
         Создать аккаунт
-      </UIVButton></template
-    >
+      </UIVButton>
+      <NuxtTurnstile v-model="captchaToken" />
+
+      <Field
+        v-model="captchaToken"
+        name="captchaToken"
+        rules="captcha"
+        type="hidden"
+      />
+      <ErrorMessage name="captchaToken" class="error-message" />
+    </template>
   </SectionsAuth>
 </template>
 
 <script setup lang="ts">
-import type { FormActions } from 'vee-validate';
-import {
-  email,
-  // eslint-disable-next-line camelcase
-  alpha_dash,
-} from '@vee-validate/rules';
 import { useValidation } from '~/composables/useValidation';
 definePageMeta({
   middleware: 'redirect-if-authenticated',
@@ -123,9 +126,7 @@ useHead({
   title: 'Регистрация',
 });
 
-const focusChanged = ref(false);
-
-const timeoutId = ref();
+const captchaToken = ref('');
 
 const regDetails = ref({
   username: '',
@@ -141,7 +142,7 @@ useValidation();
 const { register: authRegister } = useAuthStore();
 
 const register = async () => {
-  const result = await authRegister(regDetails.value);
+  const result = await authRegister(regDetails.value, captchaToken.value);
   if (result) {
     await navigateTo('/');
     useToast({

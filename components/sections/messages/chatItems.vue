@@ -30,10 +30,11 @@ const props = defineProps<{ chosen: 'orders' | 'chats' }>();
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
 function selectChat(respondent: ChatItem) {
+  if (messagesStore.activeChat?._id === respondent._id) return;
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
   const router = useRouter();
-  router.push({ query: { id: respondent._id } });
+  router.push({ query: { id: respondent._id, tab: props.chosen } });
   messagesStore.fetchChatMessagesList({
     chat_id: messagesStore.activeChat?._id,
     offset: messagesStore.messagesListOffset,

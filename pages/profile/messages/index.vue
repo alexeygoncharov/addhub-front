@@ -53,6 +53,24 @@
 <script setup lang="ts">
 const messagesStore = useMessagesStore();
 const { activeTab } = storeToRefs(messagesStore);
+type TabValue = 'chats' | 'orders';
+
+// Extract tab from the query parameters and ensure it's a string
+const tab: string = useRoute().query.tab?.toString() || '';
+
+// Type guard function to check if a string is a valid TabValue
+function isValidTabValue(value: string): value is TabValue {
+  return ['chats', 'orders'].includes(value);
+}
+
+// Check if tab is a valid TabValue before assigning
+if (tab && isValidTabValue(tab)) {
+  messagesStore.activeTab = tab;
+} else if (tab && !isValidTabValue(tab)) {
+  throw showError({
+    statusCode: 404,
+  });
+}
 const debouncedFn = () => {
   messagesStore.resetChats();
   const queryParams = {

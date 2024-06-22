@@ -65,10 +65,47 @@ export function useValidation() {
   defineRule('username', validateUsername);
   defineRule('email', email);
 
+  defineRule('captcha', (value: string) => {
+    if (!value) {
+      return 'Пожалуйста, подтвердите, что вы не робот.';
+    }
+    return true;
+  });
+  defineRule('role', (value: string) => {
+    if (!value) {
+      return 'Пожалуйста, выберите роль.';
+    }
+    return true;
+  });
+  const messages = {
+    ru: {
+      messages: {
+        required: 'Поле {field} обязательно для заполнения',
+        min: 'Поле {field} должно содержать минимум {length} символов',
+        confirmed: 'Поле {field} не совпадает',
+        // Add other validation messages as needed
+      },
+      names: {
+        username: 'логин',
+        name: 'имя',
+        surname: 'фамилия',
+        email: 'email адрес',
+        password: 'пароль',
+        repeatPassword: 'повторите пароль',
+      },
+    },
+  };
   // Настройка локализации
   configure({
-    generateMessage: localize({
-      ru,
+    generateMessage: localize('ru', {
+      names: {
+        username: 'логин',
+        name: 'имя',
+        surname: 'фамилия',
+        email: 'email адрес',
+        password: 'пароль',
+        repeatPassword: 'повторите пароль',
+      },
     }),
   });
 

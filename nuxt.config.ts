@@ -33,7 +33,11 @@ export default defineNuxtConfig({
     'dayjs-nuxt',
     // '@nuxtjs/sitemap',
     // '@nuxtjs/robots',
+    '@nuxtjs/turnstile',
   ],
+  turnstile: {
+    siteKey: process.env.TURNSTILE_KEY,
+  },
   dayjs: {
     defaultLocale: 'ru',
     locales: ['ru'],

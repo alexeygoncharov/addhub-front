@@ -78,7 +78,7 @@
               <div class="reply-row__action">
                 <div
                   class="reply-row__btn"
-                  @click="changeStatus('approved', item._id)"
+                  @click="changeStatus('Approved', item._id)"
                 >
                   <button class="m-btn m-btn-blue3">
                     <svg
@@ -105,7 +105,7 @@
 
                 <div
                   class="reply-row__btn"
-                  @click="changeStatus('canceled', item._id)"
+                  @click="changeStatus('Canceled', item._id)"
                 >
                   <button class="m-btn m-btn-blue3">
                     <svg
@@ -150,20 +150,20 @@ import {
   changeWithdrawStatus,
 } from '@/modules/admin/composables/payments';
 definePageMeta({ layout: 'admin' });
-type TabValue = 'pending' | 'approved' | 'canceled';
+type TabValue = 'Pending' | 'Approved' | 'Canceled';
 
 const titles: { title: string; value: TabValue }[] = [
-  { title: 'В обработке', value: 'pending' },
-  { title: 'Одобрено', value: 'approved' },
-  { title: 'Отменено', value: 'canceled' },
+  { title: 'В обработке', value: 'Pending' },
+  { title: 'Одобрено', value: 'Approved' },
+  { title: 'Отменено', value: 'Canceled' },
 ];
 
-const activeTab = ref<TabValue>('pending');
+const activeTab = ref<TabValue>('Pending');
 const currentPage = ref(1);
 const total = ref(0);
 let dropzoneEventsQueue = Promise.resolve();
 const changeStatus = (
-  value: 'pending' | 'approved' | 'canceled',
+  value: 'Pending' | 'Approved' | 'Canceled',
   id: string,
 ) => {
   dropzoneEventsQueue = dropzoneEventsQueue.then(async () => {
