@@ -13,12 +13,12 @@
             :rules="'required'"
             :initial-current-text="{
               value: payment.currency,
-              text: paymentsStore.rates?.find((item) => {
+              text: paymentsStore.rates?.find((item: any) => {
                 if (item.key === payment.currency) return item;
               })?.name,
             }"
             :options="
-              paymentsStore.rates?.map((item) => {
+              paymentsStore.rates?.map((item: any) => {
                 return { text: item.name, value: item.key };
               })
             "

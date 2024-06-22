@@ -29,6 +29,7 @@
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/sitemap": "^5.1.2",
     "@nuxtjs/stylelint-module": "^5.2.0",
+    "@nuxtjs/turnstile": "^0.8.0",
     "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "dayjs-nuxt": "^2.1.9",

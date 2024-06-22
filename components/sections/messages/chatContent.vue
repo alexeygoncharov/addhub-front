@@ -1,11 +1,12 @@
 <template>
   <div class="chat__content">
     <div
-      :key="messagesStore.activeChat?._id"
+      v-if="messagesStore.activeChat"
+      :key="messagesStore.activeChat._id"
       class="chat-content"
       :class="[
         /// { _type2: i % 2 === 0 }, -->
-        { _active: !!messagesStore.activeChat?._id },
+        { _active: !!messagesStore.activeChat._id },
       ]"
       data-id="1"
     >
@@ -192,6 +193,7 @@ const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
 });
 const id: string = useRoute().query.id?.toString() || '';
+
 watch(
   messagesStore.chats,
   () => {
