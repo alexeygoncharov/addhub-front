@@ -1,6 +1,10 @@
 <template>
   <div class="footer-middle">
-    <div class="footer-nav spoiler">
+    <div
+      class="footer-nav spoiler"
+      :class="{ _active: active[1] }"
+      @click="active[1] = !active[1]"
+    >
       <div class="footer-nav__top spoiler__toggle">
         <div class="text17 medium-text">О нас</div>
       </div>
@@ -29,7 +33,11 @@
         </div>
       </div>
     </div>
-    <div class="footer-nav spoiler">
+    <div
+      class="footer-nav spoiler"
+      :class="{ _active: active[2] }"
+      @click="active[2] = !active[2]"
+    >
       <div class="footer-nav__top spoiler__toggle">
         <div class="text17 medium-text">Категории</div>
       </div>
@@ -47,7 +55,11 @@
         </div>
       </div>
     </div>
-    <div class="footer-nav spoiler">
+    <div
+      class="footer-nav spoiler"
+      :class="{ _active: active[3] }"
+      @click="active[3] = !active[3]"
+    >
       <div class="footer-nav__top spoiler__toggle">
         <div class="text17 medium-text">Поддержка</div>
       </div>
@@ -106,4 +118,9 @@
 </template>
 <script setup lang="ts">
 const commonStore = useCommonStore();
+const active = ref({
+  1: false,
+  2: false,
+  3: false,
+});
 </script>

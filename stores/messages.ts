@@ -124,7 +124,7 @@ export const useMessagesStore = defineStore('messages', () => {
     if (value) {
       return value.result;
     }
-    return data.value?.result;
+    return data.value?.result as number;
   }
 
   async function deleteChat() {
