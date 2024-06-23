@@ -3,7 +3,7 @@
     :items="[{ name: 'Главная', to: '/' }, { name: 'Вход в личный кабинет' }]"
   />
   <SectionsAuth :type="'login'" @submit="handleSubmit">
-    <template #fields="{ meta }">
+    <template #fields>
       <fieldset class="fg _small">
         <label>Email адрес</label>
         <Field
@@ -64,12 +64,7 @@
           </OnClickOutside>
         </div>
       </div>
-      <UIVButton
-        :disabled="!meta.valid"
-        color="blue"
-        :is-shadow="true"
-        type="submit"
-      >
+      <UIVButton color="blue" :is-shadow="true" type="submit">
         Войти
       </UIVButton>
     </template>
