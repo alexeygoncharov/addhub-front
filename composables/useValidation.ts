@@ -11,7 +11,7 @@ import {
   alpha_dash,
   confirmed,
 } from '@vee-validate/rules';
-import { localize, setLocale } from '@vee-validate/i18n';
+import { localize } from '@vee-validate/i18n';
 import ru from '@vee-validate/i18n/dist/locale/ru.json';
 
 async function validateEmail(value: string) {
@@ -77,25 +77,10 @@ export function useValidation() {
     }
     return true;
   });
-  const messages = {
-    ru: {
-      messages: {
-        required: 'Поле {field} обязательно для заполнения',
-        min: 'Поле {field} должно содержать минимум {length} символов',
-        confirmed: 'Поле {field} не совпадает',
-        // Add other validation messages as needed
-      },
-      names: {
-        username: 'логин',
-        name: 'имя',
-        surname: 'фамилия',
-        email: 'email адрес',
-        password: 'пароль',
-        repeatPassword: 'повторите пароль',
-      },
-    },
-  };
+
   // Настройка локализации
+  localize({ ru });
+
   configure({
     generateMessage: localize('ru', {
       names: {
@@ -108,6 +93,4 @@ export function useValidation() {
       },
     }),
   });
-
-  setLocale('ru');
 }
