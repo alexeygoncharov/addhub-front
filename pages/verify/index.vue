@@ -7,6 +7,9 @@
 <script lang="ts" setup>
 const route = useRoute();
 const router = useRouter();
+definePageMeta({
+  middleware: 'authenticated',
+});
 
 const verifyEmail = async () => {
   const { data, error } = await apiFetch<ApiResponse<any>>(
@@ -23,11 +26,11 @@ const verifyEmail = async () => {
     },
   );
   if (data?.value?.status) {
-    // router.push('/profile/settings');
+    //router.push('/profile/settings');
   }
   if (error.value) {
+    useToast({ message: 'Произошла ошибка', type: 'error' });
     router.push('/');
-    return useToast({ message: error.value.data.message, type: 'error' });
   }
 };
 
