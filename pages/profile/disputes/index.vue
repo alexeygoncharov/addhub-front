@@ -12,10 +12,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in disputes" :key="item._id" class="finance-row">
+        <tr
+          v-for="item in disputes"
+          :key="item._id"
+          class="finance-row"
+          @click="navigateToMessages(item.order._id)"
+        >
           <td>
             <div class="finance-row__title">Дата</div>
-            <div class="finance-row__desc light-text">{{ item.createdAt }}</div>
+            <div class="finance-row__desc light-text">
+              {{ $dayjs(item.createdAt) }}
+            </div>
           </td>
           <td>
             <div class="finance-row__title">Сделка</div>
@@ -27,9 +34,11 @@
           <td>
             <div class="finance-row__user">
               <div class="avatar">
-                <img src="/img/avatar7.webp" alt="" />
+                <img :src="baseUrl() + item.createdBy.avatar?.url" alt="" />
               </div>
-              <div class="finance-row__desc light-text">Андрей Ветров</div>
+              <div class="finance-row__desc light-text">
+                {{ `${item.createdBy?.name} ${item.createdBy?.surname}` }}
+              </div>
             </div>
           </td>
           <td>
@@ -54,13 +63,15 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
 interface Dispute {
   _id: string;
-  order: string;
+  order: Order;
   status: 'pending' | 'completed' | 'cancelled'; // Добавьте другие статусы, если есть
   files: string[];
   sides: string[];
-  createdBy: string;
+  createdBy: User;
   updatedBy: string;
   createdAt: Date;
   updatedAt: Date;
@@ -72,6 +83,7 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+
 const disputes = ref<Array<Dispute>>();
 const updateDisputes = async () => {
   const { data } = await apiFetch<ApiListResponse<[]>>('/api/disputes/my', {
@@ -83,7 +95,14 @@ const updateDisputes = async () => {
     total.value = value.total;
   }
 };
+
 updateDisputes();
+
+const router = useRouter();
+const navigateToMessages = (id: string) => {
+  if (!id) return;
+  router.push(`/profile/messages?id=${id}&tab=orders`);
+};
 </script>
 
 <style scoped></style>

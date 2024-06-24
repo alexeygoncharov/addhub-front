@@ -13,6 +13,7 @@
 </template>
 <script setup lang="ts">
 const el = ref<HTMLElement | null>(null);
+const route = useRoute();
 
 useInfiniteScroll(el, loadChats, {
   distance: 100,
@@ -63,4 +64,14 @@ else if (props.chosen === 'orders')
     limit: messagesStore.limit,
     offset: 1,
   });
+
+if (route.query?.id) {
+  messagesStore.activeChat = messagesStore.chats.find(
+    (item) => item.order?._id === route.query?.id,
+  );
+  messagesStore.fetchChatMessagesList({
+    chat_id: messagesStore.activeChat?._id,
+    offset: messagesStore.messagesListOffset,
+  });
+}
 </script>
