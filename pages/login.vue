@@ -91,22 +91,26 @@ const rememberMe = ref(true);
 useValidation();
 
 const recoverPassword = async () => {
-  const { data, error } = await apiFetch<ApiResponse<undefined>>(`/api/users/forgot_password`, {
-    needToken: true,
-    options: {
-      method: 'PUT',
-      body: { email }
-    }
-  });
+  const { data, error } = await apiFetch<ApiResponse<undefined>>(
+    `/api/users/forgot_password`,
+    {
+      needToken: true,
+      options: {
+        method: 'PUT',
+        body: { email },
+      },
+    },
+  );
   const value = data.value;
   if (value?.status === 200) {
-    useToast({ message: `Форма для восстановления пароля отправлена на указанный email`, type: 'success'})
+    useToast({
+      message: `Форма для восстановления пароля отправлена на указанный email`,
+      type: 'success',
+    });
+  } else {
+    useToast({ message: `Произошла ошибка`, type: 'error' });
   }
-  else {
-    useToast({ message: `Произошла ошибка`, type: 'error'})
-  }
-  
-}
+};
 
 const login = async () => {
   const result = await authLogin(email.value, password.value, rememberMe.value);

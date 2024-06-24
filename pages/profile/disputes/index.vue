@@ -12,10 +12,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in disputes" :key="item._id" class="finance-row">
+        <tr
+          v-for="item in disputes"
+          :key="item._id"
+          class="finance-row"
+          @click="navigateToMessages(item.order)"
+        >
           <td>
             <div class="finance-row__title">Дата</div>
-            <div class="finance-row__desc light-text">{{ item.createdAt }}</div>
+            <div class="finance-row__desc light-text">
+              {{ $dayjs(item.createdAt) }}
+            </div>
           </td>
           <td>
             <div class="finance-row__title">Сделка</div>
@@ -46,14 +53,16 @@
 
     <UIVPagination
       v-model="currentPage"
-      :items-per-page="10"
-      :total-items="30"
-      :total-pages="3"
+      :items-per-page="8"
+      :total-items="totalItems"
+      :total-pages="Math.ceil(totalItems / 8)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+
 interface Dispute {
   _id: string;
   order: string;
@@ -66,12 +75,14 @@ interface Dispute {
   updatedAt: Date;
   __v: number;
 }
+
 const totalItems = ref(0);
 const currentPage = ref(1);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
+
 const disputes = ref<Array<Dispute>>();
 const updateDisputes = async () => {
   const { data } = await apiFetch<ApiListResponse<[]>>('/api/disputes/my', {
@@ -80,9 +91,16 @@ const updateDisputes = async () => {
   const value = data.value;
   if (value?.status === 200) {
     disputes.value = value.result;
+    totalItems.value = value.total;
   }
 };
+
 updateDisputes();
+
+const router = useRouter();
+const navigateToMessages = (id: string) => {
+  router.push(`/profile/messages?id=${id}&tab=orders`);
+};
 </script>
 
 <style scoped></style>

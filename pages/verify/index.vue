@@ -26,7 +26,7 @@ const verifyEmail = async () => {
     },
   );
   if (data?.value?.status) {
-    //router.push('/profile/settings');
+    // router.push('/profile/settings');
   }
   if (error.value) {
     useToast({ message: 'Произошла ошибка', type: 'error' });
