@@ -304,7 +304,9 @@
                 </div> -->
                 <div
                   v-if="
-                    item.status === 'completed' || item.status === 'refunded'
+                    item.status === 'completed' ||
+                    item.status === 'refunded' ||
+                    item.status === 'processing'
                   "
                   class="reply-row__btn"
                   @click="reveal(item._id)"

@@ -41,7 +41,10 @@
             <div class="pay-row__badges">
               <div
                 class="m-badge"
-                :class="{ _yellow: el.status === 'Pending' }"
+                :class="{
+                  _yellow: el.status === 'Pending',
+                  _red: el.status === 'Canceled',
+                }"
               >
                 <span>{{
                   statuses.find((item) => item.value === el.status)?.title

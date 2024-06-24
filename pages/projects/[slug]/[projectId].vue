@@ -164,6 +164,7 @@
     </template>
   </ModulesItem>
   <ModulesProductBidModal
+    v-if="userStore.user"
     v-show="showBid"
     :id="itemId"
     v-model="showBid"
