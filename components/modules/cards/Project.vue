@@ -103,7 +103,7 @@
       ></UISkeleton>
     </div>
     <ModulesProductBidModal
-      v-if="showBid && data"
+      v-if="showBid && data && userStore.user"
       :id="data?._id"
       v-model="showBid"
       v-model:item="data"

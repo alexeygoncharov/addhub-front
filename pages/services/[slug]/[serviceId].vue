@@ -581,7 +581,7 @@ const updateItem = async () => {
 
 getListReviews();
 updateItem();
-updateReview();
+useUserStore().user && updateReview();
 useHead({
   title,
 });
