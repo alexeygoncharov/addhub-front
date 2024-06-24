@@ -23,7 +23,7 @@ const verifyEmail = async () => {
     },
   );
   if (data?.value?.status) {
-    router.push('/profile/settings');
+    // router.push('/profile/settings');
   }
   if (error.value) {
     router.push('/');
