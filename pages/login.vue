@@ -56,7 +56,7 @@
                 color="blue"
                 :is-shadow="true"
                 type="submit"
-                @click="confirm"
+                @click="recoverPassword()"
               >
                 Восстановить пароль
               </UIVButton>
@@ -89,6 +89,20 @@ const password = ref('');
 const rememberMe = ref(true);
 
 useValidation();
+
+const recoverPassword = async () => {
+  const { data } = await apiFetch<ApiResponse<undefined>>(`/api/users/forgot_password`, {
+    needToken: true,
+    options: {
+      method: 'POST'
+    }
+  });
+  const value = data.value;
+  if (value?.status === 200) {
+    useToast({ message: `Форма для восстановления пароля отправлена на указанный email`})
+  }
+  
+}
 
 const login = async () => {
   const result = await authLogin(email.value, password.value, rememberMe.value);

@@ -66,7 +66,7 @@ interface Dispute {
   updatedAt: Date;
   __v: number;
 }
-
+const totalItems = ref(0);
 const currentPage = ref(1);
 definePageMeta({
   layout: 'profile',
@@ -74,7 +74,7 @@ definePageMeta({
 });
 const disputes = ref<Array<Dispute>>();
 const updateDisputes = async () => {
-  const { data } = await apiFetch<ApiListResponse<[]>>('/api/disputes', {
+  const { data } = await apiFetch<ApiListResponse<[]>>('/api/disputes/my', {
     needToken: true,
   });
   const value = data.value;

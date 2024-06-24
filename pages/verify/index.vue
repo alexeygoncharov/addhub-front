@@ -7,9 +7,6 @@
 <script lang="ts" setup>
 const route = useRoute();
 const router = useRouter();
-definePageMeta({
-  middleware: 'authenticated',
-});
 
 const verifyEmail = async () => {
   const { data, error } = await apiFetch<ApiResponse<any>>(
