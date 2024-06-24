@@ -94,7 +94,8 @@ const recoverPassword = async () => {
   const { data, error } = await apiFetch<ApiResponse<undefined>>(`/api/users/forgot_password`, {
     needToken: true,
     options: {
-      method: 'PUT'
+      method: 'PUT',
+      body: { email }
     }
   });
   const value = data.value;

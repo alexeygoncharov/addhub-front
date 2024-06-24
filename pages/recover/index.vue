@@ -52,9 +52,6 @@ const form = ref({
   new_password: '',
   repeat_new_password: '',
 });
-definePageMeta({
-  middleware: 'authenticated',
-});
 
 useValidation();
 const recoverPassword = async () => {
