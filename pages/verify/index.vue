@@ -17,7 +17,7 @@ const verifyEmail = async () => {
     {
       options: {
         method: 'POST',
-        body: {
+        query: {
           verificationToken: route.query?.verificationToken,
           email: route.query?.email,
         },
