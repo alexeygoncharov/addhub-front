@@ -168,6 +168,7 @@
       :total-pages="Math.ceil(totalItems / 8)"
     />
     <ModulesProductBidModal
+      v-if="userStore.user"
       v-show="openBidEdit"
       :id="editableData?.project_id._id || ''"
       v-model="openBidEdit"

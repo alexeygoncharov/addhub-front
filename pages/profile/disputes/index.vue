@@ -47,8 +47,8 @@
     <UIVPagination
       v-model="currentPage"
       :items-per-page="10"
-      :total-items="30"
-      :total-pages="3"
+      :total-items="total"
+      :total-pages="Math.ceil(total / 10)"
     />
   </div>
 </template>
@@ -66,7 +66,7 @@ interface Dispute {
   updatedAt: Date;
   __v: number;
 }
-const totalItems = ref(0);
+const total = ref(0);
 const currentPage = ref(1);
 definePageMeta({
   layout: 'profile',
@@ -80,6 +80,7 @@ const updateDisputes = async () => {
   const value = data.value;
   if (value?.status === 200) {
     disputes.value = value.result;
+    total.value = value.total;
   }
 };
 updateDisputes();

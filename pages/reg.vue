@@ -104,7 +104,6 @@
       <UIVButton color="blue" :is-shadow="true" type="submit">
         Создать аккаунт
       </UIVButton>
-      {{ useRuntimeConfig().public.turnstile }}
       <NuxtTurnstile v-model="captchaToken" />
 
       <Field
