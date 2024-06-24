@@ -16,7 +16,7 @@
           v-for="item in disputes"
           :key="item._id"
           class="finance-row"
-          @click="navigateToMessages(item.order)"
+          @click="navigateToMessages(item.order._id)"
         >
           <td>
             <div class="finance-row__title">Дата</div>
@@ -34,9 +34,11 @@
           <td>
             <div class="finance-row__user">
               <div class="avatar">
-                <img src="/img/avatar7.webp" alt="" />
+                <img :src="baseUrl() + item.createdBy.avatar?.url" alt="" />
               </div>
-              <div class="finance-row__desc light-text">Андрей Ветров</div>
+              <div class="finance-row__desc light-text">
+                {{ `${item.createdBy?.name} ${item.createdBy?.surname}` }}
+              </div>
             </div>
           </td>
           <td>
@@ -65,11 +67,11 @@ import { useRouter } from 'vue-router';
 
 interface Dispute {
   _id: string;
-  order: string;
+  order: Order;
   status: 'pending' | 'completed' | 'cancelled'; // Добавьте другие статусы, если есть
   files: string[];
   sides: string[];
-  createdBy: string;
+  createdBy: User;
   updatedBy: string;
   createdAt: Date;
   updatedAt: Date;
@@ -99,6 +101,7 @@ updateDisputes();
 
 const router = useRouter();
 const navigateToMessages = (id: string) => {
+  if (!id) return;
   router.push(`/profile/messages?id=${id}&tab=orders`);
 };
 </script>
