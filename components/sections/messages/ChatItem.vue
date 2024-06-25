@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts" setup>
-const messageCounter = ref<number | undefined>(0);
 const props = defineProps({
   chat: {
     type: Object as PropType<ChatItem | OrderChatItem>,
@@ -62,12 +61,7 @@ const props = defineProps({
   },
 });
 const messagesStore = useMessagesStore();
-
-props.chat.unseen_messages = await messagesStore.fetchUnseenCountByUser(
-  props.chat?._id,
-);
 messagesStore.fetchLastMessage(props.chat?._id);
-/// получаю каунтер
-</script>
 
+</script>
 <style></style>

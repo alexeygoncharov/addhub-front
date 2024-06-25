@@ -112,7 +112,7 @@ export const useMessagesStore = defineStore('messages', () => {
     return data.value?.result;
   }
 
-  async function fetchUnseenCountByUser(chatId: string): Promise<number> {
+  async function fetchUnseenCountByChatId(chatId: string): Promise<number> {
     const { data } = await apiFetch<ApiResponse<number>>(
       `/api/messages/${chatId}/unseen/count`,
       {
@@ -224,7 +224,7 @@ export const useMessagesStore = defineStore('messages', () => {
     resetChats,
     fetchLastMessage,
     fetchTotalUnseenCount,
-    fetchUnseenCountByUser,
+    fetchUnseenCountByChatId,
     searchQuery,
     lastMessages,
     messagesListOffset,
