@@ -27,8 +27,7 @@
           <td>
             <div class="finance-row__title">Сделка</div>
             <div class="finance-row__desc light-text">
-              Я разработаю пользовательский интерфейс веб-сайта в Adobe XD или
-              Figma.
+              {{ item?.order?.service?.title ? item?.order?.service?.title : '' }}
             </div>
           </td>
           <td>

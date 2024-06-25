@@ -81,8 +81,10 @@ function setupSocketListeners() {
 }
 
 async function handleNewMessage(data: ChatData) {
-  console.log(data)
-  data.chat.unseen_messages = await messagesStore.fetchUnseenCountByChatId(data.chat._id)
+  data.chat.unseen_messages = await messagesStore.fetchUnseenCountByChatId(
+    data.chat._id,
+  );
+  messagesStore.fetchTotalUnseenCount();
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
   } else {
@@ -128,9 +130,9 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
     return item;
   });
   // find in chat list chat_id
+  messagesStore.fetchTotalUnseenCount();
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
-      // messagesStore.totalUnseenMessages--;
       item.unseen_messages = 0;
     }
     return item;
