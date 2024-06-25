@@ -9,14 +9,14 @@ export const useDisputesStore = defineStore('disputes', () => {
     sides: string[];
     createdBy: User;
     updatedBy: string;
-    chat: { _id: string }
+    chat: { _id: string };
     unseen_messages: number;
     createdAt: Date;
     updatedAt: Date;
     __v: number;
   }
   const total = ref(0);
-  const disputes = ref<Array<Dispute>>()
+  const disputes = ref<Array<Dispute>>();
 
   async function createDispute(payload: CreateDispute) {
     const { data, error } = await apiFetch<ApiResponse<any>>(`/api/disputes/`, {

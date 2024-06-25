@@ -27,7 +27,9 @@
           <td>
             <div class="finance-row__title">Сделка</div>
             <div class="finance-row__desc light-text">
-              {{ item?.order?.service?.title ? item?.order?.service?.title : '' }}
+              {{
+                item?.order?.service?.title ? item?.order?.service?.title : ''
+              }}
             </div>
           </td>
           <td>
@@ -70,8 +72,6 @@ definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
-
-
 
 disputesStore.updateDisputes();
 

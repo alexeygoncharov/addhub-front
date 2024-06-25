@@ -97,12 +97,13 @@ async function handleNewMessage(data: ChatData) {
       array[index] = data.newMessage;
     }
   });
-  const dispute = disputesStore.disputes?.find(item => item.chat._id === chat._id);
+  const dispute = disputesStore.disputes?.find(
+    (item) => item.chat._id === chat._id,
+  );
   if (dispute) {
     dispute.unseen_messages = unseenMessages;
   }
 }
-
 
 function isFromExistingChat(chatId: string) {
   return messagesStore.chats.some((chat) => chat._id === chatId);
@@ -128,7 +129,9 @@ function handleUpdateUser(data: UpdateStatusUser) {
 }
 
 async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
-  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(updatedMessage.chat_id);
+  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
+    updatedMessage.chat_id,
+  );
   // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
