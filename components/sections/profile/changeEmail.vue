@@ -6,13 +6,20 @@
     <div class="profile-item__bottom">
       <fieldset class="fg small">
         <label>Email</label>
+
         <Field
+          v-slot="{ field, setValue }"
           v-model.trim="form.email"
-          rules="required|email"
           name="email"
-          type="email"
-          placeholder="hello@mail.com"
-        />
+          rules="required|email"
+        >
+          <input
+            v-bind="field"
+            type="email"
+            placeholder="hello@mail.com"
+            @focusout="setValue(field.value.trim())"
+          />
+        </Field>
         <ErrorMessage name="email" class="error-message" />
       </fieldset>
       <div class="profile-item__nav">

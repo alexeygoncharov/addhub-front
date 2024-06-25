@@ -40,16 +40,17 @@
         </div>
       </form>
 
-      <Form class="profile-item__grid">
+      <Form class="profile-item__grid" @submit="submitProfile">
         <fieldset class="fg">
           <label>Имя пользователя</label>
           <Field
-            id="name"
+            v-slot="{ field, setValue }"
             v-model.trim="form.name"
-            rules="required|alpha|max:14"
             name="name"
-            type="name"
-          />
+            rules="required|alpha_spaces|max:14"
+          >
+            <input v-bind="field" @focusout="setValue(field.value.trim())" />
+          </Field>
           <ErrorMessage name="name" class="error-message" />
         </fieldset>
         <fieldset class="fg">
@@ -57,7 +58,7 @@
           <input
             id="phone_number"
             v-model.trim="form.phone_number"
-            type="text"
+            type="tel"
             placeholder="+ 7"
           />
         </fieldset>
@@ -101,7 +102,6 @@
         <button
           class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
           type="submit"
-          @click="submitProfile"
         >
           <span>Сохранить</span>
         </button>
@@ -172,7 +172,7 @@ const countries = commonStore.countries?.map((item) => {
 
 const form = ref({
   avatar: userStore.user?.avatar,
-  name: userStore.user?.name,
+  name: userStore.user?.name || '',
   email: userStore.user?.email,
   phone_number: userStore.user?.phone_number,
   address: {
