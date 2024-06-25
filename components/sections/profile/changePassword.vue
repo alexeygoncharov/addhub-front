@@ -17,25 +17,38 @@
           <label>Новый пароль</label>
 
           <Field
+            v-slot="{ field, setValue }"
             v-model.trim="passwordForm.new_password"
-            rules="required|min:8"
             name="password"
-            type="password"
-            autocomplete="new-password"
-            placeholder="•••••••"
-          />
+            rules="required|min:8"
+          >
+            <input
+              v-bind="field"
+              type="password"
+              autocomplete="new-password"
+              placeholder="•••••••"
+              @focusout="setValue(field.value.trim())"
+            />
+          </Field>
           <ErrorMessage name="password" class="error-message" />
         </fieldset>
         <fieldset class="fg">
           <label>Повторить пароль</label>
+
           <Field
+            v-slot="{ field, setValue }"
             v-model.trim="passwordForm.repeat_new_password"
-            rules="required|min:8"
             name="repeat_new_password"
-            type="repeat_new_password"
-            autocomplete="repeat_new_password"
-            placeholder="•••••••"
-          />
+            rules="required|min:8"
+          >
+            <input
+              v-bind="field"
+              type="repeat_new_password"
+              autocomplete="repeat_new_password"
+              placeholder="•••••••"
+              @focusout="setValue(field.value.trim())"
+            />
+          </Field>
         </fieldset>
       </div>
 
