@@ -80,16 +80,9 @@ function setupSocketListeners() {
   });
 }
 
-// function teardownSocketListeners() {
-//   // socket.off('new_message', handleNewMessage);
-//   // socket.off('delete_chat', handleDeleteChat);
-//   // socket.off('update_user', handleUpdateUser);
-//   // socket.off('update_message', handleUpdateMessage);
-//   // socket.off();
-// }
-
-// Обработчики событий сокета
-function handleNewMessage(data: ChatData) {
+async function handleNewMessage(data: ChatData) {
+  console.log(data)
+  data.chat.unseen_messages = await messagesStore.fetchUnseenCountByChatId(data.chat._id)
   if (!isFromExistingChat(data.chat._id)) {
     messagesStore.chats.unshift(data.chat);
   } else {
@@ -101,7 +94,6 @@ function handleNewMessage(data: ChatData) {
       array[index] = data.newMessage;
     }
   });
-  messagesStore.fetchTotalUnseenCount();
 }
 
 function isFromExistingChat(chatId: string) {
@@ -128,6 +120,7 @@ function handleUpdateUser(data: UpdateStatusUser) {
 }
 
 function handleUpdateMessage(updatedMessage: UpdatedMessage) {
+  // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       item.seen = true;
@@ -138,7 +131,7 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
       // messagesStore.totalUnseenMessages--;
-      // item.unseen_messages--;
+      item.unseen_messages = 0;
     }
     return item;
   });
