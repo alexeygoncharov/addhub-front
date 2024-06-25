@@ -62,6 +62,5 @@ const props = defineProps({
 });
 const messagesStore = useMessagesStore();
 messagesStore.fetchLastMessage(props.chat?._id);
-
 </script>
 <style></style>

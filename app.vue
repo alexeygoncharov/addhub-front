@@ -16,6 +16,7 @@ const paymentsStore = usePaymentsStore();
 const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 const messagesStore = useMessagesStore();
+const disputesStore = useDisputesStore();
 
 interface UpdatedMessage {
   id: string;
@@ -81,19 +82,27 @@ function setupSocketListeners() {
 }
 
 async function handleNewMessage(data: ChatData) {
-  console.log(data)
-  data.chat.unseen_messages = await messagesStore.fetchUnseenCountByChatId(data.chat._id)
-  if (!isFromExistingChat(data.chat._id)) {
-    messagesStore.chats.unshift(data.chat);
+  const { chat, newMessage } = data;
+  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(chat._id);
+  chat.unseen_messages = unseenMessages;
+  messagesStore.fetchTotalUnseenCount();
+  if (!isFromExistingChat(chat._id)) {
+    messagesStore.chats.unshift(chat);
   } else {
-    updateExistingChat(data.chat);
+    updateExistingChat(chat);
   }
-  messagesStore.messages.unshift(data.newMessage);
+  messagesStore.messages.unshift(newMessage);
   messagesStore.lastMessages.forEach((item, index, array) => {
     if (item.chat_id === data.chat._id) {
       array[index] = data.newMessage;
     }
   });
+  const dispute = disputesStore.disputes?.find(
+    (item) => item.chat._id === chat._id,
+  );
+  if (dispute) {
+    dispute.unseen_messages = unseenMessages;
+  }
 }
 
 function isFromExistingChat(chatId: string) {
@@ -119,7 +128,10 @@ function handleUpdateUser(data: UpdateStatusUser) {
     respondent.online_status = data.online_status;
 }
 
-function handleUpdateMessage(updatedMessage: UpdatedMessage) {
+async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
+  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
+    updatedMessage.chat_id,
+  );
   // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
@@ -128,10 +140,10 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
     return item;
   });
   // find in chat list chat_id
+  messagesStore.fetchTotalUnseenCount();
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
-      // messagesStore.totalUnseenMessages--;
-      item.unseen_messages = 0;
+      item.unseen_messages = unseenMessages;
     }
     return item;
   });
