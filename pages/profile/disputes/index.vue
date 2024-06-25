@@ -42,9 +42,9 @@
             </div>
           </td>
           <td>
-            <div class="finance-row__messages">
+            <div v-if="item.unseen_messages > 0" class="finance-row__messages">
               <div class="finance-row__count">
-                <span>2</span>
+                <span>{{ item.unseen_messages }}</span>
               </div>
               <div class="finance-row__desc light-text">Непрочитанных</div>
             </div>
@@ -73,6 +73,7 @@ interface Dispute {
   sides: string[];
   createdBy: User;
   updatedBy: string;
+  unseen_messages: number;
   createdAt: Date;
   updatedAt: Date;
   __v: number;

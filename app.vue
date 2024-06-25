@@ -128,6 +128,7 @@ function handleUpdateUser(data: UpdateStatusUser) {
 }
 
 function handleUpdateMessage(updatedMessage: UpdatedMessage) {
+  // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       item.seen = true;
@@ -138,7 +139,7 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
       // messagesStore.totalUnseenMessages--;
-      // item.unseen_messages--;
+      item.unseen_messages = 0;
     }
     return item;
   });
