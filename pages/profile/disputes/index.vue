@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="item in disputes"
+          v-for="item in disputesStore.disputes"
           :key="item._id"
           class="finance-row"
           @click="navigateToMessages(item.order._id)"
@@ -55,48 +55,25 @@
     <UIVPagination
       v-model="currentPage"
       :items-per-page="10"
-      :total-items="total"
-      :total-pages="Math.ceil(total / 10)"
+      :total-items="disputesStore.total"
+      :total-pages="Math.ceil(disputesStore.total / 10)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+const disputesStore = useDisputesStore();
 
-interface Dispute {
-  _id: string;
-  order: Order;
-  status: 'pending' | 'completed' | 'cancelled'; // Добавьте другие статусы, если есть
-  files: string[];
-  sides: string[];
-  createdBy: User;
-  updatedBy: string;
-  unseen_messages: number;
-  createdAt: Date;
-  updatedAt: Date;
-  __v: number;
-}
-const total = ref(0);
 const currentPage = ref(1);
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
 });
 
-const disputes = ref<Array<Dispute>>();
-const updateDisputes = async () => {
-  const { data } = await apiFetch<ApiListResponse<[]>>('/api/disputes/my', {
-    needToken: true,
-  });
-  const value = data.value;
-  if (value?.status === 200) {
-    disputes.value = value.result;
-    total.value = value.total;
-  }
-};
 
-updateDisputes();
+
+disputesStore.updateDisputes();
 
 const router = useRouter();
 const navigateToMessages = (id: string) => {
