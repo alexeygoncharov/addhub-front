@@ -9,6 +9,8 @@ import {
   numeric,
   // eslint-disable-next-line camelcase
   alpha_dash,
+  // eslint-disable-next-line camelcase
+  alpha_spaces,
   confirmed,
 } from '@vee-validate/rules';
 import { localize } from '@vee-validate/i18n';
@@ -60,6 +62,7 @@ export function useValidation() {
   defineRule('numeric', numeric);
   defineRule('phone', validatePhone);
   defineRule('alpha_dash', alpha_dash);
+  defineRule('alpha_spaces', alpha_spaces);
   defineRule('confirmed', confirmed);
   defineRule('emailFetch', validateEmail);
   defineRule('username', validateUsername);

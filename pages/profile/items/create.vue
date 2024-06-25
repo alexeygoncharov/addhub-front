@@ -21,11 +21,15 @@
             >Заголовок
             {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
           >
+
           <Field
+            v-slot="{ field, setValue }"
             v-model.trim="form.title"
-            rules="required|alpha|max:100"
+            rules="required|alpha_spaces|max:100"
             name="title"
-          />
+          >
+            <input v-bind="field" @focusout="setValue(field.value.trim())" />
+          </Field>
           <ErrorMessage name="title" class="error-message" />
         </fieldset>
         <fieldset class="fg _full">
@@ -34,6 +38,7 @@
           </label>
           <textarea
             v-model.trim="form.description"
+            minlength="10"
             required
             placeholder="Текст описания"
           ></textarea>

@@ -31,50 +31,78 @@
       </fieldset>
       <fieldset class="fg _small">
         <label>Логин</label>
+
         <Field
+          v-slot="{ field, setValue }"
           v-model.trim="regDetails.username"
           rules="required|alpha_dash|username"
           name="username"
-          type="text"
-          autocomplete="username"
-          placeholder="freelancer777"
-        />
+        >
+          <input
+            v-bind="field"
+            type="text"
+            autocomplete="username"
+            placeholder="freelancer777"
+            @focusout="setValue(field.value.trim())"
+          />
+        </Field>
         <ErrorMessage name="username" class="error-message" />
       </fieldset>
       <fieldset class="fg _small">
         <label>Имя</label>
+
         <Field
+          v-slot="{ field, setValue }"
           v-model.trim="regDetails.name"
           rules="required|alpha|required|max:14"
           name="name"
-          type="text"
-          autocomplete="first-name"
-          placeholder="Александр"
-        />
+        >
+          <input
+            v-bind="field"
+            type="text"
+            autocomplete="first-name"
+            placeholder="Александр"
+            @focusout="setValue(field.value.trim())"
+          />
+        </Field>
         <ErrorMessage name="name" class="error-message" />
       </fieldset>
       <fieldset class="fg _small">
         <label>Фамилия</label>
+
         <Field
+          v-slot="{ field, setValue }"
           v-model.trim="regDetails.surname"
           rules="required|alpha|max:14"
           name="surname"
-          type="text"
-          autocomplete="last-name"
-          placeholder="Поташов"
-        />
+        >
+          <input
+            v-bind="field"
+            type="text"
+            autocomplete="last-name"
+            placeholder="Поташов"
+            @focusout="setValue(field.value.trim())"
+          />
+        </Field>
         <ErrorMessage name="surname" class="error-message" />
       </fieldset>
       <fieldset class="fg _small">
         <label>Email адрес</label>
+
         <Field
+          v-slot="{ field, setValue }"
           v-model.trim="regDetails.email"
           rules="required|emailFetch"
           name="email"
-          autocomplete="email"
-          type="email"
-          placeholder="hello@mail.com"
-        />
+        >
+          <input
+            v-bind="field"
+            autocomplete="email"
+            type="email"
+            placeholder="hello@mail.com"
+            @focusout="setValue(field.value.trim())"
+          />
+        </Field>
         <ErrorMessage name="email" class="error-message" />
       </fieldset>
       <fieldset class="fg _small">
