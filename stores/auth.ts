@@ -42,6 +42,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function register(userData: userData, captchaToken: string) {
+    console.log('start')
     const { data, error } = await apiFetch<ApiResponse<regResponse>>(
       '/api/auth/register',
       {
@@ -61,8 +62,14 @@ export const useAuthStore = defineStore('auth', () => {
       },
     );
     const value = data.value;
-    if (value && !error.value) {
-      saveToken(value.result.accessToken, true);
+    console.log('valuevalue ', value)
+
+    
+    if (value?.status === 200) {
+      useToast({
+        message: `Мы отправили ссылку для подтвержения вашей учетной записи вам на почту`,
+        type: 'success',
+      });
       return value;
     }
     if (error.value) {

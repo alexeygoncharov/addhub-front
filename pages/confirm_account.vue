@@ -7,13 +7,11 @@
 <script lang="ts" setup>
 const route = useRoute();
 const router = useRouter();
-definePageMeta({
-  middleware: 'authenticated',
-});
+const authStore = useAuthStore();
 
 const verifyEmail = async () => {
   const { data, error } = await apiFetch<ApiResponse<any>>(
-    `/api/users/verify_email`,
+    `api/auth/confirm_account`,
     {
       options: {
         method: 'POST',
@@ -26,11 +24,12 @@ const verifyEmail = async () => {
     },
   );
   if (data?.value?.status) {
+    authStore.saveToken(data.value.result, true);
     // router.push('/profile/settings');
   }
   if (error.value) {
     useToast({ message: 'Произошла ошибка', type: 'error' });
-    router.push('/');
+    // router.push('/');
   }
 };
 

@@ -170,13 +170,6 @@ useValidation();
 const { register: authRegister } = useAuthStore();
 
 const register = async () => {
-  const result = await authRegister(regDetails.value, captchaToken.value);
-  if (result) {
-    await navigateTo('/');
-    useToast({
-      message: 'Регистрация прошла успешно',
-      type: 'success',
-    });
-  }
+  await authRegister(regDetails.value, captchaToken.value);
 };
 </script>
