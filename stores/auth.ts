@@ -84,15 +84,14 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  function logout() {
+  async function logout() {
+    const route = useRoute();
+    if (route.name?.toString().startsWith('profile')) await navigateTo('/');
     token.value = null;
     useCookie('authToken').value = null;
     useSessionStorage('authToken', '').value = null;
-    const route = useRoute();
-    if (route.name?.toString().startsWith('profile')) navigateTo('/');
     const userStore = useUserStore();
     userStore.user = undefined;
-    navigateTo('/');
   }
 
   async function saveToken(tokenArg: string, rememberMe: boolean) {

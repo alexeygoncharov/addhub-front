@@ -14,22 +14,25 @@ interface TransactionResponse extends ApiListResponse<Transaction[]> {
 }
 export const getMyTransactions = async (
   currentPage: number,
-): Promise<Ref<TransactionResponse> | undefined> => {
+): Promise<Ref<TransactionResponse | ApiListResponse<[]>> | undefined> => {
   const token = useCookie('authToken');
   if (!token.value) throw new Error('token is lost');
 
-  const result = await apiFetch<TransactionResponse>('/api/transactions/my', {
-    needToken: true,
-    options: {
-      query: {
-        offset: currentPage,
-        limit: 8,
+  const result = await apiFetch<TransactionResponse | ApiListResponse<[]>>(
+    '/api/transactions/my',
+    {
+      needToken: true,
+      options: {
+        query: {
+          offset: currentPage,
+          limit: 8,
+        },
       },
     },
-  });
+  );
   if (result.error.value) {
     throw showError;
   } else if (result.data.value) {
-    return result.data as Ref<TransactionResponse>;
+    return result.data as Ref<TransactionResponse | ApiListResponse<[]>>;
   }
 };

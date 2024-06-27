@@ -114,16 +114,17 @@ getMyTransactions(currentPage.value).then((data) => {
   const getNumberValue = (obj: { [key: string]: number }): number => {
     return Object.values(obj)[0]; // Предполагается, что объект содержит только одно значение
   };
-
-  finances.value.totalActive = getNumberValue(
-    data?.value.finances.totalActive || {},
-  );
-  finances.value.totalFrozen = getNumberValue(
-    data?.value.finances.totalFrozen || {},
-  );
-  finances.value.totalWithdrawed = getNumberValue(
-    data?.value.finances.totalWithdrawed || {},
-  );
+  if ('finances' in data.value) {
+    finances.value.totalActive = getNumberValue(
+      data?.value?.finances?.totalActive || {},
+    );
+    finances.value.totalFrozen = getNumberValue(
+      data?.value.finances.totalFrozen || {},
+    );
+    finances.value.totalWithdrawed = getNumberValue(
+      data?.value.finances.totalWithdrawed || {},
+    );
+  }
 });
 
 definePageMeta({

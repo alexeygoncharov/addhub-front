@@ -304,7 +304,7 @@
         </form>
       </div>
     </div>
-    <UiModalDrawer :show="showModal">
+    <UIModalDrawer :show="showModal">
       <template v-if="currentUser" #drawer-title>{{
         currentUser.name
       }}</template>
@@ -337,43 +337,71 @@
             <div class="users-modal__info">
               <div class="users-modal__info-category">Email:</div>
               <div class="users-modal__info-value">{{ currentUser.email }}</div>
-              <div v-if="currentUser.phone" class="users-modal__info-category">
+              <div
+                v-if="currentUser.phone_number"
+                class="users-modal__info-category"
+              >
                 Телефон:
               </div>
-              <div v-if="currentUser.phone" class="users-modal__info-value">
-                {{ currentUser.phone }}
+              <div
+                v-if="currentUser.phone_number"
+                class="users-modal__info-value"
+              >
+                {{ currentUser.phone_number }}
               </div>
-              <div class="users-modal__info-category">Товаров:</div>
+              <div
+                v-if="currentUser.active_role"
+                class="users-modal__info-category"
+              >
+                Роль:
+              </div>
+              <div
+                v-if="currentUser.active_role"
+                class="users-modal__info-value"
+              >
+                {{
+                  currentUser.active_role === 'buyer' ? 'Заказчик' : 'Фрилансер'
+                }}
+              </div>
+              <div
+                v-if="currentUser.user_name"
+                class="users-modal__info-category"
+              >
+                Username:
+              </div>
+              <div v-if="currentUser.user_name" class="users-modal__info-value">
+                {{ currentUser.user_name }}
+              </div>
+              <!-- <div class="users-modal__info-category">Товаров:</div>
               <div class="users-modal__info-value">
                 {{ currentUser.products_count }}
-              </div>
-              <div class="users-modal__info-category">Заработано:</div>
+              </div> -->
+              <!-- <div class="users-modal__info-category">Заработано:</div>
               <div class="users-modal__info-value">
-                {{ currentUser.earning }}
-              </div>
-              <div class="users-modal__info-category">Выплачено:</div>
+                {{ currentUser }}
+              </div> -->
+              <!-- <div class="users-modal__info-category">Выплачено:</div>
               <div class="users-modal__info-value">{{ currentUser.paid }}</div>
               <div class="users-modal__info-category">Удержано:</div>
               <div class="users-modal__info-value">
                 {{ currentUser.withheld }}
-              </div>
+              </div> -->
             </div>
             <div class="users-modal__links">
               <nuxt-link
-                :to="`/ap/users/${currentUser.id}/profile`"
-                class="users-modal__link"
+                :to="`/admin/users/${currentUser._id}`"
+                class="m-btn m-btn-blue"
                 >Открыть профиль</nuxt-link
               >
               <nuxt-link
-                :to="`/u/${currentUser.username}`"
-                class="users-modal__link"
+                :to="`/${currentUser.active_role === 'buyer' ? 'projects' : 'services'}/all?createdBy=${currentUser._id}`"
+                class="m-btn m-btn-blue"
               >
-                Посмотреть товары
+                Посмотреть
+                {{ currentUser.active_role === 'buyer' ? 'проекты' : 'услуги' }}
               </nuxt-link>
-              <a class="users-modal__link" href="#"> Посмотреть выплаты </a>
-              <a class="users-modal__link users-modal__link--blocked" href="#">
-                Заблокировать
-              </a>
+              <a class="m-btn m-btn-blue" href="#"> Посмотреть выплаты </a>
+              <a class="m-btn m-btn-blue3" href="#"> Заблокировать </a>
             </div>
           </div>
         </div>
@@ -406,7 +434,7 @@
           </div>
         </div>
       </template>
-    </UiModalDrawer>
+    </UIModalDrawer>
   </section>
 </template>
 
@@ -484,7 +512,7 @@ const currentPage = ref(1);
 const total = ref(0);
 const uploading = ref(false);
 const users = ref<AdminProfile[]>([]);
-const currentUser = ref();
+const currentUser = ref<AdminProfile>();
 const updateUsers = () => {
   uploading.value = true;
   getUsers(currentPage.value).then((data) => {
@@ -499,7 +527,7 @@ watch(currentPage, () => {
   updateUsers();
 });
 const openUser = (id: string) => {
-  currentUser.value = undefined;
+  currentUser.value = users.value.find((user) => user._id === id);
   openModal();
 };
 </script>
