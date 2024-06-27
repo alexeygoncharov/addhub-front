@@ -690,7 +690,12 @@
     flex-direction: column;
     gap: 15px;
     align-items: flex-end;
-    width: 26vw;
+    width: max-content;
+    text-wrap: nowrap;
+
+    .m-btn {
+      width: 100%;
+    }
 
     @media (max-width: 768px) {
       align-items: center;

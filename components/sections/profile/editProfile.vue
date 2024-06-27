@@ -40,7 +40,7 @@
         </div>
       </form>
 
-      <Form class="profile-item__grid" @submit="submitProfile">
+      <Form class="profile-item__grid" name="formEdit" @submit="submitProfile">
         <fieldset class="fg">
           <label>Имя пользователя</label>
           <Field
@@ -96,16 +96,15 @@
             placeholder="Описание"
           ></textarea>
         </fieldset>
+        <div class="profile-item__nav">
+          <button
+            class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
+            type="submit"
+          >
+            <span>Сохранить</span>
+          </button>
+        </div>
       </Form>
-
-      <div class="profile-item__nav">
-        <button
-          class="profile-item__btn m-btn m-btn-blue m-btn-shadow"
-          type="submit"
-        >
-          <span>Сохранить</span>
-        </button>
-      </div>
     </div>
   </div>
 </template>

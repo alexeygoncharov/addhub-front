@@ -39,13 +39,10 @@ watch(
                 <slot name="drawer-title"></slot>
               </h3>
               <a class="modal__close" href="#" @click.prevent="closeModal">
-                <img src="~/assets/icons/form-close-grey.svg" loading="lazy" />
+                <!-- <img src="~/assets/icons/form-close-grey.svg" loading="lazy" /> -->
+                close img
               </a>
             </div>
-            <TheSkeleton
-              v-else-if="!noTitle"
-              class="modal-drawer__title-skeleton"
-            />
 
             <slot name="drawer-body"></slot>
           </div>
@@ -62,8 +59,6 @@ watch(
   right: 0;
   bottom: 0;
   z-index: 10;
-  width: 100%;
-  max-width: 5em;
   font-size: 1em;
   color: #484848;
   text-align: left;

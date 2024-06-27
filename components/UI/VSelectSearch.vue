@@ -5,8 +5,11 @@
     :class="{ _open: dropdownVisible }"
     @trigger="handleFocusOut"
   >
-    <input v-model="searchQuery" type="text" @input="handleInput" />
-    <div v-if="dropdownVisible" class="m-select__dropdown">
+    <input v-model="searchQuery" type="text" @focus="dropdownVisible = true" />
+    <div
+      v-if="dropdownVisible && filteredItems.length"
+      class="m-select__dropdown"
+    >
       <div
         v-for="item in filteredItems"
         :key="item.value"
@@ -52,7 +55,7 @@ const binarySearch = (
 ) => {
   let low = 0;
   let high = items.length - 1;
-  const results = [];
+  const results: typeof props.items = [];
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
     const midVal = items[mid].title.toLowerCase();
@@ -83,16 +86,12 @@ const binarySearch = (
       high = mid - 1;
     }
   }
-  return results;
+  return results.length || query ? results : props.items;
 };
 
 const filteredItems = computed(() =>
   binarySearch(props.items, searchQuery.value),
 );
-
-function handleInput() {
-  dropdownVisible.value = !!searchQuery.value;
-}
 
 function selectOption(value: string, title: string) {
   searchQuery.value = title;
