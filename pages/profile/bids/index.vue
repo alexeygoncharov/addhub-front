@@ -201,6 +201,7 @@ const deleteBid = async (bid: Bid, index: number) => {
   }
 };
 const updateBids = async () => {
+  if (!user.value) return;
   const { data } = await apiFetch<ApiListResponse<Bid[]>>(
     `/api/bids/${user.value?.active_role}/my`,
     {

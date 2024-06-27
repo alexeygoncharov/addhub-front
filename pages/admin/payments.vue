@@ -33,7 +33,7 @@
             <th><span>Пользователь</span></th>
             <th><span>Сумма</span></th>
             <th><span>Адрес</span></th>
-            <th><span>Действия</span></th>
+            <th v-if="activeTab === 'Pending'"><span>Действия</span></th>
           </tr>
         </thead>
         <tbody>
@@ -74,7 +74,7 @@
                 <span class="text17 medium-text">{{ item.address_to }} </span>
               </div>
             </td>
-            <td>
+            <td v-if="activeTab === 'Pending'">
               <div class="reply-row__action">
                 <div
                   class="reply-row__btn"
