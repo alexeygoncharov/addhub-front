@@ -147,6 +147,7 @@
 
 <script setup lang="ts">
 import { useValidation } from '~/composables/useValidation';
+const authStore = useAuthStore();
 definePageMeta({
   middleware: 'redirect-if-authenticated',
 });

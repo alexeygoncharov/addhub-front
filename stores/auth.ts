@@ -18,8 +18,8 @@ interface regResponse {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  // const nuxtApp = useNuxtApp();
-  // const socket = nuxtApp.$socket as Socket;
+  const nuxtApp = useNuxtApp();
+  const socket = nuxtApp.$socket as Socket;
   const token = ref(null) as Ref<string | null>;
   const isLoading = ref(false);
   const isAuthenticated = computed(() => !!useCookie('authToken').value);
@@ -33,6 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
     const value = data.value;
     if (value && !error.value) {
       saveToken(value.result, rememberMe);
+      socket.connect();
       return 'success';
     } else if (error.value?.statusCode === 400) {
       useToast({ message: 'Неверный логин или пароль', type: 'error' });
@@ -89,6 +90,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
+    socket.disconnect();
     const route = useRoute();
     if (route.name?.toString().startsWith('profile')) await navigateTo('/');
     token.value = null;

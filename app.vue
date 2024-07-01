@@ -18,6 +18,10 @@ const { getFavorites } = useUserStore();
 const messagesStore = useMessagesStore();
 const disputesStore = useDisputesStore();
 
+definePageMeta({
+  middleware: 'redirect-if-authenticated',
+});
+
 interface UpdatedMessage {
   id: string;
   chat_id: string;
@@ -152,6 +156,7 @@ async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
 if (authStore.token) {
   await userStore.getMyUser();
   await paymentsStore.fetchRates();
+  socket.connect();
   socket.on('connect', onConnect);
   socket.on('disconnect', onDisconnect);
 }

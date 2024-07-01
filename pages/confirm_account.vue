@@ -25,7 +25,6 @@ const verifyEmail = async () => {
   );
   if (data?.value?.status) {
     authStore.saveToken(data.value.result, true);
-    // router.push('/profile/settings');
   }
   if (error.value) {
     useToast({ message: 'Произошла ошибка', type: 'error' });
