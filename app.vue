@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
 const nuxtApp = useNuxtApp();
+const socketStore = useSocketStore();
 const socket = nuxtApp.$socket as Socket;
 const authStore = useAuthStore();
 const userStore = useUserStore();
@@ -156,10 +157,11 @@ async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
 if (authStore.token) {
   await userStore.getMyUser();
   await paymentsStore.fetchRates();
-  socket.connect();
-  socket.on('connect', onConnect);
-  socket.on('disconnect', onDisconnect);
 }
+
+socket.connect();
+socket.on('connect', onConnect);
+socket.on('disconnect', onDisconnect);
 
 useHead({
   titleTemplate: (titleChunk) => {
@@ -168,7 +170,11 @@ useHead({
   meta: [{ name: 'description', content: 'Addhub - Биржа услуг' }],
 });
 
-onBeforeUnmount(() => {
-  // teardownSocketListeners();
-});
+// костыльнул, надо бы подумать лучше
+watch(
+  () => authStore.token,
+  (newToken, oldToken) => {
+    nuxtApp.$updateAuthToken(newToken);
+  },
+);
 </script>
