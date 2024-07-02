@@ -43,6 +43,7 @@ interface ChatData {
   newMessage: ChatMessage;
   totalUnseen?: number;
 }
+
 // Инициализация данных приложения
 getFavorites();
 commonStore.fetchCategories();
@@ -133,11 +134,11 @@ function handleUpdateUser(data: UpdateStatusUser) {
     respondent.online_status = data.online_status;
 }
 
-async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
+function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   // для счетчиков нужно добавить событие после прочтения всех непрочитанных сообщений по чату
-  //const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
+  // const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
   //  updatedMessage.chat_id,
-  //);
+  // );
   // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
@@ -167,14 +168,4 @@ useHead({
 });
 
 // костыльнул, надо бы подумать лучше
-
-watch(
-  () => authStore.token,
-  async (newToken, oldToken) => {
-    nuxtApp.$updateAuthToken(newToken);
-    await userStore.getMyUser();
-    await paymentsStore.fetchRates();
-  },
-  { immediate: true },
-);
 </script>

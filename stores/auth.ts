@@ -110,18 +110,18 @@ export const useAuthStore = defineStore('auth', () => {
       useSessionStorage('authToken', '').value = tokenArg;
     }
     await nextTick();
-    const authStore = useAuthStore();
-    const userStore = useUserStore();
-    authStore.loadToken();
-    if (authStore.token) {
-      userStore.getMyUser();
-    }
+
+    loadToken();
   }
 
   function loadToken() {
     const tokenValue = useCookie('authToken');
     if (tokenValue.value && isTokenValid(tokenValue)) {
       token.value = tokenValue.value;
+      const userStore = useUserStore();
+      userStore.getMyUser();
+      usePaymentsStore().fetchRates();
+      nuxtApp.$updateAuthToken(token.value);
     }
     isLoading.value = false;
   }
