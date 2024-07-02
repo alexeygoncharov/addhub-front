@@ -37,9 +37,15 @@ const userStore = useUserStore();
 const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 
-if (authStore.token) {
-  await userStore.getMyUser();
-}
+watch(
+  () => authStore.token,
+  async () => {
+    if (authStore.token) {
+      await userStore.getMyUser();
+    }
+  },
+  { immediate: true },
+);
 
 // Инициализация данных приложения
 getFavorites();
