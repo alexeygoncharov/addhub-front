@@ -25,7 +25,6 @@
             :placeholder="'Выберите валюту'"
             @input="
               (currency) => {
-                console.log(currency);
                 payment.currency = currency;
               }
             "

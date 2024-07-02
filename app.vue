@@ -155,11 +155,6 @@ async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   });
 }
 
-if (authStore.token) {
-  await userStore.getMyUser();
-  await paymentsStore.fetchRates();
-}
-
 socket.connect();
 socket.on('connect', onConnect);
 socket.on('disconnect', onDisconnect);
@@ -172,10 +167,14 @@ useHead({
 });
 
 // костыльнул, надо бы подумать лучше
+
 watch(
   () => authStore.token,
-  (newToken, oldToken) => {
+  async (newToken, oldToken) => {
     nuxtApp.$updateAuthToken(newToken);
+    await userStore.getMyUser();
+    await paymentsStore.fetchRates();
   },
+  { immediate: true },
 );
 </script>
