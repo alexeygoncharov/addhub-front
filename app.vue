@@ -134,9 +134,10 @@ function handleUpdateUser(data: UpdateStatusUser) {
 }
 
 async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
-  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
-    updatedMessage.chat_id,
-  );
+  // для счетчиков нужно добавить событие после прочтения всех непрочитанных сообщений по чату
+  //const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
+  //  updatedMessage.chat_id,
+  //);
   // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
@@ -148,7 +149,7 @@ async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   messagesStore.fetchTotalUnseenCount();
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
-      item.unseen_messages = unseenMessages;
+      item.unseen_messages = 0;
     }
     return item;
   });
