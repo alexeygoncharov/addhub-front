@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  item: any;
+  item: undefined;
 }>();
 </script>
 
