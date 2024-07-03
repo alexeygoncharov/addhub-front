@@ -475,7 +475,6 @@ const createReview = async () => {
           message: review.value.message,
           service_id: itemId,
           recipient: item.value?.createdBy._id,
-          // parent_id: 'any',
         },
       },
       needToken: true,

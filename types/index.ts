@@ -1,3 +1,4 @@
+import type { OrderChatListItem } from './messages.types';
 import type {
   User,
   bidProject,
@@ -81,50 +82,13 @@ declare global {
       city: string;
     };
   }
-  interface BaseChatItem {
-    _id: string;
-    createdAt: string;
-    order_number: number;
-    disputes: any;
-    updatedAt: string;
-    __v: number;
-  }
 
   interface CreateDispute {
     order: string;
-    files: any[];
+    files: uploadFileResponse[];
     message: string;
   }
 
-  interface ChatMember {
-    _id: string;
-    user_name: string;
-    name: string;
-    surname: string;
-    active_role: string;
-    online_status: 'online' | 'offline'; // Assuming only these two statuses for simplicity
-    rate: number;
-    avatar?: {
-      url: string;
-    };
-  }
-  interface ChatItem extends BaseChatItem {
-    members: ChatMember[];
-    order: any;
-    unseen_messages: number;
-  }
-
-  interface OrderChatService {
-    photos: uploadFileResponse[];
-    service_volume: string;
-    status: string;
-    title: string;
-    _id: string;
-  }
-  interface OrderChat extends BaseChatItem {
-    members: string[];
-    order: string;
-  }
   export interface Order {
     _id: string;
     buyer: User;
@@ -134,38 +98,9 @@ declare global {
     currency: string;
     status: string;
     createdAt: string;
-    chat: OrderChat;
+    chat: OrderChatListItem;
     order_number: number;
     updatedAt: string;
     __v: number;
-  }
-
-  interface OrderChatItem extends ChatItem {
-    order: { service: OrderChatService; order_number: number };
-  }
-
-  interface ChatList {
-    list: ChatItem[];
-    totalUnSeen: number;
-    total: number;
-  }
-
-  interface ChatMessage {
-    _id: string;
-    chat_id: string;
-    message: string;
-    files: any[]; // Define further if you have file structure details.
-    recipient?: User;
-    sender?: User;
-    seen: boolean;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
-  }
-
-  interface ChatMessagesList {
-    list: ChatMessage[];
-    total: number;
-    totalUnSeen: number;
   }
 }

@@ -65,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (value?.status === 200) {
       useToast({
-        message: `Мы отправили ссылку для подтвержения вашей учетной записи вам на почту`,
+        message: `Мы отправили ссылку для подтверждения вашей учетной записи вам на почту`,
         type: 'success',
       });
       return value;
@@ -121,7 +121,7 @@ export const useAuthStore = defineStore('auth', () => {
       const userStore = useUserStore();
       userStore.getMyUser();
       usePaymentsStore().fetchRates();
-      nuxtApp.$updateAuthToken(token.value);
+      useNuxtApp().$updateAuthToken(token.value);
     }
     isLoading.value = false;
   }

@@ -1,21 +1,35 @@
+import type {
+  ChatListItem,
+  OrderChatListItem,
+  ChatList,
+  Chat,
+  MessageItem,
+  LastMessage,
+  MessagesPayload,
+  ChatMember,
+  ChatPayload,
+  MessagePayload,
+  ReadMessagePayload,
+} from '~/types/messages.types';
+
 export const useMessagesStore = defineStore('messages', () => {
-  const messages = ref<Array<ChatMessage>>([]);
+  const messages = ref<MessageItem[]>([]);
   const newMessage = ref();
-  const activeChat = ref<ChatItem | OrderChatItem>();
+  const activeChat = ref<OrderChatListItem | ChatListItem>();
   const totalCountMessages = ref<number>(0);
   const totalCountChats = ref<number>(0);
   const limit = 20;
-  const lastMessages = ref<Array<ChatMessage>>([]);
+  const lastMessages = ref<LastMessage[]>([]);
   const messagesListOffset = ref(1);
   const searchQuery = ref('');
   const chatListOffset = ref(1);
   const totalUnseenMessages = ref<number>(0);
-  const chats = ref<Array<ChatItem>>([]);
+  const chats = ref<Array<OrderChatListItem | ChatListItem>>([]);
   const activeTab = ref<'chats' | 'orders'>('chats');
   const userStore = useUserStore();
 
   async function fetchChatMessagesList(payload: MessagesPayload) {
-    const { data } = await apiFetch<ApiResponse<ChatMessagesList>>(
+    const { data } = await apiFetch<ApiResponse<Chat>>(
       `/api/messages/chat/${payload.chat_id}`,
       {
         needToken: true,
@@ -29,7 +43,7 @@ export const useMessagesStore = defineStore('messages', () => {
       addMessages(value.result);
     }
   }
-  function addMessages(payload: ChatMessagesList) {
+  function addMessages(payload: Chat) {
     totalCountMessages.value = payload.total;
     if (totalCountMessages.value > messages.value.length) {
       payload.list.forEach((element) => {
@@ -38,7 +52,7 @@ export const useMessagesStore = defineStore('messages', () => {
     }
   }
 
-  function getRespondent(chat: ChatItem): ChatMember | undefined {
+  function getRespondent(chat: ChatListItem | OrderChatListItem) {
     return chat?.members.find(
       (member) =>
         member._id !== userStore.user?._id && member.active_role !== 'admin',
@@ -129,15 +143,14 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function deleteChat() {
     if (!activeChat.value?._id) return;
-    await apiFetch<ApiResponse<ChatItem>>(
-      `/api/chat/${activeChat.value?._id}`,
-      {
-        needToken: true,
-        options: {
-          method: 'DELETE',
-        },
+    await apiFetch<
+      ApiResponse<{ type: string } & (ChatListItem | OrderChatListItem)>
+    >(`/api/chat/${activeChat.value?._id}`, {
+      needToken: true,
+      options: {
+        method: 'DELETE',
       },
-    );
+    });
     chats.value = chats.value.filter(
       (item) => activeChat.value && item._id !== activeChat.value._id,
     );
@@ -146,7 +159,7 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function createMessage(msg: MessagePayload) {
     try {
-      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
+      const { data } = await apiFetch<ApiResponse<MessageItem>>(
         `/api/messages/`,
         {
           needToken: true,
@@ -172,7 +185,7 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function fetchLastMessage(chatId: string) {
     try {
-      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
+      const { data } = await apiFetch<ApiResponse<LastMessage>>(
         `/api/messages/last_message/${chatId}`,
         {
           needToken: true,
@@ -191,7 +204,7 @@ export const useMessagesStore = defineStore('messages', () => {
 
   async function readMessage(msg: ReadMessagePayload) {
     try {
-      const { data } = await apiFetch<ApiResponse<ChatMessage>>(
+      const { data } = await apiFetch<ApiResponse<any>>(
         `/api/messages/${msg.id}`,
         {
           needToken: true,

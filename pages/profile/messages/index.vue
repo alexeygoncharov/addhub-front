@@ -84,6 +84,7 @@ const debouncedFn = () => {
 };
 watch(activeTab, () => {
   messagesStore.chats = [];
+
   if (activeTab.value === 'chats')
     messagesStore.fetchChats({ limit: messagesStore.limit, offset: 1 });
   else if (activeTab.value === 'orders')
