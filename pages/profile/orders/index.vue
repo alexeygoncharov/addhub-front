@@ -64,7 +64,12 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="m-btn m-btn-blue" @click="openDispute()">
+          <button
+            type="button"
+            :disabled="!!!dispute.message.trim()"
+            class="m-btn m-btn-blue"
+            @click="openDispute()"
+          >
             <span>Отправить</span>
           </button>
           <button type="button" class="m-btn m-btn-blue" @click="cancel">
