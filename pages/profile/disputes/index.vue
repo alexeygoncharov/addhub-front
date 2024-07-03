@@ -34,8 +34,11 @@
           </td>
           <td>
             <div class="finance-row__user">
-              <div class="avatar">
+              <div v-if="item.createdBy.avatar" class="avatar">
                 <img :src="baseUrl() + item.createdBy.avatar?.url" alt="" />
+              </div>
+              <div v-else>
+                <Avatar :size="80" :name="item.createdBy?.name" />
               </div>
               <div class="finance-row__desc light-text">
                 {{ `${item.createdBy?.name} ${item.createdBy?.surname}` }}
