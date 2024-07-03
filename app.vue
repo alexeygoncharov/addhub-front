@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import type { Socket } from 'socket.io-client';
+import type { ChatListItem, MessageItem } from '~/types/messages.types';
 const nuxtApp = useNuxtApp();
 const socketStore = useSocketStore();
 const socket = nuxtApp.$socket as Socket;
@@ -39,8 +40,8 @@ interface UpdateStatusUser {
 }
 
 interface ChatData {
-  chat: ChatItem;
-  newMessage: ChatMessage;
+  chat: ChatListItem;
+  newMessage: MessageItem;
   totalUnseen?: number;
 }
 
@@ -100,7 +101,7 @@ async function handleNewMessage(data: ChatData) {
   messagesStore.messages.unshift(newMessage);
   messagesStore.lastMessages.forEach((item, index, array) => {
     if (item.chat_id === data.chat._id) {
-      array[index] = data.newMessage;
+      array[index] = { ...data.newMessage, sender: data.newMessage.sender._id };
     }
   });
   const dispute = disputesStore.disputes?.find(
@@ -115,7 +116,7 @@ function isFromExistingChat(chatId: string) {
   return messagesStore.chats.some((chat) => chat._id === chatId);
 }
 
-function updateExistingChat(newChatData: ChatItem) {
+function updateExistingChat(newChatData: ChatListItem) {
   messagesStore.chats = messagesStore.chats.filter(
     (chat) => chat._id !== newChatData._id,
   );
@@ -129,7 +130,9 @@ function handleDeleteChat(deletedChat: DeletedChat) {
 }
 
 function handleUpdateUser(data: UpdateStatusUser) {
-  const respondent = messagesStore.getRespondent(messagesStore.activeChat);
+  const respondent =
+    messagesStore.activeChat &&
+    messagesStore.getRespondent(messagesStore.activeChat);
   if (respondent && respondent?._id === data?.id)
     respondent.online_status = data.online_status;
 }
@@ -139,7 +142,6 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
   // const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
   //  updatedMessage.chat_id,
   // );
-  // отрефакторить
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       item.seen = true;
@@ -166,6 +168,4 @@ useHead({
   },
   meta: [{ name: 'description', content: 'Addhub - Биржа услуг' }],
 });
-
-// костыльнул, надо бы подумать лучше
 </script>

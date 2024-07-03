@@ -12,6 +12,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { ChatListItem } from '~/types/messages.types';
 const el = ref<HTMLElement | null>(null);
 const route = useRoute();
 
@@ -30,7 +31,7 @@ useInfiniteScroll(el, loadChats, {
 const props = defineProps<{ chosen: 'orders' | 'chats' }>();
 const messagesStore = useMessagesStore();
 const userStore = useUserStore();
-function selectChat(respondent: ChatItem) {
+function selectChat(respondent: ChatListItem) {
   if (messagesStore.activeChat?._id === respondent._id) return;
   messagesStore.resetMessages();
   messagesStore.activeChat = respondent;
@@ -67,11 +68,12 @@ else if (props.chosen === 'orders')
 
 if (route.query?.id) {
   messagesStore.activeChat = messagesStore.chats.find(
-    (item) => item.order?._id === route.query?.id,
+    (item) => 'order' in item && item.order?._id === route.query?.id,
   );
-  messagesStore.fetchChatMessagesList({
-    chat_id: messagesStore.activeChat?._id,
-    offset: messagesStore.messagesListOffset,
-  });
+  if (messagesStore.activeChat)
+    messagesStore.fetchChatMessagesList({
+      chat_id: messagesStore.activeChat._id,
+      offset: messagesStore.messagesListOffset,
+    });
 }
 </script>

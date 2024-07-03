@@ -131,9 +131,9 @@ const { open, onChange } = useFileDialog({
   multiple: false,
 });
 
-const validateFiles = (files: any) => {
+const validateFiles = (files: FileList) => {
   const file = files[0];
-  const fileExtension = file.name.split('.').pop().toLowerCase().trim();
+  const fileExtension = file.name.split('.').pop()?.toLowerCase().trim();
   if (fileExtension !== 'jpg' && fileExtension !== 'png') {
     return false;
   }

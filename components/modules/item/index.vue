@@ -46,11 +46,11 @@
               <div class="about-client__category">
                 {{ item?.createdBy.active_role }}
               </div>
-              <div class="about-client__rating">
+              <div v-if="item?.createdBy" class="about-client__rating">
                 <img src="/img/star.svg" alt="" />
                 <div class="about-client__rating-text">
                   <span>{{
-                    item?.createdBy?.rate > 0 ? item?.createdBy.rate : ''
+                    item?.createdBy.rate > 0 ? item?.createdBy.rate : ''
                   }}</span>
                   <!-- (595 отзывов) -->
                 </div>

@@ -23,7 +23,11 @@
       :message="message"
     ></SectionsMessagesChatMessage>
     <div
-      v-if="messagesStore.activeChat?.order?.disputes?.createdBy"
+      v-if="
+        messagesStore.activeChat &&
+        'order' in messagesStore.activeChat &&
+        messagesStore.activeChat.order.disputes.createdBy
+      "
       class="messages__split"
     >
       <div class="messages__split-text text14">
@@ -39,6 +43,7 @@
 import { vInfiniteScroll } from '@vueuse/components';
 const messagesStore = useMessagesStore();
 async function loadMessages() {
+  if (!messagesStore.activeChat) return;
   messagesStore.messagesListOffset += 1;
   await messagesStore.fetchChatMessagesList({
     chat_id: messagesStore.activeChat._id,

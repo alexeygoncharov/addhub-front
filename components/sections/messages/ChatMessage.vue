@@ -5,11 +5,21 @@
   >
     <div class="message-user">
       <div class="avatar">
-        <img
+        <NuxtImg
+          v-if="getAvatarUrl(message.sender?.avatar?.url)"
           crossorigin="anonymous"
           :src="getAvatarUrl(message.sender?.avatar?.url)"
           alt=""
         />
+        <ClientOnly v-else>
+          <div>
+            <Avatar :size="80" :name="message.sender?.name" />
+          </div>
+        </ClientOnly>
+        <span
+          v-if="message.sender?.online_status === 'online'"
+          class="service-card__user-online"
+        ></span>
       </div>
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <ClientOnly>
@@ -131,12 +141,23 @@
   <div v-else class="message-item">
     <div class="message-user">
       <div class="avatar">
-        <img
+        <NuxtImg
+          v-if="getAvatarUrl(message.sender?.avatar?.url)"
           crossorigin="anonymous"
           :src="getAvatarUrl(message.sender?.avatar?.url)"
           alt=""
         />
+        <ClientOnly v-else>
+          <div>
+            <Avatar :size="80" :name="message.sender?.name" />
+          </div>
+        </ClientOnly>
+        <span
+          v-if="message.sender?.online_status === 'online'"
+          class="service-card__user-online"
+        ></span>
       </div>
+
       <div class="message-user__name">{{ message.sender?.name }}</div>
       <ClientOnly>
         <div class="message-user__time">
@@ -158,11 +179,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { MessageItem } from '~/types/messages.types';
 const userStore = useUserStore();
 const messagesStore = useMessagesStore();
 const props = defineProps({
   message: {
-    type: Object as PropType<ChatMessage>,
+    type: Object as PropType<MessageItem>,
     required: true,
   },
 });

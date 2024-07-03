@@ -91,7 +91,7 @@ const rememberMe = ref(true);
 useValidation();
 
 const recoverPassword = async () => {
-  const { data, error } = await apiFetch<ApiResponse<undefined>>(
+  const { data, error } = await apiFetch<ApiResponse<any>>(
     `/api/users/forgot_password`,
     {
       needToken: true,

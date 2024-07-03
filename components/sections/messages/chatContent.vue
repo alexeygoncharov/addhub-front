@@ -74,7 +74,11 @@
         </div> -->
         <div class="chat-content__right _flex">
           <div
-            v-if="messagesStore.activeChat?.order?.disputes?.createdBy"
+            v-if="
+              messagesStore.activeChat &&
+              'order' in messagesStore.activeChat &&
+              messagesStore.activeChat.order.disputes.createdBy
+            "
             class="chat-status"
           >
             <img src="/img/thunder.svg" alt="" />
@@ -185,7 +189,7 @@ const commonStore = useCommonStore();
 type Message = {
   // recipient: string;
   text: string;
-  files: any[];
+  files: uploadFileResponse[];
   chat_id: string;
 };
 const message = ref<Message>({ text: '', files: [], chat_id: '' });
@@ -193,24 +197,22 @@ const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
 });
 const id: string = useRoute().query.id?.toString() || '';
-
-watch(
-  messagesStore.chats,
-  () => {
-    if (!messagesStore.activeChat && id) {
-      messagesStore.resetMessages();
-      messagesStore.fetchChatMessagesList({
-        chat_id: id,
-        offset: messagesStore.messagesListOffset,
-      });
-
-      messagesStore.activeChat = messagesStore.chats.find(
-        (chat) => chat._id === id,
-      );
-    }
-  },
-  { immediate: true },
-);
+const initialChats = async () => {
+  messagesStore.resetMessages();
+  await messagesStore.fetchChatMessagesList({
+    chat_id: id,
+    offset: messagesStore.messagesListOffset,
+  });
+  if (!messagesStore.activeChat && id && messagesStore.chats.length) {
+    messagesStore.activeChat = messagesStore.chats.find(
+      (chat) => chat._id === id,
+    );
+  }
+};
+watch(messagesStore.chats, () => {
+  initialChats();
+});
+initialChats();
 function sendMessage() {
   if (!messagesStore.activeChat) return;
   // const activeChat = messagesStore.getRespondent(messagesStore.activeChat);

@@ -7,27 +7,29 @@ export default defineNuxtPlugin((nuxtApp) => {
     multiplex: false,
     autoConnect: false,
     transports: ['polling'],
-  };
-
-  socketOptions.extraHeaders = {
-    Authorization: `Bearer ${authToken.value}`,
+    extraHeaders: {
+      Authorization: `Bearer ${authToken.value}`,
+    },
   };
 
   const socket = io('https://hub.rdcd.ru', socketOptions);
 
   socket.on('connect_error', (err) => {
     console.log(err.message);
-    console.log(err.description);
-    console.log(err.context);
+    // console.log(err.description);
+    // console.log(err.context);
   });
 
   // Метод для обновления токена
-  const updateAuthToken = (newToken) => {
+  const updateAuthToken = (newToken: string) => {
     socketOptions.extraHeaders.Authorization = `Bearer ${newToken}`;
     // Можно добавить дополнительную логику, если необходимо
   };
-
+  return {
+    provide: {
+      socket,
+      updateAuthToken,
+    },
+  };
   // Делаем сокет и метод обновления токена доступными во всем приложении
-  nuxtApp.provide('socket', socket);
-  nuxtApp.provide('updateAuthToken', updateAuthToken);
 });

@@ -25,6 +25,7 @@ export type CatalogStores = FreelancersStore | ProjectsStore | ServicesStore;
 
 export interface User {
   _id: string;
+  isVerified: boolean;
   user_name: string;
   name: string;
   surname: string;
@@ -40,6 +41,7 @@ export interface User {
   updatedAt: string;
   __v: number;
   avatar?: uploadFileResponse;
+  review_count?: number;
 }
 
 export interface catalogItem {
@@ -58,12 +60,12 @@ export interface catalogItem {
 }
 export interface ProjectDeleteResponse {
   files: uploadFileResponse[];
-  skills: undefined[];
+  skills: any[];
 }
 export interface ServiceDeleteResponse {
   service_volume: string;
   service_volume_desc: string;
-  tools: undefined[];
+  tools: any[];
 }
 export interface serviceItem extends catalogItem {
   tools: [];

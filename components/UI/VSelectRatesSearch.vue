@@ -25,7 +25,6 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 interface Item {
   key: string;
   name: string;
-  [key: string]: any;
 }
 
 const props = withDefaults(
