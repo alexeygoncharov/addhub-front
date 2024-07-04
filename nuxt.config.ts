@@ -19,9 +19,11 @@ export default defineNuxtConfig({
       },
     },
   },
+
   pinia: {
     storesDirs: ['stores/**/*'],
   },
+
   modules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/stylelint-module',
@@ -35,23 +37,29 @@ export default defineNuxtConfig({
     // '@nuxtjs/robots',
     '@nuxtjs/turnstile',
   ],
+
   turnstile: {
     siteKey: process.env.TURNSTILE_KEY,
   },
+
   dayjs: {
     defaultLocale: 'ru',
     locales: ['ru'],
     plugins: ['relativeTime'],
   },
+
   css: ['~/assets/style/style.scss'],
+
   runtimeConfig: {
     public: {
       apiBase: process.env.BASE_URL,
     },
   },
+
   typescript: {
     strict: true,
   },
+
   routeRules: {
     '/projects': { redirect: '/projects/all' },
     // '/profile/messages': { ssr: false },
@@ -59,6 +67,7 @@ export default defineNuxtConfig({
     '/profile': { redirect: '/profile/bids' },
     '/admin': { redirect: '/admin/orders' },
   },
+
   app: {
     head: {
       htmlAttrs: {
@@ -66,4 +75,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  compatibilityDate: '2024-07-04',
 });

@@ -84,8 +84,9 @@ export const useProfileStore = defineStore('profile', () => {
       });
       return value;
     } else {
+      console.log(error)
       useToast({
-        message: 'Ошибка при сохранении',
+        message: error.value?.data?.message,
         type: 'error',
       });
     }
