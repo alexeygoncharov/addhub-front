@@ -26,12 +26,19 @@ export const useBidsStore = defineStore('bids', () => {
     price: number,
     term: number,
     description: string,
+    service?: string,
   ) {
     try {
       const { data } = await apiFetch<ApiResponse<BidList & Bid>>(`/api/bids`, {
         options: {
           method: 'POST',
-          body: { project_id: id, price, term, description },
+          body: {
+            project_id: id,
+            price,
+            term,
+            description,
+            service,
+          },
         },
         needToken: true,
       });
@@ -90,7 +97,25 @@ export const useBidsStore = defineStore('bids', () => {
       return value.result;
     }
   }
-
+  async function updateBidStatus(bidId: string, status: string) {
+    const { data, error } = await apiFetch<ApiResponse<Bid>>(
+      `/api/bids/status/${bidId}`,
+      {
+        needToken: true,
+        options: {
+          method: 'PUT',
+          body: { status },
+        },
+      },
+    );
+    if (error.value) {
+      return useToast({ message: error.value.data.message, type: 'error' });
+    }
+    const value = data.value;
+    if (value) {
+      return value.result;
+    }
+  }
   return { fetchBid, fetchBidsList, createBid, updateBid, deleteBid };
 });
 

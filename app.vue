@@ -3,7 +3,7 @@
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
-  <SectionsCommonConfirmLogout v-if="authStore.token" />
+  <SectionsCommonConfirmLogout v-if="authStore.isAuthenticated" />
 </template>
 
 <script setup lang="ts">
@@ -47,7 +47,7 @@ getFavorites();
 commonStore.fetchCategories();
 commonStore.fetchCountries();
 commonStore.fetchCities();
-authStore.loadToken();
+if (!authStore.isAuthenticated) authStore.loadToken();
 
 const isConnected = ref(false);
 const transport = ref('N/A');
