@@ -5,7 +5,7 @@
         class="modal-wrapper"
         @submit="
           (e) => {
-            e.editableData ? updateBid() : createBid();
+            viewOnly ? onApproveBid : editableData ? updateBid() : createBid();
           }
         "
       >
@@ -27,10 +27,15 @@
               @click="activeChoice = !activeChoice"
             >
               {{
-                chosenService ? chosenService.title : 'Можете выбрать услугу'
+                serviceId
+                  ? items?.find((i) => i._id === serviceId)?.title
+                  : 'Можете выбрать услугу'
               }}
             </div>
-            <div v-if="activeChoice" class="header-action__search-list">
+            <div
+              v-if="activeChoice && !viewOnly"
+              class="header-action__search-list"
+            >
               <div
                 class="header-action__search-item"
                 @click="
@@ -50,7 +55,7 @@
                 class="header-action__search-item"
                 @click="
                   () => {
-                    chosenService = service;
+                    serviceId = service._id;
                     activeChoice = false;
                   }
                 "
@@ -72,7 +77,7 @@
           </OnClickOutside>
         </div>
 
-        <div class="modal-wrapper__mainInput">
+        <div v-if="!viewOnly" class="modal-wrapper__mainInput">
           <label class="bid-label">Текст отклика</label>
           <Field
             v-if="!editableData"
@@ -90,8 +95,13 @@
           />
           <ErrorMessage name="description" class="error-message" />
         </div>
+        <div v-else class="modal-wrapper__mainInput">
+          <label class="bid-label">Текст отклика</label>
+          <p>{{ editableData?.description }}</p>
+          <ErrorMessage name="description" class="error-message" />
+        </div>
         <div class="modal-wrapper__inputs">
-          <div class="modal-wrapper__input">
+          <div v-if="!viewOnly" class="modal-wrapper__input">
             <label class="bid-label">Стоимость (руб)</label>
             <Field
               v-if="!editableData"
@@ -108,7 +118,11 @@
             />
             <ErrorMessage name="price" class="error-message" />
           </div>
-          <div class="modal-wrapper__input">
+          <div v-else class="modal-wrapper__input">
+            <label class="bid-label">Стоимость (руб)</label>
+            <p>{{ editableData?.price }}</p>
+          </div>
+          <div v-if="!viewOnly" class="modal-wrapper__input">
             <label class="bid-label">Срок (в днях)</label>
             <Field
               v-if="!editableData"
@@ -125,10 +139,16 @@
             />
             <ErrorMessage name="term" class="error-message" />
           </div>
+          <div v-else class="modal-wrapper__input">
+            <label class="bid-label">Срок (в днях)</label>
+            <p>{{ editableData?.term }}</p>
+          </div>
         </div>
+
         <div class="modal-wrapper__under">
           <div class="send-button">
             <button
+              v-if="!viewOnly"
               :disabled="
                 !editable ? !price || !term : !editable.price || !editable.term
               "
@@ -136,6 +156,7 @@
             >
               Предложить услугу
             </button>
+            <button v-else type="submit">Одобрить отклик</button>
           </div>
         </div>
       </Form></OnClickOutside
@@ -157,11 +178,15 @@ const price = ref<number>();
 const chosenService = ref<servicesItem>();
 const term = ref<number>();
 const description = ref<string>();
-const emit = defineEmits(['newBid', 'updateBid']);
-const editableData = defineModel<Bid>('editable', { default: undefined });
+const serviceId = ref<string>();
+const emit = defineEmits(['newBid', 'updateBid', 'approveBid']);
+const editableData = defineModel<Bid | undefined>('editable', {
+  default: undefined,
+});
 const props = defineProps<{ id: string; viewOnly?: boolean }>();
 const activeChoice = ref(false);
 const items = ref<servicesItem[]>();
+
 const updateServices = async () => {
   const { data, error } = await apiFetch<ApiResponse<servicesItem[]>>(
     '/api/services/my_select',
@@ -176,7 +201,7 @@ const updateServices = async () => {
 updateServices();
 async function updateBid() {
   if (
-    !editableData.value.price ||
+    !editableData.value?.price ||
     !editableData.value.term ||
     !editableData.value
   )
@@ -187,7 +212,7 @@ async function updateBid() {
     price: data.price,
     term: data.term,
     description: data.description || '',
-    ...(chosenService.value && { service: chosenService.value._id }),
+    ...(serviceId.value && { service: serviceId.value }),
   });
   if (result) {
     emit('updateBid');
@@ -201,6 +226,7 @@ async function createBid() {
     price.value,
     term.value,
     description.value || '',
+    serviceId.value || undefined,
   );
   if (data) {
     item.value?.bids.push(data);

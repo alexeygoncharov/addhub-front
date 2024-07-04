@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
   const socket = nuxtApp.$socket as Socket;
   const token = ref(null) as Ref<string | null>;
   const isLoading = ref(false);
-  const isAuthenticated = computed(() => !!useCookie('authToken').value);
+  const isAuthenticated = ref(false);
   async function login(email: string, password: string, rememberMe: boolean) {
     const { data, error } = await apiFetch<ApiResponse<string>>(
       '/api/auth/login',
@@ -98,6 +98,7 @@ export const useAuthStore = defineStore('auth', () => {
     useSessionStorage('authToken', '').value = null;
     const userStore = useUserStore();
     userStore.user = undefined;
+    isAuthenticated.value = false;
   }
 
   async function saveToken(tokenArg: string, rememberMe: boolean) {
@@ -122,6 +123,7 @@ export const useAuthStore = defineStore('auth', () => {
       userStore.getMyUser();
       usePaymentsStore().fetchRates();
       useNuxtApp().$updateAuthToken(token.value);
+      isAuthenticated.value = true;
     }
     isLoading.value = false;
   }

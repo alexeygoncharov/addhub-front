@@ -110,7 +110,10 @@
                 </div>
               </div>
             </div>
-            <div v-else class="reply-row__action">
+            <div
+              v-else-if="user?.active_role == 'buyer'"
+              class="reply-row__action"
+            >
               <div class="reply-row__btn">
                 <button class="m-btn m-btn-blue3" @click="editBid(bid)">
                   <svg
@@ -175,6 +178,7 @@
       v-model:editable="editableData"
       :view-only="user?.active_role === 'buyer'"
       @update-bid="updateBids()"
+      @approve-bid="editableData && approveBid(editableData)"
     />
   </div>
 </template>
@@ -194,6 +198,7 @@ const editBid = (bid: Bid) => {
   openBidEdit.value = true;
   editableData.value = { ...bid };
 };
+const approveBid = (bid: Bid) => {};
 const deleteBid = async (bid: Bid, index: number) => {
   const result = await bidsStore.deleteBid(bid.project_id._id, bid._id);
   if (result) {
