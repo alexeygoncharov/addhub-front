@@ -33,9 +33,9 @@ async function validateEmail(value: string) {
 }
 
 function validatePhone(value: string) {
-  return regex(value, [
-    /\+7\s*\(\d{3}\)\s*###-##-##|\+7\s*\(\d{4}\)\s*##-##-##/,
-  ]);
+  const regex =
+    /^\+7\s*\(\d{3}\)\s*\d{3}-\d{2}-\d{2}$|^\+7\s*\(\d{4}\)\s*\d{2}-\d{2}-\d{2}$/;
+  return regex.test(value);
 }
 
 async function validateUsername(value: string) {
@@ -93,6 +93,7 @@ export function useValidation() {
         email: 'email адрес',
         password: 'пароль',
         repeatPassword: 'повторите пароль',
+        phone_number: 'номер телефона'
       },
     }),
   });

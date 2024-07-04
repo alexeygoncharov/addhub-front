@@ -10,11 +10,8 @@
 import type { Socket } from 'socket.io-client';
 import type { ChatListItem, MessageItem } from '~/types/messages.types';
 const nuxtApp = useNuxtApp();
-const socketStore = useSocketStore();
 const socket = nuxtApp.$socket as Socket;
 const authStore = useAuthStore();
-const userStore = useUserStore();
-const paymentsStore = usePaymentsStore();
 const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 const messagesStore = useMessagesStore();

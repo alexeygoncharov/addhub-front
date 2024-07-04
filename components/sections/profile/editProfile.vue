@@ -55,12 +55,15 @@
         </fieldset>
         <fieldset class="fg">
           <label>Телефон</label>
-          <input
-            id="phone_number"
+          <Field
+            id="phone"
             v-model.trim="form.phone_number"
-            type="tel"
+            name="phone_number"
+            rules="required|phone"
             placeholder="+ 7"
-          />
+          >
+          </Field>
+          <ErrorMessage name="phone_number" class="error-message" />
         </fieldset>
 
         <fieldset v-if="commonStore.countries" class="fg">
@@ -106,10 +109,12 @@
         </div>
       </Form>
     </div>
+    <div id="hui">sadsd</div>
   </div>
 </template>
 
 <script setup lang="ts">
+import IMask from 'imask';
 import { useFileDialog } from '@vueuse/core';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { useUserStore } from '../../../stores/user';
@@ -162,13 +167,6 @@ onChange((files) => {
   }
 });
 
-const cities = commonStore.cities?.map((item) => {
-  return { text: item.title, value: item._id };
-});
-const countries = commonStore.countries?.map((item) => {
-  return { text: item.title, value: item._id };
-});
-
 const form = ref({
   avatar: userStore.user?.avatar,
   name: userStore.user?.name || '',
@@ -195,4 +193,11 @@ async function submitProfile() {
   };
   await profileStore.editProfile(data);
 }
+onMounted(() => {
+  const element = document.getElementById('phone');
+  const maskOptions = {
+    mask: '+{7} (000) 000-00-00',
+  };
+  IMask(element, maskOptions);
+});
 </script>
