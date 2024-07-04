@@ -93,7 +93,7 @@ export function useValidation() {
         email: 'email адрес',
         password: 'пароль',
         repeatPassword: 'повторите пароль',
-        phone_number: 'номер телефона'
+        phone_number: 'номер телефона',
       },
     }),
   });
