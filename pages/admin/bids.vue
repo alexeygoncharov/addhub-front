@@ -153,23 +153,20 @@ const deleteBid = async (bid: Bid, index: number) => {
   }
 };
 const updateBids = async () => {
-  //   const { data } = await apiFetch<ApiListResponse<Bid[]>>(
-  //     `/api/bids/${user.value?.active_role}/my`,
-  //     {
-  //       needToken: true,
-  //       options: {
-  //         query: {
-  //           offset: currentPage.value,
-  //           limit: 8,
-  //         },
-  //       },
-  //     },
-  //   );
-  //   const value = data.value;
-  //   if (value?.status === 200) {
-  //     totalItems.value = value.total;
-  //     bids.value = value.result;
-  //   }
+  const { data } = await apiFetch<ApiListResponse<Bid[]>>(`/api/admin/bids`, {
+    needToken: true,
+    options: {
+      query: {
+        offset: currentPage.value,
+        limit: 8,
+      },
+    },
+  });
+  const value = data.value;
+  if (value?.status === 200) {
+    totalItems.value = value.total;
+    bids.value = value.result;
+  }
 };
 updateBids();
 watch(() => user.value?.active_role, updateBids);
