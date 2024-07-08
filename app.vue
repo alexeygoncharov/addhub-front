@@ -25,6 +25,8 @@ interface UpdatedMessage {
   id: string;
   chat_id: string;
   seen: boolean;
+  chatTotalUnseen: number;
+  totalUnseen: number;
 }
 
 interface DeletedChat {
@@ -39,7 +41,8 @@ interface UpdateStatusUser {
 interface ChatData {
   chat: ChatListItem;
   newMessage: MessageItem;
-  totalUnseen?: number;
+  totalUnseen: number;
+  chatTotalUnseen: number;
 }
 
 // Инициализация данных приложения
@@ -47,8 +50,13 @@ getFavorites();
 commonStore.fetchCategories();
 commonStore.fetchCountries();
 commonStore.fetchCities();
-if (!authStore.isAuthenticated) authStore.loadToken();
+if (!authStore.isAuthenticated) {
+  authStore.loadToken();
+} else {
+  socket.connect();
+}
 
+setupSocketListeners();
 const isConnected = ref(false);
 const transport = ref('N/A');
 
@@ -59,8 +67,6 @@ function onConnect() {
     transport.value = rawTransport.name;
   });
 }
-
-setupSocketListeners();
 
 function onDisconnect() {
   console.log('disconnect');
@@ -134,11 +140,12 @@ function handleUpdateUser(data: UpdateStatusUser) {
     respondent.online_status = data.online_status;
 }
 
-function handleUpdateMessage(updatedMessage: UpdatedMessage) {
-  // для счетчиков нужно добавить событие после прочтения всех непрочитанных сообщений по чату
-  // const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
-  //  updatedMessage.chat_id,
-  // );
+async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
+  //для счетчиков нужно добавить событие после прочтения всех непрочитанных сообщений по чату
+  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
+   updatedMessage.chat_id,
+  );
+  messagesStore.fetchTotalUnseenCount();
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       item.seen = true;
@@ -146,16 +153,15 @@ function handleUpdateMessage(updatedMessage: UpdatedMessage) {
     return item;
   });
   // find in chat list chat_id
-  messagesStore.fetchTotalUnseenCount();
+  //messagesStore.totalUnseenMessages = updatedMessage.totalUnseen;
   messagesStore.chats = messagesStore.chats.map((item) => {
     if (item._id === updatedMessage.chat_id) {
-      item.unseen_messages = 0;
+      item.unseen_messages = unseenMessages;
     }
     return item;
   });
 }
 
-socket.connect();
 socket.on('connect', onConnect);
 socket.on('disconnect', onDisconnect);
 

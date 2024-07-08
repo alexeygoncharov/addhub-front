@@ -6,11 +6,13 @@ export default defineNuxtPlugin((nuxtApp) => {
   const socketOptions = {
     multiplex: false,
     autoConnect: false,
-    transports: ['polling'],
-    extraHeaders: {
-      Authorization: `Bearer ${authToken.value}`,
-    },
+    transports: ['polling', 'websocket'],
+    extraHeaders: {},
   };
+
+  if (authToken.value) {
+    socketOptions.extraHeaders.Authorization = `Bearer ${authToken.value}`;
+  }
 
   const socket = io('https://hub.rdcd.ru', socketOptions);
 
@@ -22,7 +24,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Метод для обновления токена
   const updateAuthToken = (newToken: string) => {
-    socketOptions.extraHeaders.Authorization = `Bearer ${newToken}`;
+    if (newToken) {
+      socketOptions.extraHeaders.Authorization = `Bearer ${newToken}`;
+    } else {
+      socketOptions.extraHeaders.Authorization = null;
+    }
     // Можно добавить дополнительную логику, если необходимо
   };
   return {
