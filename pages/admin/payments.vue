@@ -26,6 +26,12 @@
         </div>
       </div>
     </div>
+    <input
+      v-model.trim="searchQuery"
+      type="text"
+      style="margin-bottom: 1em"
+      placeholder="Поиск по id юзера, транзакции, имени и username пользователя"
+    />
     <div class="tab-content _active">
       <table>
         <thead>
@@ -150,6 +156,7 @@ import {
   changeWithdrawStatus,
 } from '@/modules/admin/composables/payments';
 definePageMeta({ layout: 'admin' });
+const searchQuery = ref('');
 type TabValue = 'Pending' | 'Approved' | 'Canceled';
 
 const titles: { title: string; value: TabValue }[] = [
@@ -177,12 +184,21 @@ const changeStatus = (
 
 const withdraws = ref<Withdraw[]>([]);
 const fetchWithdrawals = () => {
-  getWithdrawals(currentPage.value, activeTab.value).then((res) => {
-    if (!res?.value) return;
-    withdraws.value = res?.value.result;
-    total.value = res?.value.total;
-  });
+  getWithdrawals(currentPage.value, activeTab.value, searchQuery.value).then(
+    (res) => {
+      if (!res?.value) return;
+      withdraws.value = res?.value.result;
+      total.value = res?.value.total;
+    },
+  );
 };
+const timeoutId = ref<ReturnType<typeof setTimeout>>();
+watch(searchQuery, () => {
+  clearTimeout(timeoutId.value);
+  timeoutId.value = setTimeout(() => {
+    fetchWithdrawals();
+  }, 2000);
+});
 fetchWithdrawals();
 </script>
 

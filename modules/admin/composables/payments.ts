@@ -2,6 +2,7 @@ import type { Withdraw } from '@/modules/profile/types/index';
 export const getWithdrawals = async (
   currentPage: number,
   status: 'Canceled' | 'Approved' | 'Pending',
+  searchQuery?: string,
 ): Promise<Ref<ApiListResponse<Withdraw[]>> | undefined> => {
   const token = useCookie('authToken');
   if (!token.value) throw new Error('token is lost');
