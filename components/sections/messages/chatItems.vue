@@ -68,8 +68,9 @@ else if (props.chosen === 'orders')
 
 if (route.query?.id) {
   messagesStore.activeChat = messagesStore.chats.find(
-    (item) => 'order' in item && item.order?._id === route.query?.id,
+    (item) => item._id === route.query?.id,
   );
+
   if (messagesStore.activeChat)
     messagesStore.fetchChatMessagesList({
       chat_id: messagesStore.activeChat._id,

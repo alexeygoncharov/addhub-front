@@ -196,23 +196,7 @@ const message = ref<Message>({ text: '', files: [], chat_id: '' });
 const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
 });
-const id: string = useRoute().query.id?.toString() || '';
-const initialChats = async () => {
-  messagesStore.resetMessages();
-  await messagesStore.fetchChatMessagesList({
-    chat_id: id,
-    offset: messagesStore.messagesListOffset,
-  });
-  if (!messagesStore.activeChat && id && messagesStore.chats.length) {
-    messagesStore.activeChat = messagesStore.chats.find(
-      (chat) => chat._id === id,
-    );
-  }
-};
-watch(messagesStore.chats, () => {
-  initialChats();
-});
-initialChats();
+
 function sendMessage() {
   if (!messagesStore.activeChat) return;
   // const activeChat = messagesStore.getRespondent(messagesStore.activeChat);

@@ -15,22 +15,19 @@
         }
       "
     >
-      <Form class="profile-item__grid">
+      <div class="profile-item__grid">
         <fieldset class="fg _full">
           <label
             >Заголовок
             {{ user?.active_role === 'buyer' ? 'проекта' : 'услуги' }}</label
           >
 
-          <Field
-            v-slot="{ field, setValue }"
+          <input
             v-model.trim="form.title"
-            rules="required|alpha_spaces|max:100"
+            required
+            maxlength="100"
             name="title"
-          >
-            <input v-bind="field" @focusout="setValue(field.value.trim())" />
-          </Field>
-          <ErrorMessage name="title" class="error-message" />
+          />
         </fieldset>
         <fieldset class="fg _full">
           <label>
@@ -159,7 +156,7 @@
             Обязательное поле
           </p>
         </fieldset>
-      </Form>
+      </div>
     </form>
   </div>
   <div v-if="type === 'project'" class="profile-item">
