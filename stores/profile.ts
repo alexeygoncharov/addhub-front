@@ -84,7 +84,7 @@ export const useProfileStore = defineStore('profile', () => {
       });
       return value;
     } else {
-      console.log(error)
+      console.log(error);
       useToast({
         message: error.value?.data?.message,
         type: 'error',

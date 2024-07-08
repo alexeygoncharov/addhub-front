@@ -1,7 +1,7 @@
 <template>
   <div class="chat__content">
     <div
-      v-if="messagesStore.activeChat"
+      v-if="messagesStore.activeChat?._id"
       :key="messagesStore.activeChat._id"
       class="chat-content"
       :class="[
@@ -77,7 +77,7 @@
             v-if="
               messagesStore.activeChat &&
               'order' in messagesStore.activeChat &&
-              messagesStore.activeChat.order.disputes.createdBy
+              messagesStore.activeChat?.order?.disputes?.createdBy
             "
             class="chat-status"
           >
