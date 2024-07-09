@@ -94,7 +94,8 @@ declare global {
     buyer: User;
     seller: User;
     price: number;
-    service: orderService;
+    service?: orderService;
+    project?: orderService;
     currency: string;
     status: string;
     createdAt: string;

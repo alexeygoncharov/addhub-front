@@ -6,7 +6,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const socketOptions = {
     multiplex: false,
     autoConnect: false,
-    transports: ['polling', 'websocket'],
+    transports: ['polling'],
     extraHeaders: {},
   };
 

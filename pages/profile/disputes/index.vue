@@ -28,7 +28,7 @@
             <div class="finance-row__title">Сделка</div>
             <div class="finance-row__desc light-text">
               {{
-                item?.order?.service?.title ? item?.order?.service?.title : ''
+                item?.order?.service?.title ? item?.order?.service?.title : item?.order?.project?.title
               }}
             </div>
           </td>
