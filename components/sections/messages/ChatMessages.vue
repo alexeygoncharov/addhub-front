@@ -26,7 +26,7 @@
       v-if="
         messagesStore.activeChat &&
         'order' in messagesStore.activeChat &&
-        messagesStore.activeChat.order.disputes.createdBy
+        messagesStore.activeChat.order?.disputes?.createdBy
       "
       class="messages__split"
     >

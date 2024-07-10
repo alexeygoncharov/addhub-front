@@ -12,6 +12,7 @@ import type { ChatListItem, MessageItem } from '~/types/messages.types';
 const nuxtApp = useNuxtApp();
 const socket = nuxtApp.$socket as Socket;
 const authStore = useAuthStore();
+const userStore = useUserStore();
 const commonStore = useCommonStore();
 const { getFavorites } = useUserStore();
 const messagesStore = useMessagesStore();
@@ -89,13 +90,33 @@ function setupSocketListeners() {
       }
     });
   });
+  socket.on('get_counters', (data) => {
+    const chatId = data.chat_id;
+    const userId = userStore.user?._id;
+    if (userId) {
+      const unseenMessagesInfo = data[userId];
+
+      if (unseenMessagesInfo) {
+        messagesStore.totalUnseenMessages = unseenMessagesInfo.totalUnseen;
+        messagesStore.chats = messagesStore.chats.map((item) => {
+          if (item._id === chatId) {
+            item.unseen_messages = unseenMessagesInfo.chatTotalUnseen;
+          }
+          return item;
+        });
+      }
+      const dispute = disputesStore.disputes?.find(
+        (item) => item.chat._id === chatId,
+      );
+      if (dispute) {
+        dispute.unseen_messages = unseenMessagesInfo.chatTotalUnseen;
+      }
+    }
+  });
 }
 
 async function handleNewMessage(data: ChatData) {
   const { chat, newMessage } = data;
-  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(chat._id);
-  chat.unseen_messages = unseenMessages;
-  messagesStore.fetchTotalUnseenCount();
   if (!isFromExistingChat(chat._id)) {
     messagesStore.chats.unshift(chat);
   } else {
@@ -107,12 +128,6 @@ async function handleNewMessage(data: ChatData) {
       array[index] = { ...data.newMessage, sender: data.newMessage.sender._id };
     }
   });
-  const dispute = disputesStore.disputes?.find(
-    (item) => item.chat._id === chat._id,
-  );
-  if (dispute) {
-    dispute.unseen_messages = unseenMessages;
-  }
 }
 
 function isFromExistingChat(chatId: string) {
@@ -141,22 +156,9 @@ function handleUpdateUser(data: UpdateStatusUser) {
 }
 
 async function handleUpdateMessage(updatedMessage: UpdatedMessage) {
-  //для счетчиков нужно добавить событие после прочтения всех непрочитанных сообщений по чату
-  const unseenMessages = await messagesStore.fetchUnseenCountByChatId(
-   updatedMessage.chat_id,
-  );
-  messagesStore.fetchTotalUnseenCount();
   messagesStore.messages = messagesStore.messages.map((item) => {
     if (item._id === updatedMessage.id) {
       item.seen = true;
-    }
-    return item;
-  });
-  // find in chat list chat_id
-  //messagesStore.totalUnseenMessages = updatedMessage.totalUnseen;
-  messagesStore.chats = messagesStore.chats.map((item) => {
-    if (item._id === updatedMessage.chat_id) {
-      item.unseen_messages = unseenMessages;
     }
     return item;
   });
