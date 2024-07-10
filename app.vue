@@ -100,9 +100,8 @@ function setupSocketListeners() {
       }
     });
   });
-  socket.on('get_counters', handleUpdateUnseenMessages)
+  socket.on('get_counters', handleUpdateUnseenMessages);
 }
-
 
 async function handleNewMessage(data: ChatData) {
   const { chat, newMessage } = data;
@@ -118,7 +117,6 @@ async function handleNewMessage(data: ChatData) {
     }
   });
 }
-
 
 async function handleUpdateUnseenMessages(data: UseenMessagesInfo) {
   const { chat_id: chatId } = data;

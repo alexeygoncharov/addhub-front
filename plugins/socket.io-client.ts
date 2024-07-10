@@ -18,18 +18,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   socket.on('connect_error', (err) => {
     console.log(err.message);
-    // console.log(err.description);
-    // console.log(err.context);
   });
 
-  // Метод для обновления токена
   const updateAuthToken = (newToken: string) => {
     if (newToken) {
       socketOptions.extraHeaders.Authorization = `Bearer ${newToken}`;
     } else {
-      socketOptions.extraHeaders.Authorization = null;
+      delete socketOptions.extraHeaders.Authorization;
     }
-    // Можно добавить дополнительную логику, если необходимо
   };
   return {
     provide: {
@@ -37,5 +33,4 @@ export default defineNuxtPlugin((nuxtApp) => {
       updateAuthToken,
     },
   };
-  // Делаем сокет и метод обновления токена доступными во всем приложении
 });
