@@ -34,6 +34,16 @@ interface DeletedChat {
   id: string;
 }
 
+interface UnseenMessagesCounters {
+  totalUnseen: number;
+  chatTotalUnseen: number;
+}
+
+interface UseenMessagesInfo {
+  chat_id: string;
+  [key: string]: UnseenMessagesCounters | string;
+}
+
 interface UpdateStatusUser {
   id: string;
   online_status: 'online' | 'offline';
@@ -90,30 +100,9 @@ function setupSocketListeners() {
       }
     });
   });
-  socket.on('get_counters', (data) => {
-    const chatId = data.chat_id;
-    const userId = userStore.user?._id;
-    if (userId) {
-      const unseenMessagesInfo = data[userId];
-
-      if (unseenMessagesInfo) {
-        messagesStore.totalUnseenMessages = unseenMessagesInfo.totalUnseen;
-        messagesStore.chats = messagesStore.chats.map((item) => {
-          if (item._id === chatId) {
-            item.unseen_messages = unseenMessagesInfo.chatTotalUnseen;
-          }
-          return item;
-        });
-      }
-      const dispute = disputesStore.disputes?.find(
-        (item) => item.chat._id === chatId,
-      );
-      if (dispute) {
-        dispute.unseen_messages = unseenMessagesInfo.chatTotalUnseen;
-      }
-    }
-  });
+  socket.on('get_counters', handleUpdateUnseenMessages)
 }
+
 
 async function handleNewMessage(data: ChatData) {
   const { chat, newMessage } = data;
@@ -128,6 +117,34 @@ async function handleNewMessage(data: ChatData) {
       array[index] = { ...data.newMessage, sender: data.newMessage.sender._id };
     }
   });
+}
+
+
+async function handleUpdateUnseenMessages(data: UseenMessagesInfo) {
+  const { chat_id: chatId } = data;
+  const userId = userStore.user?._id;
+
+  if (!userId) return;
+
+  const unseenMessagesInfo = data[userId] as UnseenMessagesCounters;
+
+  if (unseenMessagesInfo) {
+    messagesStore.totalUnseenMessages = unseenMessagesInfo.totalUnseen;
+
+    messagesStore.chats.forEach((chat) => {
+      if (chat._id === chatId) {
+        chat.unseen_messages = unseenMessagesInfo.chatTotalUnseen;
+      }
+    });
+
+    const dispute = disputesStore.disputes?.find(
+      (dispute) => dispute.chat._id === chatId,
+    );
+
+    if (dispute) {
+      dispute.unseen_messages = unseenMessagesInfo.chatTotalUnseen;
+    }
+  }
 }
 
 function isFromExistingChat(chatId: string) {
