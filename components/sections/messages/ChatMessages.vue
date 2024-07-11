@@ -4,10 +4,11 @@
       loadMessages,
       {
         direction: 'top',
-        distance: 1000,
+        distance: 100,
         canLoadMore: () => {
           return (
-            messagesStore.totalCountMessages > messagesStore.messages.length
+            messagesStore.totalCountMessages > messagesStore.messages.length &&
+            messagesStore.messages.length >= messagesStore.limit
           );
         },
       },
@@ -32,7 +33,8 @@
     >
       <div class="messages__split-text text14">
         {{
-          `${messagesStore.activeChat?.order?.disputes?.createdBy?.name} ${messagesStore.activeChat?.order?.disputes?.createdBy?.surname} открыл диспут`
+          `${messagesStore.activeChat?.order?.disputes?.createdBy?.name}
+        ${messagesStore.activeChat?.order?.disputes?.createdBy?.surname} открыл диспут`
         }}
       </div>
     </div>
@@ -48,6 +50,7 @@ async function loadMessages() {
   await messagesStore.fetchChatMessagesList({
     chat_id: messagesStore.activeChat._id,
     offset: messagesStore.messagesListOffset,
+    limit: messagesStore.limit,
   });
 }
 </script>

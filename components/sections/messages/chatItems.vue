@@ -40,6 +40,7 @@ function selectChat(respondent: ChatListItem) {
   messagesStore.fetchChatMessagesList({
     chat_id: messagesStore.activeChat?._id,
     offset: messagesStore.messagesListOffset,
+    limit: messagesStore.limit,
   });
 }
 
