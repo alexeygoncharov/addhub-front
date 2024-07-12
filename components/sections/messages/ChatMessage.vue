@@ -179,9 +179,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
 import type { MessageItem } from '~/types/messages.types';
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
 const userStore = useUserStore();
-const messagesStore = useMessagesStore();
 const props = defineProps({
   message: {
     type: Object as PropType<MessageItem>,
@@ -190,5 +192,5 @@ const props = defineProps({
 });
 
 if (props.message.sender?._id !== userStore.user?._id && !props.message.seen)
-  messagesStore.readMessage({ id: props.message._id, seen: true });
+  socket.emit('update_message', { id: props.message._id, seen: true });
 </script>

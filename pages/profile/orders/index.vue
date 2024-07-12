@@ -377,6 +377,9 @@
 </template>
 
 <script setup lang="ts">
+import type { Socket } from 'socket.io-client';
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
 const disputeStore = useDisputesStore();
 const { open, files, reset, onChange } = useFileDialog({
   accept: '.jpg, .png', // Set to accept only image files
@@ -408,17 +411,17 @@ function openDispute() {
       if (file) {
         file.url = file?.url?.replace('/files', 'files') as string;
         dispute.value.files.push(file);
-        disputeStore
-          .createDispute(dispute.value)
-          .then(() => changeStatus('dispute', dispute.value.order));
-
+        disputeStore;
+        socket.emit('new_dispute', () => {
+          changeStatus('dispute', dispute.value.order);
+        });
         dispute.value.files = [];
         dispute.value.message = '';
         reset();
       }
     });
   } else {
-    disputeStore.createDispute(dispute.value).then(() => {
+    socket.emit('new_dispute', () => {
       changeStatus('dispute', dispute.value.order);
     });
     dispute.value.message = '';

@@ -6,12 +6,12 @@ export default defineNuxtPlugin((nuxtApp) => {
   const socketOptions = {
     multiplex: false,
     autoConnect: false,
-    transports: ['polling'],
-    extraHeaders: {},
+    transports: ['websocket'],
+    auth: {},
   };
 
   if (authToken.value) {
-    socketOptions.extraHeaders.Authorization = `Bearer ${authToken.value}`;
+    socketOptions.auth.token = authToken.value;
   }
 
   const socket = io('https://hub.rdcd.ru', socketOptions);

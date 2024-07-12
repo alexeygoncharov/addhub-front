@@ -84,10 +84,7 @@
             <img src="/img/thunder.svg" alt="" />
             <span>Открытый диспут</span>
           </div>
-          <button
-            class="chat-content__delete _flex"
-            @click="messagesStore.deleteChat()"
-          >
+          <button class="chat-content__delete _flex" @click="deleteChat">
             <svg
               width="22"
               height="22"
@@ -184,6 +181,9 @@
 </template>
 <script setup lang="ts">
 import { useFileDialog } from '@vueuse/core';
+import type { Socket } from 'socket.io-client';
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
 const messagesStore = useMessagesStore();
 const commonStore = useCommonStore();
 type Message = {
@@ -197,6 +197,10 @@ const { files, reset, open } = useFileDialog({
   accept: '*', // Set to accept only image files
 });
 
+function deleteChat() {
+  if (!messagesStore.activeChat?._id) return;
+  socket.emit('delete_chat', messagesStore.activeChat?._id);
+}
 function sendMessage() {
   if (!messagesStore.activeChat) return;
   // const activeChat = messagesStore.getRespondent(messagesStore.activeChat);
@@ -215,13 +219,13 @@ function sendMessage() {
         if (file) {
           file.url = file?.url?.replace('/files', 'files') as string;
           message.value.files.push(file);
-          messagesStore.createMessage(message.value);
+          socket.emit('new_message', message.value);
           message.value = { text: '', files: [], chat_id: '' };
           reset();
         }
       });
     } else {
-      messagesStore.createMessage(message.value);
+      socket.emit('new_message', message.value);
       message.value = { text: '', files: [], chat_id: '' };
       reset();
     }

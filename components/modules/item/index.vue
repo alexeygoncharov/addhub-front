@@ -245,7 +245,10 @@
 </template>
 <script setup lang="ts">
 import { OnClickOutside } from '@vueuse/components';
+import type { Socket } from 'socket.io-client';
 import type { projectItem, serviceItem } from '~/stores/catalog/catalog.type';
+const nuxtApp = useNuxtApp();
+const socket = nuxtApp.$socket as Socket;
 const emits = defineEmits(['submit']);
 const createOrder = () => {
   if (user.value) {
@@ -279,7 +282,7 @@ const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog();
 onConfirm((data: { serviceId: string; userId: string }) => {
   message.value.service_id = data.serviceId;
   message.value.recipient = data.userId;
-  messagesStore.createMessage(message.value).then(() => {
+  socket.emit('new_message', message.value, () => {
     message.value.text = '';
     useToast({ message: 'Сообщение отправлено', type: 'success' });
   });
