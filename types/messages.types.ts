@@ -2,7 +2,7 @@ export interface MessagePayload {
   text: string;
   chat_id?: string;
   service_id?: string;
-  recepient?: string;
+  recipient?: string;
   files?: uploadFileResponse[];
 }
 export interface MessagesPayload {

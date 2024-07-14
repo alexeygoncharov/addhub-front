@@ -169,6 +169,7 @@ export const useMessagesStore = defineStore('messages', () => {
               message: msg.text,
               chat_id: msg.chat_id,
               service_id: msg.service_id,
+              recipient: msg.recipient,
               files: msg.files,
             },
           },
@@ -177,10 +178,10 @@ export const useMessagesStore = defineStore('messages', () => {
       const value = data.value;
       if (value) {
         return value?.result;
+      } else {
+        useToast({ message: 'Не удалось создать сообщение', type: 'error' });
       }
-    } catch (error) {
-      // console.error('Ошибка при загрузке категорий', error);
-    }
+    } catch (error) {}
   }
 
   async function fetchLastMessage(chatId: string) {
