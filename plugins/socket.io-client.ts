@@ -22,9 +22,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const updateAuthToken = (newToken: string) => {
     if (newToken) {
-      socketOptions.extraHeaders.Authorization = `Bearer ${newToken}`;
+      socketOptions.auth.token = `Bearer ${newToken}`;
     } else {
-      delete socketOptions.extraHeaders.Authorization;
+      delete socketOptions.auth.token;
     }
   };
   return {
