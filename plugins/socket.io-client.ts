@@ -14,7 +14,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     socketOptions.auth.token = authToken.value;
   }
 
-  const socket = io('https://hub.rdcd.ru', socketOptions);
+  const socket = io('wss://hub.rdcd.ru', socketOptions);
 
   socket.on('connect_error', (err) => {
     console.log(err.message);
