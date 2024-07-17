@@ -2,11 +2,20 @@ import { io } from 'socket.io-client';
 import type { ChatListItem, MessageItem } from '~/types/messages.types';
 
 export default defineNuxtPlugin((nuxtApp) => {
+  interface SocketOptions {
+    multiplex: boolean;
+    autoConnect: boolean;
+    transports: Array<string>;
+    auth: {
+      authorization?: string;
+    };
+  }
+  
   const authToken = useCookie('authToken');
   const messagesStore = useMessagesStore();
   const disputesStore = useDisputesStore();
   const userStore = useUserStore();
-  const socketOptions = {
+  const socketOptions: SocketOptions = {
     multiplex: false,
     autoConnect: false,
     transports: ['polling'],
