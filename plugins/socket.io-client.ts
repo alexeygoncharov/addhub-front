@@ -6,27 +6,43 @@ export default defineNuxtPlugin((nuxtApp) => {
   const socketOptions = {
     multiplex: false,
     autoConnect: false,
-    transports: ['polling'],
-    extraHeaders: {},
+    transports: ['websocket'],
+    auth: {},
+    path: '/socket.io', // Убедитесь, что путь правильный
   };
 
   if (authToken.value) {
-    socketOptions.extraHeaders.Authorization = `Bearer ${authToken.value}`;
+    socketOptions.auth.authorization = `Bearer ${authToken.value}`;
   }
 
   const socket = io('https://hub.rdcd.ru', socketOptions);
 
   socket.on('connect_error', (err) => {
-    console.log(err.message);
+    console.log(err);
   });
+
+  socket.on("error", (error) => {
+    console.log('oshibka ', error);
+  });
+
+  socket.on("ping", (data) => {
+    console.log('ssss ', data);
+  })
 
   const updateAuthToken = (newToken: string) => {
     if (newToken) {
-      socketOptions.extraHeaders.Authorization = `Bearer ${newToken}`;
+      socketOptions.auth.authorization = `Bearer ${newToken}`;
     } else {
-      delete socketOptions.extraHeaders.Authorization;
+      delete socketOptions.auth.authorization;
+    }
+    // Переподключение сокета с новым токеном
+    socket.auth = socketOptions.auth;
+    if (socket.connected) {
+      socket.disconnect();
+      socket.connect();
     }
   };
+
   return {
     provide: {
       socket,
