@@ -48,6 +48,21 @@
       background-color: $primary-white;
       border-color: $primary-white;
     }
+
+    &._red {
+      color: #ff6262;
+      border-color: #ff6262;
+    }
+
+    &._green {
+      color: #40b567;
+      border-color: #40b567;
+    }
+
+    &._yellow {
+      color: #ffb300;
+      border-color: #ffb300;
+    }
   }
 
   &__user {

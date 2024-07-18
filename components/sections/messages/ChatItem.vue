@@ -18,26 +18,30 @@
       </div>
     </div>
     <div class="chat-item__info">
-      <div class="chat-item__name">
+      <div class="chat-item__about">
         {{ messagesStore.getRespondent(props.chat)?.name }}
+        <img
+          v-if="messagesStore.getRespondent(props.chat)?.rate"
+          src="/img/star.svg"
+          alt=""
+        />
+        <div class="about-client__rating-text">
+          <span>{{ messagesStore.getRespondent(props.chat)?.rate }}</span>
+          <!-- (595 отзывов) -->
+        </div>
       </div>
       <div class="chat-item__about">
-        {{ messagesStore.getRespondent(props.chat)?.user_name }}
+        <!-- {{ messagesStore.getRespondent(props.chat) }} -->
         <div class="about-client__rating">
-          <img src="/img/star.svg" alt="" />
-          <div
-            v-if="messagesStore.activeTab == 'chats'"
-            class="about-client__rating-text"
-          >
-            <span>{{ messagesStore.getRespondent(props.chat)?.rate }}</span>
-            <!-- (595 отзывов) -->
-          </div>
-          <div
-            v-else-if="'order' in props.chat"
-            class="about-client__rating-text"
-          >
+          <div v-if="'order' in props.chat" class="about-client__rating-text">
             <span>(Заказ №{{ props.chat.order.order_number }})</span>
           </div>
+          <p
+            v-else-if="'service' in props.chat"
+            class="about-client__rating-text"
+          >
+            {{ props.chat.service.title }}
+          </p>
         </div>
       </div>
     </div>
@@ -54,9 +58,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { ChatListItem, OrderChatListItem } from '~/types/messages.types';
 const props = defineProps({
   chat: {
-    type: Object as PropType<ChatItem | OrderChatItem>,
+    type: Object as PropType<ChatListItem | OrderChatListItem>,
     required: true,
   },
 });

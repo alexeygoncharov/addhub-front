@@ -37,15 +37,16 @@
             </div>
           </div>
           <div class="chat-user__info">
-            <div class="chat-user__name">
-              {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
-            </div>
             <div class="chat-item__about">
-              {{
-                messagesStore.getRespondent(messagesStore.activeChat)?.user_name
-              }}
+              {{ messagesStore.getRespondent(messagesStore.activeChat)?.name }}
               <div class="about-client__rating">
-                <img src="/img/star.svg" alt="" />
+                <img
+                  v-if="
+                    messagesStore.getRespondent(messagesStore.activeChat)?.rate
+                  "
+                  src="/img/star.svg"
+                  alt=""
+                />
                 <div class="about-client__rating-text">
                   <span>{{
                     messagesStore.getRespondent(messagesStore.activeChat)?.rate
@@ -53,6 +54,19 @@
                   <!-- (595 отзывов) -->
                 </div>
               </div>
+            </div>
+            <div class="chat-item__about">
+              <NuxtLink
+                v-if="messagesStore.activeChat?.service"
+                :to="`/services/${messagesStore.activeChat?.service?._id}`"
+                >{{ messagesStore.activeChat?.service.title }}</NuxtLink
+              >
+              <span
+                v-else-if="'order' in messagesStore.activeChat"
+                class="about-client__rating"
+              >
+                {{ 'Заказ №' + messagesStore.activeChat?.order.order_number }}
+              </span>
             </div>
             <div
               v-if="

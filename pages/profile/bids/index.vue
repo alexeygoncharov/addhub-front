@@ -2,27 +2,43 @@
   <ModulesProfileTop>Мои отклики</ModulesProfileTop>
 
   <div class="replies m-table">
-    <table>
+    <div class="tabs-select">
+      <div class="tabs-select__show">
+        <div class="tabs-select__current"></div>
+      </div>
+      <div class="tabs-select__hidden">
+        <div class="tabs">
+          <div
+            v-for="el in titles"
+            :key="el.value"
+            class="m-tab _tab"
+            :class="{ _active: activeTab === el.value }"
+            @click="
+              async () => {
+                activeTab = el.value;
+                await nextTick();
+                updateBids();
+              }
+            "
+          >
+            <span>{{ el.title }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <table style="margin-top: 1em">
       <thead>
         <tr>
           <th><span>Задача</span></th>
           <th><span>Бюджет</span></th>
-          <th><span>Действия</span></th>
+          <th><span>Статус</span></th>
+          <th v-if="activeTab == 'pending'"><span>Действия</span></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(bid, index) in bids" :key="bid._id" class="reply-row">
           <td>
             <div class="reply-row__info">
-              <a href="" class="avatar">
-                <img
-                  v-if="bid.user.avatar"
-                  :src="baseUrl() + bid.user.avatar.url"
-                  crossorigin="anonymous"
-                  alt=""
-                />
-                <div v-else><Avatar :size="40" :name="bid.user.name" /></div>
-              </a>
               <div class="reply-row__content">
                 <div class="reply-row__title text17 medium-text">
                   <nuxtLink
@@ -59,6 +75,25 @@
             </div>
           </td>
           <td>
+            <div class="finance-row__title">Статус</div>
+            <div
+              class="finance-row__type"
+              :class="{
+                _yellow: bid.status === 'pending',
+                _red: bid.status === 'rejected',
+                _green: bid.status === 'accepted',
+              }"
+            >
+              <span>{{
+                bid.status === 'accepted'
+                  ? 'Принято, в работе'
+                  : bid.status === 'rejected'
+                    ? 'Отклонено'
+                    : 'В ожидании'
+              }}</span>
+            </div>
+          </td>
+          <td v-if="activeTab == 'pending'">
             <div v-if="user?.active_role == 'seller'" class="reply-row__action">
               <div class="reply-row__btn">
                 <button class="m-btn m-btn-blue3" @click="editBid(bid)">
@@ -115,7 +150,15 @@
               class="reply-row__action"
             >
               <div class="reply-row__btn">
-                <button class="m-btn m-btn-blue3" @click="editBid(bid)">
+                <button
+                  class="m-btn m-btn-blue3"
+                  @click="
+                    () => {
+                      editBid(bid);
+                      editableIndex = index;
+                    }
+                  "
+                >
                   <svg
                     fill="#000000"
                     width="800px"
@@ -138,7 +181,7 @@
               <div class="reply-row__btn">
                 <button
                   class="m-btn m-btn-blue3"
-                  @click="deleteBid(bid, index)"
+                  @click="changeStatus(bid, 'rejected', index)"
                 >
                   <svg
                     width="20"
@@ -178,19 +221,28 @@
       v-model:editable="editableData"
       :view-only="user?.active_role === 'buyer'"
       @update-bid="updateBids()"
-      @approve-bid="editableData && approveBid(editableData)"
+      @approve-bid="
+        editableData && changeStatus(editableData, 'accepted', editableIndex)
+      "
     />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({ layout: 'profile', middleware: 'authenticated' });
+const titles = [
+  { title: 'В ожидании', value: 'pending' },
+  { title: 'Одобрено', value: 'accepted' },
+  { title: 'Отклонено', value: 'rejected' },
+];
+const activeTab = ref('pending');
 const commonStore = useCommonStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 const currentPage = ref(1);
 const totalItems = ref(0);
 const openBidEdit = ref(false);
+const editableIndex = ref<number>(0);
 const editableData = ref<Bid>();
 const bidsStore = useBidsStore();
 const bids = ref<Bid[]>();
@@ -198,7 +250,17 @@ const editBid = (bid: Bid) => {
   openBidEdit.value = true;
   editableData.value = { ...bid };
 };
-const approveBid = (bid: Bid) => {};
+const changeStatus = (
+  bid: Bid,
+  status: 'pending' | 'accepted' | 'rejected',
+  index: number,
+) => {
+  bidsStore.changeStatus(status, bid._id).then((result) => {
+    if (result && bids.value) {
+      bids.value.splice(index, 1);
+    }
+  });
+};
 const deleteBid = async (bid: Bid, index: number) => {
   const result = await bidsStore.deleteBid(bid.project_id._id, bid._id);
   if (result) {
@@ -215,6 +277,7 @@ const updateBids = async () => {
         query: {
           offset: currentPage.value,
           limit: 8,
+          filter: { status: activeTab.value },
         },
       },
     },

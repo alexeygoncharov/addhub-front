@@ -14,12 +14,11 @@ declare global {
   interface ApiListResponse<T> extends ApiResponse<T> {
     total: number;
   }
-
   export interface baseBid {
     _id: string;
     price: number;
     term: number;
-    status: string;
+    status: 'pending' | 'rejected' | 'accepted';
     createdAt: string;
     updatedAt: string;
     description: string;
