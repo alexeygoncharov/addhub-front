@@ -1,24 +1,11 @@
 export const useBidsStore = defineStore('bids', () => {
-  const bids = ref();
-  // const categories = ref<Category[]>()
-  async function fetchBidsList(id: string) {
-    try {
-      const { data } = await apiFetch<ApiResponse<Bid[]>>(`/api/bids`);
-      const value = data.value;
-      bids.value = value?.result;
-    } catch (error) {
-      // console.error('Ошибка при загрузке городов', error);
-    }
-  }
+  const bids = ref<Bid[]>();
+  const adminBids = ref<Bid[]>();
 
   async function fetchBid(id: string, bidId: string) {
-    try {
-      const { data } = await apiFetch<ApiResponse<Bid>>(`/api/bids/${bidId}`);
-      const value = data.value;
-      return value?.result;
-    } catch (error) {
-      // console.error('Ошибка при загрузке городов', error);
-    }
+    const { data } = await apiFetch<ApiResponse<Bid>>(`/api/bids/${bidId}`);
+    const value = data.value;
+    return value?.result;
   }
 
   async function createBid(
@@ -97,26 +84,46 @@ export const useBidsStore = defineStore('bids', () => {
       return value.result;
     }
   }
-  async function updateBidStatus(bidId: string, status: string) {
-    const { data, error } = await apiFetch<ApiResponse<Bid>>(
-      `/api/bids/status/${bidId}`,
+  const getBids = async (
+    currentPage: number,
+    status?: string,
+  ): Promise<Ref<ApiListResponse<Bid[]>> | undefined> => {
+    const { user } = storeToRefs(useUserStore());
+    if (!user.value) return;
+    const { data, error } = await apiFetch<ApiListResponse<Bid[]>>(
+      `/api/bids/${user.value?.active_role}/my`,
       {
         needToken: true,
         options: {
-          method: 'PUT',
-          body: { status },
+          query: {
+            offset: currentPage,
+            limit: 8,
+            filter: { status },
+          },
         },
       },
     );
-    if (error.value) {
-      return useToast({ message: error.value.data.message, type: 'error' });
+    if (data.value?.result) {
+      return data as Ref<ApiListResponse<Bid[]>>;
+    } else if (error.value) {
+      useToast({ message: error.value?.message, type: 'error' });
     }
-    const value = data.value;
-    if (value) {
-      return value.result;
+  };
+  const changeStatus = async (value: string, id: string) => {
+    const result = await apiFetch(`/api/bids/status/${id}`, {
+      needToken: true,
+      options: { method: 'PUT', body: { status: value } },
+    });
+    if (result.error.value) {
+      useToast({ message: result.error.value.data.message, type: 'error' });
+      return false;
+    } else {
+      useToast({ message: 'Статус успешно обновлен', type: 'success' });
+      return true;
     }
-  }
-  return { fetchBid, fetchBidsList, createBid, updateBid, deleteBid };
+  };
+
+  return { fetchBid, getBids, createBid, updateBid, deleteBid, changeStatus };
 });
 
 if (import.meta.hot) {

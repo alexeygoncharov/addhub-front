@@ -47,6 +47,11 @@ interface OrderChatService {
   status: string;
 }
 
+interface ChatService {
+  _id: string;
+  title: string;
+}
+
 interface OrderChatInfo {
   _id: string;
   service: OrderChatService;
@@ -59,6 +64,7 @@ interface OrderChatInfo {
 export interface ChatListItem {
   _id: string;
   members: ChatMember[];
+  service: ChatService;
   createdAt: Date;
   updatedAt: Date;
   unseen_messages: number;
