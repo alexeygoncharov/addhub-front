@@ -13,7 +13,7 @@ export const useBidsStore = defineStore('bids', () => {
     price: number,
     term: number,
     description: string,
-    service?: string,
+    serviceId?: string,
   ) {
     try {
       const { data } = await apiFetch<ApiResponse<BidList & Bid>>(`/api/bids`, {
@@ -24,7 +24,7 @@ export const useBidsStore = defineStore('bids', () => {
             price,
             term,
             description,
-            service,
+            service_id: serviceId,
           },
         },
         needToken: true,
@@ -44,6 +44,7 @@ export const useBidsStore = defineStore('bids', () => {
       price: number;
       term: number;
       description: string;
+      service_id?: string;
       status?: string;
     },
   ) {

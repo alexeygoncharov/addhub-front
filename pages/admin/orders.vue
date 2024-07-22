@@ -2,30 +2,16 @@
   <ModulesProfileTop>Заказы </ModulesProfileTop>
 
   <div class="payments projects-table m-table _tabs-parent _mob-select">
-    <div class="tabs-select">
-      <div class="tabs-select__show">
-        <div class="tabs-select__current"></div>
-      </div>
-      <div class="tabs-select__hidden">
-        <div class="tabs">
-          <div
-            v-for="el in titles"
-            :key="el.value"
-            class="m-tab _tab"
-            :class="{ _active: activeTab === el.value }"
-            @click="
-              async () => {
-                activeTab = el.value;
-                await nextTick();
-                updateItems();
-              }
-            "
-          >
-            <span>{{ el.title }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <UITabsSelect
+      v-model="activeTab"
+      :initial-values="titles"
+      @update-items="
+        async () => {
+          await nextTick();
+          updateItems();
+        }
+      "
+    />
 
     <div class="tab-content _active">
       <table>

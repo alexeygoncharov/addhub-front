@@ -2,30 +2,23 @@
   <ModulesProfileTop>Отзывы</ModulesProfileTop>
 
   <div class="reviews-page _tabs-parent">
-    <div class="tabs">
-      <div
-        class="m-tab _tab"
-        data-tab="_tab1"
-        :class="{ _active: fromMe }"
-        @click="fromMe = true"
-      >
-        <span v-if="user">{{
-          user.active_role === 'buyer' ? 'Фрилансерам' : 'Клиентам'
-        }}</span>
-      </div>
-      <div
-        class="m-tab _tab"
-        data-tab="_tab2"
-        :class="{ _active: !fromMe }"
-        @click="fromMe = false"
-      >
-        <span v-if="user">{{
-          user.active_role === 'buyer' ? 'От фрилансеров' : 'От клиентов'
-        }}</span>
-      </div>
-    </div>
-
-    <div v-if="fromMe" class="tab-content _active">
+    <UITabsSelect
+      v-if="user"
+      v-model="activeTab"
+      full
+      :initial-values="[
+        {
+          title:
+            user.active_role === 'buyer' ? 'От фрилансеров' : 'От клиентов',
+          value: 'toMe',
+        },
+        {
+          title: user.active_role === 'buyer' ? 'Фрилансерам' : 'Клиентам',
+          value: 'fromMe',
+        },
+      ]"
+    />
+    <div v-if="activeTab === 'fromMe'" class="tab-content _active">
       <div class="reviews-page__items">
         <ModulesCardsReview2
           v-for="review of myReviews"
@@ -50,7 +43,7 @@
 import type { Review } from '~/types/profile.type';
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
-const fromMe = ref(true);
+const activeTab = ref('toMe');
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
