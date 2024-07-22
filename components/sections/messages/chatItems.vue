@@ -16,6 +16,12 @@ import type { ChatListItem } from '~/types/messages.types';
 const el = ref<HTMLElement | null>(null);
 const route = useRoute();
 
+const emit = defineEmits(['toggle-active']);
+
+const toggleParentActive = () => {
+  emit('toggle-active');
+};
+
 useInfiniteScroll(el, loadChats, {
   distance: 100,
   interval: 5000,
@@ -37,11 +43,14 @@ function selectChat(respondent: ChatListItem) {
   messagesStore.activeChat = respondent;
   const router = useRouter();
   router.push({ query: { id: respondent._id, tab: props.chosen } });
-  messagesStore.fetchChatMessagesList({
-    chat_id: messagesStore.activeChat?._id,
-    offset: messagesStore.messagesListOffset,
-    limit: messagesStore.limit,
-  });
+
+  messagesStore
+    .fetchChatMessagesList({
+      chat_id: messagesStore.activeChat?._id,
+      offset: messagesStore.messagesListOffset,
+      limit: messagesStore.limit,
+    })
+    .then(() => toggleParentActive());
 }
 
 async function loadChats() {

@@ -4,18 +4,13 @@
       'chat',
       {
         //_type2: i % 2 === 0,
-        _active: !!messagesStore.activeChat?._id,
+        _active: isActive,
       },
     ]"
   >
-    <button
-      @click="
-        () => {
-          messagesStore.activeChat = undefined;
-        }
-      "
-      class="chat__back"
-    ><span>Назад</span></button>
+    <button @click="toggleActive(false)" class="chat__back">
+      <span>Назад</span>
+    </button>
     <div class="chat__sidebar">
       <UITabsSelect
         v-model="activeTab"
@@ -33,9 +28,14 @@
         />
         <img src="/img/search2.svg" alt="" class="chat-search__icon" />
       </div>
-      <SectionsMessagesChatItems :chosen="activeTab" />
+      <SectionsMessagesChatItems
+        @toggle-active="toggleActive"
+        :chosen="activeTab"
+      />
     </div>
-    <SectionsMessagesChatContent></SectionsMessagesChatContent>
+    <SectionsMessagesChatContent
+      :key="messagesStore.activeChat?._id"
+    ></SectionsMessagesChatContent>
   </div>
 </template>
 
@@ -43,6 +43,13 @@
 const messagesStore = useMessagesStore();
 const { activeTab } = storeToRefs(messagesStore);
 type TabValue = 'chats' | 'orders';
+
+const isActive = ref(false);
+
+const toggleActive = (value: boolean = true) => {
+  isActive.value = value;
+  console.log(isActive.value);
+};
 
 // Extract tab from the query parameters and ensure it's a string
 const tab: string = useRoute().query.tab?.toString() || '';
