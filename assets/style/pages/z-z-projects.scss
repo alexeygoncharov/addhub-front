@@ -81,6 +81,11 @@
     }
 
     &__hidden {
+      &._open {
+        pointer-events: unset;
+        opacity: 1;
+      }
+
       position: absolute;
       top: 100%;
       left: 0;

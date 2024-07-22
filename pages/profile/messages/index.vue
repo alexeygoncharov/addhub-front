@@ -4,37 +4,13 @@
       <span>Назад</span>
     </button>
     <div class="chat__sidebar">
-      <div class="tabs-select">
-        <div class="tabs-select__show">
-          <div class="tabs-select__current"></div>
-        </div>
-        <div class="tabs-select__hidden">
-          <div class="tabs">
-            <div
-              class="m-tab _tab"
-              :class="{ _active: activeTab === 'chats' }"
-              @click="
-                async () => {
-                  activeTab = 'chats';
-                }
-              "
-            >
-              <span>Чаты</span>
-            </div>
-            <div
-              class="m-tab _tab"
-              :class="{ _active: activeTab === 'orders' }"
-              @click="
-                async () => {
-                  activeTab = 'orders';
-                }
-              "
-            >
-              <span>Заказы</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <UITabsSelect
+        v-model="activeTab"
+        :initial-values="[
+          { title: 'Чаты', value: 'chats' },
+          { title: 'Заказы', value: 'orders' },
+        ]"
+      />
       <div class="chat-search fg">
         <input
           v-model="messagesStore.searchQuery"

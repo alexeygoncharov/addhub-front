@@ -2,29 +2,14 @@
   <ModulesProfileTop>Сохраненное</ModulesProfileTop>
 
   <div class="saves _tabs-parent">
-    <div class="tabs">
-      <div
-        class="m-tab _tab"
-        :class="{ _active: active === 'services' }"
-        data-tab="_tab1"
-        @click="active = 'services'"
-      >
-        <span>Услуги</span>
-      </div>
-      <div
-        class="m-tab _tab"
-        data-tab="_tab2"
-        :class="{ _active: active === 'projects' }"
-      >
-        <span v-if="user" @click="active = 'projects'">
-          Проекты
-          <!-- {{
-          user.active_role === 'buyer' ? 'Фрилансеры' : 'Проекты'
-        }} -->
-        </span>
-      </div>
-    </div>
-
+    <UITabsSelect
+      v-model="active"
+      full
+      :initial-values="[
+        { title: 'Услуги', value: 'services' },
+        { title: 'Проекты', value: 'projects' },
+      ]"
+    />
     <div class="tab-content _tab1 _active">
       <div v-if="active === 'services'" class="saves__grid grid-col4">
         <ModulesCardsService

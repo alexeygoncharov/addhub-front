@@ -5,7 +5,11 @@
         class="modal-wrapper"
         @submit="
           (e) => {
-            viewOnly ? onApproveBid : editableData ? updateBid() : createBid();
+            viewOnly
+              ? onApproveBid()
+              : editableData
+                ? updateBid()
+                : createBid();
           }
         "
       >
@@ -19,7 +23,7 @@
           />
         </div>
 
-        <div class="modal-wrapper__list">
+        <div v-if="!(viewOnly && !serviceId)" class="modal-wrapper__list">
           <OnClickOutside @trigger="activeChoice = false">
             <label class="bid-label">Предложенная услуга</label>
             <div
@@ -174,6 +178,10 @@ const bidsStore = useBidsStore();
 const item = defineModel<projectsItem | projectItem>('item', {
   default: undefined,
 });
+const onApproveBid = () => {
+  showBid.value = false;
+  emit('approveBid');
+};
 const price = ref<number>();
 const chosenService = ref<servicesItem>();
 const term = ref<number>();
@@ -212,7 +220,7 @@ async function updateBid() {
     price: data.price,
     term: data.term,
     description: data.description || '',
-    ...(serviceId.value && { service: serviceId.value }),
+    ...(serviceId.value && { service_id: serviceId.value }),
   });
   if (result) {
     emit('updateBid');
@@ -238,6 +246,15 @@ async function createBid() {
     });
   }
 }
+
+watch(showBid, () => {
+  if (!showBid.value) {
+    price.value = undefined;
+    term.value = undefined;
+    description.value = undefined;
+    serviceId.value = undefined;
+  }
+});
 </script>
 
 <style scoped></style>
