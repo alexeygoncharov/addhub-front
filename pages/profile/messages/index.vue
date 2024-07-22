@@ -1,8 +1,21 @@
 <template>
-  <div class="chat _active">
-    <button class="chat__back">
-      <span>Назад</span>
-    </button>
+  <div
+    :class="[
+      'chat',
+      {
+        //_type2: i % 2 === 0,
+        _active: !!messagesStore.activeChat?._id,
+      },
+    ]"
+  >
+    <button
+      @click="
+        () => {
+          messagesStore.activeChat = undefined;
+        }
+      "
+      class="chat__back"
+    ><span>Назад</span></button>
     <div class="chat__sidebar">
       <UITabsSelect
         v-model="activeTab"

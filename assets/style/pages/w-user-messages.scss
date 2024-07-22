@@ -15,7 +15,7 @@
 
   &__sidebar,
   &__content {
-    // height: calc(100 * var(--vh) - 22em); убрано --vh
+    // height: calc(100 * var(--vh) - 22em);
     background: #fff;
     border-radius: 0.4375em;
 
@@ -511,6 +511,7 @@
     position: relative;
     grid-template-columns: 100%;
     width: calc(100% + 2em);
+    margin-top: 30px;
     margin-left: -1em;
 
     &__back {
@@ -520,6 +521,8 @@
       align-items: center;
       margin-bottom: 1em;
       color: $gray;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
 
       span {
         font-size: 0.875em;
