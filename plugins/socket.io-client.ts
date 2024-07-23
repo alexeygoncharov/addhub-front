@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       authorization?: string;
     };
   }
-  
+
   const authToken = useCookie('authToken');
   const messagesStore = useMessagesStore();
   const disputesStore = useDisputesStore();
@@ -103,20 +103,34 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   async function handleNewMessage(data: ChatData) {
     const { chat, newMessage } = data;
-    // пофиксить на беке, чтобы unseen_messages всегда приходило 0
-    chat.unseen_messages = 0;
-    //
-    if (!isFromExistingChat(chat._id)) {
-      messagesStore.chats.unshift(chat);
-    } else {
-      updateExistingChat(chat);
+
+    const isOrderChat = 'order' in chat;
+    const isActiveTabOrders = messagesStore.activeTab === 'orders';
+    const isActiveTabChats = messagesStore.activeTab === 'chats';
+
+    if (
+      (isOrderChat && isActiveTabOrders) ||
+      (!isOrderChat && isActiveTabChats)
+    ) {
+      // пофиксить на беке, чтобы unseen_messages всегда приходило 0
+      chat.unseen_messages = 0;
+
+      console.log(messagesStore.activeTab);
+      console.log(chat);
+
+      if (!isFromExistingChat(chat._id)) {
+        messagesStore.chats.unshift(chat);
+      } else {
+        updateExistingChat(chat);
+      }
     }
     messagesStore.messages.unshift(newMessage);
+
     messagesStore.lastMessages.forEach((item, index, array) => {
-      if (item.chat_id === data.chat._id) {
+      if (item.chat_id === chat._id) {
         array[index] = {
-          ...data.newMessage,
-          sender: data.newMessage.sender._id,
+          ...newMessage,
+          sender: newMessage.sender._id,
         };
       }
     });
