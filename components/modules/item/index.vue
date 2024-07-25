@@ -62,7 +62,7 @@
             <textarea v-model="message.text"></textarea>
           </div>
           <div class="modal-wrapper__under">
-            <button @click="cancel">Отменить</button>
+            <button @click="cancel"><span>Отменить</span></button>
             <button
               :disabled="!!!message?.text?.length"
               class="m-btn m-btn-gray"
@@ -70,7 +70,7 @@
                 confirm({ userId: item?.createdBy._id, serviceId: item?._id })
               "
             >
-              Отправить
+              <span>Отправить</span>
             </button>
           </div>
         </div>
