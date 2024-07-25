@@ -126,7 +126,7 @@
           <textarea
             v-model="message.text"
             placeholder="Напишите сообщение"
-            @keydown.enter="sendMessage"
+            @keydown.enter.prevent="sendMessage"
           ></textarea>
         </div>
         <div class="chat-nav__action _flex">
