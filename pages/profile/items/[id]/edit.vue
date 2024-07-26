@@ -23,7 +23,7 @@
           >
           <Field
             v-model="form.title"
-            rules="required|alpha|max:100"
+            rules="required|alpha_spaces|max:100"
             name="title"
           />
           <ErrorMessage name="title" class="error-message" />

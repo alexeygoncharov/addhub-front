@@ -94,6 +94,7 @@ export function useValidation() {
         password: 'пароль',
         repeatPassword: 'повторите пароль',
         phone_number: 'номер телефона',
+        title: 'заголовок'
       },
     }),
   });
