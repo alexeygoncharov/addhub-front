@@ -5,7 +5,12 @@
     :class="{ _open: dropdownVisible }"
     @trigger="handleFocusOut"
   >
-    <input v-model="searchQuery" type="text" @focus="dropdownVisible = true" />
+    <input
+      v-model="searchQuery"
+      :disabled="disabled"
+      type="text"
+      @focus="dropdownVisible = true"
+    />
     <div
       v-if="dropdownVisible && filteredItems.length"
       class="m-select__dropdown"
@@ -27,6 +32,7 @@ import { OnClickOutside } from '@vueuse/components';
 const checkedItem = defineModel<string>({ required: true });
 const props = defineProps<{
   items: { title: string; value: string }[];
+  disabled?: boolean;
 }>();
 
 const searchQuery = ref('');

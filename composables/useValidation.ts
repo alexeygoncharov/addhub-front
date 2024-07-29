@@ -35,7 +35,7 @@ async function validateEmail(value: string) {
 function validatePhone(value: string) {
   const regex =
     /^\+7\s*\(\d{3}\)\s*\d{3}-\d{2}-\d{2}$|^\+7\s*\(\d{4}\)\s*\d{2}-\d{2}-\d{2}$/;
-  return regex.test(value);
+  return regex.test(value) || !value;
 }
 
 async function validateUsername(value: string) {

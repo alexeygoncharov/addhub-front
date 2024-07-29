@@ -16,7 +16,7 @@
           v-for="item in disputesStore.disputes"
           :key="item._id"
           class="finance-row"
-          @click="navigateToMessages(item.order._id)"
+          @click="navigateToMessages(item.chat._id)"
         >
           <td>
             <div class="finance-row__title">Дата</div>

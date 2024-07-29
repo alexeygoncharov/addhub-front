@@ -33,7 +33,7 @@
       <ul class="mob-menu__links">
         <li>
           <nuxtLink
-            :to="`/profile`"
+            :to="`/profile/settings`"
             class="mob-menu__link"
             @click="toggleMobMenu"
           >

@@ -107,6 +107,7 @@
                 };
               })
             "
+            @change="form.city = ''"
           />
           <p v-if="errors.includes('country')" class="fg__error">
             Обязательное поле
@@ -116,10 +117,14 @@
           <label>Город</label>
           <UIVSelectSearch
             v-model="form.city"
+            :disabled="!form.country"
             :items="
-              commonStore.cities.map((item) => {
-                return { title: item.title, value: item._id };
-              })
+              commonStore.cities
+                .filter((item) => item.country === form?.country)
+                .map((item) => ({
+                  title: item.title,
+                  value: item._id,
+                }))
             "
           />
           <p v-if="errors.includes('city')" class="fg__error">
