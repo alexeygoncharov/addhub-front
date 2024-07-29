@@ -59,7 +59,7 @@
             id="phone"
             v-model.trim="form.phone_number"
             name="phone_number"
-            rules="required|phone"
+            rules="phone"
             placeholder="+ 7"
           >
           </Field>
@@ -75,6 +75,7 @@
                 return { title: item.title, value: item._id };
               })
             "
+            @change="form.address.city = ''"
           />
         </fieldset>
 
@@ -82,11 +83,14 @@
           <label>Город</label>
           <UIVSelectSearch
             v-model.trim="form.address.city"
+            :disabled="!form.address.country"
             :items="
-              commonStore.cities.map((item) => ({
-                title: item.title,
-                value: item._id,
-              }))
+              commonStore.cities
+                .filter((item) => item.country === form.address.country)
+                .map((item) => ({
+                  title: item.title,
+                  value: item._id,
+                }))
             "
           />
         </fieldset>
@@ -158,8 +162,7 @@ onChange((files) => {
         form.value.avatar = file;
         formData.delete('file');
         profileStore.updateAvatar(form.value.avatar).then(() => {
-          if (userStore.user?.avatar !== undefined)
-            userStore.user.avatar = form.value.avatar;
+          if (userStore.user) userStore.user.avatar = form.value.avatar;
         });
       }
     });
@@ -172,8 +175,8 @@ const form = ref({
   email: userStore.user?.email,
   phone_number: userStore.user?.phone_number,
   address: {
-    city: userStore.user?.address?.city?._id || '',
-    country: userStore.user?.address?.country._id,
+    city: userStore.user.address?.city?._id || '',
+    country: userStore.user.address?.country._id || '',
   },
   about_me: userStore.user?.about_me,
 });
@@ -185,8 +188,8 @@ async function submitProfile() {
     email: form.value?.email,
     phone_number: form.value?.phone_number,
     address: {
-      city: form.value?.address.city,
-      country: form.value?.address.country,
+      city: form.value?.address.city || undefined,
+      country: form.value?.address.country || undefined,
     },
     about_me: form.value?.about_me,
   };

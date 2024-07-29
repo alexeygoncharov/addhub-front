@@ -23,18 +23,27 @@
           />
         </div>
 
-        <div v-if="!(viewOnly && !serviceId)" class="modal-wrapper__list">
+        <div
+          v-if="!(viewOnly && !serviceId && !editableData?.service_id)"
+          class="modal-wrapper__list"
+        >
           <OnClickOutside @trigger="activeChoice = false">
-            <label class="bid-label">Предложенная услуга</label>
+            <label class="bid-label">{{
+              viewOnly ? 'Услуга' : 'Предложенная услуга'
+            }}</label>
             <div
+              v-if="!viewOnly"
               class="modal-wrapper__choose"
               @click="activeChoice = !activeChoice"
             >
               {{
-                serviceId
-                  ? items?.find((i) => i._id === serviceId)?.title
-                  : 'Можете выбрать услугу'
+                items?.find((i) => i._id === serviceId)?.title ||
+                editableData?.service_id.title ||
+                'Можете выбрать услугу'
               }}
+            </div>
+            <div v-else-if="editableData">
+              <p>{{ editableData.service_id.title }}</p>
             </div>
             <div
               v-if="activeChoice && !viewOnly"
@@ -59,7 +68,8 @@
                 class="header-action__search-item"
                 @click="
                   () => {
-                    serviceId = service._id;
+                    if (editableData) editableData.service_id = service;
+                    else serviceId = service._id;
                     activeChoice = false;
                   }
                 "
@@ -193,10 +203,10 @@ const editableData = defineModel<Bid | undefined>('editable', {
 });
 const props = defineProps<{ id: string; viewOnly?: boolean }>();
 const activeChoice = ref(false);
-const items = ref<servicesItem[]>();
+const items = ref<orderService[]>();
 
 const updateServices = async () => {
-  const { data, error } = await apiFetch<ApiResponse<servicesItem[]>>(
+  const { data, error } = await apiFetch<ApiResponse<orderService[]>>(
     '/api/services/my_select',
     {
       needToken: true,
@@ -220,7 +230,9 @@ async function updateBid() {
     price: data.price,
     term: data.term,
     description: data.description || '',
-    ...(serviceId.value && { service_id: serviceId.value }),
+    ...(editableData.value.service_id && {
+      service_id: editableData.value.service_id._id,
+    }),
   });
   if (result) {
     emit('updateBid');

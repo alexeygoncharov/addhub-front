@@ -23,10 +23,23 @@ declare global {
     updatedAt: string;
     description: string;
   }
+  interface orderService extends catalogItem {
+    tools: [];
+    category: string;
+    rate?: number;
+    service_volume: string;
+    service_volume_desc: string;
+    address: {
+      country: string;
+      city: string;
+    };
+  }
   export interface Bid extends baseBid {
     user: User;
     project_id: bidProject;
+    service_id: orderService;
   }
+
   export interface BidList extends baseBid {
     user: string;
     project_id: string;
@@ -59,7 +72,7 @@ declare global {
     phone_number: string;
     status: string;
     about_me?: string;
-    address: {
+    address?: {
       country: Country;
       city?: ItemCity;
     };
@@ -68,18 +81,6 @@ declare global {
 
   interface AdminProfile extends Profile {
     createdAt: string;
-  }
-
-  interface orderService extends catalogItem {
-    tools: [];
-    category: string;
-    rate: number;
-    service_volume: string;
-    service_volume_desc: string;
-    address: {
-      country: string;
-      city: string;
-    };
   }
 
   interface CreateDispute {
