@@ -96,6 +96,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = null;
     useCookie('authToken').value = null;
     useSessionStorage('authToken', '').value = null;
+    localStorage.removeItem('isAuth');
     const userStore = useUserStore();
     userStore.user = undefined;
     isAuthenticated.value = false;
@@ -111,7 +112,7 @@ export const useAuthStore = defineStore('auth', () => {
       useSessionStorage('authToken', '').value = tokenArg;
     }
     await nextTick();
-
+    localStorage.setItem('isAuth', 'true');
     loadToken();
   }
 
