@@ -93,9 +93,29 @@
                   <div class="reply-row__title text17">
                     <nuxtLink
                       class="medium-text"
-                      :to="`/${type === 'service' ? 'services' : 'projects'}/${commonStore.categories?.find((el) => el._id === item.service?.category)?.slug}/${item._id}`"
-                      href=""
-                      >{{ item.service?.title }}</nuxtLink
+                      :to="`/${item.service ? 'services' : 'projects'}/${
+                        commonStore.categories?.find((el) => {
+                          const categoryId =
+                            typeof item.service === 'object' &&
+                            item.service !== null
+                              ? item.service.category
+                              : typeof item.project === 'object' &&
+                                  item.project !== null
+                                ? item.project.category
+                                : null;
+
+                          return el._id === categoryId;
+                        })?.slug
+                      }/${item._id}`"
+                      >{{
+                        typeof item.service === 'object' &&
+                        item.service !== null
+                          ? item.service.title
+                          : typeof item.project === 'object' &&
+                              item.project !== null
+                            ? item.project.title
+                            : ''
+                      }}</nuxtLink
                     >
                     <p>- (Заказ №{{ item.order_number }})</p>
                   </div>
@@ -104,14 +124,32 @@
                       <img src="/img/marker2.svg" alt="" />
                       <span
                         >{{
-                          commonStore.cities?.find(
-                            (c) => c._id === item.service?.address.city,
-                          )?.title
+                          commonStore.cities?.find((c) => {
+                            const cityId =
+                              typeof item.service === 'object' &&
+                              item.service !== null
+                                ? item.service.address.city
+                                : typeof item.project === 'object' &&
+                                    item.project !== null
+                                  ? item.project.address.city
+                                  : null;
+
+                            return c._id === cityId;
+                          })?.title
                         }},
                         {{
-                          commonStore.countries?.find(
-                            (c) => c._id === item.service?.address.country,
-                          )?.title
+                          commonStore.countries?.find((c) => {
+                            const countryId =
+                              typeof item.service === 'object' &&
+                              item.service !== null
+                                ? item.service.address.country
+                                : typeof item.project === 'object' &&
+                                    item.project !== null
+                                  ? item.project.address.country
+                                  : null;
+
+                            return c._id === countryId;
+                          })?.title
                         }}</span
                       >
                     </div>
@@ -134,7 +172,15 @@
                 <span class="text15 light-text">
                   {{
                     commonStore.categories?.find(
-                      (el) => el._id === item.service?.category,
+                      (el) =>
+                        el._id ===
+                        (typeof item.service === 'object' &&
+                        item.service !== null
+                          ? item.service.category
+                          : typeof item.project === 'object' &&
+                              item.project !== null
+                            ? item.project.category
+                            : null),
                     )?.title
                   }}
                 </span>
@@ -143,7 +189,8 @@
             <td>
               <div class="reply-row__price">
                 <span class="text15 light-text">
-                  {{ item.service?.price }} руб.
+                  {{ item.price }}
+                  руб.
                 </span>
               </div>
             </td>
@@ -157,6 +204,35 @@
               "
             >
               <div class="reply-row__action">
+                <NuxtLink
+                  v-if="item.status === 'created'"
+                  class="reply-row__btn"
+                  :to="
+                    typeof item.service === 'object'
+                      ? `/payments/${item._id}?price=${item.price}`
+                      : ''
+                  "
+                >
+                  <button class="m-btn m-btn-blue3">
+                    <svg
+                      fill="#9DA1C6"
+                      width="800px"
+                      height="800px"
+                      viewBox="0 0 1920 1920"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1468.214 0v564.698h-112.94V112.94H112.94v1694.092h1242.334v-225.879h112.94v338.819H0V0h1468.214Zm129.428 581.311c22.137-22.136 57.825-22.136 79.962 0l225.879 225.879c22.023 22.023 22.023 57.712 0 79.848l-677.638 677.637c-10.616 10.504-24.96 16.49-39.98 16.49h-225.88c-31.17 0-56.469-25.299-56.469-56.47v-225.88c0-15.02 5.986-29.364 16.49-39.867Zm-155.291 314.988-425.895 425.895v146.031h146.03l425.895-425.895-146.03-146.03Zm-764.714 346.047v112.94H338.82v-112.94h338.818Zm225.88-225.88v112.94H338.818v-112.94h564.697Zm734.106-315.44-115.424 115.425 146.03 146.03 115.425-115.423-146.031-146.031ZM1129.395 338.83v451.758H338.82V338.83h790.576Zm-112.94 112.94H451.759v225.878h564.698V451.77Z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                  <div class="tooltip">
+                    <div class="tooltip__inner">
+                      <div class="text14">Оплатить</div>
+                    </div>
+                  </div>
+                </NuxtLink>
                 <div
                   v-if="
                     user?.active_role === 'seller' && item.status === 'created'
@@ -414,17 +490,21 @@ function openDispute() {
 }
 
 const commonStore = useCommonStore();
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 const titles = [
+  user.value?.active_role === 'buyer' && {
+    title: 'На оплате',
+    value: 'created',
+  },
   { title: 'В работе', value: 'processing' },
   { title: 'Сдано', value: 'completed' },
   { title: 'На доработке', value: 'refunded' },
   { title: 'Оплачено', value: 'paid' },
   { title: 'Отменено', value: 'canceled' },
-];
-const userStore = useUserStore();
-const { user } = storeToRefs(userStore);
+].filter(Boolean) as { title: string; value: string }[];
 const currentPage = ref(1);
-const activeTab = ref('processing');
+const activeTab = ref('created');
 definePageMeta({
   layout: 'profile',
   middleware: 'authenticated',
@@ -450,7 +530,6 @@ const changeStatus = (
     }
   });
 };
-const type = user.value?.active_role === 'seller' ? 'project' : 'service';
 
 const items = ref<Order[]>();
 const total = ref(0);
