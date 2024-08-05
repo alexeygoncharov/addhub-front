@@ -23,7 +23,7 @@
         <div class="modal-wrapper-message">
           <div class="header">
             <div class="avatar">
-              <NuxtImg
+              <img
                 v-if="item?.createdBy.avatar"
                 crossorigin="anonymous"
                 :src="baseUrl() + item?.createdBy.avatar.url"
@@ -196,7 +196,7 @@
                   <div class="about-client__category">
                     {{ item?.createdBy.active_role }}
                   </div>
-                  <div class="about-client__rating">
+                  <div v-if="item?.createdBy.rate" class="about-client__rating">
                     <img src="/img/star.svg" alt="" />
                     <div class="about-client__rating-text">
                       <span>{{ item?.createdBy.rate }}</span>
