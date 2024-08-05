@@ -38,12 +38,12 @@
             >
               {{
                 items?.find((i) => i._id === serviceId)?.title ||
-                editableData?.service_id.title ||
+                editableData?.service_id?.title ||
                 'Можете выбрать услугу'
               }}
             </div>
             <div v-else-if="editableData">
-              <p>{{ editableData.service_id.title }}</p>
+              <p>{{ editableData.service_id?.title }}</p>
             </div>
             <div
               v-if="activeChoice && !viewOnly"

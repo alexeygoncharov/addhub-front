@@ -37,7 +37,7 @@ declare global {
   export interface Bid extends baseBid {
     user: User;
     project_id: bidProject;
-    service_id: orderService;
+    service_id?: orderService;
   }
 
   export interface BidList extends baseBid {
@@ -94,8 +94,8 @@ declare global {
     buyer: User;
     seller: User;
     price: number;
-    service?: orderService;
-    project?: orderService;
+    service?: orderService | string;
+    project?: orderService | string;
     currency: string;
     status: string;
     createdAt: string;

@@ -409,13 +409,13 @@
                 </div> -->
     </template>
 
-    <template #service-recommended>
+    <!-- <template #service-recommended>
       <div class="services services2 m-section">
         <div class="container">
           <ModulesProductSlider />
         </div>
       </div>
-    </template>
+    </template> -->
   </ModulesItem>
 </template>
 
